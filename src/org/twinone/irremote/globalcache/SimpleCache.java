@@ -29,11 +29,25 @@ import android.util.Log;
 public class SimpleCache {
 
 	private static final String TAG = "SimpleCache";
-	private static final String CACHE_DIR = "cache";
+
+	/**
+	 * True if the file was removed (or it didn't exist)
+	 */
+	public static boolean remove(Context c, String filename) {
+		File file = new File(c.getCacheDir(), filename);
+		if (file.exists())
+			return file.delete();
+		else
+			return true;
+	}
+
+	public static boolean isAvailable(Context c, String filename) {
+		File file = new File(c.getCacheDir(), filename);
+		return file.exists() && file.isFile();
+	}
 
 	public static String get(Context c, String filename) {
-		File dir = c.getDir(CACHE_DIR, Context.MODE_PRIVATE);
-		File file = new File(dir, filename);
+		File file = new File(c.getCacheDir(), filename);
 		try {
 			InputStream is = new FileInputStream(file);
 			InputStreamReader isr = new InputStreamReader(is);
@@ -46,14 +60,13 @@ public class SimpleCache {
 			is.close();
 			return sb.toString();
 		} catch (Exception e) {
-			Log.w(TAG, "Error reading file: ", e);
+			Log.i(TAG, "File did not exist in cache");
 		}
 		return null;
 	}
 
 	public static void put(Context c, String filename, String data) {
-		File dir = c.getDir(CACHE_DIR, Context.MODE_PRIVATE);
-		File file = new File(dir, filename);
+		File file = new File(c.getCacheDir(), filename);
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);

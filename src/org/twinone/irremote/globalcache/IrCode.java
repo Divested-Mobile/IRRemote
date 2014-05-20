@@ -38,7 +38,7 @@ public class IrCode extends Listable {
 
 	@Override
 	public int getType() {
-		return DBConnector.TYPE_IR_CODE;
+		return UriData.TYPE_IR_CODE;
 	}
 
 	@Override

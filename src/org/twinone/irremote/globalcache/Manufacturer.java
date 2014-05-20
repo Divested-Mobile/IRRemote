@@ -34,7 +34,7 @@ public class Manufacturer extends Listable {
 
 	@Override
 	public int getType() {
-		return DBConnector.TYPE_MANUFACTURER;
+		return UriData.TYPE_MANUFACTURER;
 	}
 
 	@Override

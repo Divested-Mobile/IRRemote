@@ -19,11 +19,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.twinone.irremote.Listable;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -32,20 +29,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 public class DBConnector {
-
-	// API key that was generated using email address twinonetest@gmail.com
-	private static final String API_KEY = "aafb55e5-528d-4efe-8330-51b82fc3ba18";
-	private static final String BASE_URL = "http://irdatabase.globalcache.com/api/v1/"
-			+ API_KEY;
-
-	private static final String URL_MANUFACTURERS = "manufacturers";
-	private static final String URL_DEVICE_TYPES = "devicetypes";
-	private static final String URL_CODESETS = "codesets";
-
-	public static final int TYPE_MANUFACTURER = 0;
-	public static final int TYPE_DEVICE_TYPE = 1;
-	public static final int TYPE_CODESET = 2;
-	public static final int TYPE_IR_CODE = 3;
 
 	private static final String TAG = "DBConnector";
 
@@ -58,29 +41,12 @@ public class DBConnector {
 	 */
 	private Listener mListener;
 
-	private UriData mUriData = new UriData();
-
-	public static class UriData implements Serializable {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -8091426297558105438L;
-		// The type we want to query
-		public int target = TYPE_MANUFACTURER;
-		public Manufacturer manufacturer;
-		public DeviceType deviceType;
-		public Codeset codeset;
-	}
-
-	public UriData getQueryData() {
-		return mUriData;
-	}
+	// private UriData mUriData = new UriData();
 
 	public void query(UriData data) {
-		mUriData = data;
 		if (data == null)
-			mUriData = new UriData();
-		queryServer();
+			data = new UriData();
+		queryServer(data);
 	}
 
 	private final Context mContext;
@@ -94,55 +60,24 @@ public class DBConnector {
 		this.mContext = c;
 	}
 
-	private void queryServer() {
+	private void queryServer(UriData data) {
 		cancelQuery();
-		Log.d(TAG, "queryServer (type=" + mUriData.target + ")");
-		mHttpTask = new DBTask(mUriData);
-		mHttpTask.execute();
+		Log.d(TAG, "queryServer (type=" + data.target + ")");
+		mDBTask = new DBTask(data);
+		mDBTask.execute();
 	}
 
-	private AsyncTask<String, Void, String> mHttpTask;
+	private AsyncTask<String, Void, String> mDBTask;
 
 	private class DBTask extends AsyncTask<String, Void, String> {
-		private final UriData mUriData;
 		private String mUrl;
 		private String mCacheName;
+		private int mTarget;
 
 		public DBTask(UriData data) {
-			mUriData = data;
-			mUrl = getUrl(data);
-			mCacheName = getCacheName(data);
-		}
-
-		private String getCacheName(UriData data) {
-			StringBuilder sb = new StringBuilder("GlobalCache");
-			if (data.target == TYPE_MANUFACTURER)
-				return sb.toString();
-			sb.append('_').append(mUriData.manufacturer.Key);
-			if (data.target == TYPE_DEVICE_TYPE)
-				return sb.toString();
-			sb.append('_').append(mUriData.deviceType.Key);
-			if (data.target == TYPE_CODESET)
-				return sb.toString();
-			sb.append('_').append(mUriData.codeset.Key);
-			return sb.toString();
-		}
-
-		private String getUrl(UriData data) {
-			StringBuilder sb = new StringBuilder(BASE_URL);
-			sb.append('/').append(URL_MANUFACTURERS);
-			if (data.target == TYPE_MANUFACTURER)
-				return sb.toString();
-			sb.append('/').append(mUriData.manufacturer.Key);
-			sb.append('/').append(URL_DEVICE_TYPES);
-			if (data.target == TYPE_DEVICE_TYPE)
-				return sb.toString();
-			sb.append('/').append(mUriData.deviceType.Key);
-			sb.append('/').append(URL_CODESETS);
-			if (data.target == TYPE_CODESET)
-				return sb.toString();
-			sb.append('/').append(mUriData.codeset.Key);
-			return sb.toString();
+			mUrl = data.getUrl();
+			mCacheName = data.getCacheName();
+			mTarget = data.target;
 		}
 
 		@Override
@@ -172,7 +107,6 @@ public class DBConnector {
 				// Save to cache for future access...
 				SimpleCache.put(mContext, mCacheName, data.toString());
 
-				Log.d(TAG, "Done");
 				return data.toString();
 			} catch (Exception e) {
 				Log.w(TAG, "Query to server failed ", e);
@@ -187,64 +121,38 @@ public class DBConnector {
 		}
 
 		private void onQueryCompleted(String result) {
-			onHttpReceived(mUrl, result);
+			triggerListenerOnReceived(mTarget, result);
 		}
 
 	}
 
 	public void cancelQuery() {
-		if (mHttpTask != null)
-			mHttpTask.cancel(true);
-	}
-
-	/**
-	 * Get a list based on previously selected items
-	 * 
-	 * @param type
-	 */
-	public void getList(int type) {
-		mUriData.target = type;
-		queryServer();
-	}
-
-	public void select(Listable listable) {
-		mUriData.target = TYPE_MANUFACTURER;
-		if (listable != null) {
-			if (listable.getType() == TYPE_MANUFACTURER) {
-				mUriData.manufacturer = (Manufacturer) listable;
-				mUriData.target = TYPE_DEVICE_TYPE;
-			} else if (listable.getType() == TYPE_DEVICE_TYPE) {
-				mUriData.deviceType = (DeviceType) listable;
-				mUriData.target = TYPE_CODESET;
-			} else if (listable.getType() == TYPE_CODESET) {
-				mUriData.codeset = (Codeset) listable;
-				mUriData.target = TYPE_IR_CODE;
-			}
-		}
+		if (mDBTask != null && !mDBTask.isCancelled())
+			mDBTask.cancel(true);
 	}
 
 	// Result may be null if connection failed!
-	public void onHttpReceived(String url, String result) {
+	public void triggerListenerOnReceived(int target, String result) {
 		Gson gson = new Gson();
 		Object[] data = null;
 		if (result != null) {
-			switch (mUriData.target) {
-			case TYPE_MANUFACTURER:
+			switch (target) {
+			case UriData.TYPE_MANUFACTURER:
 				data = gson.fromJson(result, Manufacturer[].class);
 				break;
-			case TYPE_DEVICE_TYPE:
+			case UriData.TYPE_DEVICE_TYPE:
 				data = gson.fromJson(result, DeviceType[].class);
 				break;
-			case TYPE_CODESET:
+			case UriData.TYPE_CODESET:
 				data = gson.fromJson(result, Codeset[].class);
 				break;
-			case TYPE_IR_CODE:
+			case UriData.TYPE_IR_CODE:
 				data = gson.fromJson(result, IrCode[].class);
 				break;
 			}
 		}
 		if (mListener != null)
-			mListener.onReceiveData(mUriData.target, data);
+			mListener.onReceiveData(target, data);
 	}
 
 	public interface Listener {

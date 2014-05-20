@@ -1,10 +1,10 @@
 package org.twinone.irremote;
 
+import org.twinone.irremote.globalcache.DBFragment;
+import org.twinone.irremote.globalcache.UriData;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
-import org.twinone.irremote.R;
-import org.twinone.irremote.globalcache.DBConnector.UriData;
 
 public class DBActivity extends FragmentActivity {
 
@@ -22,6 +22,12 @@ public class DBActivity extends FragmentActivity {
 
 	public void popFragment() {
 		getSupportFragmentManager().popBackStack();
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		super.setTitle(title);
+		getActionBar().setTitle(title);
 	}
 
 	public void addFragment(UriData data) {

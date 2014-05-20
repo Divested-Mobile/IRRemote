@@ -34,7 +34,7 @@ public class DeviceType extends Listable {
 
 	@Override
 	public int getType() {
-		return DBConnector.TYPE_DEVICE_TYPE;
+		return UriData.TYPE_DEVICE_TYPE;
 	}
 
 	@Override

@@ -7,5 +7,12 @@
     <string name="main_button_device_types">Devices</string>
     <string name="main_button_codesets">Remotes</string>
     <string name="menu_db_back">Back</string>
-
+    <string name="menu_db_refresh">Refresh</string>
+    
+    <!-- Fragment titles -->
+    <string name="db_select_manufacturer">Select manufacturer</string>
+    <string name="db_select_device_type">Select device type</string>
+    <string name="db_select_codeset">Select codeset</string>
+    <string name="db_select_ir">Select Button</string>
+    
 </resources>

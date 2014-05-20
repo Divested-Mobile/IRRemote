@@ -39,6 +39,6 @@ public class Codeset extends Listable {
 
 	@Override
 	public int getType() {
-		return DBConnector.TYPE_CODESET;
+		return UriData.TYPE_CODESET;
 	}
 }
