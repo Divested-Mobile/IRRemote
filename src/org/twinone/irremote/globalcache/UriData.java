@@ -2,7 +2,7 @@ package org.twinone.irremote.globalcache;
 
 import java.io.Serializable;
 
-import org.twinone.irremote.R;
+import org.twinone.irremote.Listable;
 
 import android.content.Context;
 
@@ -24,9 +24,13 @@ public class UriData implements Serializable {
 	private static final String URL_DEVICE_TYPES = "devicetypes";
 	private static final String URL_CODESETS = "codesets";
 
+	/** A manufacturer */
 	public static final int TYPE_MANUFACTURER = 0;
+	/** A device type or category (such as TV or Cable */
 	public static final int TYPE_DEVICE_TYPE = 1;
+	/** A specific remote / button list */
 	public static final int TYPE_CODESET = 2;
+	/** An IR code */
 	public static final int TYPE_IR_CODE = 3;
 
 	// The type we want to query
@@ -52,10 +56,10 @@ public class UriData implements Serializable {
 		return sb.toString();
 	}
 
-	public String getTitle(Context c, String separator) {
+	public String getFullyQualifiedName(String separator) {
 		StringBuilder sb = new StringBuilder();
 		if (targetType == TYPE_MANUFACTURER)
-			return c.getString(R.string.db_select_manufacturer);
+			return null;
 		sb.append(manufacturer.Manufacturer);
 		if (targetType == TYPE_DEVICE_TYPE)
 			return sb.toString();
@@ -94,6 +98,20 @@ public class UriData implements Serializable {
 			return sb.toString();
 		sb.append('/').append(codeset.Key);
 		return sb.toString();
+	}
+
+	/** May be null if no manufacturer has been selected */
+	public Listable getLastSelectedData() {
+		switch (targetType) {
+		case TYPE_DEVICE_TYPE:
+			return manufacturer;
+		case TYPE_CODESET:
+			return deviceType;
+		case TYPE_IR_CODE:
+			return codeset;
+		default:
+			return null;
+		}
 	}
 
 	public boolean removeFromCache(Context c) {

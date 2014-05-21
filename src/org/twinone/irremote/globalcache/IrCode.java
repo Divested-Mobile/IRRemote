@@ -16,7 +16,7 @@
 package org.twinone.irremote.globalcache;
 
 import org.twinone.irremote.Listable;
-import org.twinone.irremote.ir.FormatFactory;
+import org.twinone.irremote.ir.SignalFactory;
 import org.twinone.irremote.ir.Signal;
 
 public class IrCode extends Listable {
@@ -24,6 +24,7 @@ public class IrCode extends Listable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3967117959677153127L;
+	
 	public String Key;
 	/** The key for API requests for this codeset */
 	public String KeyName;
@@ -37,9 +38,7 @@ public class IrCode extends Listable {
 	}
 
 	public Signal getSignal() {
-		return FormatFactory.parseSignal(FormatFactory.FORMAT_GLOBALCACHE,
-				IRCode);
-
+		return SignalFactory.parse(SignalFactory.FORMAT_GLOBALCACHE, IRCode);
 	}
 
 	@Override

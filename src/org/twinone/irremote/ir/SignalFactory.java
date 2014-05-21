@@ -15,18 +15,32 @@
  */
 package org.twinone.irremote.ir;
 
-
-public class FormatFactory {
-
-	// public static final String PHILIPS_TEST_POWER =
-	// "0000 0073 0000 000c 0020 0020 0020 0020 0040 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0040 0020 0020 0040 0020 0020 0cbf";
-	// public static final String PHILIPS_TEST_CH =
-	// "0000 0073 0000 000c 0020 0020 0020 0020 0040 0020 0020 0020 0020 0020 0020 0020 0020 0040 0040 0020 0020 0020 0020 0020 0020 0020 0020 0cbf";
+public class SignalFactory {
 
 	public static final int FORMAT_PRONTO = 0;
 	public static final int FORMAT_GLOBALCACHE = 1;
 
-	public static final Signal parseSignal(int format, String signal) {
+	/**
+	 * Constructs a Signal object that can be sent on the IR blaster
+	 */
+	public static final Signal parse(String signal) {
+		return parse(getFormat(signal), signal);
+	}
+
+	/**
+	 * Attempt to get an appropriate format for this string, returns the best
+	 * match
+	 */
+	public static int getFormat(String signal) {
+		if (signal.startsWith("0000")) {
+			return FORMAT_PRONTO;
+		} else {
+			return FORMAT_GLOBALCACHE;
+		}
+	}
+
+	/** Parse a signal knowing it's format previously */
+	public static final Signal parse(int format, String signal) {
 		switch (format) {
 		case FORMAT_PRONTO:
 			return fromPronto(signal);
@@ -41,6 +55,7 @@ public class FormatFactory {
 		// GlobalCache format is as follows:
 		// Frequency,Repeat,Offset,On1,Off1, ... ,OnN,OffN
 		// We ignore Repeat and Offset
+		// TODO Add repeat
 		final Signal out = new Signal();
 		final String[] split = in.split(",");
 		final long[] values = new long[split.length];

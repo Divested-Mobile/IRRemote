@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,19 +40,11 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 		notifyDataSetChanged();
 	}
 
-	@Override
-	public void notifyDataSetChanged() {
-		Log.d("", "notifyDataSetChanged");
-		super.notifyDataSetChanged();
-
-	}
-
 	private class MyFilter extends Filter {
 
 		@Override
 		protected FilterResults performFiltering(CharSequence constraint) {
 			String match = constraint.toString().toLowerCase(Locale.ENGLISH);
-			Log.d("", "Filtering: " + constraint);
 			FilterResults results = new FilterResults();
 			if (constraint == null || constraint.length() == 0) {
 				results.values = mOriginalItems;
@@ -76,7 +67,6 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 		@Override
 		protected void publishResults(CharSequence constraint,
 				FilterResults results) {
-			Log.d("", "publishResults");
 			mCurrentItems = (List<? extends Listable>) results.values;
 			notifyDataSetChanged();
 		}

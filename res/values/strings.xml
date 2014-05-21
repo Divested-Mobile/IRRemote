@@ -9,13 +9,14 @@
     <string name="menu_db_search_tit">Search</string>
     <string name="menu_db_refresh">Refresh</string>
     
-    <string name="menu_db_search_hint_manufacturers">Search manufacturers</string>
-	<string name="menu_db_search_hint_custom">Search %s</string>
-    
+    <string name="search_hint_manufacturers">Search manufacturers</string>
+    <string name="search_hint_custom">Search %s</string>
+    <string name="search_hint_buttons">Search buttons</string>
+
+    <!-- Contextual action bar -->
+    <string name="cab_save">Save</string>
+
     <!-- Fragment titles -->
     <string name="db_select_manufacturer">Select manufacturer</string>
-    <string name="db_select_device_type">Select device type</string>
-    <string name="db_select_codeset">Select codeset</string>
-    <string name="db_select_ir">Select Button</string>
 
 </resources>
