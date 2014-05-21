@@ -28,7 +28,7 @@ public class Manufacturer extends Listable {
 	public String Manufacturer;
 
 	@Override
-	public Object getData() {
+	public String getKey() {
 		return Key;
 	}
 

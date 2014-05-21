@@ -17,6 +17,7 @@ package org.twinone.irremote.globalcache;
 
 import org.twinone.irremote.Listable;
 import org.twinone.irremote.ir.FormatFactory;
+import org.twinone.irremote.ir.Signal;
 
 public class IrCode extends Listable {
 	/**
@@ -31,9 +32,14 @@ public class IrCode extends Listable {
 
 	/** Returns a signal that can be directly sent over the IR transmitter */
 	@Override
-	public Object getData() {
+	public String getKey() {
+		return Key;
+	}
+
+	public Signal getSignal() {
 		return FormatFactory.parseSignal(FormatFactory.FORMAT_GLOBALCACHE,
 				IRCode);
+
 	}
 
 	@Override

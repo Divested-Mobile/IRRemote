@@ -23,7 +23,7 @@ public abstract class Listable implements Comparable<Listable>, Serializable {
 	 */
 	private static final long serialVersionUID = 5249675491365192665L;
 
-	public abstract Object getData();
+	public abstract String getKey();
 
 	public abstract int getType();
 

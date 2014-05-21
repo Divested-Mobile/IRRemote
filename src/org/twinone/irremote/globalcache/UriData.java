@@ -2,9 +2,11 @@ package org.twinone.irremote.globalcache;
 
 import java.io.Serializable;
 
-import com.google.gson.Gson;
+import org.twinone.irremote.R;
 
 import android.content.Context;
+
+import com.google.gson.Gson;
 
 public class UriData implements Serializable {
 
@@ -28,7 +30,7 @@ public class UriData implements Serializable {
 	public static final int TYPE_IR_CODE = 3;
 
 	// The type we want to query
-	public int target = TYPE_MANUFACTURER;
+	public int targetType = TYPE_MANUFACTURER;
 	public Manufacturer manufacturer;
 	public DeviceType deviceType;
 	public Codeset codeset;
@@ -36,29 +38,44 @@ public class UriData implements Serializable {
 	public String getUrl() {
 		StringBuilder sb = new StringBuilder(BASE_URL);
 		sb.append('/').append(URL_MANUFACTURERS);
-		if (target == TYPE_MANUFACTURER)
+		if (targetType == TYPE_MANUFACTURER)
 			return sb.toString();
 		sb.append('/').append(manufacturer.Key);
 		sb.append('/').append(URL_DEVICE_TYPES);
-		if (target == TYPE_DEVICE_TYPE)
+		if (targetType == TYPE_DEVICE_TYPE)
 			return sb.toString();
 		sb.append('/').append(deviceType.Key);
 		sb.append('/').append(URL_CODESETS);
-		if (target == TYPE_CODESET)
+		if (targetType == TYPE_CODESET)
 			return sb.toString();
 		sb.append('/').append(codeset.Key);
 		return sb.toString();
 	}
 
+	public String getTitle(Context c, String separator) {
+		StringBuilder sb = new StringBuilder();
+		if (targetType == TYPE_MANUFACTURER)
+			return c.getString(R.string.db_select_manufacturer);
+		sb.append(manufacturer.Manufacturer);
+		if (targetType == TYPE_DEVICE_TYPE)
+			return sb.toString();
+		sb.append(separator).append(deviceType.DeviceType);
+		if (targetType == TYPE_CODESET)
+			return sb.toString();
+		sb.append(separator).append(codeset.Codeset);
+		return sb.toString();
+
+	}
+
 	public String getCacheName() {
 		StringBuilder sb = new StringBuilder("GlobalCache");
-		if (target == TYPE_MANUFACTURER)
+		if (targetType == TYPE_MANUFACTURER)
 			return sb.toString();
 		sb.append('_').append(manufacturer.Key);
-		if (target == TYPE_DEVICE_TYPE)
+		if (targetType == TYPE_DEVICE_TYPE)
 			return sb.toString();
 		sb.append('_').append(deviceType.Key);
-		if (target == TYPE_CODESET)
+		if (targetType == TYPE_CODESET)
 			return sb.toString();
 		sb.append('_').append(codeset.Key);
 		return sb.toString();
@@ -67,13 +84,13 @@ public class UriData implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("UriData@" + hashCode() + " Root");
-		if (target == TYPE_MANUFACTURER)
+		if (targetType == TYPE_MANUFACTURER)
 			return sb.toString();
 		sb.append('/').append(manufacturer.Key);
-		if (target == TYPE_DEVICE_TYPE)
+		if (targetType == TYPE_DEVICE_TYPE)
 			return sb.toString();
 		sb.append('/').append(deviceType.Key);
-		if (target == TYPE_CODESET)
+		if (targetType == TYPE_CODESET)
 			return sb.toString();
 		sb.append('/').append(codeset.Key);
 		return sb.toString();

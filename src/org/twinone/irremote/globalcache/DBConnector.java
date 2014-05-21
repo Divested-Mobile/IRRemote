@@ -32,14 +32,14 @@ public class DBConnector {
 
 	private static final String TAG = "DBConnector";
 
-	public void setOnDataReceivedListener(Listener listener) {
+	public void setOnDataReceivedListener(OnDataReceivedListener listener) {
 		mListener = listener;
 	}
 
 	/*
 	 * Listener that will provide callbacks to the user
 	 */
-	private Listener mListener;
+	private OnDataReceivedListener mListener;
 
 	// private UriData mUriData = new UriData();
 
@@ -55,19 +55,19 @@ public class DBConnector {
 		this(c, null);
 	}
 
-	public DBConnector(Context c, Listener listener) {
+	public DBConnector(Context c, OnDataReceivedListener listener) {
 		this.mListener = listener;
 		this.mContext = c;
 	}
 
 	private void queryServer(UriData data) {
 		cancelQuery();
-		Log.d(TAG, "queryServer (type=" + data.target + ")");
+		Log.d(TAG, "queryServer: " + data.toString());
 		mDBTask = new DBTask(data);
 		mDBTask.execute();
 	}
 
-	private AsyncTask<String, Void, String> mDBTask;
+	private DBTask mDBTask;
 
 	private class DBTask extends AsyncTask<String, Void, String> {
 		private String mUrl;
@@ -77,14 +77,13 @@ public class DBConnector {
 		public DBTask(UriData data) {
 			mUrl = data.getUrl();
 			mCacheName = data.getCacheName();
-			mTarget = data.target;
+			mTarget = data.targetType;
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
 			String cached = SimpleCache.get(mContext, mCacheName);
 			if (cached != null) {
-				Log.i(TAG, "Returning cached version for " + mCacheName);
 				return cached;
 			}
 			// If not cached, load from http
@@ -104,23 +103,18 @@ public class DBConnector {
 					data.append(tmp);
 				}
 				urlConnection.disconnect();
-				// Save to cache for future access...
+				// Save to cache for future access
 				SimpleCache.put(mContext, mCacheName, data.toString());
 
 				return data.toString();
 			} catch (Exception e) {
-				Log.w(TAG, "Query to server failed ", e);
+				Log.i(TAG, "Query to server failed ", e);
 				return null;
 			}
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			Log.d(TAG, "onPostExecute");
-			onQueryCompleted(result);
-		}
-
-		private void onQueryCompleted(String result) {
 			triggerListenerOnReceived(mTarget, result);
 		}
 
@@ -128,11 +122,14 @@ public class DBConnector {
 
 	public void cancelQuery() {
 		if (mDBTask != null && !mDBTask.isCancelled())
-			mDBTask.cancel(true);
+			// Allow task to finish (improving cache) ?
+			mDBTask.cancel(false);
 	}
 
 	// Result may be null if connection failed!
 	public void triggerListenerOnReceived(int target, String result) {
+		if (mListener == null)
+			return;
 		Gson gson = new Gson();
 		Object[] data = null;
 		if (result != null) {
@@ -151,18 +148,17 @@ public class DBConnector {
 				break;
 			}
 		}
-		if (mListener != null)
-			mListener.onReceiveData(target, data);
+		mListener.onDataReceived(target, data);
 	}
 
-	public interface Listener {
+	public interface OnDataReceivedListener {
 		/**
-		 * Called when data was returned from the DB
+		 * Called when data was returned from the database server
 		 * 
 		 * @param data
 		 *            may be null if the connection failed
 		 */
-		public void onReceiveData(int type, Object[] data);
+		public void onDataReceived(int type, Object[] data);
 	}
 
 }

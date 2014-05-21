@@ -33,7 +33,7 @@ public class Codeset extends Listable {
 	}
 
 	@Override
-	public Object getData() {
+	public String getKey() {
 		return Key;
 	}
 

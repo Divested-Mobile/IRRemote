@@ -28,7 +28,7 @@ public class DeviceType extends Listable {
 	public String DeviceType;
 
 	@Override
-	public Object getData() {
+	public String getKey() {
 		return Key;
 	}
 

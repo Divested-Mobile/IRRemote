@@ -6,13 +6,16 @@
     <string name="main_button_manufacturers">Database</string>
     <string name="main_button_device_types">Devices</string>
     <string name="main_button_codesets">Remotes</string>
-    <string name="menu_db_back">Back</string>
+    <string name="menu_db_search_tit">Search</string>
     <string name="menu_db_refresh">Refresh</string>
+    
+    <string name="menu_db_search_hint_manufacturers">Search manufacturers</string>
+	<string name="menu_db_search_hint_custom">Search %s</string>
     
     <!-- Fragment titles -->
     <string name="db_select_manufacturer">Select manufacturer</string>
     <string name="db_select_device_type">Select device type</string>
     <string name="db_select_codeset">Select codeset</string>
     <string name="db_select_ir">Select Button</string>
-    
+
 </resources>
