@@ -19,10 +19,10 @@ import java.io.File;
 
 import android.content.Context;
 
-public class SimpleCache {
+public class SimpleStorage {
 
 	private static File getFile(Context c, String name) {
-		return new File(c.getCacheDir(), name);
+		return new File(c.getFilesDir(), name);
 	}
 
 	/**

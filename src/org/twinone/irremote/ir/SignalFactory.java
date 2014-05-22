@@ -15,16 +15,19 @@
  */
 package org.twinone.irremote.ir;
 
+
 public class SignalFactory {
 
-	public static final int FORMAT_PRONTO = 0;
-	public static final int FORMAT_GLOBALCACHE = 1;
-
 	/**
-	 * Constructs a Signal object that can be sent on the IR blaster
+	 * Auto detect the format, and parse the signal
 	 */
-	public static final Signal parse(String signal) {
-		return parse(getFormat(signal), signal);
+	private static final Signal parse(String signal) {
+		final int format = getFormat(signal);
+		if (format == Signal.FORMAT_AUTO) {
+			throw new RuntimeException("Could not parse signal (" + signal
+					+ ")");
+		}
+		return parse(format, signal);
 	}
 
 	/**
@@ -33,18 +36,20 @@ public class SignalFactory {
 	 */
 	public static int getFormat(String signal) {
 		if (signal.startsWith("0000")) {
-			return FORMAT_PRONTO;
+			return Signal.FORMAT_PRONTO;
 		} else {
-			return FORMAT_GLOBALCACHE;
+			return Signal.FORMAT_GLOBALCACHE;
 		}
 	}
 
 	/** Parse a signal knowing it's format previously */
 	public static final Signal parse(int format, String signal) {
 		switch (format) {
-		case FORMAT_PRONTO:
+		case Signal.FORMAT_AUTO:
+			return parse(signal);
+		case Signal.FORMAT_PRONTO:
 			return fromPronto(signal);
-		case FORMAT_GLOBALCACHE:
+		case Signal.FORMAT_GLOBALCACHE:
 			return fromGlobalCache(signal);
 		default:
 			throw new IllegalArgumentException("Invalid format");

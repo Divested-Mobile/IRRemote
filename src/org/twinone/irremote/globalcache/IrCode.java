@@ -15,16 +15,21 @@
  */
 package org.twinone.irremote.globalcache;
 
+import java.util.Locale;
+
+import org.twinone.irremote.Button;
 import org.twinone.irremote.Listable;
-import org.twinone.irremote.ir.SignalFactory;
 import org.twinone.irremote.ir.Signal;
+import org.twinone.irremote.ir.SignalFactory;
+
+import android.annotation.SuppressLint;
 
 public class IrCode extends Listable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3967117959677153127L;
-	
+
 	public String Key;
 	/** The key for API requests for this codeset */
 	public String KeyName;
@@ -38,7 +43,7 @@ public class IrCode extends Listable {
 	}
 
 	public Signal getSignal() {
-		return SignalFactory.parse(SignalFactory.FORMAT_GLOBALCACHE, IRCode);
+		return SignalFactory.parse(Signal.FORMAT_GLOBALCACHE, IRCode);
 	}
 
 	@Override
@@ -48,7 +53,86 @@ public class IrCode extends Listable {
 
 	@Override
 	public String getDisplayName() {
-		return KeyName;
+		return KeyName + "(" + Key + ")";
+	}
+
+	public Button toButton() {
+		Button button = new Button();
+		button.signalFormat = Signal.FORMAT_GLOBALCACHE;
+		button.signalIrCode = IRCode;
+		button.id = getBestMatchId();
+		
+		return button;
+	}
+
+	/** Attempt to get an ID for this button name */
+	@SuppressLint("DefaultLocale")
+	private int getBestMatchId() {
+		final String button = Key.toLowerCase(Locale.US);
+
+		// Power
+		if (button.equals("on, power onoff"))
+			return Button.ID_POWER_ON;
+		if (button.equals("on, power onoff"))
+			return Button.ID_POWER_OFF;
+		if (button.contains("power onoff"))
+			return Button.ID_POWER;
+
+		// Volumes, channels
+		if (button.contains("volume up"))
+			return Button.ID_VOL_UP;
+		if (button.contains("volume down"))
+			return Button.ID_VOL_DOWN;
+		if (button.contains("channel up"))
+			return Button.ID_CH_UP;
+		if (button.contains("channel down"))
+			return Button.ID_CH_DOWN;
+
+		// Navigation
+		if (button.contains("menu up"))
+			return Button.ID_NAV_UP;
+		if (button.contains("menu down"))
+			return Button.ID_NAV_DOWN;
+		if (button.contains("menu left"))
+			return Button.ID_NAV_LEFT;
+		if (button.contains("menu right"))
+			return Button.ID_NAV_RIGHT;
+		if (button.contains("menu select"))
+			return Button.ID_NAV_OK;
+
+		if (button.equals("back"))
+			return Button.ID_BACK;
+		if (button.contains("mute"))
+			return Button.ID_MUTE;
+		// At this point we can safely return a generic "menu" for any button
+		// that matches menu, because the specific menu [direction] are already
+		// returned above
+		if (button.contains("menu"))
+			return Button.ID_MENU;
+
+		// Digits
+		if (button.contains("digit 0"))
+			return Button.ID_DIGIT_0;
+		if (button.contains("digit 1"))
+			return Button.ID_DIGIT_1;
+		if (button.contains("digit 2"))
+			return Button.ID_DIGIT_2;
+		if (button.contains("digit 3"))
+			return Button.ID_DIGIT_3;
+		if (button.contains("digit 4"))
+			return Button.ID_DIGIT_4;
+		if (button.contains("digit 5"))
+			return Button.ID_DIGIT_5;
+		if (button.contains("digit 6"))
+			return Button.ID_DIGIT_6;
+		if (button.contains("digit 7"))
+			return Button.ID_DIGIT_7;
+		if (button.contains("digit 8"))
+			return Button.ID_DIGIT_8;
+		if (button.contains("digit 9"))
+			return Button.ID_DIGIT_9;
+
+		return Button.ID_NONE;
 	}
 
 }

@@ -13,9 +13,6 @@
     <string name="search_hint_custom">Search %s</string>
     <string name="search_hint_buttons">Search buttons</string>
 
-    <!-- Contextual action bar -->
-    <string name="cab_save">Save</string>
-
     <!-- Fragment titles -->
     <string name="db_select_manufacturer">Select manufacturer</string>
 

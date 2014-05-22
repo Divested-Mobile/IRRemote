@@ -27,14 +27,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -113,20 +111,6 @@ public class DBFragment extends Fragment implements
 
 		mCreated = true;
 		return rootView;
-	}
-
-	private void setupListViewActionModeCallback() {
-		if (mUriData.targetType == UriData.TYPE_CODESET) {
-			mActionModeCallback = new RemoteActionCallback();
-		} else if (mUriData.targetType == UriData.TYPE_IR_CODE) {
-			mActionModeCallback = new ButtonActionCallback();
-		}
-		if (mActionModeCallback != null) {
-			mActionMode = getActivity().startActionMode(mActionModeCallback);
-			mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-			// FIXME items won't get selected
-			mListView.setMultiChoiceModeListener(mActionModeCallback);
-		}
 	}
 
 	private void queryServer(boolean showDialog) {
@@ -271,32 +255,38 @@ public class DBFragment extends Fragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if (!isInActionMode()) {
-			Listable item = (Listable) mListView.getAdapter().getItem(position);
-			if (item.getType() == UriData.TYPE_IR_CODE) {
-				Log.d("", "Button clicked " + System.currentTimeMillis());
-				mTransmitter.transmit(((IrCode) item).getSignal());
-			} else {
-				UriData clone = mUriData.clone();
-				select(clone, item);
-				((DBActivity) getActivity()).addFragment(clone);
-			}
+		Listable item = (Listable) mListView.getAdapter().getItem(position);
+		if (item.getType() == UriData.TYPE_IR_CODE) {
+			Log.d("", "Button clicked " + System.currentTimeMillis());
+			mTransmitter.transmit(((IrCode) item).getSignal());
+		} else {
+			UriData clone = mUriData.clone();
+			select(clone, item);
+			((DBActivity) getActivity()).addFragment(clone);
 		}
 	}
 
-	private boolean isInActionMode() {
-		return mActionMode != null;
-	}
-
-	// If this is not null, we're in action mode
-	private ActionMode mActionMode;
-	private MultiChoiceModeListener mActionModeCallback;
-
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		view.setSelected(true);
-		setupListViewActionModeCallback();
+		mListView.setItemChecked(position, true);
+		if (mUriData.targetType == UriData.TYPE_CODESET) {
+			showSaveRemoteDialog(position);
+		} else if (mUriData.targetType == UriData.TYPE_IR_CODE) {
+			showSaveButtonDialog(position);
+		}
 		return true;
+	}
+
+	private void showSaveRemoteDialog(int position) {
+		// TODO show a dialog that allows the user to save this remote under a
+		// custom name
+		// This will save the remote with all of it's buttons with the exact
+		// name they came with
+	}
+
+	private void showSaveButtonDialog(int position) {
+		// TODO save a single button (this requires a remote previously been
+		// saved)
 	}
 
 	public static void select(UriData data, Listable listable) {
@@ -312,75 +302,6 @@ public class DBFragment extends Fragment implements
 				data.codeset = (Codeset) listable;
 				data.targetType = UriData.TYPE_IR_CODE;
 			}
-		}
-	}
-
-	// Action mode callback for a complete remote
-	private class RemoteActionCallback implements MultiChoiceModeListener {
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			Log.d(TAG, "Creating action for remote");
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.db_contextual_remote, menu);
-			return true;
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			mActionMode = null;
-		}
-
-		@Override
-		public void onItemCheckedStateChanged(ActionMode mode, int position,
-				long id, boolean checked) {
-			Log.d(TAG, "Item Checked : " + checked);
-
-		}
-	}
-
-	// Action mode callback for a single button
-	private class ButtonActionCallback implements MultiChoiceModeListener {
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.db_contextual_remote, menu);
-			return true;
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			Toast.makeText(
-					getActivity(),
-					"Saving button... Yeah, I know.. this doesn't do anything yet.",
-					Toast.LENGTH_SHORT).show();
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			mActionMode = null;
-		}
-
-		@Override
-		public void onItemCheckedStateChanged(ActionMode mode, int position,
-				long id, boolean checked) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 
