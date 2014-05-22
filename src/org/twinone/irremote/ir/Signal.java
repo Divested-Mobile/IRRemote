@@ -15,8 +15,15 @@
  */
 package org.twinone.irremote.ir;
 
-public class Signal {
+import java.io.Serializable;
 
+public class Signal implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4245046369663289219L;
+	
 	public int frequency;
 	public int[] pattern;
 

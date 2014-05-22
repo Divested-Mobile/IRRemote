@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.twinone.irremote.Listable;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.google.gson.Gson;
 
@@ -40,20 +41,20 @@ public class UriData implements Serializable {
 	public Codeset codeset;
 
 	public String getUrl() {
-		StringBuilder sb = new StringBuilder(BASE_URL);
-		sb.append('/').append(URL_MANUFACTURERS);
+		Uri.Builder ub = Uri.parse(BASE_URL).buildUpon();
+		ub.appendPath(URL_MANUFACTURERS);
 		if (targetType == TYPE_MANUFACTURER)
-			return sb.toString();
-		sb.append('/').append(manufacturer.Key);
-		sb.append('/').append(URL_DEVICE_TYPES);
+			return ub.build().toString();
+		ub.appendPath(manufacturer.Key);
+		ub.appendPath(URL_DEVICE_TYPES);
 		if (targetType == TYPE_DEVICE_TYPE)
-			return sb.toString();
-		sb.append('/').append(deviceType.Key);
-		sb.append('/').append(URL_CODESETS);
+			return ub.build().toString();
+		ub.appendPath(deviceType.Key);
+		ub.appendPath(URL_CODESETS);
 		if (targetType == TYPE_CODESET)
-			return sb.toString();
-		sb.append('/').append(codeset.Key);
-		return sb.toString();
+			return ub.build().toString();
+		ub.appendPath(codeset.Key);
+		return ub.build().toString();
 	}
 
 	public String getFullyQualifiedName(String separator) {
@@ -82,7 +83,7 @@ public class UriData implements Serializable {
 		if (targetType == TYPE_CODESET)
 			return sb.toString();
 		sb.append('_').append(codeset.Key);
-		return sb.toString();
+		return sb.toString().replaceAll(" ", "_");
 	}
 
 	@Override

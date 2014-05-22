@@ -19,7 +19,7 @@ import org.twinone.irremote.DBActivity;
 import org.twinone.irremote.Listable;
 import org.twinone.irremote.ListableAdapter;
 import org.twinone.irremote.R;
-import org.twinone.irremote.ir.IRManager;
+import org.twinone.irremote.ir.IRTransmitter;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -55,11 +55,11 @@ public class DBFragment extends Fragment implements
 	private ListView mListView;
 
 	private DBConnector mConnector;
-	private IRManager mIrManager;
 
 	private boolean mCreated;
 	private AlertDialog mDialog;
 	private ListableAdapter mAdapter;
+	private IRTransmitter mTransmitter;
 
 	private UriData mUriData;
 
@@ -69,7 +69,6 @@ public class DBFragment extends Fragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mIrManager = new IRManager(getActivity());
 
 		if (getArguments() != null) {
 			mUriData = (UriData) getArguments().getSerializable(ARG_URI_DATA);
@@ -81,6 +80,9 @@ public class DBFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		mTransmitter = new IRTransmitter(getActivity());
+		mTransmitter.setShowBlinker(true);
 
 		setHasOptionsMenu(true);
 
@@ -261,6 +263,7 @@ public class DBFragment extends Fragment implements
 			mSearchView.setQuery("", false);
 			mSearchView.clearFocus();
 		}
+		mTransmitter.pause();
 
 		super.onPause();
 	}
@@ -271,7 +274,8 @@ public class DBFragment extends Fragment implements
 		if (!isInActionMode()) {
 			Listable item = (Listable) mListView.getAdapter().getItem(position);
 			if (item.getType() == UriData.TYPE_IR_CODE) {
-				mIrManager.transmit(((IrCode) item).getSignal());
+				Log.d("", "Button clicked " + System.currentTimeMillis());
+				mTransmitter.transmit(((IrCode) item).getSignal());
 			} else {
 				UriData clone = mUriData.clone();
 				select(clone, item);

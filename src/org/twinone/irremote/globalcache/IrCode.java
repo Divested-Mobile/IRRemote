@@ -48,7 +48,7 @@ public class IrCode extends Listable {
 
 	@Override
 	public String getDisplayName() {
-		return Key;
+		return KeyName;
 	}
 
 }
