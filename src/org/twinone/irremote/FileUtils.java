@@ -13,7 +13,7 @@
  * limitations under the License.
  * 
  */
-package org.twinone.irremote.globalcache;
+package org.twinone.irremote;
 
 import java.io.BufferedReader;
 import java.io.File;

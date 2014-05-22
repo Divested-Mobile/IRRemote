@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import org.twinone.irremote.Button;
 import org.twinone.irremote.Listable;
+import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 
@@ -56,19 +57,28 @@ public class IrCode extends Listable {
 		return KeyName + "(" + Key + ")";
 	}
 
-	public Button toButton() {
+	public static Remote toRemote(String name, IrCode[] irCodes) {
+		Remote remote = new Remote();
+		remote.name = name;
+		for (IrCode code : irCodes) {
+			remote.buttons.add(IrCode.toButton(code));
+		}
+		return remote;
+	}
+
+	public static Button toButton(IrCode irCode) {
 		Button button = new Button();
-		button.signalFormat = Signal.FORMAT_GLOBALCACHE;
-		button.signalIrCode = IRCode;
-		button.id = getBestMatchId();
-		
+		button.format = Signal.FORMAT_GLOBALCACHE;
+		button.code = irCode.IRCode;
+		button.id = getBestMatchId(irCode);
+
 		return button;
 	}
 
 	/** Attempt to get an ID for this button name */
 	@SuppressLint("DefaultLocale")
-	private int getBestMatchId() {
-		final String button = Key.toLowerCase(Locale.US);
+	private static int getBestMatchId(IrCode irCode) {
+		final String button = irCode.Key.toLowerCase(Locale.US);
 
 		// Power
 		if (button.equals("on, power onoff"))

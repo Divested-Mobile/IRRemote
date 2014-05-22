@@ -15,17 +15,18 @@
  */
 package org.twinone.irremote;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.twinone.irremote.globalcache.SimpleStorage;
-
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 public class Remote implements Serializable {
+	public static final int VERSION_0 = 0;
 
 	/**
 	 * 
@@ -36,6 +37,13 @@ public class Remote implements Serializable {
 		buttons = new ArrayList<Button>();
 	}
 
+	/**
+	 * All buttons should have a version, if we change the serialization
+	 * mechanism to one that's not backwards compatible, we can use the version
+	 * to determine how to deserialize it
+	 */
+	public int v = VERSION_0;
+
 	public String name;
 
 	public List<Button> buttons;
@@ -44,20 +52,43 @@ public class Remote implements Serializable {
 		return new Gson().toJson(this);
 	}
 
-	private Remote deserialize(String string) {
+	private static Remote deserialize(String string) {
 		return new Gson().fromJson(string, Remote.class);
 	}
 
+	private static File getRemotesDir(Context c) {
+		final File file = new File(c.getFilesDir(), "remotes");
+		if (!file.exists() || !file.isDirectory()) {
+			file.mkdirs();
+		}
+		return file;
+	}
+
+	private static final String EXTENSION = ".remote.json";
+
+	private static File getRemoteFile(Context c, String name) {
+		return new File(getRemotesDir(c), name + EXTENSION);
+	}
+
 	/** Load this remote from the file system */
-	public Remote load(Context c, String buttonName) {
-		return deserialize(SimpleStorage.get(c, buttonName));
+	public static Remote load(Context c, String name) {
+		return deserialize(FileUtils.get(getRemoteFile(c, name)));
 	}
 
 	/** Save this remote to the file system */
 	public void save(Context c) {
-		SimpleStorage.put(c, name + ".twinoneirremote", serialize());
+		FileUtils.put(getRemoteFile(c, name), serialize());
 	}
-	
-	
 
+	public static List<String> getNames(Context c) {
+		List<String> result = new ArrayList<String>();
+		File dir = getRemotesDir(c);
+		for (String s : dir.list()) {
+			Log.d("", "name: " + s);
+			if (s.endsWith(EXTENSION)) {
+				result.add(s);
+			}
+		}
+		return result;
+	}
 }

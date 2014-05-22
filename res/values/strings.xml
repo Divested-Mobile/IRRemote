@@ -8,12 +8,24 @@
     <string name="main_button_codesets">Remotes</string>
     <string name="menu_db_search_tit">Search</string>
     <string name="menu_db_refresh">Refresh</string>
-    
+    <string name="menu_db_save">Save remote</string>
     <string name="search_hint_manufacturers">Search manufacturers</string>
     <string name="search_hint_custom">Search %s</string>
     <string name="search_hint_buttons">Search buttons</string>
 
     <!-- Fragment titles -->
     <string name="db_select_manufacturer">Select manufacturer</string>
+
+    <!-- Save dialogs -->
+    <string name="save_remote_title">Save remote</string>
+    <string name="save_remote_text">Your new remote will appear in the My Remotes section</string>
+    <string name="save_remote_hint">Remote name</string>
+    <string name="save_remote_save">Save</string>
+    <!--  -->
+    <string name="save_button_save">Save</string>
+
+    <!-- Digits allowed to save a remote name -->
+    <!-- Don't put spaces at the end or beginning -->
+    <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
 
 </resources>

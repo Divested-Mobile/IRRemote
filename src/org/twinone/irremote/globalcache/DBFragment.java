@@ -19,6 +19,8 @@ import org.twinone.irremote.DBActivity;
 import org.twinone.irremote.Listable;
 import org.twinone.irremote.ListableAdapter;
 import org.twinone.irremote.R;
+import org.twinone.irremote.Remote;
+import org.twinone.irremote.SaveRemoteDialogFragment;
 import org.twinone.irremote.ir.IRTransmitter;
 
 import android.app.AlertDialog;
@@ -164,6 +166,11 @@ public class DBFragment extends Fragment implements
 		mSearchView.setOnQueryTextListener(mSearchViewListener);
 		mSearchView.setOnCloseListener(mSearchViewListener);
 		mSearchView.setQueryHint(getSearchHint(mUriData));
+
+		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
+			menu.findItem(R.id.menu_db_save).setVisible(true);
+		}
+
 	}
 
 	private String getSearchHint(UriData data) {
@@ -204,11 +211,20 @@ public class DBFragment extends Fragment implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		switch (item.getItemId()) {
 		case R.id.menu_db_refresh:
 			mUriData.removeFromCache(getActivity());
 			queryServer(true);
+			return true;
+		case R.id.menu_db_save:
+			if (mData != null) {
+				Remote remote = IrCode.toRemote(
+						mUriData.manufacturer.Manufacturer + " "
+								+ mUriData.deviceType.DeviceType,
+						(IrCode[]) mData);
+				Log.d("", "Remote name: " + mUriData.codeset.Codeset);
+				SaveRemoteDialogFragment.showFor(getActivity(), remote);
+			}
 			return true;
 		}
 		return false;
@@ -218,13 +234,15 @@ public class DBFragment extends Fragment implements
 		((DBActivity) getActivity()).popFragment();
 	}
 
+	private Object[] mData;
+
 	@Override
 	public void onDataReceived(int type, Object[] data) {
 		if (!isAdded())
 			return;
 
 		cancelDialog();
-
+		mData = data;
 		if (data == null) {
 			Toast.makeText(getActivity(), "Oops! There was an error",
 					Toast.LENGTH_SHORT).show();
@@ -270,23 +288,9 @@ public class DBFragment extends Fragment implements
 			int position, long id) {
 		mListView.setItemChecked(position, true);
 		if (mUriData.targetType == UriData.TYPE_CODESET) {
-			showSaveRemoteDialog(position);
-		} else if (mUriData.targetType == UriData.TYPE_IR_CODE) {
-			showSaveButtonDialog(position);
+			// Don't save the remote here
 		}
 		return true;
-	}
-
-	private void showSaveRemoteDialog(int position) {
-		// TODO show a dialog that allows the user to save this remote under a
-		// custom name
-		// This will save the remote with all of it's buttons with the exact
-		// name they came with
-	}
-
-	private void showSaveButtonDialog(int position) {
-		// TODO save a single button (this requires a remote previously been
-		// saved)
 	}
 
 	public static void select(UriData data, Listable listable) {

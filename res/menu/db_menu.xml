@@ -9,6 +9,13 @@
         android:showAsAction="always"
         android:title="@string/menu_db_search_tit"/>
     <item
+        android:id="@+id/menu_db_save"
+        android:icon="@drawable/ic_action_save"
+        android:showAsAction="always"
+        android:title="@string/menu_db_save"
+        android:visible="false">
+    </item>
+    <item
         android:id="@+id/menu_db_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="never"

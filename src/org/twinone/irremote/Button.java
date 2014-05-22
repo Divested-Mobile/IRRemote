@@ -38,7 +38,6 @@ public class Button implements Serializable {
 	 */
 	private static final long serialVersionUID = 4924961807483469449L;
 
-	public static final int VERSION_0 = 0;
 
 	/** Pseudo id that indicates this button has no id */
 	public static final int ID_NONE = 0;
@@ -75,18 +74,12 @@ public class Button implements Serializable {
 	public static final int ID_DIGIT_9 = 25;
 
 	/**
-	 * All buttons should have a version, if we change the serialization
-	 * mechanism to one that's not backwards compatible, we can use the version
-	 * to determine how to deserialize it
-	 */
-	public int version = VERSION_0;
-	/**
 	 * The id is intended for use with very common buttons
 	 */
 	public int id;
 
 	/** URI of the icon that will be displayed with this button */
-	public String icon;
+	public String ic;
 
 	/**
 	 * Text that will be shown on the button<br>
@@ -98,10 +91,8 @@ public class Button implements Serializable {
 	/**
 	 * One of Signal.FORMAT_*
 	 */
-	public int signalFormat;
-	public String signalIrCode;
-
-	public boolean hideTextIfIconAvailable;
+	public int format;
+	public String code;
 
 	/**
 	 * Returns true if this button is a common button
@@ -111,7 +102,7 @@ public class Button implements Serializable {
 	}
 
 	public Signal getSignal() {
-		Signal s = SignalFactory.parse(signalFormat, signalIrCode);
+		Signal s = SignalFactory.parse(format, code);
 		return s;
 	}
 

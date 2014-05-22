@@ -17,6 +17,8 @@ package org.twinone.irremote.globalcache;
 
 import java.io.File;
 
+import org.twinone.irremote.FileUtils;
+
 import android.content.Context;
 
 public class SimpleCache {

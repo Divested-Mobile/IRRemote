@@ -15,23 +15,14 @@
  */
 package org.twinone.irremote;
 
-import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SaveButtonDialogFragment extends DialogFragment {
+public class MainFragment extends Fragment {
 
-	private static final String ARG_REMOTE = "org.twinone.irremote.arg.remote";
-
-	public static SaveButtonDialogFragment newInstance(Remote remote) {
-		SaveButtonDialogFragment f = new SaveButtonDialogFragment();
-		Bundle b = new Bundle();
-		b.putSerializable(ARG_REMOTE, remote);
-		f.setArguments(b);
-		return f;
-	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
