@@ -4,10 +4,9 @@ import org.twinone.irremote.globalcache.DBFragment;
 import org.twinone.irremote.globalcache.UriData;
 
 import android.app.Activity;
-import android.app.FragmentManager.OnBackStackChangedListener;
 import android.os.Bundle;
 
-public class DBActivity extends Activity implements OnBackStackChangedListener {
+public class DBActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +18,6 @@ public class DBActivity extends Activity implements OnBackStackChangedListener {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new DBFragment()).commit();
 		}
-
-		getFragmentManager().addOnBackStackChangedListener(this);
-	}
-
-	@Override
-	public void onBackStackChanged() {
-		getActionBar().setDisplayHomeAsUpEnabled(
-				getFragmentManager().getBackStackEntryCount() > 0);
 	}
 
 	@Override

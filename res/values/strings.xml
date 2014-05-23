@@ -23,11 +23,14 @@
     <string name="save_remote_save">Save</string>
     <!--  -->
     <string name="save_button_title">Save button</string>
-    <string name="save_button_select_remote">Select a remote</string>
+    <string name="save_button_select_remote_title">Select a remote</string>
+    <string name="save_button_text_title">Button name</string>
     <string name="save_button_hint">Button name</string>
     <string name="save_button_save">Save</string>
     <string name="add_remote">Add remote</string>
+    <string name="select_remote_first">Select a remote first</string>
     <!--  -->
+
 
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->

@@ -25,20 +25,18 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class SelectRemoteListView extends ListView implements
-		OnItemClickListener {
+public class SelectRemoteListView extends LinearLayout implements
+		OnClickListener {
 
-	private SelectRemoteAdapter mAdapter;
+	private ArrayList<View> mViews;
 	private LayoutInflater mInflater;
-	private ArrayList<String> mRemoteNames;
+	private ArrayList<String> mItems;
 
 	private int mSelectedRemotePosition = -1;
 
@@ -49,57 +47,46 @@ public class SelectRemoteListView extends ListView implements
 
 	public SelectRemoteListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
 		init();
 	}
 
 	private void init() {
+		mViews = new ArrayList<View>();
 		mInflater = LayoutInflater.from(getContext());
-		mRemoteNames = (ArrayList<String>) Remote.getNames(getContext());
-		mRemoteNames.add(getContext().getString(R.string.add_remote));
-		setOnItemClickListener(this);
-		mAdapter = new SelectRemoteAdapter();
-		setAdapter(mAdapter);
-	}
+		mItems = (ArrayList<String>) Remote.getNames(getContext());
+		mItems.add(getContext().getString(R.string.add_remote));
+		setOrientation(VERTICAL);
 
-	private class SelectRemoteAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return mRemoteNames.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return mRemoteNames.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			CheckedTextView view = (CheckedTextView) convertView;
-			if (view == null)
-				view = (CheckedTextView) mInflater.inflate(
-						R.layout.select_remote_item, parent, false);
-			view.setChecked(position == mSelectedRemotePosition);
-			view.setText(mRemoteNames.get(position));
-			return view;
-		}
-
+		loadViews();
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> adapter, View view, int position,
-			long id) {
-		if (position == mRemoteNames.size() - 1) {
-			createRemote();
-		} else {
-			selectRemote(position);
+	public void addView(View child) {
+		super.addView(child);
+		mViews.add(child);
+	}
+
+	private void loadViews() {
+		for (int i = 0; i < mItems.size(); i++) {
+			View recycleView = i < mViews.size() ? mViews.get(i) : null;
+			if (recycleView == null) {
+				addView(getView(i, recycleView, this));
+			} else {
+				getView(i, recycleView, this);
+			}
 		}
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		CheckedTextView view = (CheckedTextView) convertView;
+		if (view == null)
+			view = (CheckedTextView) mInflater.inflate(
+					R.layout.select_remote_item, parent, false);
+		view.setChecked(position == mSelectedRemotePosition);
+		view.setText(mItems.get(position));
+		view.setOnClickListener(this);
+		view.setId(position);
+		return view;
 	}
 
 	private void createRemote() {
@@ -114,7 +101,7 @@ public class SelectRemoteListView extends ListView implements
 			return;
 		Log.d("", "Selecting position: " + position);
 		mSelectedRemotePosition = position;
-		mAdapter.notifyDataSetChanged();
+		loadViews();
 	}
 
 	public int getSelectedRemotePosition() {
@@ -123,7 +110,7 @@ public class SelectRemoteListView extends ListView implements
 
 	public String getSelectedRemoteName() {
 		if (isRemoteSelected()) {
-			return mRemoteNames.get(mSelectedRemotePosition);
+			return mItems.get(mSelectedRemotePosition);
 		} else {
 			return null;
 		}
@@ -131,7 +118,19 @@ public class SelectRemoteListView extends ListView implements
 
 	public boolean isRemoteSelected() {
 		return mSelectedRemotePosition >= 0
-				&& mSelectedRemotePosition < mRemoteNames.size();
+				&& mSelectedRemotePosition < mItems.size();
+	}
+
+	@Override
+	public void onClick(View view) {
+		int position = view.getId();
+		Log.d("", "Clicked view " + position);
+		if (position == mItems.size() - 1) {
+			createRemote();
+		} else {
+			selectRemote(position);
+		}
+
 	}
 
 }

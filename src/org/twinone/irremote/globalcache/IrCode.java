@@ -54,7 +54,7 @@ public class IrCode extends Listable {
 
 	@Override
 	public String getDisplayName() {
-		return KeyName + "(" + Key + ")";
+		return KeyName;
 	}
 
 	public static Remote toRemote(String name, IrCode[] irCodes) {

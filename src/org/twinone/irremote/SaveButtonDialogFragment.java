@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SaveButtonDialogFragment extends DialogFragment implements
 		DialogInterface.OnClickListener {
@@ -80,8 +81,13 @@ public class SaveButtonDialogFragment extends DialogFragment implements
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
 			mTargetButton.text = mButtonName.getText().toString();
-			Remote.addButton(getActivity(), mListView.getSelectedRemoteName(),
-					mTargetButton);
+			if (mListView.isRemoteSelected()) {
+				Remote.addButton(getActivity(),
+						mListView.getSelectedRemoteName(), mTargetButton);
+			} else {
+				Toast.makeText(getActivity(), R.string.select_remote_first,
+						Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
 	}

@@ -87,6 +87,8 @@ public class DBFragment extends Fragment implements
 		mTransmitter.setShowBlinker(true);
 
 		setHasOptionsMenu(true);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(
+				mUriData.targetType != UriData.TYPE_MANUFACTURER);
 
 		View rootView = inflater.inflate(R.layout.fragment_listable, container,
 				false);

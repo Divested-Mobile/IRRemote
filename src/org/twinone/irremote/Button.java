@@ -95,6 +95,17 @@ public class Button implements Serializable {
 	public int format;
 	public String code;
 
+	public String getDisplayName() {
+		if (!isCommonButton())
+			return text;
+		else
+			return getCommonButtonDisplayName();
+	}
+
+	private String getCommonButtonDisplayName() {
+		return "";
+	}
+
 	/**
 	 * Returns true if this button is a common button
 	 */
