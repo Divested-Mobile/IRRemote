@@ -38,7 +38,6 @@ public class Button implements Serializable {
 	 */
 	private static final long serialVersionUID = 4924961807483469449L;
 
-
 	/** Pseudo id that indicates this button has no id */
 	public static final int ID_NONE = 0;
 
@@ -83,6 +82,8 @@ public class Button implements Serializable {
 
 	/**
 	 * Text that will be shown on the button<br>
+	 * The text will also be used to distinguish buttons, which implies that no
+	 * two buttons can have the same text.
 	 * 
 	 * 
 	 */

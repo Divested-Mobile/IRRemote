@@ -4,5 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/save_button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/save_button_select_remote"
+        android:textAppearance="?android:attr/textAppearanceLargePopupMenu" />
+
+    <include layout="@layout/separator" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/select_remote" />
+
+    <include layout="@layout/separator" />
+
+    <EditText
+        android:id="@+id/save_button_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="@string/allowed_digits"
+        android:hint="@string/save_button_hint" />
 
 </LinearLayout>

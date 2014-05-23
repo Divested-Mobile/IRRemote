@@ -86,9 +86,35 @@ public class Remote implements Serializable {
 		for (String s : dir.list()) {
 			Log.d("", "name: " + s);
 			if (s.endsWith(EXTENSION)) {
-				result.add(s);
+				result.add(s.substring(0, s.length() - EXTENSION.length()));
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Add a button to the in memory copy of this remote. To save it to disk,
+	 * call {@link #save(Context)};<br>
+	 * If there is already a button with the same ID, it will overwrite it
+	 */
+	public void addButton(Button b) {
+		buttons.add(b);
+	}
+
+	/**
+	 * Add a button to a remote and save it to disk If you call save on another
+	 * remote with the same name which was loaded earlier, you will overwrite
+	 * this changes
+	 * 
+	 * @param c
+	 * @param remote
+	 * @param b
+	 */
+	public static void addButton(Context c, String remote, Button b) {
+		Log.d("", "Adding button " + b.text + "(" + b.id + ")" + " to "
+				+ remote);
+		Remote r = Remote.load(c, remote);
+		r.addButton(b);
+		r.save(c);
 	}
 }

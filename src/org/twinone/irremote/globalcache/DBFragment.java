@@ -15,11 +15,13 @@
  */
 package org.twinone.irremote.globalcache;
 
+import org.twinone.irremote.Button;
 import org.twinone.irremote.DBActivity;
 import org.twinone.irremote.Listable;
 import org.twinone.irremote.ListableAdapter;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
+import org.twinone.irremote.SaveButtonDialogFragment;
 import org.twinone.irremote.SaveRemoteDialogFragment;
 import org.twinone.irremote.ir.IRTransmitter;
 
@@ -287,8 +289,10 @@ public class DBFragment extends Fragment implements
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
 		mListView.setItemChecked(position, true);
-		if (mUriData.targetType == UriData.TYPE_CODESET) {
-			// Don't save the remote here
+		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
+			// When the user long presses the button he can save it
+			Button b = IrCode.toButton((IrCode) mData[position]);
+			SaveButtonDialogFragment.showFor(getActivity(), b);
 		}
 		return true;
 	}

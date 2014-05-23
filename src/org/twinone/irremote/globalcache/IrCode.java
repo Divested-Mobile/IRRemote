@@ -68,6 +68,7 @@ public class IrCode extends Listable {
 
 	public static Button toButton(IrCode irCode) {
 		Button button = new Button();
+		button.text = irCode.KeyName;
 		button.format = Signal.FORMAT_GLOBALCACHE;
 		button.code = irCode.IRCode;
 		button.id = getBestMatchId(irCode);
