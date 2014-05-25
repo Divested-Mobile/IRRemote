@@ -6,4 +6,5 @@
     <dimen name="element_horizontal_margin">8dp</dimen>
     <dimen name="element_vertical_margin">8dp</dimen>
 
+    <dimen name="remote_button_radius">4dp</dimen>
 </resources>

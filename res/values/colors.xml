@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="remote_button_bg_start">#202020</color>
+    <color name="remote_button_bg_center">#232323</color>
+    <color name="remote_button_bg_end">#202020</color>
+
+</resources>
