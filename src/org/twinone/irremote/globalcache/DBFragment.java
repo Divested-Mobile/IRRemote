@@ -30,7 +30,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,8 +48,6 @@ import android.widget.Toast;
 public class DBFragment extends Fragment implements
 		DBConnector.OnDataReceivedListener, OnItemClickListener,
 		OnItemLongClickListener {
-
-	private static final String TAG = "DBFragment";
 
 	public static final String ARG_URI_DATA = "com.twinone.irremote.arg.uri_data";
 
@@ -101,7 +98,6 @@ public class DBFragment extends Fragment implements
 		// Adapter stuff
 		if (mCreated) {
 			mListView.setAdapter(mAdapter);
-			Log.d(TAG, "onCreateView restoring dataset");
 			mAdapter.restoreOriginalDataSet();
 		} else if (mUriData.isAvailableInCache(getActivity())) {
 			queryServer(false);
@@ -226,7 +222,6 @@ public class DBFragment extends Fragment implements
 						mUriData.manufacturer.Manufacturer + " "
 								+ mUriData.deviceType.DeviceType,
 						(IrCode[]) mData);
-				Log.d("", "Remote name: " + mUriData.codeset.Codeset);
 				SaveRemoteDialogFragment.showFor(getActivity(), remote);
 			}
 			return true;
@@ -279,7 +274,6 @@ public class DBFragment extends Fragment implements
 			long id) {
 		Listable item = (Listable) mListView.getAdapter().getItem(position);
 		if (item.getType() == UriData.TYPE_IR_CODE) {
-			Log.d("", "Button clicked " + System.currentTimeMillis());
 			mTransmitter.transmit(((IrCode) item).getSignal());
 		} else {
 			UriData clone = mUriData.clone();

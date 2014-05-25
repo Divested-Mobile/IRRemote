@@ -21,7 +21,6 @@ import android.graphics.PixelFormat;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -109,15 +108,11 @@ public class IRTransmitter {
 	private void showView() {
 		if (isBlinkerShown || !mShowBlinker)
 			return;
-		long start = System.currentTimeMillis();
-		Log.d("", "Show at " + start);
 		if (mWindowManager == null) {
 			mWindowManager = (WindowManager) mContext
 					.getSystemService(Context.WINDOW_SERVICE);
 		}
 		mWindowManager.addView(mBlinker, mLayoutParams);
-		long end = System.currentTimeMillis();
-		Log.d("", "Took " + (end - start) + "ms");
 
 		isBlinkerShown = true;
 		new Handler().postDelayed(new Runnable() {

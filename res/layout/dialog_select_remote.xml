@@ -25,25 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/select_remote" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#0099cc"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:text="@string/save_button_text_title"
-            android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
-            android:textColor="#fff" />
-
-        <EditText
-            android:id="@+id/save_button_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="@string/allowed_digits"
-            android:hint="@string/save_button_hint" />
     </LinearLayout>
 
 </ScrollView>

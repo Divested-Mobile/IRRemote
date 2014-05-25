@@ -62,7 +62,6 @@ public class DBConnector {
 
 	private void queryServer(UriData data) {
 		cancelQuery();
-		Log.d(TAG, "queryServer: " + data.toString());
 		mDBTask = new DBTask(data);
 		mDBTask.execute();
 	}
@@ -88,7 +87,6 @@ public class DBConnector {
 			}
 			// If not cached, load from http
 			try {
-				Log.d(TAG, "Querying " + mUrl);
 				URL url = new URL(mUrl);
 				HttpURLConnection urlConnection = (HttpURLConnection) url
 						.openConnection();

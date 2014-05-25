@@ -13,13 +13,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="RemoteTheme" parent="AppBaseTheme">
+    <style name="RemoteTheme">
         <item name="android:buttonStyle">@style/RemoteButtonTheme</item>
     </style>
 
+    
     <style name="RemoteButtonTheme" parent="@android:style/Widget.Holo.Button">
         <item name="android:background">@drawable/remote_button_bg</item>
-        <item name="android:layout_margin">120dp</item>
     </style>
 
 </resources>

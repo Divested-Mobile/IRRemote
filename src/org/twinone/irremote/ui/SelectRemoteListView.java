@@ -22,14 +22,12 @@ import org.twinone.irremote.Remote;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class SelectRemoteListView extends LinearLayout implements
 		OnClickListener {
@@ -38,7 +36,7 @@ public class SelectRemoteListView extends LinearLayout implements
 	private LayoutInflater mInflater;
 	private ArrayList<String> mItems;
 
-	private int mSelectedRemotePosition = -1;
+	private int mSelectedItemPosition = -1;
 
 	public SelectRemoteListView(Context context) {
 		super(context);
@@ -82,55 +80,66 @@ public class SelectRemoteListView extends LinearLayout implements
 		if (view == null)
 			view = (CheckedTextView) mInflater.inflate(
 					R.layout.select_remote_item, parent, false);
-		view.setChecked(position == mSelectedRemotePosition);
+		view.setChecked(position == mSelectedItemPosition);
 		view.setText(mItems.get(position));
 		view.setOnClickListener(this);
 		view.setId(position);
 		return view;
 	}
 
-	private void createRemote() {
-		// TODO
-		Toast.makeText(getContext(),
-				"Wow, it looks like this action is not available yet!",
-				Toast.LENGTH_SHORT).show();
-	}
-
 	public void selectRemote(int position) {
-		if (position == mSelectedRemotePosition)
+		if (position == mSelectedItemPosition)
 			return;
-		Log.d("", "Selecting position: " + position);
-		mSelectedRemotePosition = position;
+		mSelectedItemPosition = position;
 		loadViews();
 	}
 
 	public int getSelectedRemotePosition() {
-		return mSelectedRemotePosition;
+		return mSelectedItemPosition;
 	}
 
 	public String getSelectedRemoteName() {
 		if (isRemoteSelected()) {
-			return mItems.get(mSelectedRemotePosition);
+			return mItems.get(mSelectedItemPosition);
 		} else {
 			return null;
 		}
 	}
 
 	public boolean isRemoteSelected() {
-		return mSelectedRemotePosition >= 0
-				&& mSelectedRemotePosition < mItems.size();
+		return mSelectedItemPosition >= 0
+				&& mSelectedItemPosition < mItems.size();
+	}
+
+	public boolean isAddRemoteSelected() {
+		return mSelectedItemPosition == mItems.size();
 	}
 
 	@Override
 	public void onClick(View view) {
 		int position = view.getId();
-		Log.d("", "Clicked view " + position);
 		if (position == mItems.size() - 1) {
-			createRemote();
+			if (mListener != null) {
+				mListener.onAddRemoteSelected();
+			}
 		} else {
 			selectRemote(position);
+			if (mListener != null) {
+				mListener.onRemoteSelected(position, mItems.get(position));
+			}
 		}
+	}
 
+	private OnSelectListener mListener;
+
+	public void setOnSelectListener(OnSelectListener listener) {
+		this.mListener = listener;
+	}
+
+	public interface OnSelectListener {
+		public void onRemoteSelected(int position, String remoteName);
+
+		public void onAddRemoteSelected();
 	}
 
 }

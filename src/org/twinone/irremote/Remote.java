@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -34,7 +33,8 @@ public class Remote implements Serializable {
 	private static final long serialVersionUID = 2984007269058624013L;
 
 	public Remote() {
-		buttons = new ArrayList<Button>();
+		commonButtons = new ArrayList<Button>();
+		otherButtons = new ArrayList<Button>();
 	}
 
 	/**
@@ -46,7 +46,9 @@ public class Remote implements Serializable {
 
 	public String name;
 
-	public List<Button> buttons;
+	public List<Button> commonButtons;
+
+	public List<Button> otherButtons;
 
 	private String serialize() {
 		return new Gson().toJson(this);
@@ -84,7 +86,6 @@ public class Remote implements Serializable {
 		List<String> result = new ArrayList<String>();
 		File dir = getRemotesDir(c);
 		for (String s : dir.list()) {
-			Log.d("", "name: " + s);
 			if (s.endsWith(EXTENSION)) {
 				result.add(s.substring(0, s.length() - EXTENSION.length()));
 			}
@@ -92,27 +93,53 @@ public class Remote implements Serializable {
 		return result;
 	}
 
+	/** True if this remote contains the specified button */
+	public boolean contains(boolean common, int id) {
+		final List<Button> list = common ? commonButtons : otherButtons;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).id == id) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
-	 * Add a button to the in memory copy of this remote. To save it to disk,
-	 * call {@link #save(Context)};<br>
-	 * If there is already a button with the same ID, it will overwrite it
+	 * @return The matching button or null if no such button found
 	 */
+	public Button getButton(boolean common, int id) {
+		final List<Button> list = common ? commonButtons : otherButtons;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).id == id) {
+				return list.get(i);
+			}
+		}
+		return null;
+	}
+
 	public void addButton(Button b) {
-		buttons.add(b);
+		if (!b.common) {
+			b.id = otherButtons.size();
+		}
+		final List<Button> list = b.common ? commonButtons : otherButtons;
+		// Remove first, if already present
+		// This will not affect other buttons
+		list.remove(b);
+		list.add(b);
 	}
 
 	/**
 	 * Add a button to a remote and save it to disk If you call save on another
 	 * remote with the same name which was loaded earlier, you will overwrite
-	 * this changes
+	 * this changes<br>
+	 * Please note that this is highly inefficient for adding multiple buttons.
+	 * Load the remote, and add the buttons manually instead of using this.
 	 * 
 	 * @param c
 	 * @param remote
 	 * @param b
 	 */
 	public static void addButton(Context c, String remote, Button b) {
-		Log.d("", "Adding button " + b.text + "(" + b.id + ")" + " to "
-				+ remote);
 		Remote r = Remote.load(c, remote);
 		r.addButton(b);
 		r.save(c);

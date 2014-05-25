@@ -23,7 +23,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -42,6 +41,9 @@ public class SaveButtonDialogFragment extends DialogFragment implements
 	private static SaveButtonDialogFragment newInstance(Button button) {
 		SaveButtonDialogFragment f = new SaveButtonDialogFragment();
 		Bundle b = new Bundle();
+		// We are saving this button, don't save as Common Button
+		// The user can do this later from the remote itself
+		button.id = Button.ID_NONE;
 		b.putSerializable(ARG_BUTTON, button);
 		f.setArguments(b);
 		return f;
@@ -55,7 +57,6 @@ public class SaveButtonDialogFragment extends DialogFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mTargetButton = (Button) getArguments().getSerializable(ARG_BUTTON);
-		Log.d("", "Target: " + mTargetButton + " " + mTargetButton.text);
 	}
 
 	@Override

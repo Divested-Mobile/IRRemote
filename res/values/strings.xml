@@ -23,14 +23,39 @@
     <string name="save_remote_save">Save</string>
     <!--  -->
     <string name="save_button_title">Save button</string>
-    <string name="save_button_select_remote_title">Select a remote</string>
+    <string name="select_remote">Select a remote</string>
     <string name="save_button_text_title">Button name</string>
     <string name="save_button_hint">Button name</string>
     <string name="save_button_save">Save</string>
     <string name="add_remote">Add remote</string>
     <string name="select_remote_first">Select a remote first</string>
-    <!--  -->
 
+    <!-- Button text. Translators: keep it short! (max 5 chars) -->
+    <string name="button_text_power">Power</string>
+    <string name="button_text_power_on">On</string>
+    <string name="button_text_power_off">Off</string>
+    <string name="button_text_vol_up">Vol +</string>
+    <string name="button_text_vol_down">Vol -</string>
+    <string name="button_text_ch_up">Ch +</string>
+    <string name="button_text_ch_down">Ch -</string>
+    <string name="button_text_nav_up">U</string>
+    <string name="button_text_nav_down">D</string>
+    <string name="button_text_nav_left">L</string>
+    <string name="button_text_nav_right">R</string>
+    <string name="button_text_nav_ok">OK</string>
+    <string name="button_text_back">Back</string>
+    <string name="button_text_mute">Mute</string>
+    <string name="button_text_menu">Menu</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_9">9</string>
 
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->

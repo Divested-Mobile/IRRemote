@@ -61,7 +61,10 @@ public class IrCode extends Listable {
 		Remote remote = new Remote();
 		remote.name = name;
 		for (IrCode code : irCodes) {
-			remote.buttons.add(IrCode.toButton(code));
+			Button b = IrCode.toButton(code);
+			remote.addButton(b);
+			remote.addButton(b);
+			// remote.addButton(IrCode.toButton(code));
 		}
 		return remote;
 	}
@@ -72,6 +75,7 @@ public class IrCode extends Listable {
 		button.format = Signal.FORMAT_GLOBALCACHE;
 		button.code = irCode.IRCode;
 		button.id = getBestMatchId(irCode);
+		button.common = button.id != Button.ID_NONE;
 
 		return button;
 	}
@@ -84,7 +88,7 @@ public class IrCode extends Listable {
 		// Power
 		if (button.equals("on, power onoff"))
 			return Button.ID_POWER_ON;
-		if (button.equals("on, power onoff"))
+		if (button.equals("off, power onoff"))
 			return Button.ID_POWER_OFF;
 		if (button.contains("power onoff"))
 			return Button.ID_POWER;
