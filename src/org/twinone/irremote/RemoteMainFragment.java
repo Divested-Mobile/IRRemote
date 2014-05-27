@@ -15,19 +15,13 @@
  */
 package org.twinone.irremote;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RemoteMainFragment extends Fragment implements
-		View.OnTouchListener {
+public class RemoteMainFragment extends BaseButtonFragment {
 
 	private Button mButtonPower;
 	private Button mButtonVolUp;
@@ -42,8 +36,6 @@ public class RemoteMainFragment extends Fragment implements
 	private Button mButtonBack;
 	private Button mButtonMute;
 	private Button mButtonMenu;
-
-	private List<Button> mButtons;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +57,6 @@ public class RemoteMainFragment extends Fragment implements
 		mButtonMute = (Button) view.findViewById(R.id.button_mute);
 		mButtonMenu = (Button) view.findViewById(R.id.button_menu);
 
-		mButtons = new ArrayList<Button>();
 		mButtons.add(mButtonPower);
 		mButtons.add(mButtonVolUp);
 		mButtons.add(mButtonVolDown);
@@ -80,67 +71,8 @@ public class RemoteMainFragment extends Fragment implements
 		mButtons.add(mButtonMute);
 		mButtons.add(mButtonMenu);
 
-		for (Button b : mButtons) {
-			b.setOnTouchListener(this);
-
-			int buttonId = getButtonId(b.getId());
-			if (getRemote().contains(true, buttonId)) {
-				b.setText(getRemote().getButton(true, buttonId).getDisplayName(
-						getActivity()));
-			} else {
-				b.setEnabled(false);
-			}
-		}
-
-		getActivity().setTitle(getRemote().name);
-
+		setup();
 		return view;
 	}
 
-	private Remote getRemote() {
-		return ((RemoteActivity) getActivity()).getRemote();
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			((RemoteActivity) getActivity()).transmit(true,
-					getButtonId(v.getId()));
-			return false;
-		}
-		return false;
-	}
-
-	public int getButtonId(int viewId) {
-		switch (viewId) {
-		case R.id.button_power:
-			return org.twinone.irremote.Button.ID_POWER;
-		case R.id.button_vol_up:
-			return org.twinone.irremote.Button.ID_VOL_UP;
-		case R.id.button_vol_down:
-			return org.twinone.irremote.Button.ID_VOL_DOWN;
-		case R.id.button_ch_up:
-			return org.twinone.irremote.Button.ID_CH_UP;
-		case R.id.button_ch_down:
-			return org.twinone.irremote.Button.ID_CH_DOWN;
-		case R.id.button_nav_up:
-			return org.twinone.irremote.Button.ID_NAV_UP;
-		case R.id.button_nav_down:
-			return org.twinone.irremote.Button.ID_NAV_DOWN;
-		case R.id.button_nav_left:
-			return org.twinone.irremote.Button.ID_NAV_LEFT;
-		case R.id.button_nav_right:
-			return org.twinone.irremote.Button.ID_NAV_RIGHT;
-		case R.id.button_nav_ok:
-			return org.twinone.irremote.Button.ID_NAV_OK;
-		case R.id.button_back:
-			return org.twinone.irremote.Button.ID_BACK;
-		case R.id.button_mute:
-			return org.twinone.irremote.Button.ID_MUTE;
-		case R.id.button_menu:
-			return org.twinone.irremote.Button.ID_MENU;
-		default:
-			return org.twinone.irremote.Button.ID_NONE;
-		}
-	}
 }

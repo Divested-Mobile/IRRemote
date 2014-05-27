@@ -24,6 +24,7 @@ import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 public class IrCode extends Listable {
 	/**
@@ -62,7 +63,7 @@ public class IrCode extends Listable {
 		remote.name = name;
 		for (IrCode code : irCodes) {
 			Button b = IrCode.toButton(code);
-			remote.addButton(b);
+			Log.d("", "Saving btn (tag=" + b.text + ",id=" + b.id + ")");
 			remote.addButton(b);
 			// remote.addButton(IrCode.toButton(code));
 		}

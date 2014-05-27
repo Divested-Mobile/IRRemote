@@ -15,8 +15,8 @@
     <color name="remote_button_bg_pressed_end">#202020</color>
 
     <!-- Background of the remote itself -->
-    <color name="remote_bg_start">#202020</color>
-    <color name="remote_bg_center">#232323</color>
-    <color name="remote_bg_end">#202020</color>
+    <color name="remote_bg_start">#030303</color>
+    <color name="remote_bg_center">#050505</color>
+    <color name="remote_bg_end">#040404</color>
 
 </resources>

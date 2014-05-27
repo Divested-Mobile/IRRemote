@@ -72,6 +72,10 @@ public class Remote implements Serializable {
 		return new File(getRemotesDir(c), name + EXTENSION);
 	}
 
+	public static boolean exists(Context c, String name) {
+		return FileUtils.exists(getRemoteFile(c, name));
+	}
+
 	/** Load this remote from the file system */
 	public static Remote load(Context c, String name) {
 		return deserialize(FileUtils.get(getRemoteFile(c, name)));

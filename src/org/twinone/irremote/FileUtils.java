@@ -33,14 +33,18 @@ public class FileUtils {
 	 * True if the file was removed (or it didn't exist)
 	 */
 	public static boolean remove(File file) {
+		if (file == null) {
+			Log.w(TAG, "Cannot remove null file!");
+			return false;
+		}
 		if (file.exists())
 			return file.delete();
 		else
 			return true;
 	}
 
-	public static boolean isAvailable(File file) {
-		return file.exists() && file.isFile();
+	public static boolean exists(File file) {
+		return file != null && file.exists() && file.isFile();
 	}
 
 	public static String get(File file) {

@@ -22,8 +22,11 @@ import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -33,25 +36,33 @@ public class RemoteActivity extends Activity implements OnSelectListener {
 	private IRTransmitter mTransmitter;
 
 	private static final String SELECT_REMOTE_TAG = "select_remote";
+	private static final String TAG = "RemoteActivity";
+	private static final String PREF_FILENAME = "default";
+	// Keep track of the user's last selected remote
+	private static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		List<String> remoteNames = Remote.getNames(this);
-		if (remoteNames.isEmpty()) {
-			Intent i = new Intent(this, DBActivity.class);
-			startActivity(i);
-			return;
-		}
-
 		mTransmitter = new IRTransmitter(this);
-		mTransmitter.setShowBlinker(true);
-
-		mRemote = Remote.load(this, remoteNames.get(0));
+		mTransmitter.setShowBlinker(false);
 
 		setContentView(R.layout.activity_remote);
-		showSelectRemoteDialog();
+
+		final List<String> remoteNames = Remote.getNames(this);
+		String lastSelectedRemoteName;
+		if (remoteNames.size() == 1) {
+			lastSelectedRemoteName = remoteNames.get(0);
+		} else {
+			lastSelectedRemoteName = getPreferences(this).getString(
+					PREF_KEY_LAST_REMOTE, null);
+		}
+		if (Remote.exists(this, lastSelectedRemoteName)) {
+			setRemote(Remote.load(this, lastSelectedRemoteName));
+		} else {
+			showSelectRemoteDialog();
+		}
 	}
 
 	@Override
@@ -84,7 +95,8 @@ public class RemoteActivity extends Activity implements OnSelectListener {
 	public void removeSelectRemoteDialog() {
 		final Fragment fragment = getFragmentManager().findFragmentByTag(
 				SELECT_REMOTE_TAG);
-		getFragmentManager().beginTransaction().remove(fragment).commit();
+		if (fragment != null)
+			getFragmentManager().beginTransaction().remove(fragment).commit();
 	}
 
 	public Remote getRemote() {
@@ -96,13 +108,31 @@ public class RemoteActivity extends Activity implements OnSelectListener {
 		mTransmitter.transmit(b.getSignal());
 	}
 
-	@Override
-	public void onRemoteSelected(int position, String remoteName) {
-		mRemote = Remote.load(this, remoteName);
-
+	/**
+	 * Call this method to set a remote and update the layout accordingly
+	 * 
+	 * @param remote
+	 */
+	public void setRemote(Remote remote) {
+		if (remote == null) {
+			Log.w(TAG, "Ignoring null remote");
+		}
+		mRemote = remote;
 		removeSelectRemoteDialog();
 		getFragmentManager().beginTransaction()
-				.replace(R.id.container, new RemoteMainFragment()).commit();
+				.replace(R.id.remote_main, new RemoteMainFragment()).commit();
+		getFragmentManager().beginTransaction()
+				.replace(R.id.remote_digits, new RemoteDigitsFragment())
+				.commit();
+
+		getPreferences(this).edit()
+				.putString(PREF_KEY_LAST_REMOTE, remote.name).apply();
+
+	}
+
+	@Override
+	public void onRemoteSelected(int position, String remoteName) {
+		setRemote(Remote.load(this, remoteName));
 	}
 
 	@Override
@@ -115,6 +145,10 @@ public class RemoteActivity extends Activity implements OnSelectListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.remote, menu);
 		return true;
+	}
+
+	public static SharedPreferences getPreferences(Context c) {
+		return c.getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE);
 	}
 
 	@Override

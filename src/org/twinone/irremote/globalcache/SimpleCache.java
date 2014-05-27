@@ -35,7 +35,7 @@ public class SimpleCache {
 	}
 
 	public static boolean isAvailable(Context c, String filename) {
-		return FileUtils.isAvailable(getFile(c, filename));
+		return FileUtils.exists(getFile(c, filename));
 	}
 
 	public static String get(Context c, String filename) {

@@ -14,12 +14,13 @@
     </style>
 
     <style name="RemoteTheme">
+        <item name="android:windowBackground">@drawable/remote_bg</item>
         <item name="android:buttonStyle">@style/RemoteButtonTheme</item>
     </style>
 
-    
     <style name="RemoteButtonTheme" parent="@android:style/Widget.Holo.Button">
         <item name="android:background">@drawable/remote_button_bg</item>
+        <item name="android:minHeight">60dp</item>
     </style>
 
 </resources>
