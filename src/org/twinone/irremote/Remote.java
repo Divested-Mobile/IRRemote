@@ -81,6 +81,10 @@ public class Remote implements Serializable {
 		return deserialize(FileUtils.get(getRemoteFile(c, name)));
 	}
 
+	public static void remove(Context c, String name) {
+		FileUtils.remove(getRemoteFile(c, name));
+	}
+
 	/** Save this remote to the file system */
 	public void save(Context c) {
 		FileUtils.put(getRemoteFile(c, name), serialize());

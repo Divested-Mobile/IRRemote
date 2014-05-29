@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 public class SelectRemoteListView extends ListView implements OnClickListener {
 
+	private static final String TAG = "SelectRemoteListView";
 	private boolean mShowAddRemote = false;
 
 	private int mSelectedItemPosition = -1;
@@ -114,10 +115,11 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 	public void selectRemote(String remoteName) {
 		if (remoteName == null || remoteName.isEmpty())
 			return;
-		for (int i = 0; i < mItems.size(); i++) {
-			if (remoteName.equals(mItems.get(i))) {
-				selectRemote(i);
-			}
+		if (mItems.contains(remoteName)) {
+			selectRemote(mItems.indexOf(remoteName));
+		} else {
+			Log.w(TAG, "Attempted to select remote \"" + remoteName
+					+ "\", but was not in list!");
 		}
 	}
 

@@ -128,10 +128,13 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	}
 
 	protected void setup() {
+		Log.d("", "Setup");
 		if (mRemote == null || mButtons == null)
 			return;
+		Log.d("", "Setup 2");
 		for (Button b : mButtons) {
 			int buttonId = getButtonId(b.getId());
+			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(true, buttonId)) {
 				b.setText(mRemote.getButton(true, buttonId).getDisplayName(
 						getActivity()));
@@ -159,12 +162,17 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	public void setRemote(String remoteName) {
 		Remote remote = Remote.load(getActivity(), remoteName);
 		if (remote == null) {
-			Log.w(TAG, "Ignoring null remote");
+			Log.i(TAG, "Remote was null, clearing buttons");
+			for (Button b : mButtons) {
+				b.setVisibility(View.GONE);
+			}
 		}
 		mRemote = remote;
-
 		setup();
+	}
 
+	public Remote getRemote() {
+		return mRemote;
 	}
 
 	public int getButtonId(int viewId) {

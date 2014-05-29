@@ -30,6 +30,7 @@
     <string name="add_remote">Add remote</string>
     <string name="select_remote_first">Select a remote first</string>
     <string name="remote_saved_toast">Remote saved</string>
+    <string name="menu_action_delete_remote">Delete</string>
 
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">Power</string>
@@ -61,5 +62,7 @@
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
+    <string name="delete_remote_title">Delete remote</string>
+    <string name="delete_remote_message">Are you sure you want to delete %s?</string>
 
 </resources>

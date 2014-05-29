@@ -17,11 +17,15 @@ package org.twinone.irremote;
 
 import org.twinone.irremote.ui.SelectRemoteLinearLayout.OnSelectListener;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity implements OnSelectListener {
 
@@ -49,6 +53,10 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		updateLayout();
+	}
+
+	public void updateLayout() {
 		mNavFragment.update();
 		mRemoteFragment.setRemote(mNavFragment.getSelectedRemoteName());
 	}
@@ -81,4 +89,30 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 		return true;
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_action_delete_remote:
+			showDeleteRemoteDialog();
+			return true;
+		}
+		return false;
+	}
+
+	private void showDeleteRemoteDialog() {
+		final String remoteName = mRemoteFragment.getRemote().name;
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		ab.setTitle(R.string.delete_remote_title);
+		ab.setMessage(getString(R.string.delete_remote_message, remoteName));
+		ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				Remote.remove(MainActivity.this, remoteName);
+				updateLayout();
+			}
+		});
+		ab.setNegativeButton(android.R.string.cancel, null);
+		ab.show();
+	}
 }
