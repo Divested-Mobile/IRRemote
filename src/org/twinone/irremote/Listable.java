@@ -31,6 +31,9 @@ public abstract class Listable implements Comparable<Listable>, Serializable {
 
 	@Override
 	public int compareTo(Listable another) {
-		return getDisplayName().compareToIgnoreCase(another.getDisplayName());
+		String compare = getDisplayName();
+		if (compare  == null)
+			compare = "";
+		return compare.compareToIgnoreCase(another.getDisplayName());
 	}
 }
