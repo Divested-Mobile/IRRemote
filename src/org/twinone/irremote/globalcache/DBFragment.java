@@ -23,6 +23,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.SaveButtonDialogFragment;
 import org.twinone.irremote.SaveRemoteDialogFragment;
+import org.twinone.irremote.SaveRemoteDialogFragment.OnRemoteSavedListener;
 import org.twinone.irremote.ir.IRTransmitter;
 
 import android.app.AlertDialog;
@@ -222,7 +223,19 @@ public class DBFragment extends Fragment implements
 						mUriData.manufacturer.Manufacturer + " "
 								+ mUriData.deviceType.DeviceType,
 						(IrCode[]) mData);
-				SaveRemoteDialogFragment.showFor(getActivity(), remote);
+				SaveRemoteDialogFragment dialog = SaveRemoteDialogFragment
+						.newInstance(remote);
+				dialog.setListener(new OnRemoteSavedListener() {
+
+					@Override
+					public void onRemoteSaved(String name) {
+						// Finish the activity, we've saved the remote
+						getActivity().finish();
+						Toast.makeText(getActivity(),
+								R.string.remote_saved_toast, Toast.LENGTH_SHORT);
+					}
+				});
+				dialog.show(getActivity());
 			}
 			return true;
 		}

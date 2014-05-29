@@ -9,7 +9,7 @@
     <!--  -->
     <dimen name="remote_button_horizontal_margin">4dp</dimen>
     <dimen name="remote_button_vertical_margin">4dp</dimen>
-    
     <dimen name="remote_digit_button_minheight">92dp</dimen>
+    <dimen name="navigation_drawer_width">240dp</dimen>
 
 </resources>

@@ -35,7 +35,11 @@ public class SaveRemoteDialogFragment extends DialogFragment implements
 				a.getFragmentManager(), "save_remote_dialog");
 	}
 
-	private static SaveRemoteDialogFragment newInstance(Remote remote) {
+	public void show(Activity a) {
+		show(a.getFragmentManager(), "save_remote_dialog");
+	}
+
+	public static SaveRemoteDialogFragment newInstance(Remote remote) {
 		SaveRemoteDialogFragment f = new SaveRemoteDialogFragment();
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE, remote);
@@ -76,7 +80,19 @@ public class SaveRemoteDialogFragment extends DialogFragment implements
 		case DialogInterface.BUTTON_POSITIVE:
 			mTarget.name = mRemoteName.getText().toString();
 			mTarget.save(getActivity());
+			if (mListener != null)
+				mListener.onRemoteSaved(mTarget.name);
 			break;
 		}
+	}
+
+	private OnRemoteSavedListener mListener;
+
+	public void setListener(OnRemoteSavedListener listener) {
+		mListener = listener;
+	}
+
+	public interface OnRemoteSavedListener {
+		public void onRemoteSaved(String name);
 	}
 }

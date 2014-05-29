@@ -22,111 +22,81 @@ import org.twinone.irremote.Remote;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 
-public class SelectRemoteListView extends ListView implements OnClickListener {
+// Alternative to SelectRemoteListView that is much more efficient because it doesn't scroll
+public class SelectRemoteLinearLayout extends LinearLayout implements
+		OnClickListener {
 
-	private boolean mShowAddRemote = false;
+	private ArrayList<View> mViews;
+	private LayoutInflater mInflater;
+	private ArrayList<String> mItems;
 
 	private int mSelectedItemPosition = -1;
 
-	private LayoutInflater mInflater;
-	private ArrayList<String> mItems;
-	private MyAdapter mAdapter;
-
-	public SelectRemoteListView(Context context) {
+	public SelectRemoteLinearLayout(Context context) {
 		super(context);
 		init();
 	}
 
-	public SelectRemoteListView(Context context, AttributeSet attrs) {
+	public SelectRemoteLinearLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
 	private void init() {
-		setChoiceMode(CHOICE_MODE_SINGLE);
+		mViews = new ArrayList<View>();
 		mInflater = LayoutInflater.from(getContext());
-		updateRemotesList();
-	}
-
-	/**
-	 * Update the list of remotes after it has been changed on disk
-	 */
-	public void updateRemotesList() {
 		mItems = (ArrayList<String>) Remote.getNames(getContext());
 		mItems.add(getContext().getString(R.string.add_remote));
-		mAdapter = new MyAdapter();
-		setAdapter(mAdapter);
-		setItemChecked(mSelectedItemPosition, true);
+		setOrientation(VERTICAL);
+
+		loadViews();
 	}
 
-	public void setShowAddRemote(boolean showAddRemote) {
-		if (mShowAddRemote != showAddRemote)
-			return;
-		if (showAddRemote) {
-			mItems.add(getContext().getString(R.string.add_remote));
-		} else {
-			// Add should always be on last position
-			mItems.remove(mItems.size() - 1);
-		}
-		mShowAddRemote = showAddRemote;
-		mAdapter.notifyDataSetChanged();
+	@Override
+	public void addView(View child) {
+		super.addView(child);
+		mViews.add(child);
 	}
 
-	private class MyAdapter extends BaseAdapter {
-
-		public View getView(int position, View convertView, ViewGroup parent) {
-			Log.d("", "getView");
-			TextView view = (TextView) convertView;
-			if (view == null)
-				view = (TextView) mInflater.inflate(
-						R.layout.select_remote_item, parent, false);
-			view.setText(mItems.get(position));
-			view.setOnClickListener(SelectRemoteListView.this);
-			view.setId(position);
-			return view;
-		}
-
-		@Override
-		public int getCount() {
-			return mItems.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return mItems.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
-	}
-
-	public void selectRemote(String remoteName) {
-		if (remoteName == null || remoteName.isEmpty())
-			return;
+	private void loadViews() {
 		for (int i = 0; i < mItems.size(); i++) {
-			if (remoteName.equals(mItems.get(i))) {
-				selectRemote(i);
+			View recycleView = i < mViews.size() ? mViews.get(i) : null;
+			if (recycleView == null) {
+				addView(getView(i, recycleView, this));
+			} else {
+				getView(i, recycleView, this);
 			}
 		}
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		CheckedTextView view = (CheckedTextView) convertView;
+		if (view == null)
+			view = (CheckedTextView) mInflater.inflate(
+					R.layout.select_remote_item, parent, false);
+		view.setChecked(position == mSelectedItemPosition);
+		view.setText(mItems.get(position));
+		view.setOnClickListener(this);
+		view.setId(position);
+		return view;
 	}
 
 	public void selectRemote(int position) {
 		if (position == mSelectedItemPosition)
 			return;
 		mSelectedItemPosition = position;
-		Log.d("", "SetChecked: " + position);
-		setItemChecked(position, true);
+		loadViews();
+	}
+
+	public int getSelectedRemotePosition() {
+		return mSelectedItemPosition;
 	}
 
 	public String getSelectedRemoteName() {
@@ -167,10 +137,8 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 		this.mListener = listener;
 	}
 
-	public interface OnSelectListener {
-		public void onRemoteSelected(int position, String remoteName);
-
-		public void onAddRemoteSelected();
+	public interface OnSelectListener extends
+			SelectRemoteListView.OnSelectListener {
 	}
 
 }

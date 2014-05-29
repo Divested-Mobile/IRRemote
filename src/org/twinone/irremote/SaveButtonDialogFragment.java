@@ -15,7 +15,7 @@
  */
 package org.twinone.irremote;
 
-import org.twinone.irremote.ui.SelectRemoteListView;
+import org.twinone.irremote.ui.SelectRemoteLinearLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,7 +51,7 @@ public class SaveButtonDialogFragment extends DialogFragment implements
 
 	private Button mTargetButton;
 	private EditText mButtonName;
-	private SelectRemoteListView mListView;
+	private SelectRemoteLinearLayout mListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class SaveButtonDialogFragment extends DialogFragment implements
 				R.layout.dialog_save_button, null, false);
 		mButtonName = (EditText) view.findViewById(R.id.save_button_name);
 		mButtonName.setText(mTargetButton.text);
-		mListView = (SelectRemoteListView) view
+		mListView = (SelectRemoteLinearLayout) view
 				.findViewById(R.id.select_remote_listview);
 
 		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());

@@ -15,8 +15,8 @@
  */
 package org.twinone.irremote;
 
-import org.twinone.irremote.ui.SelectRemoteListView;
-import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
+import org.twinone.irremote.ui.SelectRemoteLinearLayout;
+import org.twinone.irremote.ui.SelectRemoteLinearLayout.OnSelectListener;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,7 +27,7 @@ import android.view.View;
 
 public class SelectRemoteDialogFragment extends DialogFragment {
 
-	private SelectRemoteListView mListView;
+	private SelectRemoteLinearLayout mListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SelectRemoteDialogFragment extends DialogFragment {
 		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
 		View view = LayoutInflater.from(getActivity()).inflate(
 				R.layout.dialog_select_remote, null, false);
-		mListView = (SelectRemoteListView) view
+		mListView = (SelectRemoteLinearLayout) view
 				.findViewById(R.id.select_remote_listview);
 		mListView.setOnSelectListener((OnSelectListener) getActivity());
 

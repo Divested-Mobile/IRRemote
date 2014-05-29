@@ -12,7 +12,7 @@ public class DBActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_db);
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()

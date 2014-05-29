@@ -1,4 +1,5 @@
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+ <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,3 +11,16 @@
     android:paddingStart="16dp"
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
     android:textColor="?android:attr/textColorAlertDialogListItem" />
+-->
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/remote_list_item_bg"
+    android:gravity="center_vertical"
+    android:minHeight="48dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+    android:textColor="#fff" />

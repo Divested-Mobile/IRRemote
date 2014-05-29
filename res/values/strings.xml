@@ -29,6 +29,7 @@
     <string name="save_button_save">Save</string>
     <string name="add_remote">Add remote</string>
     <string name="select_remote_first">Select a remote first</string>
+    <string name="remote_saved_toast">Remote saved</string>
 
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">Power</string>
