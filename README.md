@@ -10,9 +10,9 @@ The app uses [the database from GlobalCaché](http://irdatabase.globalcache.com)
 Screenshots
 ===========
 
-![Screenshot 1](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot1.png "Screenshot 1")
-![Screenshot 2](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot2.png "Screenshot 2")
-![Screenshot 3](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot3.png "Screenshot 3")
+![Screenshot 1](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot1.jpg "Screenshot 1")
+![Screenshot 2](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot2.jpg "Screenshot 2")
+![Screenshot 3](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot3.jpg "Screenshot 3")
 
 Requirements
 ============
