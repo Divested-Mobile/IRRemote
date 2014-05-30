@@ -7,6 +7,12 @@ With this app you can remote control about any TV that works with infra red.
 
 The app uses [the database from GlobalCaché](http://irdatabase.globalcache.com) which contains over 100,000 Infrared codes for over 2,000 different remotes from over 500 manufacturers.
 
+Screenshots
+===========
+
+![Screenshot 1](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot1.png "Screenshot 1")
+![Screenshot 2](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot2.png "Screenshot 2")
+![Screenshot 3](https://raw.github.com/twinone/IR-Remote/master/screenshots/screenshot3.png "Screenshot 3")
 
 Requirements
 ============
