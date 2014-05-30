@@ -100,7 +100,9 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 	}
 
 	private void showDeleteRemoteDialog() {
-		final String remoteName = mRemoteFragment.getRemote().name;
+		final String remoteName = mNavFragment.getSelectedRemoteName();
+		if (remoteName == null)
+			return;
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle(R.string.delete_remote_title);
 		ab.setMessage(getString(R.string.delete_remote_message, remoteName));

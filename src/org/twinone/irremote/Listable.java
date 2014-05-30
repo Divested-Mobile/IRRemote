@@ -17,6 +17,8 @@ package org.twinone.irremote;
 
 import java.io.Serializable;
 
+import android.util.Log;
+
 public abstract class Listable implements Comparable<Listable>, Serializable {
 	/**
 	 * 
@@ -31,9 +33,10 @@ public abstract class Listable implements Comparable<Listable>, Serializable {
 
 	@Override
 	public int compareTo(Listable another) {
-		String compare = getDisplayName();
-		if (compare  == null)
-			compare = "";
-		return compare.compareToIgnoreCase(another.getDisplayName());
+		if (getDisplayName() == null || another == null
+				|| another.getDisplayName() == null) {
+			return 0;
+		}
+		return getDisplayName().compareToIgnoreCase(another.getDisplayName());
 	}
 }
