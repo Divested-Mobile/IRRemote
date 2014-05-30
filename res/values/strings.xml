@@ -2,18 +2,14 @@
 <resources>
 
     <string name="app_name">IR Remote</string>
-    <string name="action_settings">Settings</string>
-    <string name="main_button_manufacturers">Database</string>
-    <string name="main_button_device_types">Devices</string>
-    <string name="main_button_codesets">Remotes</string>
-    <string name="menu_db_search_tit">Search</string>
-    <string name="menu_db_refresh">Refresh</string>
-    <string name="menu_db_save">Save remote</string>
-    <string name="search_hint_manufacturers">Search manufacturers</string>
-    <string name="search_hint_custom">Search %s</string>
-    <string name="search_hint_buttons">Search buttons</string>
 
-    <!-- Fragment titles -->
+    <!-- String for GlobalCache DB Activity -->
+    <string name="db_menu_search_tit">Search</string>
+    <string name="db_menu_refresh">Refresh</string>
+    <string name="db_menu_save">Save remote</string>
+    <string name="db_search_hint_manufacturers">Search manufacturers</string>
+    <string name="db_search_hint_custom">Search %s</string>
+    <string name="db_search_hint_buttons">Search buttons</string>
     <string name="db_select_manufacturer">Select manufacturer</string>
 
     <!-- Save dialogs -->
@@ -62,7 +58,11 @@
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
+
+    <!--  -->
     <string name="delete_remote_title">Delete remote</string>
     <string name="delete_remote_message">Are you sure you want to delete %s?</string>
+    <string name="edit_remote_title">Edit remote</string>
+    <string name="edit_remote_message"></string>
 
 </resources>

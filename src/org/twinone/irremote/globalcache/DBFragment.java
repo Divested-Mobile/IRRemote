@@ -176,11 +176,11 @@ public class DBFragment extends Fragment implements
 
 	private String getSearchHint(UriData data) {
 		if (data.targetType == UriData.TYPE_MANUFACTURER) {
-			return getString(R.string.search_hint_manufacturers);
+			return getString(R.string.db_search_hint_manufacturers);
 		} else if (data.targetType == UriData.TYPE_IR_CODE) {
-			return getString(R.string.search_hint_buttons);
+			return getString(R.string.db_search_hint_buttons);
 		} else {
-			return getString(R.string.search_hint_custom,
+			return getString(R.string.db_search_hint_custom,
 					data.getFullyQualifiedName(" "));
 		}
 	}
