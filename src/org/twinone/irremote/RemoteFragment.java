@@ -128,10 +128,8 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	}
 
 	protected void setup() {
-		Log.d("", "Setup");
 		if (mRemote == null || mButtons == null)
 			return;
-		Log.d("", "Setup 2");
 		for (Button b : mButtons) {
 			int buttonId = getButtonId(b.getId());
 			b.setVisibility(View.VISIBLE);

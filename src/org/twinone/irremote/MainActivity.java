@@ -20,10 +20,13 @@ import org.twinone.irremote.ui.SelectRemoteLinearLayout.OnSelectListener;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.PackageManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -43,20 +46,20 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 		mRemoteFragment = (RemoteFragment) getFragmentManager()
 				.findFragmentById(R.id.container);
 
-		mNavFragment = (NavFragment) getFragmentManager().findFragmentById(
-				R.id.navigation_drawer);
+		mNavFragment = (NavFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.navigation_drawer);
 		mNavFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
-
+		mNavFragment.setEdgeSizeDp(80);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		updateLayout();
+		onRemotesChanged();
 	}
 
-	public void updateLayout() {
+	public void updateRemoteLayout() {
 		mNavFragment.update();
 		mRemoteFragment.setRemote(mNavFragment.getSelectedRemoteName());
 	}
@@ -70,7 +73,6 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 	@Override
 	public void onRemoteSelected(int position, String remoteName) {
 		loadRemote(remoteName);
-		mNavFragment.close();
 	}
 
 	private void loadRemote(String remoteName) {
@@ -80,12 +82,17 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 	@Override
 	public void onAddRemoteSelected() {
 		Intent i = new Intent(this, DBActivity.class);
-		startActivity(i);
+		startActivityForResult(i, 0);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.remote, menu);
+		boolean hasRemote = mNavFragment.getSelectedRemoteName() != null;
+		if (!hasRemote) {
+			setTitle(R.string.app_name);
+		}
+		menu.findItem(R.id.menu_action_delete_remote).setVisible(hasRemote);
 		return true;
 	}
 
@@ -111,10 +118,22 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				Remote.remove(MainActivity.this, remoteName);
-				updateLayout();
+				onRemotesChanged();
 			}
 		});
 		ab.setNegativeButton(android.R.string.cancel, null);
 		ab.show();
 	}
+
+	private void onRemotesChanged() {
+		invalidateOptionsMenu();
+		updateRemoteLayout();
+		if (mNavFragment.getSelectedRemoteName() == null) {
+			mNavFragment.lockOpen(true);
+			Log.d("", "Opened and locked!");
+		} else {
+			mNavFragment.unlock();
+		}
+	}
+
 }

@@ -64,5 +64,8 @@
     <string name="delete_remote_message">Are you sure you want to delete %s?</string>
     <string name="edit_remote_title">Edit remote</string>
     <string name="edit_remote_message"></string>
+    <string name="nav_b_share">Share</string>
+    <string name="nav_b_rate">Rate</string>
+    <string name="share_promo">Check out Twinone IR Remote! Infrared remote that works for any TV! (Android) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
 
 </resources>

@@ -64,6 +64,7 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 	public void updateRemotesList() {
 		mItems = (ArrayList<String>) Remote.getNames(getContext());
 		mItems.add(getContext().getString(R.string.add_remote));
+
 		mAdapter = new MyAdapter();
 		setAdapter(mAdapter);
 		setItemChecked(mSelectedItemPosition, true);
@@ -85,7 +86,6 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 	private class MyAdapter extends BaseAdapter {
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			Log.d("", "getView");
 			TextView view = (TextView) convertView;
 			if (view == null)
 				view = (TextView) mInflater.inflate(
@@ -112,23 +112,28 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 		}
 	}
 
-	public void selectRemote(String remoteName) {
+	public void selectRemote(String remoteName, boolean notifyListener) {
 		if (remoteName == null || remoteName.isEmpty())
 			return;
 		if (mItems.contains(remoteName)) {
-			selectRemote(mItems.indexOf(remoteName));
+			selectRemote(mItems.indexOf(remoteName), notifyListener);
 		} else {
 			Log.w(TAG, "Attempted to select remote \"" + remoteName
 					+ "\", but was not in list!");
 		}
 	}
 
-	public void selectRemote(int position) {
+	public void selectRemote(int position, boolean notifyListener) {
 		if (position == mSelectedItemPosition)
 			return;
 		mSelectedItemPosition = position;
-		Log.d("", "SetChecked: " + position);
 		setItemChecked(position, true);
+		if (notifyListener && mListener != null)
+			mListener.onRemoteSelected(position, mItems.get(position));
+	}
+
+	public String getRemoteName(int position) {
+		return ((String) getItemAtPosition(position));
 	}
 
 	public String getSelectedRemoteName() {
@@ -141,7 +146,7 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 
 	public boolean isRemoteSelected() {
 		return mSelectedItemPosition >= 0
-				&& mSelectedItemPosition < mItems.size();
+				&& mSelectedItemPosition < mItems.size() - 1;
 	}
 
 	public boolean isAddRemoteSelected() {
@@ -156,10 +161,7 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 				mListener.onAddRemoteSelected();
 			}
 		} else {
-			selectRemote(position);
-			if (mListener != null) {
-				mListener.onRemoteSelected(position, mItems.get(position));
-			}
+			selectRemote(position, true);
 		}
 	}
 

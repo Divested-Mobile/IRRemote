@@ -2,57 +2,37 @@ package org.twinone.irremote;
 
 import java.util.List;
 
+import org.twinone.androidlib.BaseNavigationFragment;
+import org.twinone.androidlib.Dialogs;
+import org.twinone.androidlib.ShareRateView;
 import org.twinone.irremote.ui.SelectRemoteListView;
 import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
-/**
- * Fragment used for managing interactions for and presentation of a navigation
- * drawer. See the <a href=
- * "https://developer.android.com/design/patterns/navigation-drawer.html#Interaction"
- * > design guidelines</a> for a complete explanation of the behaviors
- * implemented here.
- */
-public class NavFragment extends Fragment {
+public class NavFragment extends BaseNavigationFragment implements
+		OnSelectListener, OnClickListener {
 
-	/**
-	 * Per the design guidelines, you should show the drawer on launch until the
-	 * user manually expands it. This shared preference tracks this.
-	 */
-	private static final String PREF_KEY_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
-	private static final String PREF_FILENAME = "nav";
+	// private static final String PREF_FILENAME = "nav";
 	// Keep track of the user's last selected remote
 	private static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
 
-	/**
-	 * Helper component that ties the action bar to the navigation drawer.
-	 */
-	private ActionBarDrawerToggle mDrawerToggle;
-
 	private DrawerLayout mDrawerLayout;
 	private SelectRemoteListView mRemotesListView;
+	private LinearLayout mRateLayout;
+	private LinearLayout mShareLayout;
 	private View mFragmentContainerView;
-
-	private boolean mFromSavedInstanceState;
-	private boolean mUserLearnedDrawer;
 
 	public NavFragment() {
 	}
@@ -61,30 +41,21 @@ public class NavFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Read in the flag indicating whether or not the user has demonstrated
-		// awareness of the
-		// drawer. See PREF_USER_LEARNED_DRAWER for details.
-		mUserLearnedDrawer = getPreferences().getBoolean(
-				PREF_KEY_USER_LEARNED_DRAWER, false);
-	}
-
-	private SharedPreferences getPreferences() {
-		return getActivity().getSharedPreferences(PREF_FILENAME,
-				Context.MODE_PRIVATE);
 	}
 
 	public void update() {
 		mRemotesListView.updateRemotesList();
 
 		// select the appropriate remote
-		if (getPreferences().contains(PREF_KEY_LAST_REMOTE)) {
-			mRemotesListView.selectRemote(getPreferences().getString(
-					PREF_KEY_LAST_REMOTE, null));
+		List<String> names = Remote.getNames(getActivity());
+		String lastSelectedRemotePref = getPreferences().getString(
+				PREF_KEY_LAST_REMOTE, null);
+		if (names.contains(lastSelectedRemotePref)) {
+			mRemotesListView.selectRemote(lastSelectedRemotePref, false);
+		} else if (names.size() > 0) {
+			mRemotesListView.selectRemote(0, false);
 		} else {
-			List<String> names = Remote.getNames(getActivity());
-			if (names.size() > 0) {
-				mRemotesListView.selectRemote(0);
-			}
+			mRemotesListView.selectRemote(-1, false);
 		}
 	}
 
@@ -106,122 +77,45 @@ public class NavFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mRemotesListView = (SelectRemoteListView) inflater.inflate(
+		RelativeLayout root = (RelativeLayout) inflater.inflate(
 				R.layout.fragment_nav, container, false);
-		mRemotesListView.setShowAddRemote(true);
-		mRemotesListView.setOnSelectListener((OnSelectListener) getActivity());
 
-		return mRemotesListView;
+		ShareRateView srv = (ShareRateView) root
+				.findViewById(R.id.share_rate_view);
+		srv.addItem(R.id.nav_b_share, R.string.nav_b_share,
+				R.drawable.ic_action_share, this);
+		srv.addItem(R.id.nav_b_rate, R.string.nav_b_rate,
+				R.drawable.ic_action_important, this);
+
+		mRemotesListView = (SelectRemoteListView) root
+				.findViewById(R.id.select_remote_listview);
+		mRemotesListView.setShowAddRemote(true);
+		mRemotesListView.setOnSelectListener(this);
+
+		mRateLayout = (LinearLayout) root.findViewById(R.id.nav_b_rate);
+		mShareLayout = (LinearLayout) root.findViewById(R.id.nav_b_share);
+
+		mRateLayout.setOnClickListener(this);
+		mShareLayout.setOnClickListener(this);
+
+		update();
+
+		return root;
 	}
 
+	/**
+	 * This will select the remote in the list, it will also make a call to the
+	 * listener
+	 * 
+	 * @param position
+	 */
 	public void select(int position) {
-		mRemotesListView.selectRemote(position);
-		String name = mRemotesListView.getSelectedRemoteName();
-		getPreferences().edit().putString(PREF_KEY_LAST_REMOTE, name).apply();
+		mRemotesListView.selectRemote(position, true);
 	}
 
 	public boolean isDrawerOpen() {
 		return mDrawerLayout != null
 				&& mDrawerLayout.isDrawerOpen(mFragmentContainerView);
-	}
-
-	public void setUp(int fragmentId, DrawerLayout drawerLayout) {
-		mFragmentContainerView = getActivity().findViewById(fragmentId);
-		mDrawerLayout = drawerLayout;
-
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
-
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
-
-		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout,
-				R.drawable.ic_drawer, 0, 0) {
-			@Override
-			public void onDrawerClosed(View drawerView) {
-				super.onDrawerClosed(drawerView);
-				if (!isAdded()) {
-					return;
-				}
-
-				getActivity().invalidateOptionsMenu();
-			}
-
-			@Override
-			public void onDrawerOpened(View drawerView) {
-				super.onDrawerOpened(drawerView);
-				if (!isAdded()) {
-					return;
-				}
-
-				if (!mUserLearnedDrawer) {
-					mUserLearnedDrawer = true;
-
-					getPreferences().edit()
-							.putBoolean(PREF_KEY_USER_LEARNED_DRAWER, true)
-							.commit();
-				}
-
-				getActivity().invalidateOptionsMenu();
-			}
-		};
-
-		if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-			mDrawerLayout.openDrawer(mFragmentContainerView);
-		}
-
-		mDrawerLayout.post(new Runnable() {
-			@Override
-			public void run() {
-				mDrawerToggle.syncState();
-			}
-		});
-
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-	}
-
-	public void open() {
-		mDrawerLayout.openDrawer(mFragmentContainerView);
-	}
-
-	public void close() {
-		mDrawerLayout.closeDrawer(mFragmentContainerView);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		// Forward the new configuration the drawer toggle component.
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// if (mDrawerLayout != null && isDrawerOpen()) {
-		// showGlobalContextActionBar();
-		// }
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		// Options for nav fragment here...
-
-		return super.onOptionsItemSelected(item);
-	}
-
-	private void showGlobalContextActionBar() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setTitle(getActivity().getTitle());
-	}
-
-	private ActionBar getActionBar() {
-		return ((ActionBarActivity) getActivity()).getActionBar();
 	}
 
 	public String getSelectedRemoteName() {
@@ -230,6 +124,74 @@ public class NavFragment extends Fragment {
 
 	public int getSelectedRemotePosition() {
 		return mRemotesListView.getSelectedItemPosition();
+	}
+
+	// -1 when none selected
+	private int mTargetRemotePosition = -1;
+
+	@Override
+	public void onRemoteSelected(int position, String remoteName) {
+		close();
+
+		getPreferences().edit().putString(PREF_KEY_LAST_REMOTE, remoteName)
+				.apply();
+		mTargetRemotePosition = position;
+	}
+
+	@Override
+	public void onAddRemoteSelected() {
+		((OnSelectListener) getActivity()).onAddRemoteSelected();
+	}
+
+	@Override
+	protected void onOpen() {
+	}
+
+	@Override
+	protected void onClose() {
+		// We should provide navigation after the drawer has been closed,
+		// because of animations
+		int pos = mTargetRemotePosition;
+		if (pos != -1) {
+			((OnSelectListener) getActivity()).onRemoteSelected(pos,
+					mRemotesListView.getRemoteName(pos));
+			pos = -1;
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.nav_b_rate:
+			onRateButton();
+			break;
+		case R.id.nav_b_share:
+			onShareButton();
+			break;
+		}
+	}
+
+	public void onShareButton() {
+		// Don't add never button, the user wanted to share
+		// Dialogs.getShareEditDialog(this, false).show();
+		Dialogs.getShareEditDialog(getActivity(),
+				getActivity().getString(R.string.share_promo)).show();
+	}
+
+	public void onRateButton() {
+		toGooglePlay();
+	}
+
+	private void toGooglePlay() {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("market://details?id="
+				+ getActivity().getPackageName()));
+		if (getActivity()
+				.getPackageManager()
+				.queryIntentActivities(intent,
+						PackageManager.MATCH_DEFAULT_ONLY).size() >= 1) {
+			startActivity(intent);
+		}
 	}
 
 }

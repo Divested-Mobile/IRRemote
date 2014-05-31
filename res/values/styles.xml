@@ -1,6 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppBaseTheme" parent="Theme.AppCompat">
+
         <!-- Remove UGLY blue line from actionbar -->
         <item name="android:actionBarStyle">@style/Widget.AppCompat.ActionBar.Solid</item>
         <!--
@@ -23,6 +24,10 @@
     <style name="RemoteButtonTheme" parent="@android:style/Widget.Holo.Button">
         <item name="android:background">@drawable/remote_button_bg</item>
         <item name="android:minHeight">60dp</item>
+    </style>
+
+    <style name="Common.Small" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">#ccc</item>
     </style>
 
 </resources>

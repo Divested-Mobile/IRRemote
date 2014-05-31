@@ -1,6 +1,31 @@
-<org.twinone.irremote.ui.SelectRemoteListView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0222222" >
+
+    <!--
+    <org.twinone.irremote.ui.SelectRemoteListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff333333"
     android:choiceMode="singleChoice" />
+    -->
+
+    <org.twinone.irremote.ui.SelectRemoteListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/select_remote_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/nav_bottom_buttons"
+        android:choiceMode="singleChoice" />
+
+    <include
+        android:id="@+id/share_rate_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/share_rate_list" />
+
+</RelativeLayout>

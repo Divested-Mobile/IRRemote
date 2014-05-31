@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Navigation drawer -->
+    <item name="nav_bottom_buttons" type="id"></item>
+    <item name="nav_b_share" type="id"></item>
+    <item name="nav_b_rate" type="id"></item>
+    <item name="nav_list" type="id"></item>
+
+</resources>

@@ -74,6 +74,14 @@ public class Button implements Serializable {
 	public static final int ID_DIGIT_8 = 24;
 	public static final int ID_DIGIT_9 = 25;
 
+	// Since Remote v2
+	public static final int ID_INPUT = 26;
+	public static final int ID_GUIDE = 27;
+	public static final int ID_SMART = 28;
+	public static final int ID_LAST = 29;
+	public static final int ID_CLEAR = 30;
+	public static final int ID_EXIT = 31;
+
 	public boolean common;
 
 	/** Ids are to identify common buttons */
