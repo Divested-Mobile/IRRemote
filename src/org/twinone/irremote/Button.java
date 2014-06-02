@@ -81,6 +81,21 @@ public class Button implements Serializable {
 	public static final int ID_LAST = 29;
 	public static final int ID_CLEAR = 30;
 	public static final int ID_EXIT = 31;
+	public static final int ID_CC = 32;
+	public static final int ID_INFO = 33;
+	public static final int ID_TIMER = 34;
+	public static final int ID_SLEEP = 35;
+
+	// For cable
+	public static final int ID_PLAY = 36;
+	public static final int ID_PAUSE = 37;
+	public static final int ID_STOP = 38;
+	public static final int ID_FAST_FORWARD = 39;
+	public static final int ID_REWIND = 40;
+	public static final int ID_SKIP_NEXT = 41;
+	public static final int ID_SKIP_PREV = 42;
+	public static final int ID_RECORD = 43;
+	public static final int ID_DISP = 44;
 
 	public boolean common;
 

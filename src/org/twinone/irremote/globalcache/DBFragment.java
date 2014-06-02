@@ -82,7 +82,7 @@ public class DBFragment extends Fragment implements
 			Bundle savedInstanceState) {
 
 		mTransmitter = new IRTransmitter(getActivity());
-		mTransmitter.setShowBlinker(true);
+		mTransmitter.setShowBlinker(false);
 
 		setHasOptionsMenu(true);
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(
