@@ -1,13 +1,14 @@
-package org.twinone.irremote;
+package org.twinone.irremote.ui;
 
-import org.twinone.irremote.ui.SelectRemoteLinearLayout.OnSelectListener;
+import org.twinone.irremote.R;
+import org.twinone.irremote.Remote;
+import org.twinone.irremote.providers.globalcache.GCIRProviderActivity;
+import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.pm.PackageManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -66,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 
 	@Override
 	public void onAddRemoteSelected() {
-		Intent i = new Intent(this, DBActivity.class);
+		Intent i = new Intent(this, GCIRProviderActivity.class);
 		startActivityForResult(i, 0);
 	}
 

@@ -1,6 +1,8 @@
-package org.twinone.irremote;
+package org.twinone.irremote.ui;
 
-import org.twinone.irremote.ui.SelectRemoteLinearLayout;
+import org.twinone.irremote.Button;
+import org.twinone.irremote.R;
+import org.twinone.irremote.Remote;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,12 +1,11 @@
-package org.twinone.irremote;
+package org.twinone.irremote.providers.globalcache;
 
-import org.twinone.irremote.globalcache.DBFragment;
-import org.twinone.irremote.globalcache.UriData;
+import org.twinone.irremote.R;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public class DBActivity extends Activity {
+public class GCIRProviderActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +15,7 @@ public class DBActivity extends Activity {
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new DBFragment()).commit();
+					.add(R.id.container, new GCIRProviderFragment()).commit();
 		}
 	}
 
@@ -37,9 +36,9 @@ public class DBActivity extends Activity {
 	}
 
 	public void addFragment(UriData data) {
-		DBFragment frag = new DBFragment();
+		GCIRProviderFragment frag = new GCIRProviderFragment();
 		Bundle args = new Bundle();
-		args.putSerializable(DBFragment.ARG_URI_DATA, data);
+		args.putSerializable(GCIRProviderFragment.ARG_URI_DATA, data);
 		frag.setArguments(args);
 		getFragmentManager().beginTransaction().replace(R.id.container, frag)
 				.addToBackStack("default").commit();

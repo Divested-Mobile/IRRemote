@@ -1,10 +1,12 @@
-package org.twinone.irremote;
+package org.twinone.irremote.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import org.twinone.irremote.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

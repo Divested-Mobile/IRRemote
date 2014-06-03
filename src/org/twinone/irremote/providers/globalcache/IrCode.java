@@ -1,12 +1,12 @@
-package org.twinone.irremote.globalcache;
+package org.twinone.irremote.providers.globalcache;
 
 import java.util.Locale;
 
 import org.twinone.irremote.Button;
-import org.twinone.irremote.Listable;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
+import org.twinone.irremote.ui.Listable;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

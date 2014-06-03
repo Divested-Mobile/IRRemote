@@ -1,4 +1,4 @@
-package org.twinone.irremote.globalcache;
+package org.twinone.irremote.providers.globalcache;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

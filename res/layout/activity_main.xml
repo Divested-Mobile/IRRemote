@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/container"
-        android:name="org.twinone.irremote.RemoteFragment"
+        android:name="org.twinone.irremote.ui.RemoteFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <fragment
         android:id="@+id/navigation_drawer"
-        android:name="org.twinone.irremote.NavFragment"
+        android:name="org.twinone.irremote.ui.NavFragment"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start" />

@@ -1,11 +1,12 @@
-package org.twinone.irremote;
+package org.twinone.irremote.ui;
 
 import java.util.List;
 
 import org.twinone.androidlib.BaseNavigationFragment;
 import org.twinone.androidlib.Dialogs;
 import org.twinone.androidlib.ShareRateView;
-import org.twinone.irremote.ui.SelectRemoteListView;
+import org.twinone.irremote.R;
+import org.twinone.irremote.Remote;
 import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
 
 import android.app.Activity;

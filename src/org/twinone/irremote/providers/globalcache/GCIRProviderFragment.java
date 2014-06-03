@@ -1,15 +1,14 @@
-package org.twinone.irremote.globalcache;
+package org.twinone.irremote.providers.globalcache;
 
 import org.twinone.irremote.Button;
-import org.twinone.irremote.DBActivity;
-import org.twinone.irremote.Listable;
-import org.twinone.irremote.ListableAdapter;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
-import org.twinone.irremote.SaveButtonDialogFragment;
-import org.twinone.irremote.SaveRemoteDialogFragment;
-import org.twinone.irremote.SaveRemoteDialogFragment.OnRemoteSavedListener;
 import org.twinone.irremote.ir.IRTransmitter;
+import org.twinone.irremote.ui.Listable;
+import org.twinone.irremote.ui.ListableAdapter;
+import org.twinone.irremote.ui.SaveButtonDialogFragment;
+import org.twinone.irremote.ui.SaveRemoteDialogFragment;
+import org.twinone.irremote.ui.SaveRemoteDialogFragment.OnRemoteSavedListener;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -31,7 +30,7 @@ import android.widget.SearchView.OnCloseListener;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
-public class DBFragment extends Fragment implements
+public class GCIRProviderFragment extends Fragment implements
 		DBConnector.OnDataReceivedListener, OnItemClickListener,
 		OnItemLongClickListener {
 
@@ -48,7 +47,7 @@ public class DBFragment extends Fragment implements
 
 	private UriData mUriData;
 
-	public DBFragment() {
+	public GCIRProviderFragment() {
 	}
 
 	@Override
@@ -228,7 +227,7 @@ public class DBFragment extends Fragment implements
 	}
 
 	private void navigateBack() {
-		((DBActivity) getActivity()).popFragment();
+		((GCIRProviderActivity) getActivity()).popFragment();
 	}
 
 	private Object[] mData;
@@ -276,7 +275,7 @@ public class DBFragment extends Fragment implements
 		} else {
 			UriData clone = mUriData.clone();
 			select(clone, item);
-			((DBActivity) getActivity()).addFragment(clone);
+			((GCIRProviderActivity) getActivity()).addFragment(clone);
 		}
 	}
 

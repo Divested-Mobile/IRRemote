@@ -1,8 +1,6 @@
-package org.twinone.irremote;
+package org.twinone.irremote.ui;
 
 import java.io.Serializable;
-
-import android.util.Log;
 
 public abstract class Listable implements Comparable<Listable>, Serializable {
 	/**

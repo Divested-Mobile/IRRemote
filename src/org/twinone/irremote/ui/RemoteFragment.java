@@ -1,8 +1,10 @@
-package org.twinone.irremote;
+package org.twinone.irremote.ui;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.twinone.irremote.R;
+import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.IRTransmitter;
 
 import android.app.Fragment;
