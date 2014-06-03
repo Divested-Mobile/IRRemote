@@ -8,7 +8,6 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
 
-    
     <!-- Don't list in Google Play to people that don't have IR Blaster -->
     <uses-feature
         android:name="android.hardware.consumerir"
@@ -23,7 +22,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="org.twinone.irremote.providers.globalcache.GCIRProviderActivity" />
+        <activity android:name="org.twinone.irremote.providers.globalcache.GCProviderActivity" />
+        <activity android:name="org.twinone.irremote.providers.common.CommonProviderActivity" />
         <activity
             android:name="org.twinone.irremote.ui.MainActivity"
             android:label="@string/app_name"

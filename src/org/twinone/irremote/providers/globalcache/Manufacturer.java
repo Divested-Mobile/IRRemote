@@ -1,8 +1,6 @@
 package org.twinone.irremote.providers.globalcache;
 
-import org.twinone.irremote.ui.Listable;
-
-public class Manufacturer extends Listable {
+public class Manufacturer extends GCBaseListable {
 	/**
 	 * 
 	 */

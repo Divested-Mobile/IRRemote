@@ -20,15 +20,15 @@ import android.widget.TextView;
 public class ListableAdapter extends BaseAdapter implements Filterable {
 
 	private LayoutInflater mInflater;
-	private List<? extends Listable> mOriginalItems;
-	private List<? extends Listable> mCurrentItems;
+	private List<? extends BaseListable> mOriginalItems;
+	private List<? extends BaseListable> mCurrentItems;
 
 	@SuppressWarnings("unchecked")
 	public ListableAdapter(Context context, Object[] items) {
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// populate mItems
-		mOriginalItems = (List<Listable>) (List<?>) Arrays.asList(items);
+		mOriginalItems = (List<BaseListable>) (List<?>) Arrays.asList(items);
 		Collections.sort(mOriginalItems);
 		mCurrentItems = mOriginalItems;
 		mFilter = new MyFilter();
@@ -52,9 +52,10 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 				results.values = mOriginalItems;
 				results.count = mOriginalItems.size();
 			} else {
-				List<Listable> result = new ArrayList<Listable>();
-				for (Listable l : mOriginalItems) {
-					if (l.getKey().toLowerCase(Locale.ENGLISH).contains(match)) {
+				List<BaseListable> result = new ArrayList<BaseListable>();
+				for (BaseListable l : mOriginalItems) {
+					if (l.getDisplayName().toLowerCase(Locale.ENGLISH)
+							.contains(match)) {
 						result.add(l);
 					}
 
@@ -69,7 +70,7 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 		@Override
 		protected void publishResults(CharSequence constraint,
 				FilterResults results) {
-			mCurrentItems = (List<? extends Listable>) results.values;
+			mCurrentItems = (List<? extends BaseListable>) results.values;
 			notifyDataSetChanged();
 		}
 
@@ -85,11 +86,11 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 	}
 
 	@Override
-	public Listable getItem(int position) {
+	public BaseListable getItem(int position) {
 		return mCurrentItems.get(position);
 	}
 
-	public List<? extends Listable> getAllItems() {
+	public List<? extends BaseListable> getAllItems() {
 		return mCurrentItems;
 	}
 
@@ -105,7 +106,7 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 
 	private View createViewFromResource(int position, View convertView,
 			ViewGroup parent) {
-		Listable item = mCurrentItems.get(position);
+		BaseListable item = mCurrentItems.get(position);
 
 		View view = mInflater.inflate(R.layout.listable_element, parent, false);
 		TextView tv = (TextView) view.findViewById(R.id.tvTitle);

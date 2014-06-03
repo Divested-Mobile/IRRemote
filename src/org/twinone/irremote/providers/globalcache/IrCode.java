@@ -6,12 +6,11 @@ import org.twinone.irremote.Button;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
-import org.twinone.irremote.ui.Listable;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-public class IrCode extends Listable {
+public class IrCode extends GCBaseListable {
 	/**
 	 * 
 	 */

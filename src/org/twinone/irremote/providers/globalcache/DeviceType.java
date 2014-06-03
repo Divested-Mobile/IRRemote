@@ -1,8 +1,7 @@
 package org.twinone.irremote.providers.globalcache;
 
-import org.twinone.irremote.ui.Listable;
 
-public class DeviceType extends Listable {
+public class DeviceType extends GCBaseListable {
 	/**
 	 * 
 	 */

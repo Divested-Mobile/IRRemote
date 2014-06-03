@@ -2,7 +2,7 @@ package org.twinone.irremote.providers.globalcache;
 
 import java.io.Serializable;
 
-import org.twinone.irremote.ui.Listable;
+import org.twinone.irremote.ui.BaseListable;
 
 import android.content.Context;
 import android.net.Uri;
@@ -102,7 +102,7 @@ public class UriData implements Serializable {
 	}
 
 	/** May be null if no manufacturer has been selected */
-	public Listable getLastSelectedData() {
+	public BaseListable getLastSelectedData() {
 		switch (targetType) {
 		case TYPE_DEVICE_TYPE:
 			return manufacturer;

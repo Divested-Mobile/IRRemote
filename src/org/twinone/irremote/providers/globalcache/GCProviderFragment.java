@@ -4,14 +4,11 @@ import org.twinone.irremote.Button;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.IRTransmitter;
-import org.twinone.irremote.ui.Listable;
+import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.ui.ListableAdapter;
 import org.twinone.irremote.ui.SaveButtonDialogFragment;
-import org.twinone.irremote.ui.SaveRemoteDialogFragment;
-import org.twinone.irremote.ui.SaveRemoteDialogFragment.OnRemoteSavedListener;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -30,7 +27,7 @@ import android.widget.SearchView.OnCloseListener;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
-public class GCIRProviderFragment extends Fragment implements
+public class GCProviderFragment extends BaseProviderFragment implements
 		DBConnector.OnDataReceivedListener, OnItemClickListener,
 		OnItemLongClickListener {
 
@@ -47,7 +44,7 @@ public class GCIRProviderFragment extends Fragment implements
 
 	private UriData mUriData;
 
-	public GCIRProviderFragment() {
+	public GCProviderFragment() {
 	}
 
 	@Override
@@ -69,8 +66,6 @@ public class GCIRProviderFragment extends Fragment implements
 		mTransmitter.setShowBlinker(false);
 
 		setHasOptionsMenu(true);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(
-				mUriData.targetType != UriData.TYPE_MANUFACTURER);
 
 		View rootView = inflater.inflate(R.layout.fragment_listable, container,
 				false);
@@ -207,19 +202,7 @@ public class GCIRProviderFragment extends Fragment implements
 						mUriData.manufacturer.Manufacturer + " "
 								+ mUriData.deviceType.DeviceType,
 						(IrCode[]) mData);
-				SaveRemoteDialogFragment dialog = SaveRemoteDialogFragment
-						.newInstance(remote);
-				dialog.setListener(new OnRemoteSavedListener() {
-
-					@Override
-					public void onRemoteSaved(String name) {
-						// Finish the activity, we've saved the remote
-						getActivity().finish();
-						Toast.makeText(getActivity(),
-								R.string.remote_saved_toast, Toast.LENGTH_SHORT);
-					}
-				});
-				dialog.show(getActivity());
+				getProvider().save(remote);
 			}
 			return true;
 		}
@@ -227,7 +210,7 @@ public class GCIRProviderFragment extends Fragment implements
 	}
 
 	private void navigateBack() {
-		((GCIRProviderActivity) getActivity()).popFragment();
+		((GCProviderActivity) getActivity()).navigateUp();
 	}
 
 	private Object[] mData;
@@ -269,13 +252,14 @@ public class GCIRProviderFragment extends Fragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Listable item = (Listable) mListView.getAdapter().getItem(position);
+		GCBaseListable item = (GCBaseListable) mListView.getAdapter().getItem(
+				position);
 		if (item.getType() == UriData.TYPE_IR_CODE) {
 			mTransmitter.transmit(((IrCode) item).getSignal());
 		} else {
 			UriData clone = mUriData.clone();
 			select(clone, item);
-			((GCIRProviderActivity) getActivity()).addFragment(clone);
+			((GCProviderActivity) getActivity()).addFragment(clone);
 		}
 	}
 
@@ -290,7 +274,7 @@ public class GCIRProviderFragment extends Fragment implements
 		return true;
 	}
 
-	public static void select(UriData data, Listable listable) {
+	public static void select(UriData data, GCBaseListable listable) {
 		data.targetType = UriData.TYPE_MANUFACTURER;
 		if (listable != null) {
 			if (listable.getType() == UriData.TYPE_MANUFACTURER) {
