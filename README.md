@@ -19,6 +19,12 @@ Requirements
 
 For this app to work you will need an Android device running Android 4.3 or higher and a IR blaster.
 
+Building Manually
+=================
+
+Clone this project.
+Clone [my library project](http://github.com/twinone/androidlib) and add it as a library to this project.
+
 
 Beta
 ====

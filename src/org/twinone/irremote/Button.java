@@ -8,14 +8,7 @@ import org.twinone.irremote.ir.SignalFactory;
 import android.content.Context;
 
 /**
- * For the comments to be readable by others:<br>
- * <b>Common buttons</b> mean:<br>
- * The buttons that have an ID because they're so common that a lot of remotes
- * will have them<br>
- * This does NOT mean that every remote will have them. <br>
- * A common button will have a dedicated place in the remote <br>
- * Using common buttons makes the remote look much nicer
- * 
+ * No two buttons on a remote can have the same id
  * @author Twinone
  */
 public class Button implements Serializable {
