@@ -1,4 +1,4 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.providers;
 
 import java.util.ArrayList;
 import java.util.Arrays;

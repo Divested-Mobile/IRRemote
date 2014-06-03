@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
-public class IRTransmitter {
+public class Transmitter {
 
 	// private static final String TAG = "IRManager";
 
@@ -29,7 +29,7 @@ public class IRTransmitter {
 		return mShowBlinker;
 	}
 
-	public IRTransmitter(Context context) {
+	public Transmitter(Context context) {
 		mContext = context;
 		mIrManager = (ConsumerIrManager) mContext
 				.getSystemService(Context.CONSUMER_IR_SERVICE);

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
-import org.twinone.irremote.ir.IRTransmitter;
+import org.twinone.irremote.ir.Transmitter;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	private static final String TAG = "RemoteFragment";
 
 	private Remote mRemote;
-	private IRTransmitter mTransmitter;
+	private Transmitter mTransmitter;
 	protected List<Button> mButtons = new ArrayList<Button>();
 
 	private Button mButtonPower;
@@ -51,7 +51,7 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mTransmitter = new IRTransmitter(getActivity());
+		mTransmitter = new Transmitter(getActivity());
 	}
 
 	@Override

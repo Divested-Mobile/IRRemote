@@ -3,9 +3,9 @@ package org.twinone.irremote.providers.globalcache;
 import org.twinone.irremote.Button;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
-import org.twinone.irremote.ir.IRTransmitter;
+import org.twinone.irremote.ir.Transmitter;
 import org.twinone.irremote.providers.BaseProviderFragment;
-import org.twinone.irremote.ui.ListableAdapter;
+import org.twinone.irremote.providers.ListableAdapter;
 import org.twinone.irremote.ui.SaveButtonDialogFragment;
 
 import android.app.AlertDialog;
@@ -40,7 +40,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 	private boolean mCreated;
 	private AlertDialog mDialog;
 	private ListableAdapter mAdapter;
-	private IRTransmitter mTransmitter;
+	private Transmitter mTransmitter;
 
 	private UriData mUriData;
 
@@ -62,7 +62,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mTransmitter = new IRTransmitter(getActivity());
+		mTransmitter = new Transmitter(getActivity());
 		mTransmitter.setShowBlinker(false);
 
 		setHasOptionsMenu(true);

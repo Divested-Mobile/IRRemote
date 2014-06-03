@@ -1,6 +1,6 @@
 package org.twinone.irremote.providers.common;
 
-import org.twinone.irremote.ui.BaseListable;
+import org.twinone.irremote.providers.BaseListable;
 
 public class Manufacturer extends BaseListable {
 

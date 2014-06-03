@@ -2,7 +2,7 @@ package org.twinone.irremote.providers.globalcache;
 
 import java.io.Serializable;
 
-import org.twinone.irremote.ui.BaseListable;
+import org.twinone.irremote.providers.BaseListable;
 
 import android.content.Context;
 import android.net.Uri;

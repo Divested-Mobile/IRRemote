@@ -1,8 +1,8 @@
 package org.twinone.irremote.providers.common;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.ui.BaseListable;
-import org.twinone.irremote.ui.ListableAdapter;
+import org.twinone.irremote.providers.BaseListable;
+import org.twinone.irremote.providers.ListableAdapter;
 
 import android.app.Fragment;
 import android.os.Bundle;

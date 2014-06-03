@@ -1,6 +1,6 @@
 package org.twinone.irremote.providers.globalcache;
 
-import org.twinone.irremote.ui.BaseListable;
+import org.twinone.irremote.providers.BaseListable;
 
 public abstract class GCBaseListable extends BaseListable {
 

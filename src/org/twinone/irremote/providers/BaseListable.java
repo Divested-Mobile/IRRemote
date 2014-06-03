@@ -1,4 +1,4 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.providers;
 
 import java.io.Serializable;
 
