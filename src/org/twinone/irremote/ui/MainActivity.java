@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 
 	private NavFragment mNavFragment;
 	private RemoteFragment mRemoteFragment;
-
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
