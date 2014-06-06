@@ -265,13 +265,15 @@ public class GCProviderFragment extends BaseProviderFragment implements
 
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		mListView.setItemChecked(position, true);
-		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
-			// When the user long presses the button he can save it
-			Button b = IrCode.toButton((IrCode) mData[position]);
-			SaveButtonDialogFragment.showFor(getActivity(), b);
-		}
-		return true;
+
+		// mListView.setItemChecked(position, true);
+		// if (mUriData.targetType == UriData.TYPE_IR_CODE) {
+		// // When the user long presses the button he can save it
+		// Button b = IrCode.toButton((IrCode) mData[position]);
+		// SaveButtonDialogFragment.showFor(getActivity(), b);
+		// }
+		// return true;
+		return false;
 	}
 
 	public static void select(UriData data, GCBaseListable listable) {
