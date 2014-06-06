@@ -15,17 +15,29 @@ public class FileUtils {
 	private static final String TAG = "StorageManager";
 
 	/**
-	 * True if the file was removed (or it didn't exist)
+	 * Remove a file or directory recursively
+	 * 
+	 * @param file
 	 */
-	public static boolean remove(File file) {
-		if (file == null) {
-			Log.w(TAG, "Cannot remove null file!");
-			return false;
+	public static void remove(File file) {
+		if (file.isDirectory())
+			for (File f : file.listFiles())
+				remove(f);
+		file.delete();
+	}
+
+	/**
+	 * Clear the directory without removing it
+	 * 
+	 * @param directory
+	 */
+	public static void clear(File directory) {
+		if (!directory.isDirectory()) {
+			return;
 		}
-		if (file.exists())
-			return file.delete();
-		else
-			return true;
+		for (File f : directory.listFiles()) {
+			remove(f);
+		}
 	}
 
 	public static boolean exists(File file) {

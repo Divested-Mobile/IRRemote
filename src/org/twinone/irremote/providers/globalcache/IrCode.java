@@ -3,11 +3,13 @@ package org.twinone.irremote.providers.globalcache;
 import java.util.Locale;
 
 import org.twinone.irremote.Button;
+import org.twinone.irremote.ButtonUtils;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
 public class IrCode extends GCBaseListable {
@@ -39,14 +41,15 @@ public class IrCode extends GCBaseListable {
 
 	@Override
 	public String getDisplayName() {
+		// return KeyName + "(" + Key + ")";
 		return KeyName;
 	}
 
-	public static Remote toRemote(String name, IrCode[] irCodes) {
+	public static Remote toRemote(Context c, String name, IrCode[] irCodes) {
 		Remote remote = new Remote();
 		remote.name = name;
 		for (IrCode code : irCodes) {
-			Button b = IrCode.toButton(code);
+			Button b = IrCode.toButton(c, code);
 			Log.d("", "Saving btn (tag=" + b.text + ",id=" + b.id + ")");
 			remote.addButton(b);
 			// remote.addButton(IrCode.toButton(code));
@@ -54,14 +57,16 @@ public class IrCode extends GCBaseListable {
 		return remote;
 	}
 
-	public static Button toButton(IrCode irCode) {
+	public static Button toButton(Context c, IrCode irCode) {
 		Button button = new Button();
 		button.text = irCode.KeyName;
 		button.format = Signal.FORMAT_GLOBALCACHE;
 		button.code = irCode.IRCode;
 		button.id = getBestMatchId(irCode);
 		button.common = button.id != Button.ID_NONE;
-
+		if (button.id != Button.ID_NONE) {
+			button.text = ButtonUtils.getCommonButtonDisplyaName(button, c);
+		}
 		return button;
 	}
 
@@ -131,6 +136,22 @@ public class IrCode extends GCBaseListable {
 			return Button.ID_DIGIT_8;
 		if (button.contains("digit 9"))
 			return Button.ID_DIGIT_9;
+
+		if (button.contains("exit"))
+			return Button.ID_EXIT;
+		if (button.contains("last"))
+			return Button.ID_LAST;
+		if (button.contains("guide"))
+			return Button.ID_GUIDE;
+		// Cable
+		if (button.contains("play"))
+			return Button.ID_PLAY;
+		if (button.contains("pause"))
+			return Button.ID_PAUSE;
+		if (button.contains("pause"))
+			return Button.ID_PAUSE;
+		if (button.contains("pause"))
+			return Button.ID_PAUSE;
 
 		return Button.ID_NONE;
 	}

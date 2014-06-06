@@ -12,11 +12,8 @@ public class SimpleCache {
 		return new File(c.getCacheDir(), name);
 	}
 
-	/**
-	 * True if the file was removed (or it didn't exist)
-	 */
-	public static boolean remove(Context c, String filename) {
-		return FileUtils.remove(getFile(c, filename));
+	public static void remove(Context c, String filename) {
+		FileUtils.remove(getFile(c, filename));
 	}
 
 	public static boolean isAvailable(Context c, String filename) {

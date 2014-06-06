@@ -115,8 +115,8 @@ public class UriData implements Serializable {
 		}
 	}
 
-	public boolean removeFromCache(Context c) {
-		return SimpleCache.remove(c, getCacheName());
+	public void removeFromCache(Context c) {
+		SimpleCache.remove(c, getCacheName());
 	}
 
 	public boolean isAvailableInCache(Context c) {

@@ -7,4 +7,48 @@
     <item name="nav_b_rate" type="id"></item>
     <item name="nav_list" type="id"></item>
 
+    <!--  -->
+    <item name="button_power" type="id"/>
+    <item name="button_vol_up" type="id"/>
+    <item name="button_vol_down" type="id"/>
+    <item name="button_ch_up" type="id"/>
+    <item name="button_ch_down" type="id"/>
+    <item name="button_nav_up" type="id"/>
+    <item name="button_nav_down" type="id"/>
+    <item name="button_nav_left" type="id"/>
+    <item name="button_nav_right" type="id"/>
+    <item name="button_nav_ok" type="id"/>
+    <item name="button_back" type="id"/>
+    <item name="button_mute" type="id"/>
+    <item name="button_menu" type="id"/>
+    <item name="button_digit_0" type="id"/>
+    <item name="button_digit_1" type="id"/>
+    <item name="button_digit_2" type="id"/>
+    <item name="button_digit_3" type="id"/>
+    <item name="button_digit_4" type="id"/>
+    <item name="button_digit_5" type="id"/>
+    <item name="button_digit_6" type="id"/>
+    <item name="button_digit_7" type="id"/>
+    <item name="button_digit_8" type="id"/>
+    <item name="button_digit_9" type="id"/>
+    <item name="button_input" type="id"/>
+    <item name="button_guide" type="id"/>
+    <item name="button_smart" type="id"/>
+    <item name="button_last" type="id"/>
+    <item name="button_clear" type="id"/>
+    <item name="button_exit" type="id"/>
+    <item name="button_cc" type="id"/>
+    <item name="button_info" type="id"/>
+    <item name="button_timer" type="id"/>
+    <item name="button_sleep" type="id"/>
+    <item name="button_play" type="id"/>
+    <item name="button_pause" type="id"/>
+    <item name="button_stop" type="id"/>
+    <item name="button_fast_forward" type="id"/>
+    <item name="button_rewind" type="id"/>
+    <item name="button_next" type="id"/>
+    <item name="button_prev" type="id"/>
+    <item name="button_rec" type="id"/>
+    <item name="button_disp" type="id"/>
+
 </resources>

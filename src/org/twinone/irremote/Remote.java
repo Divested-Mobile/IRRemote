@@ -3,14 +3,15 @@ package org.twinone.irremote;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Remote implements Serializable {
-	public static final int VERSION_0 = 0;
 
 	/**
 	 * 
@@ -18,61 +19,96 @@ public class Remote implements Serializable {
 	private static final long serialVersionUID = 2984007269058624013L;
 
 	public Remote() {
-		commonButtons = new ArrayList<Button>();
-		otherButtons = new ArrayList<Button>();
+		buttons = new ArrayList<Button>();
 	}
-
-	/**
-	 * All buttons should have a version, if we change the serialization
-	 * mechanism to one that's not backwards compatible, we can use the version
-	 * to determine how to deserialize it
-	 */
-	public int v = VERSION_0;
 
 	public String name;
 
-	public List<Button> commonButtons;
+	public List<Button> buttons;
 
-	public List<Button> otherButtons;
+	private static final String REMOTES_VERSION = "_v1";
+	private static final String EXTENSION = ".remote";
+	private static final String BUTTON_EXTENSION = ".button";
+	private static final String BUTTON_PREFIX = "b_";
 
-	private String serialize() {
-		return new Gson().toJson(this);
-	}
-
-	private static Remote deserialize(String string) {
-		return new Gson().fromJson(string, Remote.class);
-	}
-
+	// OK
 	private static File getRemotesDir(Context c) {
-		final File file = new File(c.getFilesDir(), "remotes");
-		if (!file.exists() || !file.isDirectory()) {
-			file.mkdirs();
+		final File dir = new File(c.getFilesDir(), "remotes" + REMOTES_VERSION);
+		if (!dir.exists()) {
+			dir.mkdirs();
 		}
-		return file;
+		return dir;
 	}
 
-	private static final String EXTENSION = ".remote.json";
+	/**
+	 * Calls {@link #getRemoteDir(Context, String)} for this remote
+	 * 
+	 */
+	private File getRemoteDir(Context c) {
+		return getRemoteDir(c, name);
+	}
 
-	private static File getRemoteFile(Context c, String name) {
-		return new File(getRemotesDir(c), name + EXTENSION);
+	private static File getRemoteDir(Context c, String name) {
+		File dir = new File(getRemotesDir(c), name + EXTENSION);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		return dir;
 	}
 
 	public static boolean exists(Context c, String name) {
-		return FileUtils.exists(getRemoteFile(c, name));
+		return FileUtils.exists(getRemoteDir(c, name));
 	}
 
 	/** Load this remote from the file system */
 	public static Remote load(Context c, String name) {
-		return deserialize(FileUtils.get(getRemoteFile(c, name)));
+		if (name == null)
+			return null;
+		final Remote remote = new Remote();
+		remote.name = name;
+		final Gson gson = new Gson();
+		for (final File f : getRemoteDir(c, name).listFiles()) {
+			if (f.getName().endsWith(BUTTON_EXTENSION)) {
+				Button b = buttonFromFile(gson, f);
+				remote.addButton(b);
+			}
+		}
+		return remote;
+	}
+
+	private static Button buttonFromFile(Gson gson, File f) {
+		return gson.fromJson(FileUtils.get(f), Button.class);
+	}
+
+	private void buttonToFile(Gson gson, Context c, File file, Button b) {
+		FileUtils.put(file, gson.toJson(b));
 	}
 
 	public static void remove(Context c, String name) {
-		FileUtils.remove(getRemoteFile(c, name));
+		FileUtils.remove(getRemoteDir(c, name));
 	}
 
 	/** Save this remote to the file system */
 	public void save(Context c) {
-		FileUtils.put(getRemoteFile(c, name), serialize());
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		File dir = getRemoteDir(c);
+		FileUtils.clear(dir);
+		for (Button b : buttons) {
+			if (b.id != 0) {
+				// File f = getNextFile(dir, BUTTON_PREFIX, BUTTON_EXTENSION);
+				File f = new File(dir, BUTTON_PREFIX + b.id + BUTTON_EXTENSION);
+				buttonToFile(gson, c, f, b);
+			}
+		}
+	}
+
+	private static final File getNextFile(File dir, String prefix, String suffix) {
+		List<String> list = Arrays.asList(dir.list());
+		for (int i = 0;; i++) {
+			if (!list.contains(prefix + i + suffix)) {
+				return new File(dir, prefix + i + suffix);
+			}
+		}
 	}
 
 	public static List<String> getNames(Context c) {
@@ -88,9 +124,8 @@ public class Remote implements Serializable {
 
 	/** True if this remote contains the specified button */
 	public boolean contains(boolean common, int id) {
-		final List<Button> list = common ? commonButtons : otherButtons;
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).id == id) {
+		for (int i = 0; i < buttons.size(); i++) {
+			if (buttons.get(i).id == id) {
 				return true;
 			}
 		}
@@ -101,24 +136,19 @@ public class Remote implements Serializable {
 	 * @return The matching button or null if no such button found
 	 */
 	public Button getButton(boolean common, int id) {
-		final List<Button> list = common ? commonButtons : otherButtons;
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).id == id) {
-				return list.get(i);
+		for (int i = 0; i < buttons.size(); i++) {
+			if (buttons.get(i).id == id) {
+				return buttons.get(i);
 			}
 		}
 		return null;
 	}
 
 	public void addButton(Button b) {
-		if (!b.common) {
-			b.id = otherButtons.size();
-		}
-		final List<Button> list = b.common ? commonButtons : otherButtons;
 		// Remove first, if already present
 		// This will not affect other buttons
-		list.remove(b);
-		list.add(b);
+		buttons.remove(b);
+		buttons.add(b);
 	}
 
 	/**

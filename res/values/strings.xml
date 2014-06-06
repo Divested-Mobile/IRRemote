@@ -54,6 +54,29 @@
     <string name="button_text_digit_7">7</string>
     <string name="button_text_digit_8">8</string>
     <string name="button_text_digit_9">9</string>
+    
+    <!--  -->
+    <string name="button_text_input">Input</string>
+    <string name="button_text_guide">Guide</string>
+    <string name="button_text_smart">Smart</string>
+    <string name="button_text_last">Last</string>
+    <string name="button_text_clear">Clear</string>
+    <string name="button_text_exit">Exit</string>
+    <string name="button_text_cc">CC</string>
+    <string name="button_text_info">Info</string>
+    <string name="button_text_timer">Timer</string>
+    <string name="button_text_sleep">Sleep</string>
+
+    <!--  -->
+    <string name="button_text_play">Play</string>
+    <string name="button_text_pause">Pause</string>
+    <string name="button_text_stop">Stop</string>
+    <string name="button_text_fast_forward">Fwd</string>
+    <string name="button_text_rewind">Rwd</string>
+    <string name="button_text_next">Next</string>
+    <string name="button_text_prev">Prev</string>
+    <string name="button_text_rec">Rec</string>
+    <string name="button_text_disp">Disp</string>
 
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->
