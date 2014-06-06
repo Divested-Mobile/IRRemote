@@ -36,38 +36,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_ch_up"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_nav_up"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_vol_up"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,38 +54,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_nav_left"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_nav_ok"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_nav_right"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -114,38 +72,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_ch_down"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_nav_down"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_vol_down"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -153,38 +90,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_back"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_mute"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
 
-            <Button
+            <include
                 android:id="@+id/button_menu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1" >
-            </Button>
+                layout="@layout/fragment_remote_button" />
         </LinearLayout>
 
         <!-- SEPARATOR -->
@@ -199,41 +115,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_digit_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
         </LinearLayout>
 
         <LinearLayout
@@ -241,41 +136,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_digit_4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
         </LinearLayout>
 
         <LinearLayout
@@ -283,41 +157,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <include
                 android:id="@+id/button_digit_7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_9"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
         </LinearLayout>
 
         <LinearLayout
@@ -325,41 +178,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
+            <include
+                layout="@layout/fragment_remote_button"
                 android:minHeight="@dimen/remote_digit_button_minheight"
-                android:visibility="invisible" >
-            </Button>
+                android:visibility="invisible" />
 
-            <Button
+            <include
                 android:id="@+id/button_digit_0"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
-                android:minHeight="@dimen/remote_digit_button_minheight" >
-            </Button>
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                android:layout_marginTop="@dimen/remote_button_vertical_margin"
-                android:layout_weight="1"
+            <include
+                layout="@layout/fragment_remote_button"
                 android:minHeight="@dimen/remote_digit_button_minheight"
-                android:visibility="invisible" >
-            </Button>
+                android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 
