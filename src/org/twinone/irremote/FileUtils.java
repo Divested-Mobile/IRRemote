@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
 public class FileUtils {
@@ -44,9 +45,17 @@ public class FileUtils {
 		return file != null && file.exists() && file.isFile();
 	}
 
-	public static String get(File file) {
+	public static String read(AssetManager assets, String filename) {
 		try {
-			InputStream is = new FileInputStream(file);
+			return read(assets.open(filename));
+		} catch (Exception e) {
+			Log.d(TAG, "Error getting assets file: " + filename);
+			return null;
+		}
+	}
+
+	public static String read(InputStream is) {
+		try {
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
 			StringBuilder sb = new StringBuilder();
@@ -57,12 +66,22 @@ public class FileUtils {
 			is.close();
 			return sb.toString();
 		} catch (Exception e) {
-			Log.i(TAG, "File did not exist" + file);
+			Log.w(TAG, "Error reading from inputstream");
 		}
 		return null;
 	}
 
-	public static void put(File file, String data) {
+	public static String read(File file) {
+		try {
+			InputStream is = new FileInputStream(file);
+			return read(is);
+		} catch (Exception e) {
+			Log.w(TAG, "Error reading file " + file.getName());
+			return null;
+		}
+	}
+
+	public static void write(File file, String data) {
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);

@@ -11,6 +11,8 @@
     <string name="db_search_hint_custom">Search %s</string>
     <string name="db_search_hint_buttons">Search buttons</string>
     <string name="db_select_manufacturer">Select manufacturer</string>
+    <string name="db_select_device_type">Select device type</string>
+    <string name="common_menu_todb">Online DB</string>
 
     <!-- Save dialogs -->
     <string name="save_remote_title">Save remote</string>
@@ -27,6 +29,8 @@
     <string name="select_remote_first">Select a remote first</string>
     <string name="remote_saved_toast">Remote saved</string>
     <string name="menu_action_delete_remote">Delete</string>
+    <string name="menu_action_rename">Rename</string>
+    <string name="menu_action_edit">Edit</string>
 
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">Power</string>
@@ -54,7 +58,7 @@
     <string name="button_text_digit_7">7</string>
     <string name="button_text_digit_8">8</string>
     <string name="button_text_digit_9">9</string>
-    
+
     <!--  -->
     <string name="button_text_input">Input</string>
     <string name="button_text_guide">Guide</string>
@@ -64,7 +68,6 @@
     <string name="button_text_exit">Exit</string>
     <string name="button_text_cc">CC</string>
     <string name="button_text_info">Info</string>
-    <string name="button_text_timer">Timer</string>
     <string name="button_text_sleep">Sleep</string>
 
     <!--  -->

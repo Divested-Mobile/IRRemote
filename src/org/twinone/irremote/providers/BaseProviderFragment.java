@@ -14,6 +14,10 @@ public class BaseProviderFragment extends Fragment {
 		}
 	}
 
+	protected void setCurrentType(int type) {
+		getProvider().mCurrentType = type;
+	}
+
 	protected BaseProviderActivity getProvider() {
 		return (BaseProviderActivity) getActivity();
 	}

@@ -65,7 +65,7 @@ public class IrCode extends GCBaseListable {
 		button.id = getBestMatchId(irCode);
 		button.common = button.id != Button.ID_NONE;
 		if (button.id != Button.ID_NONE) {
-			button.text = ButtonUtils.getCommonButtonDisplyaName(button, c);
+			button.text = ButtonUtils.getCommonButtonDisplyaName(button.id, c);
 		}
 		return button;
 	}

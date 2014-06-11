@@ -21,11 +21,11 @@ public class SimpleCache {
 	}
 
 	public static String get(Context c, String filename) {
-		return FileUtils.get(getFile(c, filename));
+		return FileUtils.read(getFile(c, filename));
 	}
 
 	public static void put(Context c, String filename, String data) {
-		FileUtils.put(getFile(c, filename), data);
+		FileUtils.write(getFile(c, filename), data);
 	}
 
 }

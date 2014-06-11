@@ -2,7 +2,6 @@ package org.twinone.irremote.providers.globalcache;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
-import org.twinone.irremote.ir.Transmitter;
 import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
 
@@ -42,7 +41,6 @@ public class GCProviderFragment extends BaseProviderFragment implements
 	private boolean mCreated;
 	private AlertDialog mDialog;
 	private ListableAdapter mAdapter;
-	private Transmitter mTransmitter;
 
 	private UriData mUriData;
 
@@ -53,7 +51,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments() != null) {
+		if (getArguments() != null && getArguments().containsKey(ARG_URI_DATA)) {
 			mUriData = (UriData) getArguments().getSerializable(ARG_URI_DATA);
 		} else {
 			mUriData = new UriData();
@@ -64,10 +62,9 @@ public class GCProviderFragment extends BaseProviderFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mTransmitter = new Transmitter(getActivity());
-		mTransmitter.setShowBlinker(false);
-
 		setHasOptionsMenu(true);
+
+		setCurrentType(mUriData.targetType);
 
 		View rootView = inflater.inflate(R.layout.fragment_listable, container,
 				false);
@@ -179,7 +176,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mConnector.cancelQuery();
-				navigateBack();
+				getActivity().onNavigateUp();
 			}
 		});
 		mDialog = ab.create();
@@ -263,10 +260,6 @@ public class GCProviderFragment extends BaseProviderFragment implements
 		return false;
 	}
 
-	private void navigateBack() {
-		((GCProviderActivity) getActivity()).navigateUp();
-	}
-
 	private Object[] mData;
 
 	@Override
@@ -298,7 +291,6 @@ public class GCProviderFragment extends BaseProviderFragment implements
 			mSearchView.setQuery("", false);
 			mSearchView.clearFocus();
 		}
-		mTransmitter.pause();
 
 		super.onPause();
 	}
@@ -309,7 +301,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 		GCBaseListable item = (GCBaseListable) mListView.getAdapter().getItem(
 				position);
 		if (item.getType() == UriData.TYPE_IR_CODE) {
-			mTransmitter.transmit(((IrCode) item).getSignal());
+			getProvider().transmit(((IrCode) item).getSignal());
 		} else {
 			UriData clone = mUriData.clone();
 			select(clone, item);
@@ -330,7 +322,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 		return false;
 	}
 
-	public static void select(UriData data, GCBaseListable listable) {
+	private void select(UriData data, GCBaseListable listable) {
 		data.targetType = UriData.TYPE_MANUFACTURER;
 		if (listable != null) {
 			if (listable.getType() == UriData.TYPE_MANUFACTURER) {

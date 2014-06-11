@@ -7,8 +7,10 @@ import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.irremote.ButtonUtils;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
+import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.Transmitter;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,19 +32,46 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 
 	private ViewGroup mAdViewContainer;
 
+	private static final String ARG_REMOTE_NAME = "arg_remote_name";
+
+	public static final void showFor(Activity a, String remoteName) {
+		final RemoteFragment frag = new RemoteFragment();
+		Bundle b = new Bundle();
+		b.putSerializable(ARG_REMOTE_NAME, remoteName);
+		frag.setArguments(b);
+		a.getFragmentManager().beginTransaction().replace(R.id.container, frag)
+				.commit();
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mTransmitter = new Transmitter(getActivity());
 		mButtonUtils = new ButtonUtils(getActivity());
+
+		if (getArguments() == null
+				|| !getArguments().containsKey(ARG_REMOTE_NAME)) {
+			throw new RuntimeException(
+					"You create this fragment with the showFor method");
+		}
+		mRemote = Remote.load(getActivity(), (String) getArguments()
+				.getSerializable(ARG_REMOTE_NAME));
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater
-				.inflate(R.layout.fragment_remote, container, false);
+		// If no remote specified, just cancel
+		if (mRemote == null)
+			return new View(getActivity());
 
+		int resId = mRemote.options.type == Remote.DEVICE_TYPE_TV ? R.layout.fragment_remote_tv
+				: R.layout.fragment_remote_cable;
+
+		View view = inflater.inflate(resId, container, false);
+
+		Log.d("", "OnCreateView for type: " + mRemote.options.type);
 		// Show ads
 		mAdViewContainer = (ViewGroup) view.findViewById(R.id.ad_container);
 		AdMobBannerBuilder builder = new AdMobBannerBuilder();
@@ -58,28 +87,23 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 				Button b = (Button) view.findViewById(id);
 				if (b != null) {
 					mButtons.add((Button) view.findViewById(id));
-					Log.d("", "adding button (id="
-							+ getResources().getResourceEntryName(id));
 				}
 			}
 		}
 
-		setup();
+		setupButtons();
 		return view;
 	}
 
-	protected void setup() {
-		Log.w("", "id: " + getResources().getResourceEntryName(R.id.button_guide));
-		if (mRemote == null || mButtons == null)
+	protected void setupButtons() {
+		if (mButtons == null)
 			return;
+
 		for (Button b : mButtons) {
 			int buttonId = mButtonUtils.getButtonId(b.getId());
 			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(true, buttonId)) {
 				b.setText(mRemote.getButton(true, buttonId).getDisplayName());
-				Log.d("", "id: " + buttonId + " text: "
-						+ b.getText().toString());
-
 				b.setOnClickListener(this);
 				b.setEnabled(true);
 			} else {
@@ -97,19 +121,13 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	}
 
 	public void transmit(boolean common, int id) {
-		mTransmitter.transmit(mRemote.getButton(common, id).getSignal());
+		final Signal s = mRemote.getButton(common, id).getSignal();
+
+		mTransmitter.transmit(s);
 	}
 
-	public void setRemote(String remoteName) {
-		Remote remote = Remote.load(getActivity(), remoteName);
-		if (remote == null) {
-			Log.i(TAG, "Remote was null, clearing buttons");
-			for (Button b : mButtons) {
-				b.setVisibility(View.GONE);
-			}
-		}
-		mRemote = remote;
-		setup();
+	private void replaceFragmentForNewRemote(String remoteName) {
+		Log.d("", "Replacing fragment!");
 	}
 
 	public Remote getRemote() {

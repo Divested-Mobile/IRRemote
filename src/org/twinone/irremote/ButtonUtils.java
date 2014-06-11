@@ -51,7 +51,6 @@ public class ButtonUtils {
 				if (name.startsWith("ID_")) {
 					final String resName = "button_"
 							+ name.substring(3).toLowerCase(Locale.ENGLISH);
-					Log.d("", "name: " + name + " resName: " + resName);
 					int bid = f.getInt(button);
 					int rid = c.getResources().getIdentifier(resName, "id",
 							c.getPackageName());
@@ -64,8 +63,8 @@ public class ButtonUtils {
 		return result;
 	}
 
-	public static String getCommonButtonDisplyaName(Button b, Context c) {
-		switch (b.id) {
+	public static String getCommonButtonDisplyaName(int id, Context c) {
+		switch (id) {
 		case Button.ID_POWER:
 			return c.getString(R.string.button_text_power);
 		case Button.ID_POWER_ON:
@@ -132,8 +131,6 @@ public class ButtonUtils {
 			return c.getString(R.string.button_text_cc);
 		case Button.ID_INFO:
 			return c.getString(R.string.button_text_info);
-		case Button.ID_TIMER:
-			return c.getString(R.string.button_text_timer);
 		case Button.ID_SLEEP:
 			return c.getString(R.string.button_text_sleep);
 		case Button.ID_PLAY:

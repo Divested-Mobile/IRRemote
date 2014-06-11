@@ -39,7 +39,6 @@
     <item name="button_exit" type="id"/>
     <item name="button_cc" type="id"/>
     <item name="button_info" type="id"/>
-    <item name="button_timer" type="id"/>
     <item name="button_sleep" type="id"/>
     <item name="button_play" type="id"/>
     <item name="button_pause" type="id"/>

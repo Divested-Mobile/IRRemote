@@ -2,8 +2,8 @@ package org.twinone.irremote.ui;
 
 import java.util.List;
 
-import org.twinone.androidlib.BaseNavigationFragment;
 import org.twinone.androidlib.Dialogs;
+import org.twinone.androidlib.NavigationFragment;
 import org.twinone.androidlib.ShareRateView;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class NavFragment extends BaseNavigationFragment implements
+public class NavFragment extends NavigationFragment implements
 		OnSelectListener, OnClickListener {
 
 	// private static final String PREF_FILENAME = "nav";

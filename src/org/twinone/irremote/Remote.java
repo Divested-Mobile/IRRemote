@@ -20,11 +20,27 @@ public class Remote implements Serializable {
 
 	public Remote() {
 		buttons = new ArrayList<Button>();
+		options = new Options();
 	}
 
 	public String name;
 
 	public List<Button> buttons;
+
+	public static final int DEVICE_TYPE_TV = 0;
+	public static final int DEVICE_TYPE_CABLE = 1;
+	public static final int DEVICE_TYPE_BLURAY = 2;
+
+	public Options options;
+
+	public static class Options {
+		/**
+		 * The type of remote this is<br>
+		 * one of {@link Remote#DEVICE_TYPE_BLURAY},
+		 * {@link Remote#DEVICE_TYPE_CABLE} or {@link Remote#DEVICE_TYPE_TV}
+		 */
+		public int type;
+	}
 
 	private static final String REMOTES_VERSION = "_v1";
 	private static final String EXTENSION = ".remote";
@@ -60,28 +76,30 @@ public class Remote implements Serializable {
 		return FileUtils.exists(getRemoteDir(c, name));
 	}
 
+	private static final String OPTIONS_FILE = "remote.options";
+
+	// Constructor from a file
+	private Remote(Context c, String remoteName) {
+		this();
+		if (remoteName == null)
+			throw new IllegalArgumentException("Name cannot be null");
+		this.name = remoteName;
+		final Gson gson = new Gson();
+		File optfile = new File(getRemoteDir(c), OPTIONS_FILE);
+		options = gson.fromJson(FileUtils.read(optfile), Options.class);
+		for (final File f : getRemoteDir(c, remoteName).listFiles()) {
+			if (f.getName().endsWith(BUTTON_EXTENSION)) {
+				Button b = gson.fromJson(FileUtils.read(f), Button.class);
+				addButton(b);
+			}
+		}
+	}
+
 	/** Load this remote from the file system */
 	public static Remote load(Context c, String name) {
 		if (name == null)
 			return null;
-		final Remote remote = new Remote();
-		remote.name = name;
-		final Gson gson = new Gson();
-		for (final File f : getRemoteDir(c, name).listFiles()) {
-			if (f.getName().endsWith(BUTTON_EXTENSION)) {
-				Button b = buttonFromFile(gson, f);
-				remote.addButton(b);
-			}
-		}
-		return remote;
-	}
-
-	private static Button buttonFromFile(Gson gson, File f) {
-		return gson.fromJson(FileUtils.get(f), Button.class);
-	}
-
-	private void buttonToFile(Gson gson, Context c, File file, Button b) {
-		FileUtils.put(file, gson.toJson(b));
+		return new Remote(c, name);
 	}
 
 	public static void remove(Context c, String name) {
@@ -97,9 +115,11 @@ public class Remote implements Serializable {
 			if (b.id != 0) {
 				// File f = getNextFile(dir, BUTTON_PREFIX, BUTTON_EXTENSION);
 				File f = new File(dir, BUTTON_PREFIX + b.id + BUTTON_EXTENSION);
-				buttonToFile(gson, c, f, b);
+				FileUtils.write(f, gson.toJson(b));
 			}
 		}
+		File f = new File(dir, OPTIONS_FILE);
+		FileUtils.write(f, gson.toJson(options));
 	}
 
 	private static final File getNextFile(File dir, String prefix, String suffix) {

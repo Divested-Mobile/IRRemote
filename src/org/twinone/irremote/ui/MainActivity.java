@@ -5,13 +5,14 @@ import java.io.File;
 import org.twinone.irremote.FileUtils;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
-import org.twinone.irremote.providers.globalcache.GCProviderActivity;
+import org.twinone.irremote.providers.common.CommonProviderActivity;
 import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -21,10 +22,9 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity implements OnSelectListener {
 
-	private static final String TAG = "RemoteActivity";
+	private static final String TAG = "MainActivity";
 
 	private NavFragment mNavFragment;
-	private RemoteFragment mRemoteFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,7 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 
 		setContentView(R.layout.activity_main);
 
-		mRemoteFragment = (RemoteFragment) getFragmentManager()
-				.findFragmentById(R.id.container);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		mNavFragment = (NavFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
@@ -64,9 +63,13 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 		onRemotesChanged();
 	}
 
+	public void setRemote(String name) {
+		RemoteFragment.showFor(this, name);
+	}
+
 	public void updateRemoteLayout() {
 		mNavFragment.update();
-		mRemoteFragment.setRemote(mNavFragment.getSelectedRemoteName());
+		setRemote(mNavFragment.getSelectedRemoteName());
 	}
 
 	@Override
@@ -77,17 +80,13 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 
 	@Override
 	public void onRemoteSelected(int position, String remoteName) {
-		loadRemote(remoteName);
-	}
-
-	private void loadRemote(String remoteName) {
-		mRemoteFragment.setRemote(remoteName);
+		setRemote(remoteName);
 	}
 
 	@Override
 	public void onAddRemoteSelected() {
-		Intent i = new Intent(this, GCProviderActivity.class);
-		startActivityForResult(i, 0);
+		Intent i = new Intent(this, CommonProviderActivity.class);
+		startActivity(i);
 	}
 
 	@Override
