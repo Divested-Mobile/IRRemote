@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/RemoteTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,266 +7,249 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <RelativeLayout
-        android:id="@+id/ad_container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:minHeight="50dp" >
-    </RelativeLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ad_container" >
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@id/button_power"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <Button
-                    android:id="@id/button_power"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/remote_button_vertical_margin"
-                    android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
-                    android:layout_marginRight="@dimen/remote_button_horizontal_margin"
-                    android:layout_marginTop="@dimen/remote_button_vertical_margin" >
-                </Button>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_ch_up"
-                    layout="@layout/fragment_remote_button" />
-
-                <include
-                    android:id="@id/button_nav_up"
-                    layout="@layout/fragment_remote_button" />
-
-                <include
-                    android:id="@id/button_vol_up"
-                    layout="@layout/fragment_remote_button" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_nav_left"
-                    layout="@layout/fragment_remote_button" />
-
-                <include
-                    android:id="@id/button_nav_ok"
-                    layout="@layout/fragment_remote_button" />
-
-                <include
-                    android:id="@id/button_nav_right"
-                    layout="@layout/fragment_remote_button" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_ch_down"
-                    layout="@layout/fragment_remote_button" />
-
-                <include
-                    android:id="@id/button_nav_down"
-                    layout="@layout/fragment_remote_button" />
-
-                <include
-                    android:id="@id/button_vol_down"
-                    layout="@layout/fragment_remote_button" />
-            </LinearLayout>
-            <!-- SEPARATOR -->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_mute"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    android:id="@id/button_cc"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    android:id="@id/button_input"
-                    layout="@layout/fragment_remote_button_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_info"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    android:id="@id/button_clear"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    android:id="@id/button_exit"
-                    layout="@layout/fragment_remote_button_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_last"
-                    layout="@layout/fragment_remote_button_small"
-                    android:maxHeight="10dp" />
-
-                <include
-                    android:id="@id/button_smart"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    android:id="@id/button_back"
-                    layout="@layout/fragment_remote_button_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_menu"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    android:id="@id/button_guide"
-                    layout="@layout/fragment_remote_button_small" />
-
-                <include
-                    layout="@layout/fragment_remote_button_small"
-                    android:visibility="invisible" />
-            </LinearLayout>
-            <!-- SEPARATOR -->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_digit_1"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    android:id="@id/button_digit_2"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    android:id="@id/button_digit_3"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_digit_4"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    android:id="@id/button_digit_5"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    android:id="@id/button_digit_6"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    android:id="@id/button_digit_7"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    android:id="@id/button_digit_8"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    android:id="@id/button_digit_9"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <include
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight"
-                    android:visibility="invisible" />
-
-                <include
-                    android:id="@id/button_digit_0"
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight" />
-
-                <include
-                    layout="@layout/fragment_remote_button"
-                    android:minHeight="@dimen/remote_digit_button_minheight"
-                    android:visibility="invisible" />
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/remote_button_vertical_margin"
+                android:layout_marginLeft="@dimen/remote_button_horizontal_margin"
+                android:layout_marginRight="@dimen/remote_button_horizontal_margin"
+                android:layout_marginTop="@dimen/remote_button_vertical_margin" >
+            </Button>
         </LinearLayout>
-    </ScrollView>
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_ch_up"
+                layout="@layout/fragment_remote_button" />
+
+            <include
+                android:id="@id/button_nav_up"
+                layout="@layout/fragment_remote_button" />
+
+            <include
+                android:id="@id/button_vol_up"
+                layout="@layout/fragment_remote_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_nav_left"
+                layout="@layout/fragment_remote_button" />
+
+            <include
+                android:id="@id/button_nav_ok"
+                layout="@layout/fragment_remote_button" />
+
+            <include
+                android:id="@id/button_nav_right"
+                layout="@layout/fragment_remote_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_ch_down"
+                layout="@layout/fragment_remote_button" />
+
+            <include
+                android:id="@id/button_nav_down"
+                layout="@layout/fragment_remote_button" />
+
+            <include
+                android:id="@id/button_vol_down"
+                layout="@layout/fragment_remote_button" />
+        </LinearLayout>
+        <!-- SEPARATOR -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_mute"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                android:id="@id/button_cc"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                android:id="@id/button_input"
+                layout="@layout/fragment_remote_button_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_info"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                android:id="@id/button_clear"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                android:id="@id/button_exit"
+                layout="@layout/fragment_remote_button_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_last"
+                layout="@layout/fragment_remote_button_small"
+                android:maxHeight="10dp" />
+
+            <include
+                android:id="@id/button_smart"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                android:id="@id/button_back"
+                layout="@layout/fragment_remote_button_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_menu"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                android:id="@id/button_guide"
+                layout="@layout/fragment_remote_button_small" />
+
+            <include
+                layout="@layout/fragment_remote_button_small"
+                android:visibility="invisible" />
+        </LinearLayout>
+        <!-- SEPARATOR -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_digit_1"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                android:id="@id/button_digit_2"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                android:id="@id/button_digit_3"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_digit_4"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                android:id="@id/button_digit_5"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                android:id="@id/button_digit_6"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@id/button_digit_7"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                android:id="@id/button_digit_8"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                android:id="@id/button_digit_9"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <include
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight"
+                android:visibility="invisible" />
+
+            <include
+                android:id="@id/button_digit_0"
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight" />
+
+            <include
+                layout="@layout/fragment_remote_button"
+                android:minHeight="@dimen/remote_digit_button_minheight"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

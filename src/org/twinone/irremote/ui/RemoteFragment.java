@@ -3,7 +3,6 @@ package org.twinone.irremote.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.irremote.ButtonUtils;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
@@ -29,8 +28,6 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	protected List<Button> mButtons = new ArrayList<Button>();
 
 	private ButtonUtils mButtonUtils;
-
-	private ViewGroup mAdViewContainer;
 
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
 
@@ -73,15 +70,6 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 		}
 
 		View view = inflater.inflate(resId, container, false);
-
-		Log.d("", "OnCreateView for type: " + mRemote.options.type);
-		// Show ads
-		mAdViewContainer = (ViewGroup) view.findViewById(R.id.ad_container);
-		AdMobBannerBuilder builder = new AdMobBannerBuilder();
-		builder.setParent(mAdViewContainer);
-		builder.addTestDevice("896CB3D3288417013D38303D179FD45B");
-		builder.setAdUnitId("ca-app-pub-5756278739960648/2006850014");
-		builder.show();
 
 		SparseIntArray ids = mButtonUtils.getArray();
 		for (int i = 0; i < ids.size(); i++) {

@@ -1,6 +1,8 @@
 package org.twinone.irremote.ui;
 
+import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.ShareManager;
+import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.providers.common.CommonProviderActivity;
@@ -17,12 +19,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 public class MainActivity extends ActionBarActivity implements OnSelectListener {
 
 	private static final String TAG = "MainActivity";
 
+	// We don't want ads in debug mode...
+	// Sometimes eclipse messes this up and doesn't change DEBUG to false when
+	// signing, so double check when exporting the app
+	public static final boolean SHOW_ADS = true;
+
 	private NavFragment mNavFragment;
+
+	private ViewGroup mAdViewContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +47,18 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 		mNavFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		mNavFragment.setEdgeSizeDp(80);
+
+		// Show ads
+		if (SHOW_ADS) {
+			mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
+			AdMobBannerBuilder builder = new AdMobBannerBuilder();
+			builder.setParent(mAdViewContainer);
+			builder.addTestDevice("896CB3D3288417013D38303D179FD45B");
+			builder.setAdUnitId("ca-app-pub-5756278739960648/2006850014");
+			builder.show();
+		} else {
+			Log.w(TAG, "Not showing ads in debug mode!");
+		}
 
 		ShareManager.show(this, getString(R.string.share_promo));
 	}
