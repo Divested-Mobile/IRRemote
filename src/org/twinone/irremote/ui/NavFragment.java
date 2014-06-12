@@ -2,8 +2,8 @@ package org.twinone.irremote.ui;
 
 import java.util.List;
 
-import org.twinone.androidlib.Dialogs;
 import org.twinone.androidlib.NavigationFragment;
+import org.twinone.androidlib.ShareManager;
 import org.twinone.androidlib.ShareRateView;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
@@ -175,8 +175,8 @@ public class NavFragment extends NavigationFragment implements
 	public void onShareButton() {
 		// Don't add never button, the user wanted to share
 		// Dialogs.getShareEditDialog(this, false).show();
-		Dialogs.getShareEditDialog(getActivity(),
-				getActivity().getString(R.string.share_promo)).show();
+		ShareManager.getShareEditDialog(getActivity(),
+				getActivity().getString(R.string.share_promo), false).show();
 	}
 
 	public void onRateButton() {

@@ -1,8 +1,6 @@
 package org.twinone.irremote.ui;
 
-import java.io.File;
-
-import org.twinone.irremote.FileUtils;
+import org.twinone.androidlib.ShareManager;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.providers.common.CommonProviderActivity;
@@ -40,21 +38,7 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		mNavFragment.setEdgeSizeDp(80);
 
-		// Notify previous version users that we've changed
-		final File dir = new File(getFilesDir(), "remotes");
-		if (dir.isDirectory()) {
-			AlertDialog.Builder ab = new AlertDialog.Builder(this);
-			ab.setTitle("Message");
-			ab.setMessage("We've changed the way remotes are stored. You will need to re-add any remotes you've previously added\nWe're sorry for the inconvenience.");
-			ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface arg0, int arg1) {
-					FileUtils.remove(dir);
-				}
-			});
-			ab.show();
-		}
+		ShareManager.show(this, getString(R.string.share_promo));
 	}
 
 	@Override
@@ -64,6 +48,7 @@ public class MainActivity extends ActionBarActivity implements OnSelectListener 
 	}
 
 	public void setRemote(String name) {
+		Log.d("", "Set remote!!");
 		RemoteFragment.showFor(this, name);
 	}
 

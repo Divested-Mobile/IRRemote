@@ -33,7 +33,7 @@ public class Remote implements Serializable {
 
 	public Options options;
 
-	public static class Options {
+	public static class Options implements Serializable {
 		/**
 		 * The type of remote this is<br>
 		 * one of {@link Remote#DEVICE_TYPE_BLURAY},
@@ -42,7 +42,7 @@ public class Remote implements Serializable {
 		public int type;
 	}
 
-	private static final String REMOTES_VERSION = "_v1";
+	private static final String REMOTES_VERSION = "_v2";
 	private static final String EXTENSION = ".remote";
 	private static final String BUTTON_EXTENSION = ".button";
 	private static final String BUTTON_PREFIX = "b_";

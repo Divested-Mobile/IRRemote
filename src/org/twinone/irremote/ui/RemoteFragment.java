@@ -56,7 +56,6 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 		}
 		mRemote = Remote.load(getActivity(), (String) getArguments()
 				.getSerializable(ARG_REMOTE_NAME));
-
 	}
 
 	@Override
@@ -66,8 +65,12 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 		if (mRemote == null)
 			return new View(getActivity());
 
-		int resId = mRemote.options.type == Remote.DEVICE_TYPE_TV ? R.layout.fragment_remote_tv
-				: R.layout.fragment_remote_cable;
+		// TODO fix crash in remote.options = null?
+		int resId = R.layout.fragment_remote_tv;
+		if (mRemote.options == null
+				|| mRemote.options.type == Remote.DEVICE_TYPE_CABLE) {
+			resId = R.layout.fragment_remote_cable;
+		}
 
 		View view = inflater.inflate(resId, container, false);
 
