@@ -3,7 +3,7 @@
 
     <string name="app_name">IR Remote</string>
 
-    <!-- String for GlobalCache DB Activity -->
+    <!-- Da menu -->
     <string name="db_menu_search_tit">Search</string>
     <string name="db_menu_refresh">Refresh</string>
     <string name="db_menu_save">Save remote</string>
@@ -12,13 +12,24 @@
     <string name="db_search_hint_buttons">Search buttons</string>
     <string name="db_select_manufacturer">Select manufacturer</string>
     <string name="db_select_device_type">Select device type</string>
-    <string name="common_menu_todb">Online DB</string>
+    <!--  -->
+    <string name="common_menu_todb">More</string>
+    <!--  -->
+    <string name="menu_action_delete_remote">Delete</string>
+    <string name="menu_action_rename">Rename</string>
+    <string name="menu_action_edit">Edit</string>
 
-    <!-- Save dialogs -->
+    <!-- Save -->
     <string name="save_remote_title">Save remote</string>
     <string name="save_remote_text">Your new remote will appear in the My Remotes section</string>
     <string name="save_remote_hint">Remote name</string>
     <string name="save_remote_save">Save</string>
+    <!-- Rename -->
+    <string name="rename_remote_title">Rename remote</string>
+    <string name="rename_remote_message">Enter a new name for %s</string>
+    <string name="rename_remote_hint">New name</string>
+    <string name="rename_remote_save">Rename</string>
+
     <!--  -->
     <string name="save_button_title">Save button</string>
     <string name="select_remote">Select a remote</string>
@@ -28,9 +39,6 @@
     <string name="add_remote">Add remote</string>
     <string name="select_remote_first">Select a remote first</string>
     <string name="remote_saved_toast">Remote saved</string>
-    <string name="menu_action_delete_remote">Delete</string>
-    <string name="menu_action_rename">Rename</string>
-    <string name="menu_action_edit">Edit</string>
 
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">Power</string>
@@ -94,4 +102,6 @@
     <string name="nav_b_rate">Rate</string>
     <string name="share_promo">Check out Twinone IR Remote! Free Infrared remote that works for any TV! (Android) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
 
+    <string name="my_remotes">My remotes</string>
+    
 </resources>

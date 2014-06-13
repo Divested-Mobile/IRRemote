@@ -123,7 +123,7 @@ public class SelectRemoteLinearLayout extends LinearLayout implements
 	}
 
 	public interface OnSelectListener extends
-			SelectRemoteListView.OnSelectListener {
+			SelectRemoteListView.OnRemoteSelectedListener {
 	}
 
 }

@@ -2,8 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_action_delete_remote"
-        android:icon="@drawable/ic_action_back"
+        android:id="@+id/menu_action_rename"
+        android:showAsAction="never"
+        android:title="@string/menu_action_rename"/>
+    <item
+        android:id="@+id/menu_action_edit"
+        android:showAsAction="never"
+        android:title="@string/menu_action_edit"/>
+    <item
+        android:id="@+id/menu_action_delete"
         android:showAsAction="never"
         android:title="@string/menu_action_delete_remote"/>
 

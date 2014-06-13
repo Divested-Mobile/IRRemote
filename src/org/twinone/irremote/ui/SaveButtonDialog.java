@@ -15,18 +15,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SaveButtonDialogFragment extends DialogFragment implements
+public class SaveButtonDialog extends DialogFragment implements
 		DialogInterface.OnClickListener {
 
 	private static final String ARG_BUTTON = "org.twinone.irremote.arg.button";
 
 	public static void showFor(Activity a, Button button) {
-		SaveButtonDialogFragment.newInstance(button).show(
+		SaveButtonDialog.newInstance(button).show(
 				a.getFragmentManager(), "save_button_dialog");
 	}
 
-	private static SaveButtonDialogFragment newInstance(Button button) {
-		SaveButtonDialogFragment f = new SaveButtonDialogFragment();
+	private static SaveButtonDialog newInstance(Button button) {
+		SaveButtonDialog f = new SaveButtonDialog();
 		Bundle b = new Bundle();
 		// We are saving this button, don't save as Common Button
 		// The user can do this later from the remote itself

@@ -6,7 +6,7 @@
     android:padding="5dp" >
 
     <EditText
-        android:id="@+id/save_remote_name"
+        android:id="@+id/dialog_edittext_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:digits="@string/allowed_digits"

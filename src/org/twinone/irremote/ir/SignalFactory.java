@@ -1,5 +1,6 @@
 package org.twinone.irremote.ir;
 
+
 public class SignalFactory {
 
 	/**
@@ -83,7 +84,8 @@ public class SignalFactory {
 
 		final int[] pattern = new int[bps1 + bps2];
 		for (int i = 0; i < pattern.length; i++) {
-			pattern[i] = (int) pronto[offset + i];
+			pattern[i] = (int) pronto[offset + i] <= 0 ? 1
+					: (int) pronto[offset + i];
 		}
 
 		out.pattern = pattern;

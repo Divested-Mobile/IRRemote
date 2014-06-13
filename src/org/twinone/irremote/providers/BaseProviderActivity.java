@@ -4,14 +4,23 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.Transmitter;
-import org.twinone.irremote.ui.SaveRemoteDialogFragment;
-import org.twinone.irremote.ui.SaveRemoteDialogFragment.OnRemoteSavedListener;
+import org.twinone.irremote.ui.SaveRemoteDialog;
+import org.twinone.irremote.ui.SaveRemoteDialog.OnRemoteSavedListener;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
 public class BaseProviderActivity extends Activity {
+
+	public static final String ACTION_GET_REMOTE = "org.twinone.irremote.intent.action.get_remote";
+	public static final String ACTION_GET_BUTTON = "org.twinone.irremote.intent.action.get_button";
+
+	/**
+	 * To be used with {@link #ACTION_GET_BUTTON}, the name of the remote to
+	 * which this button has to be added
+	 */
+	public static final String EXTRA_TARGET_REMOTE_NAME = "org.twinone.irremote.intent.extra.remote_name";
 
 	private Transmitter mTransmitter;
 
@@ -35,16 +44,16 @@ public class BaseProviderActivity extends Activity {
 	 * @param r
 	 */
 	public void save(Remote remote) {
-		SaveRemoteDialogFragment dialog = SaveRemoteDialogFragment
-				.newInstance(remote);
+		SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
 		dialog.setListener(new OnRemoteSavedListener() {
 
 			@Override
 			public void onRemoteSaved(String name) {
 				// Finish the activity, we've saved the remote
-				finish();
+				Remote.setPersistedRemoteName(BaseProviderActivity.this, name);
 				Toast.makeText(BaseProviderActivity.this,
 						R.string.remote_saved_toast, Toast.LENGTH_SHORT).show();
+				finish();
 			}
 		});
 		dialog.show(this);

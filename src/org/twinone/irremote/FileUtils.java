@@ -27,6 +27,10 @@ public class FileUtils {
 		file.delete();
 	}
 
+	public static void rename(File oldFile, File newFile) {
+		oldFile.renameTo(newFile);
+	}
+
 	/**
 	 * Clear the directory without removing it
 	 * 

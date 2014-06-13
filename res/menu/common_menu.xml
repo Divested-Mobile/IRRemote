@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/common_menu_todb"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/common_menu_todb">
     </item>
 

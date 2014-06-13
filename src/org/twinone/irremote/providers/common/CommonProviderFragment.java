@@ -35,6 +35,7 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 	private static final String COMMON_TV_NAME = "TV";
 	private static final String COMMON_BLURAY_NAME = "BluRay";
 	private static final String COMMON_CABLE_NAME = "Cable";
+	private static final String COMMON_AUDIO_AMPLIFIER = "Audio";
 
 	private ListView mListView;
 	private ListableAdapter mAdapter;
@@ -80,6 +81,9 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 		}
 		if (COMMON_BLURAY_NAME.equals(deviceType)) {
 			return Remote.DEVICE_TYPE_BLURAY;
+		}
+		if (COMMON_AUDIO_AMPLIFIER.equals(deviceType)) {
+			return Remote.DEVICE_TYPE_AUDIO_AMPLIFIER;
 		}
 		throw new IllegalArgumentException("WTF, no such type" + deviceType);
 	}
@@ -220,7 +224,6 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 		r.options.type = getDeviceTypeInt(mTarget.deviceType);
 		getProvider().save(r);
 	}
-
 
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {

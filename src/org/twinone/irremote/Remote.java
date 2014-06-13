@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.twinone.irremote.ui.NavFragment;
+
 import android.content.Context;
 
 import com.google.gson.Gson;
@@ -30,6 +32,7 @@ public class Remote implements Serializable {
 	public static final int DEVICE_TYPE_TV = 0;
 	public static final int DEVICE_TYPE_CABLE = 1;
 	public static final int DEVICE_TYPE_BLURAY = 2;
+	public static final int DEVICE_TYPE_AUDIO_AMPLIFIER = 3;
 
 	public Options options;
 
@@ -106,6 +109,13 @@ public class Remote implements Serializable {
 		FileUtils.remove(getRemoteDir(c, name));
 	}
 
+	public static void rename(Context c, String oldName, String newName) {
+		if (oldName.equals(newName) || newName.trim().isEmpty()) {
+			return;
+		}
+		FileUtils.rename(getRemoteDir(c, oldName), getRemoteDir(c, newName));
+	}
+
 	/** Save this remote to the file system */
 	public void save(Context c) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -169,6 +179,25 @@ public class Remote implements Serializable {
 		// This will not affect other buttons
 		buttons.remove(b);
 		buttons.add(b);
+	}
+
+	/**
+	 * 
+	 * @return the persisted selected remote or null if it was not set
+	 */
+	public static String getPersistedRemoteName(Context c) {
+		return c.getSharedPreferences("remote", Context.MODE_PRIVATE)
+				.getString(NavFragment.PREF_KEY_LAST_REMOTE, null);
+	}
+
+	/**
+	 * Set the remote selected by the user
+	 * 
+	 * @param remoteName
+	 */
+	public static void setPersistedRemoteName(Context c, String remoteName) {
+		c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
+				.putString(NavFragment.PREF_KEY_LAST_REMOTE, remoteName).apply();
 	}
 
 	/**

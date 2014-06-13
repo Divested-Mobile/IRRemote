@@ -75,15 +75,49 @@ public class Transmitter {
 		return (int) (mContext.getResources().getDisplayMetrics().density * dp + 0.5f);
 	}
 
-	public void blink() {
+	public void showBlinker() {
 		showView();
 	}
 
-	/**
-	 * Pause this transmitter. If a blink is showing it will hide it
-	 */
-	public void pause() {
+	public void hideBlinker() {
 		hideView();
+	}
+
+	public synchronized void startTransmitting(Signal signal) {
+		if (!isFrequencySupported(signal.frequency))
+			return;
+		if (mTransmitting)
+			return;
+		mTransmitting = true;
+		mTSignal = signal;
+		new Thread(new TransmitterRunnable()).start();
+	}
+
+	private boolean mTransmitting;
+	private Signal mTSignal;
+
+	private class TransmitterRunnable implements Runnable {
+		@Override
+		public void run() {
+			while (mTransmitting) {
+				transmitSignal(mTSignal);
+				try {
+					// We want to give the device time to process the previous
+					// signal...
+					Thread.sleep(50);
+				} catch (Exception e) {
+				}
+			}
+		}
+	}
+
+	private void transmitSignal(Signal s) {
+		mIrManager.transmit(s.frequency, s.pattern);
+	}
+
+	public synchronized void stopTransmitting() {
+		mTransmitting = false;
+		mTSignal = null;
 	}
 
 	/**
@@ -100,14 +134,6 @@ public class Transmitter {
 		mWindowManager.addView(mBlinker, mLayoutParams);
 
 		isBlinkerShown = true;
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				hideView();
-			}
-		}, 300);
-
 	}
 
 	private void hideView() {

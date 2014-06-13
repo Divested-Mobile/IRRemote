@@ -15,11 +15,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RemoteFragment extends Fragment implements View.OnClickListener {
+public class RemoteFragment extends Fragment implements View.OnTouchListener {
 
 	private static final String TAG = "RemoteFragment";
 
@@ -44,6 +45,7 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mTransmitter = new Transmitter(getActivity());
+		mTransmitter.setShowBlinker(true);
 		mButtonUtils = new ButtonUtils(getActivity());
 
 		if (getArguments() == null
@@ -95,25 +97,42 @@ public class RemoteFragment extends Fragment implements View.OnClickListener {
 			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(true, buttonId)) {
 				b.setText(mRemote.getButton(true, buttonId).getDisplayName());
-				b.setOnClickListener(this);
+				// b.setOnClickListener(this);
+				b.setOnTouchListener(this);
 				b.setEnabled(true);
 			} else {
 				b.setEnabled(false);
-				b.setOnClickListener(null);
+				// b.setOnClickListener(null);
+				b.setOnTouchListener(this);
 				b.setText(null);
 			}
 		}
-		getActivity().setTitle(mRemote.name);
 	}
 
+	private boolean mFingerDown;
+	private MotionEvent mFinger;
+
 	@Override
-	public void onClick(View v) {
-		transmit(true, mButtonUtils.getButtonId(v.getId()));
+	public boolean onTouch(View v, MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			if (!mFingerDown) {
+				mFinger = event;
+				mFingerDown = true;
+				final Signal s = mRemote.getButton(true,
+						mButtonUtils.getButtonId(v.getId())).getSignal();
+				mTransmitter.startTransmitting(s);
+			}
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			if (mFingerDown && mFinger.equals(event)) {
+				mFingerDown = false;
+				mTransmitter.stopTransmitting();
+			}
+		}
+		return false;
 	}
 
 	public void transmit(boolean common, int id) {
 		final Signal s = mRemote.getButton(common, id).getSignal();
-
 		mTransmitter.transmit(s);
 	}
 

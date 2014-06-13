@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class SelectRemoteListView extends ListView implements OnClickListener {
 
 	private static final String TAG = "SelectRemoteListView";
-	private boolean mShowAddRemote = false;
+	private boolean mShowAddRemote = true;
 
 	private int mSelectedItemPosition = -1;
 
@@ -48,8 +48,9 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 	 */
 	public void updateRemotesList() {
 		mItems = (ArrayList<String>) Remote.getNames(getContext());
-		mItems.add(getContext().getString(R.string.add_remote));
-
+		if (mShowAddRemote) {
+			mItems.add(getContext().getString(R.string.add_remote));
+		}
 		mAdapter = new MyAdapter();
 		setAdapter(mAdapter);
 		setItemChecked(mSelectedItemPosition, true);
@@ -123,8 +124,11 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 
 	public String getSelectedRemoteName() {
 		if (isRemoteSelected()) {
+			Log.d("",
+					"SelectedRemoteName: " + mItems.get(mSelectedItemPosition));
 			return mItems.get(mSelectedItemPosition);
 		} else {
+			Log.d("", "SelectedRemoteName: null");
 			return null;
 		}
 	}
@@ -150,13 +154,13 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 		}
 	}
 
-	private OnSelectListener mListener;
+	private OnRemoteSelectedListener mListener;
 
-	public void setOnSelectListener(OnSelectListener listener) {
+	public void setOnSelectListener(OnRemoteSelectedListener listener) {
 		this.mListener = listener;
 	}
 
-	public interface OnSelectListener {
+	public interface OnRemoteSelectedListener {
 		public void onRemoteSelected(int position, String remoteName);
 
 		public void onAddRemoteSelected();

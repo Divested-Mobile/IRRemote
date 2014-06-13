@@ -7,7 +7,7 @@ import org.twinone.androidlib.ShareManager;
 import org.twinone.androidlib.ShareRateView;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
-import org.twinone.irremote.ui.SelectRemoteListView.OnSelectListener;
+import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,11 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class NavFragment extends NavigationFragment implements
-		OnSelectListener, OnClickListener {
+		OnRemoteSelectedListener, OnClickListener {
 
 	// private static final String PREF_FILENAME = "nav";
 	// Keep track of the user's last selected remote
-	private static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
+	public static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
 
 	private DrawerLayout mDrawerLayout;
 	private SelectRemoteListView mRemotesListView;
@@ -49,14 +50,24 @@ public class NavFragment extends NavigationFragment implements
 
 		// select the appropriate remote
 		List<String> names = Remote.getNames(getActivity());
-		String lastSelectedRemotePref = getPreferences().getString(
-				PREF_KEY_LAST_REMOTE, null);
+		String lastSelectedRemotePref = Remote
+				.getPersistedRemoteName(getActivity());
 		if (names.contains(lastSelectedRemotePref)) {
 			mRemotesListView.selectRemote(lastSelectedRemotePref, false);
 		} else if (names.size() > 0) {
 			mRemotesListView.selectRemote(0, false);
 		} else {
 			mRemotesListView.selectRemote(-1, false);
+		}
+		updateTitle();
+	}
+
+	public void updateTitle() {
+		Log.d("", "isOpen: " + isOpen());
+		if (!isOpen()) {
+			getActionBar().setTitle(getSelectedRemoteName());
+		} else {
+			getActionBar().setTitle(R.string.my_remotes);
 		}
 	}
 
@@ -69,10 +80,16 @@ public class NavFragment extends NavigationFragment implements
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (!(getActivity() instanceof OnSelectListener)) {
+		if (!(getActivity() instanceof OnRemoteSelectedListener)) {
 			throw new ClassCastException(
 					"Activity should implement SelectRemoteListView.OnSelectListener");
 		}
+	}
+
+	@Override
+	public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+		super.setUp(fragmentId, drawerLayout);
+		update();
 	}
 
 	@Override
@@ -98,8 +115,6 @@ public class NavFragment extends NavigationFragment implements
 
 		mRateLayout.setOnClickListener(this);
 		mShareLayout.setOnClickListener(this);
-
-		update();
 
 		return root;
 	}
@@ -132,32 +147,40 @@ public class NavFragment extends NavigationFragment implements
 
 	@Override
 	public void onRemoteSelected(int position, String remoteName) {
+		Remote.setPersistedRemoteName(getActivity(), remoteName);
+		mTargetRemotePosition = position;
 		close();
 
-		getPreferences().edit().putString(PREF_KEY_LAST_REMOTE, remoteName)
-				.apply();
-		mTargetRemotePosition = position;
 	}
+
+	private boolean mAddRemoteSelected;
 
 	@Override
 	public void onAddRemoteSelected() {
-		((OnSelectListener) getActivity()).onAddRemoteSelected();
+		mAddRemoteSelected = true;
+		close();
 	}
 
 	@Override
 	protected void onOpen() {
+		updateTitle();
 	}
 
 	@Override
 	protected void onClose() {
 		// We should provide navigation after the drawer has been closed,
 		// because of animations
-		int pos = mTargetRemotePosition;
-		if (pos != -1) {
-			((OnSelectListener) getActivity()).onRemoteSelected(pos,
-					mRemotesListView.getRemoteName(pos));
-			pos = -1;
+		if (mTargetRemotePosition != -1) {
+			((OnRemoteSelectedListener) getActivity()).onRemoteSelected(
+					mTargetRemotePosition,
+					mRemotesListView.getRemoteName(mTargetRemotePosition));
+			mTargetRemotePosition = -1;
+		} else if (mAddRemoteSelected) {
+			((OnRemoteSelectedListener) getActivity()).onAddRemoteSelected();
+			mAddRemoteSelected = false;
 		}
+
+		updateTitle();
 	}
 
 	@Override

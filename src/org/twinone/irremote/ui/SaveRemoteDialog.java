@@ -13,13 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-public class SaveRemoteDialogFragment extends DialogFragment implements
+public class SaveRemoteDialog extends DialogFragment implements
 		DialogInterface.OnClickListener {
 
 	private static final String ARG_REMOTE = "org.twinone.irremote.arg.remote";
 
 	public static void showFor(Activity a, Remote remote) {
-		SaveRemoteDialogFragment.newInstance(remote).show(
+		SaveRemoteDialog.newInstance(remote).show(
 				a.getFragmentManager(), "save_remote_dialog");
 	}
 
@@ -27,8 +27,8 @@ public class SaveRemoteDialogFragment extends DialogFragment implements
 		show(a.getFragmentManager(), "save_remote_dialog");
 	}
 
-	public static SaveRemoteDialogFragment newInstance(Remote remote) {
-		SaveRemoteDialogFragment f = new SaveRemoteDialogFragment();
+	public static SaveRemoteDialog newInstance(Remote remote) {
+		SaveRemoteDialog f = new SaveRemoteDialog();
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE, remote);
 		f.setArguments(b);
@@ -47,8 +47,8 @@ public class SaveRemoteDialogFragment extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(
-				R.layout.dialog_save_remote, null, false);
-		mRemoteName = (EditText) view.findViewById(R.id.save_remote_name);
+				R.layout.dialog_edittext, null, false);
+		mRemoteName = (EditText) view.findViewById(R.id.dialog_edittext_input);
 		mRemoteName.setText(mTarget.name);
 
 		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
