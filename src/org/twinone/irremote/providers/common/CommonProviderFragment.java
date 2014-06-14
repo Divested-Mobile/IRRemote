@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.twinone.irremote.Button;
 import org.twinone.irremote.ButtonUtils;
-import org.twinone.irremote.FileUtils;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
@@ -14,6 +13,7 @@ import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
 import org.twinone.irremote.providers.globalcache.GCProviderActivity;
+import org.twinone.irremote.util.FileUtils;
 
 import android.content.Intent;
 import android.os.Bundle;

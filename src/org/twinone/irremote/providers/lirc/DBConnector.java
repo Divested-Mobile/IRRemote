@@ -1,4 +1,4 @@
-package org.twinone.irremote.providers.globalcache;
+package org.twinone.irremote.providers.lirc;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -120,13 +120,8 @@ public class DBConnector {
 		if (result != null) {
 			switch (target) {
 			case UriData.TYPE_MANUFACTURER:
-				data = gson.fromJson(result, Manufacturer[].class);
-				break;
-			case UriData.TYPE_DEVICE_TYPE:
-				data = gson.fromJson(result, DeviceType[].class);
 				break;
 			case UriData.TYPE_CODESET:
-				data = gson.fromJson(result, Codeset[].class);
 				break;
 			case UriData.TYPE_IR_CODE:
 				data = gson.fromJson(result, IrCode[].class);
@@ -134,6 +129,15 @@ public class DBConnector {
 			}
 		}
 		mListener.onDataReceived(target, data);
+	}
+
+	void parseList(String html) {
+
+	}
+
+	// TODO
+	void parseIRCodeFile(String[] file) {
+
 	}
 
 	public interface OnDataReceivedListener {

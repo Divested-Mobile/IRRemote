@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.twinone.irremote.ui.NavFragment;
+import org.twinone.irremote.util.FileUtils;
 
 import android.content.Context;
 

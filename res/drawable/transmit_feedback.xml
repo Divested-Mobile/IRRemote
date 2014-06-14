@@ -8,10 +8,10 @@
         android:width="48dp" />
 
     <gradient
-        android:centerColor="#55ff0000"
+        android:centerColor="#55ff4444"
         android:endColor="#0000"
         android:gradientRadius="48"
-        android:startColor="#ccff0000"
+        android:startColor="#ccff4444"
         android:type="radial" />
 
 </shape>

@@ -1,4 +1,4 @@
-package org.twinone.irremote;
+package org.twinone.irremote.util;
 
 import java.io.BufferedReader;
 import java.io.File;

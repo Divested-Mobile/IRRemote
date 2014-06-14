@@ -1,8 +1,8 @@
-package org.twinone.irremote.providers.globalcache;
+package org.twinone.irremote.util;
 
 import java.io.File;
 
-import org.twinone.irremote.FileUtils;
+import org.twinone.irremote.util.FileUtils;
 
 import android.content.Context;
 
