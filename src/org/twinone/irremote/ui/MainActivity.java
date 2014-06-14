@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		OnRemoteSelectedListener, OnRemoteRenamedListener {
@@ -45,7 +46,10 @@ public class MainActivity extends ActionBarActivity implements
 				.findFragmentById(R.id.navigation_drawer);
 		mNavFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
-		mNavFragment.setEdgeSizeDp(80);
+
+		mNavFragment.setEdgeSizeDp(30);
+		// Removed the 80dp because it interfeared with buttons when added long
+		// press
 
 		mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
 		// Show ads
@@ -138,6 +142,12 @@ public class MainActivity extends ActionBarActivity implements
 					.newInstance(getRemoteName());
 			d.setOnRemoteRenamedListener(this);
 			d.show(this);
+			break;
+
+		case R.id.menu_action_edit:
+			Toast.makeText(this, "Edit will be available soon!",
+					Toast.LENGTH_LONG).show();
+			break;
 		}
 		return false;
 	}

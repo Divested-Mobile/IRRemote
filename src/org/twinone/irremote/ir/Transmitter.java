@@ -1,145 +1,113 @@
 package org.twinone.irremote.ir;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
 import android.os.Handler;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
 
 public class Transmitter {
 
 	// private static final String TAG = "IRManager";
 
-	private Context mContext;
 	private ConsumerIrManager mIrManager;
 
-	private boolean mShowBlinker;
-
-	/** Sets whether the top red view should be shown */
-	public void setShowBlinker(boolean showBlinker) {
-		mShowBlinker = showBlinker;
-	}
-
-	public boolean getShowFeedbackView() {
-		return mShowBlinker;
-	}
-
 	public Transmitter(Context context) {
-		mContext = context;
-		mIrManager = (ConsumerIrManager) mContext
+		mIrManager = (ConsumerIrManager) context
 				.getSystemService(Context.CONSUMER_IR_SERVICE);
-		inflateView();
+		mHandler = new Handler();
 	}
 
 	public boolean hasIrEmitter() {
 		return mIrManager.hasIrEmitter();
 	}
 
-	/**
-	 * 
-	 * @return true if the signal has been transmitted
-	 */
-	public boolean transmit(final Signal signal) {
+	public void transmit(final Signal signal) {
 		if (!isFrequencySupported(signal.frequency))
-			return false;
-		showView();
-		mIrManager.transmit(signal.frequency, signal.pattern);
-		return true;
+			return;
+		transmitImpl(signal);
 	}
 
-	private boolean isBlinkerShown;
-	private View mBlinker;
-	private LayoutParams mLayoutParams;
-	private WindowManager mWindowManager;
-
-	private void inflateView() {
-		mBlinker = new View(mContext);
-		mBlinker.setBackgroundColor(Color.parseColor("#ff0000"));
-		mLayoutParams = new WindowManager.LayoutParams(
-				WindowManager.LayoutParams.MATCH_PARENT,
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-				WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-				PixelFormat.TRANSLUCENT);
-		mLayoutParams.height = dpToPx(3);
-		mLayoutParams.gravity = Gravity.TOP;
-		mLayoutParams.y = dpToPx(-25);
-	}
-
-	int dpToPx(int dp) {
-		return (int) (mContext.getResources().getDisplayMetrics().density * dp + 0.5f);
-	}
-
-	public void showBlinker() {
-		showView();
-	}
-
-	public void hideBlinker() {
-		hideView();
-	}
-
-	public synchronized void startTransmitting(Signal signal) {
+	public void startTransmitting(Signal signal) {
 		if (!isFrequencySupported(signal.frequency))
 			return;
 		if (mTransmitting)
 			return;
 		mTransmitting = true;
 		mTSignal = signal;
-		new Thread(new TransmitterRunnable()).start();
+		mRunnable = new TransmitterRunnable();
+		mHandler.postDelayed(mRunnable, mOffsetMillis);
 	}
 
-	private boolean mTransmitting;
+	private Runnable mRunnable;
+
+	/**
+	 * Time between the end of a transmission and the start of the next one
+	 */
+	private int mPeriodMillis = 200;
+	/**
+	 * If the user doesn't cancel in this time, we'll start transmitting
+	 */
+	private int mOffsetMillis = 100;
+
+	/**
+	 * Set how much each transmission should be away from another
+	 * 
+	 * @param millis
+	 */
+	public void setPeriodMillis(int millis) {
+		mPeriodMillis = millis;
+	}
+
+	public void setOffsetMillis(int millis) {
+		mOffsetMillis = millis;
+	}
+
+	private Handler mHandler;
+	private volatile boolean mTransmitting;
 	private Signal mTSignal;
+	private volatile boolean mHasTransmittedOnce;
 
 	private class TransmitterRunnable implements Runnable {
 		@Override
 		public void run() {
-			while (mTransmitting) {
-				transmitSignal(mTSignal);
-				try {
-					// We want to give the device time to process the previous
-					// signal...
-					Thread.sleep(50);
-				} catch (Exception e) {
-				}
+			transmitImpl(mTSignal);
+			mHasTransmittedOnce = true;
+			if (mTransmitting) {
+				mHandler.postDelayed(this, mPeriodMillis);
 			}
 		}
 	}
 
-	private void transmitSignal(Signal s) {
+	private synchronized void transmitImpl(Signal s) {
+		if (mListener != null) {
+			mListener.onBeforeTransmit();
+		}
 		mIrManager.transmit(s.frequency, s.pattern);
-	}
-
-	public synchronized void stopTransmitting() {
-		mTransmitting = false;
-		mTSignal = null;
+		if (mListener != null) {
+			mListener.onAfterTransmit();
+		}
 	}
 
 	/**
-	 * Shows a little red view on the top of the screen, this way, the user
-	 * knows that a signal is being transmitted
+	 * 
+	 * @param transmitAtLeastOnce
+	 *            If this is set to true, a
 	 */
-	private void showView() {
-		if (isBlinkerShown || !mShowBlinker)
-			return;
-		if (mWindowManager == null) {
-			mWindowManager = (WindowManager) mContext
-					.getSystemService(Context.WINDOW_SERVICE);
+	public void stopTransmitting(boolean transmitAtLeastOnce) {
+		// Ensure the signal is transmitted at least one time
+		mTransmitting = false;
+		mHandler.removeCallbacks(mRunnable);
+		mHasTransmittedOnce = false;
+
+		if (transmitAtLeastOnce && !mHasTransmittedOnce) {
+			mHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					transmitImpl(mTSignal);
+				}
+			});
 		}
-		mWindowManager.addView(mBlinker, mLayoutParams);
-
-		isBlinkerShown = true;
-	}
-
-	private void hideView() {
-		if (isBlinkerShown)
-			mWindowManager.removeView(mBlinker);
-		isBlinkerShown = false;
 	}
 
 	private boolean isFrequencySupported(int frequency) {
@@ -150,5 +118,21 @@ public class Transmitter {
 			}
 		}
 		return false;
+	}
+
+	public void setListener(OnTransmitListener listener) {
+		mListener = listener;
+	}
+
+	private OnTransmitListener mListener;
+
+	/**
+	 * Interface to implement to know when a IR signal is transmitted
+	 * 
+	 */
+	public interface OnTransmitListener {
+		public void onBeforeTransmit();
+
+		public void onAfterTransmit();
 	}
 }

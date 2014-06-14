@@ -12,15 +12,19 @@ import org.twinone.irremote.ir.Transmitter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RemoteFragment extends Fragment implements View.OnTouchListener {
+public class RemoteFragment extends Fragment implements View.OnTouchListener,
+		Transmitter.OnTransmitListener {
 
 	private static final String TAG = "RemoteFragment";
 
@@ -33,6 +37,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener {
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
 
 	public static final void showFor(Activity a, String remoteName) {
+
 		final RemoteFragment frag = new RemoteFragment();
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE_NAME, remoteName);
@@ -45,7 +50,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mTransmitter = new Transmitter(getActivity());
-		mTransmitter.setShowBlinker(true);
+		mTransmitter.setListener(this);
 		mButtonUtils = new ButtonUtils(getActivity());
 
 		if (getArguments() == null
@@ -63,6 +68,8 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener {
 		// If no remote specified, just cancel
 		if (mRemote == null)
 			return new View(getActivity());
+
+		setHasOptionsMenu(true);
 
 		// TODO fix crash in remote.options = null?
 		int resId = R.layout.fragment_remote_tv;
@@ -97,12 +104,10 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener {
 			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(true, buttonId)) {
 				b.setText(mRemote.getButton(true, buttonId).getDisplayName());
-				// b.setOnClickListener(this);
 				b.setOnTouchListener(this);
 				b.setEnabled(true);
 			} else {
 				b.setEnabled(false);
-				// b.setOnClickListener(null);
 				b.setOnTouchListener(this);
 				b.setText(null);
 			}
@@ -110,25 +115,37 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener {
 	}
 
 	private boolean mFingerDown;
-	private MotionEvent mFinger;
+	private int mFingerDownId;
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		switch (event.getAction()) {
+
+		case MotionEvent.ACTION_DOWN:
+
 			if (!mFingerDown) {
-				mFinger = event;
-				mFingerDown = true;
+				mFingerDownId = event.getPointerId(0);
 				final Signal s = mRemote.getButton(true,
 						mButtonUtils.getButtonId(v.getId())).getSignal();
 				mTransmitter.startTransmitting(s);
+				mFingerDown = true;
+				return false;
 			}
-		} else if (event.getAction() == MotionEvent.ACTION_UP) {
-			if (mFingerDown && mFinger.equals(event)) {
+
+			break;
+
+		case MotionEvent.ACTION_CANCEL:
+		case MotionEvent.ACTION_UP:
+			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
+				boolean atLeastOnce = event.getAction() != MotionEvent.ACTION_CANCEL;
+				mTransmitter.stopTransmitting(atLeastOnce);
 				mFingerDown = false;
-				mTransmitter.stopTransmitting();
+				return false;
 			}
+			break;
 		}
-		return false;
+		// Block multiple fingers from appearing as clicked
+		return true;
 	}
 
 	public void transmit(boolean common, int id) {
@@ -136,12 +153,41 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener {
 		mTransmitter.transmit(s);
 	}
 
-	private void replaceFragmentForNewRemote(String remoteName) {
-		Log.d("", "Replacing fragment!");
-	}
-
 	public Remote getRemote() {
 		return mRemote;
 	}
 
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		mMenuIcon = menu.findItem(R.id.menu_transmit_feedback);
+
+	}
+
+	private MenuItem mMenuIcon;
+
+	private long mStartTransmissionTime;
+	private static final int MINIMUM_SHOW_TIME = 100; // ms
+	private Handler mHandler = new Handler();
+	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
+
+	private class HideFeedbackRunnable implements Runnable {
+		@Override
+		public void run() {
+			// must be run on ui thread, use handlers
+			mMenuIcon.setVisible(false);
+		}
+	}
+
+	@Override
+	public void onBeforeTransmit() {
+		mStartTransmissionTime = System.currentTimeMillis();
+		mHandler.removeCallbacks(mHideFeedbackRunnable);
+		mMenuIcon.setVisible(true);
+	}
+
+	@Override
+	public void onAfterTransmit() {
+		mHandler.postDelayed(mHideFeedbackRunnable, MINIMUM_SHOW_TIME);
+	}
 }

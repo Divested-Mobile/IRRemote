@@ -12,9 +12,9 @@
     <color name="remote_button_bg_disabled_center">#333</color>
     <color name="remote_button_bg_disabled_end">#333</color>
     <!-- Pressed button -->
-    <color name="remote_button_bg_pressed_start">#202020</color>
-    <color name="remote_button_bg_pressed_center">#ff0000</color>
-    <color name="remote_button_bg_pressed_end">#202020</color>
+    <color name="remote_button_bg_pressed_start">#333</color>
+    <color name="remote_button_bg_pressed_center">#333</color>
+    <color name="remote_button_bg_pressed_end">#333</color>
 
     <!-- Background of the remote itself -->
     <color name="remote_bg_start">#030303</color>
