@@ -10,7 +10,6 @@ import org.twinone.irremote.ir.SignalFactory;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 public class IrCode extends GCBaseListable {
 	/**
@@ -49,10 +48,7 @@ public class IrCode extends GCBaseListable {
 		Remote remote = new Remote();
 		remote.name = name;
 		for (IrCode code : irCodes) {
-			Button b = IrCode.toButton(c, code);
-			Log.d("", "Saving btn (tag=" + b.text + ",id=" + b.id + ")");
-			remote.addButton(b);
-			// remote.addButton(IrCode.toButton(code));
+			remote.addButton(IrCode.toButton(c, code));
 		}
 		return remote;
 	}
@@ -60,8 +56,8 @@ public class IrCode extends GCBaseListable {
 	public static Button toButton(Context c, IrCode irCode) {
 		Button button = new Button();
 		button.text = irCode.KeyName;
-		button.format = Signal.FORMAT_GLOBALCACHE;
-		button.code = irCode.IRCode;
+		button.code = SignalFactory
+				.toPronto(SignalFactory.parse(irCode.IRCode));
 		button.id = getBestMatchId(irCode);
 		button.common = button.id != Button.ID_NONE;
 		if (button.id != Button.ID_NONE) {

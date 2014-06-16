@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.twinone.irremote.util.SimpleCache;
 
 import android.content.Context;
-import android.net.Uri;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -17,7 +17,7 @@ public class UriData implements Serializable {
 	private static final long serialVersionUID = -8091426297558105438L;
 
 	// API key that was generated using email address twinonetest@gmail.com
-	private static final String BASE_URL = "http://lirc.sourceforge.net/remotes";
+	private static final String BASE_URL = "http://lirc.sourceforge.net/remotes/";
 
 	/** A manufacturer */
 	public static final int TYPE_MANUFACTURER = 0;
@@ -32,16 +32,17 @@ public class UriData implements Serializable {
 	public String codeset;
 
 	public String getUrl() {
-		Uri.Builder ub = Uri.parse(BASE_URL).buildUpon();
-		return ub.build().toString() + getFullyQualifiedName("/");
+		final String fqn = getFullyQualifiedName("/");
+		Log.d("", "getUrl: " + fqn);
+		return fqn == null ? BASE_URL : BASE_URL + fqn;
 	}
 
 	// never null
 	public String getFullyQualifiedName(String separator) {
 		StringBuilder sb = new StringBuilder();
 		if (targetType == TYPE_MANUFACTURER)
-			return sb.toString();
-		sb.append(separator).append(manufacturer);
+			return null;
+		sb.append(manufacturer);
 		if (targetType == TYPE_CODESET)
 			return sb.toString();
 		sb.append(separator).append(codeset);
@@ -49,7 +50,8 @@ public class UriData implements Serializable {
 	}
 
 	public String getCacheName() {
-		return "LIRC_" + getFullyQualifiedName("_");
+		final String fqn = getFullyQualifiedName("_");
+		return fqn == null ? "LIRC" : "LIRC_" + fqn;
 	}
 
 	@Override

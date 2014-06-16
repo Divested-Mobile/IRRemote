@@ -12,7 +12,7 @@ import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
-import org.twinone.irremote.providers.globalcache.GCProviderActivity;
+import org.twinone.irremote.providers.lirc.LircProviderActivity;
 import org.twinone.irremote.util.FileUtils;
 
 import android.content.Intent;
@@ -74,16 +74,16 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 
 	private int getDeviceTypeInt(String deviceType) {
 		if (COMMON_TV_NAME.equals(deviceType)) {
-			return Remote.DEVICE_TYPE_TV;
+			return Remote.TYPE_TV;
 		}
 		if (COMMON_CABLE_NAME.equals(deviceType)) {
-			return Remote.DEVICE_TYPE_CABLE;
+			return Remote.TYPE_CABLE;
 		}
 		if (COMMON_BLURAY_NAME.equals(deviceType)) {
-			return Remote.DEVICE_TYPE_BLURAY;
+			return Remote.TYPE_BLURAY;
 		}
 		if (COMMON_AUDIO_AMPLIFIER.equals(deviceType)) {
-			return Remote.DEVICE_TYPE_AUDIO_AMPLIFIER;
+			return Remote.TYPE_AUDIO_AMPLIFIER;
 		}
 		throw new IllegalArgumentException("WTF, no such type" + deviceType);
 	}
@@ -182,7 +182,7 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.common_menu_todb:
-			Intent i = new Intent(getActivity(), GCProviderActivity.class);
+			Intent i = new Intent(getActivity(), LircProviderActivity.class);
 			startActivity(i);
 			getActivity().finish();
 		}
@@ -215,7 +215,6 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 			b.code = FileUtils.read(getActivity().getAssets(), remotedir
 					+ File.separator + name);
 			b.id = Integer.parseInt(name.substring(2).split("\\.")[0]);
-			b.format = Signal.FORMAT_AUTO;
 			b.common = true;
 			b.text = ButtonUtils
 					.getCommonButtonDisplyaName(b.id, getActivity());

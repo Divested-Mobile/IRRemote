@@ -72,19 +72,18 @@ public class Button implements Serializable {
 	public static final int ID_PREV = 41;
 	public static final int ID_REC = 42;
 	public static final int ID_DISP = 43;
-	
+
 	// For audio amplifiers
 	public static final int ID_SRC_CD = 44;
 	public static final int ID_SRC_AUX = 45;
 	public static final int ID_SRC_TAPE = 46;
 	public static final int ID_SRC_TUNER = 47;
-	
+
 	// TV
 	public static final int ID_RED = 48;
 	public static final int ID_GREEN = 49;
 	public static final int ID_BLUE = 50;
 	public static final int ID_YELLOW = 51;
-
 
 	public static final int BUTTON_ID_COUNT = 46;
 
@@ -110,7 +109,6 @@ public class Button implements Serializable {
 	/**
 	 * One of Signal.FORMAT_*
 	 */
-	public int format;
 	public String code;
 
 	public String getDisplayName() {
@@ -125,7 +123,8 @@ public class Button implements Serializable {
 	}
 
 	public Signal getSignal() {
-		Signal s = SignalFactory.parse(format, code);
+		// Since v1008 we store everything in pronto
+		Signal s = SignalFactory.parse(Signal.FORMAT_PRONTO, code);
 		return s;
 	}
 

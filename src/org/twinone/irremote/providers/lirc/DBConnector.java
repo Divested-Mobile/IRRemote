@@ -6,14 +6,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.twinone.irremote.util.SimpleCache;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.google.gson.Gson;
 
 public class DBConnector {
 
@@ -70,10 +72,12 @@ public class DBConnector {
 		protected String doInBackground(String... params) {
 			String cached = SimpleCache.get(mContext, mCacheName);
 			if (cached != null) {
+				Log.d("", "From cached");
 				return cached;
 			}
 			// If not cached, load from http
 			try {
+				Log.d("", "Not from cached");
 				URL url = new URL(mUrl);
 				HttpURLConnection urlConnection = (HttpURLConnection) url
 						.openConnection();
@@ -85,7 +89,7 @@ public class DBConnector {
 				StringBuilder data = new StringBuilder();
 				String tmp;
 				while ((tmp = br.readLine()) != null) {
-					data.append(tmp);
+					data.append(tmp).append('\n');
 				}
 				urlConnection.disconnect();
 				// Save to cache for future access
@@ -115,29 +119,50 @@ public class DBConnector {
 	public void triggerListenerOnReceived(int target, String result) {
 		if (mListener == null)
 			return;
-		Gson gson = new Gson();
-		Object[] data = null;
+		LircListable[] data = null;
 		if (result != null) {
 			switch (target) {
 			case UriData.TYPE_MANUFACTURER:
+				data = parseList(result);
 				break;
 			case UriData.TYPE_CODESET:
+				data = parseList(result);
 				break;
 			case UriData.TYPE_IR_CODE:
-				data = gson.fromJson(result, IrCode[].class);
+				data = new LircParser(result.split("\n")).parse();
 				break;
 			}
 		}
+		if (data != null)
+			for (LircListable ll : data)
+				ll.type = target;
+
 		mListener.onDataReceived(target, data);
 	}
 
-	void parseList(String html) {
-
-	}
-
-	// TODO
-	void parseIRCodeFile(String[] file) {
-
+	private LircListable[] parseList(String s) {
+		ArrayList<LircListable> result = new ArrayList<LircListable>();
+		final Element table = Jsoup.parse(s).getElementsByTag("table").get(0);
+		for (Element td : table.getElementsByTag("td")) {
+			if (td.attributes().size() == 0) {
+				final LircListable ll = new LircListable();
+				final Elements elms = td.getElementsByTag("a");
+				if (elms.size() > 0) {
+					final Element a = elms.get(0);
+					String href = a.attr("href");
+					if (href.equals("/") || href.equals("/remotes/")
+							|| href.endsWith(".jpg"))
+						continue;
+					ll.href = href;
+					if (href.endsWith("/")) {
+						href = href.substring(0, href.length() - 1);
+					}
+					ll.name = href;
+					result.add(ll);
+				}
+			}
+		}
+		return result.toArray(new LircListable[result.size()]);
 	}
 
 	public interface OnDataReceivedListener {
@@ -147,7 +172,7 @@ public class DBConnector {
 		 * @param data
 		 *            may be null if the connection failed
 		 */
-		public void onDataReceived(int type, Object[] data);
+		public void onDataReceived(int type, LircListable[] data);
 	}
 
 }

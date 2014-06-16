@@ -1,12 +1,13 @@
 package org.twinone.irremote.ir;
 
+import java.util.ArrayList;
 
 public class SignalFactory {
 
 	/**
 	 * Auto detect the format, and parse the signal
 	 */
-	private static final Signal parse(String signal) {
+	public static final Signal parse(String signal) {
 		final int format = getFormat(signal);
 		if (format == Signal.FORMAT_AUTO) {
 			throw new RuntimeException("Could not parse signal (" + signal
@@ -45,7 +46,7 @@ public class SignalFactory {
 		// GlobalCache format is as follows:
 		// Frequency,Repeat,Offset,On1,Off1, ... ,OnN,OffN
 		// We ignore Repeat and Offset
-		// TODO Add repeat
+		in = in.trim();
 		final Signal out = new Signal();
 		final String[] split = in.split(",");
 		final long[] values = new long[split.length];
@@ -54,7 +55,7 @@ public class SignalFactory {
 		}
 
 		out.frequency = (int) values[0];
-		// TODO 1 or 3 for offset?
+		// TODO 1 or 3 for offset, depending on repeat and offset being present
 		final int offset = 1;
 		final int[] pattern = new int[values.length - offset];
 		for (int i = 0; i < pattern.length; i++) {
@@ -66,6 +67,7 @@ public class SignalFactory {
 	}
 
 	private static final Signal fromPronto(String in) {
+		in = in.trim();
 		final Signal out = new Signal();
 		final String[] split = in.split(" ");
 		final long[] pronto = new long[split.length];
@@ -91,4 +93,44 @@ public class SignalFactory {
 		out.pattern = pattern;
 		return out;
 	}
+
+	public static String toPronto(Signal s) {
+		if (s == null)
+			return null;
+		// All pronto starts with 0000
+		ArrayList<Long> pronto = new ArrayList<Long>();
+		pronto.add(0L);
+
+		int frequency = (int) (1000000 / (s.frequency * 0.241246));
+		pronto.add(Long.valueOf(frequency));
+
+		// Add bps
+		int bps = s.pattern.length / 2;
+		pronto.add(Long.valueOf(bps));
+		// 2nd bps = 0
+		pronto.add(0L);
+
+		for (int i : s.pattern) {
+			pronto.add(Long.valueOf(i));
+		}
+
+		// Make the array readable
+		StringBuilder out = new StringBuilder();
+		boolean append = false;
+		for (long l : pronto) {
+			if (append) {
+				out.append(' ');
+			}
+			append = true;
+			String hex = Long.toHexString(l);
+			// TODO should we use leading zeroes? The parser doesn't care...
+			while (hex.length() < 4) {
+				hex = "0" + hex;
+			}
+			out.append(hex);
+		}
+
+		return out.toString();
+	}
+
 }

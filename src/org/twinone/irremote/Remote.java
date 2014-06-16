@@ -30,18 +30,20 @@ public class Remote implements Serializable {
 
 	public List<Button> buttons;
 
-	public static final int DEVICE_TYPE_TV = 0;
-	public static final int DEVICE_TYPE_CABLE = 1;
-	public static final int DEVICE_TYPE_BLURAY = 2;
-	public static final int DEVICE_TYPE_AUDIO_AMPLIFIER = 3;
+	public static final int TYPE_TV = 0;
+	public static final int TYPE_CABLE = 1;
+	public static final int TYPE_BLURAY = 2;
+	public static final int TYPE_AUDIO_AMPLIFIER = 3;
+	// Unknown remotes will be displayed as a list
+	public static final int TYPE_UNKNOWN = -1;
 
 	public Options options;
 
 	public static class Options implements Serializable {
 		/**
 		 * The type of remote this is<br>
-		 * one of {@link Remote#DEVICE_TYPE_BLURAY},
-		 * {@link Remote#DEVICE_TYPE_CABLE} or {@link Remote#DEVICE_TYPE_TV}
+		 * one of {@link Remote#TYPE_BLURAY}, {@link Remote#TYPE_CABLE} or
+		 * {@link Remote#TYPE_TV}
 		 */
 		public int type;
 	}
@@ -198,7 +200,8 @@ public class Remote implements Serializable {
 	 */
 	public static void setPersistedRemoteName(Context c, String remoteName) {
 		c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
-				.putString(NavFragment.PREF_KEY_LAST_REMOTE, remoteName).apply();
+				.putString(NavFragment.PREF_KEY_LAST_REMOTE, remoteName)
+				.apply();
 	}
 
 	/**

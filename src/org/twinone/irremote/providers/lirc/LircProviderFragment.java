@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +22,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.SearchView.OnCloseListener;
-import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 public class LircProviderFragment extends BaseProviderFragment implements
@@ -40,7 +38,6 @@ public class LircProviderFragment extends BaseProviderFragment implements
 
 	private boolean mCreated;
 	private AlertDialog mDialog;
-	private ListableAdapter mAdapter;
 
 	private UriData mUriData;
 
@@ -183,25 +180,17 @@ public class LircProviderFragment extends BaseProviderFragment implements
 		mDialog.show();
 	}
 
-	private MySearchViewListener mSearchViewListener;
-	private MenuItem mSearchMenuItem;
-	private SearchView mSearchView;
-
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.db_menu, menu);
-		mSearchMenuItem = (MenuItem) menu.findItem(R.id.menu_db_search);
-		mSearchView = (SearchView) mSearchMenuItem.getActionView();
-		mSearchViewListener = new MySearchViewListener();
-		mSearchView.setOnQueryTextListener(mSearchViewListener);
-		mSearchView.setOnCloseListener(mSearchViewListener);
+
+		prepareSearch(menu, inflater);
 		mSearchView.setQueryHint(getSearchHint(mUriData));
 
 		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
 			menu.findItem(R.id.menu_db_save).setVisible(true);
 		}
-
 	}
 
 	private String getSearchHint(UriData data) {
@@ -213,31 +202,6 @@ public class LircProviderFragment extends BaseProviderFragment implements
 			return getString(R.string.db_search_hint_custom,
 					data.getFullyQualifiedName(" "));
 		}
-	}
-
-	private class MySearchViewListener implements OnQueryTextListener,
-			OnCloseListener {
-
-		@Override
-		public boolean onQueryTextChange(String text) {
-			// Android calls this when navigating to a new fragment, adapter =
-			// null
-			if (mAdapter != null)
-				mAdapter.getFilter().filter(text);
-			return true;
-		}
-
-		@Override
-		public boolean onQueryTextSubmit(String query) {
-			mAdapter.getFilter().filter(query);
-			return true;
-		}
-
-		@Override
-		public boolean onClose() {
-			return false;
-		}
-
 	}
 
 	@Override
@@ -262,11 +226,12 @@ public class LircProviderFragment extends BaseProviderFragment implements
 	private Object[] mData;
 
 	@Override
-	public void onDataReceived(int type, Object[] data) {
+	public void onDataReceived(int type, LircListable[] data) {
 		if (!isAdded())
 			return;
 
 		cancelDialog();
+		
 		mData = data;
 		if (data == null) {
 			Toast.makeText(getActivity(), "Oops! There was an error",
@@ -297,9 +262,9 @@ public class LircProviderFragment extends BaseProviderFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		LircBaseListable item = (LircBaseListable) mListView.getAdapter().getItem(
+		LircListable item = (LircListable) mListView.getAdapter().getItem(
 				position);
-		if (item.getType() == UriData.TYPE_IR_CODE) {
+		if (item.type == UriData.TYPE_IR_CODE) {
 			getProvider().transmit(((IrCode) item).getSignal());
 		} else {
 			UriData clone = mUriData.clone();
@@ -321,15 +286,17 @@ public class LircProviderFragment extends BaseProviderFragment implements
 		return false;
 	}
 
-	private void select(UriData data, LircBaseListable listable) {
+	private void select(UriData data, LircListable listable) {
 		data.targetType = UriData.TYPE_MANUFACTURER;
 		if (listable != null) {
-			if (listable.getType() == UriData.TYPE_MANUFACTURER) {
+			if (listable.type == UriData.TYPE_MANUFACTURER) {
 				data.manufacturer = listable.getDisplayName();
 				data.targetType = UriData.TYPE_CODESET;
-			} else if (listable.getType() == UriData.TYPE_CODESET) {
+				Log.d("", "appending manufacturer: " + data.getUrl());
+			} else if (listable.type == UriData.TYPE_CODESET) {
 				data.codeset = listable.getDisplayName();
 				data.targetType = UriData.TYPE_IR_CODE;
+				Log.d("", "appending codeset: " + data.getUrl());
 			}
 		}
 	}

@@ -65,7 +65,7 @@ public class FileUtils {
 			StringBuilder sb = new StringBuilder();
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				sb.append(line);
+				sb.append(line).append('\n');
 			}
 			is.close();
 			return sb.toString();
@@ -74,7 +74,7 @@ public class FileUtils {
 		}
 		return null;
 	}
-
+	
 	public static String read(File file) {
 		try {
 			InputStream is = new FileInputStream(file);

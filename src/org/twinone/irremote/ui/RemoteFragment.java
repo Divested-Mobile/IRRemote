@@ -71,10 +71,9 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 
 		setHasOptionsMenu(true);
 
-		// TODO fix crash in remote.options = null?
 		int resId = R.layout.fragment_remote_tv;
 		if (mRemote.options == null
-				|| mRemote.options.type == Remote.DEVICE_TYPE_CABLE) {
+				|| mRemote.options.type == Remote.TYPE_CABLE) {
 			resId = R.layout.fragment_remote_cable;
 		}
 
@@ -166,7 +165,6 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 
 	private MenuItem mMenuIcon;
 
-	private long mStartTransmissionTime;
 	private static final int MINIMUM_SHOW_TIME = 100; // ms
 	private Handler mHandler = new Handler();
 	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
@@ -181,7 +179,6 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 
 	@Override
 	public void onBeforeTransmit() {
-		mStartTransmissionTime = System.currentTimeMillis();
 		mHandler.removeCallbacks(mHideFeedbackRunnable);
 		mMenuIcon.setVisible(true);
 	}
