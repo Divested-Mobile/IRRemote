@@ -64,9 +64,8 @@ public class SignalCompat {
 		if (System.getProperty("os.version").contains("cyanogenmod"))
 			return true;
 
-		if (Build.USER.toLowerCase(Locale.ENGLISH).contains("shade")) {
+		if (Build.USER.toLowerCase(Locale.ENGLISH).contains("shade"))
 			return true;
-		}
 
 		return false;
 	}

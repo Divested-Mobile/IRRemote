@@ -7,7 +7,7 @@ import org.twinone.irremote.ButtonUtils;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
-import org.twinone.irremote.ir.Transmitter;
+import org.twinone.irremote.ir.io.Transmitter;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -49,7 +49,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mTransmitter = new Transmitter(getActivity());
+		mTransmitter = Transmitter.getInstance(getActivity());
 		mTransmitter.setListener(this);
 		mButtonUtils = new ButtonUtils(getActivity());
 

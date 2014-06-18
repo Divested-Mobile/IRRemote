@@ -3,7 +3,7 @@ package org.twinone.irremote.providers;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.Signal;
-import org.twinone.irremote.ir.Transmitter;
+import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.ui.SaveRemoteDialog;
 import org.twinone.irremote.ui.SaveRemoteDialog.OnRemoteSavedListener;
 
@@ -83,7 +83,7 @@ public class BaseProviderActivity extends Activity {
 	private Transmitter getTransmitter() {
 		// Lazy initialization
 		if (mTransmitter == null) {
-			mTransmitter = new Transmitter(this);
+			mTransmitter = Transmitter.getInstance(this);
 		}
 		return mTransmitter;
 	}

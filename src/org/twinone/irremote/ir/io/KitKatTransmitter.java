@@ -1,4 +1,6 @@
-package org.twinone.irremote.ir;
+package org.twinone.irremote.ir.io;
+
+import org.twinone.irremote.ir.Signal;
 
 import android.content.Context;
 import android.hardware.ConsumerIrManager;
@@ -6,22 +8,20 @@ import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
 import android.os.Handler;
 import android.util.Log;
 
-public class Transmitter {
+public class KitKatTransmitter extends Transmitter {
 
 	// private static final String TAG = "IRManager";
 
-	private Context mContext;
-
 	private ConsumerIrManager mIrManager;
 
-	public Transmitter(Context context) {
-		mContext = context;
+	public KitKatTransmitter(Context context) {
+		super(context);
 		mIrManager = (ConsumerIrManager) context
 				.getSystemService(Context.CONSUMER_IR_SERVICE);
 		mHandler = new Handler();
 	}
 
-	public boolean hasIrEmitter() {
+	public boolean isAvailable() {
 		return mIrManager.hasIrEmitter();
 	}
 
@@ -83,11 +83,11 @@ public class Transmitter {
 	}
 
 	private synchronized void transmitImpl(Signal s) {
-		 s.fix(mContext);
+		s.fix(getContext());
 		Log.d("", "hasIrEmitter: " + mIrManager.hasIrEmitter());
 
-		if (mListener != null) {
-			mListener.onBeforeTransmit();
+		if (getListener() != null) {
+			getListener().onBeforeTransmit();
 		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < s.pattern.length; i++) {
@@ -96,8 +96,8 @@ public class Transmitter {
 		Log.d("", "Sending: " + sb.toString());
 
 		mIrManager.transmit(s.frequency, s.pattern);
-		if (mListener != null) {
-			mListener.onAfterTransmit();
+		if (getListener() != null) {
+			getListener().onAfterTransmit();
 		}
 	}
 
@@ -133,19 +133,4 @@ public class Transmitter {
 		return false;
 	}
 
-	public void setListener(OnTransmitListener listener) {
-		mListener = listener;
-	}
-
-	private OnTransmitListener mListener;
-
-	/**
-	 * Interface to implement to know when a IR signal is transmitted
-	 * 
-	 */
-	public interface OnTransmitListener {
-		public void onBeforeTransmit();
-
-		public void onAfterTransmit();
-	}
 }

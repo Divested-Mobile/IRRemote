@@ -1,6 +1,7 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.ir.io.Receiver;
 
 import android.content.pm.ActivityInfo;
 import android.support.v4.widget.DrawerLayout;
@@ -23,8 +24,7 @@ public class EditRemoteActivity extends ActionBarActivity {
 		mNavFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		mNavFragment.setEdgeSizeDp(30);
-		
-		
+
 	}
 
 	@Override

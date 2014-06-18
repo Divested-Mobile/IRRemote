@@ -142,9 +142,12 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case R.id.menu_action_edit:
-			Intent i = new Intent(this, EditRemoteActivity.class);
-			i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
-			startActivity(i);
+			// Intent i = new Intent(this, EditRemoteActivity.class);
+			// i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
+			// startActivity(i);
+
+			getFragmentManager().beginTransaction()
+					.replace(R.id.container, new LearnFragment()).commit();
 			break;
 		}
 		return false;
