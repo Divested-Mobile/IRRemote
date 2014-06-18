@@ -20,11 +20,19 @@ public class SimpleCache {
 		return FileUtils.exists(getFile(c, filename));
 	}
 
-	public static String get(Context c, String filename) {
+	public static String read(Context c, String filename) {
 		return FileUtils.read(getFile(c, filename));
 	}
 
-	public static void put(Context c, String filename, String data) {
+	public static String readWithNewLines(Context c, String filename) {
+		return FileUtils.readWithNewLines(getFile(c, filename));
+	}
+
+	public static String[] readLines(Context c, String filename) {
+		return FileUtils.readLines(getFile(c, filename));
+	}
+
+	public static void write(Context c, String filename, String data) {
 		FileUtils.write(getFile(c, filename), data);
 	}
 

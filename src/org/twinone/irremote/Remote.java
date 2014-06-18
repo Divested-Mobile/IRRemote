@@ -156,7 +156,7 @@ public class Remote implements Serializable {
 	}
 
 	/** True if this remote contains the specified button */
-	public boolean contains(boolean common, int id) {
+	public boolean contains(int id) {
 		for (int i = 0; i < buttons.size(); i++) {
 			if (buttons.get(i).id == id) {
 				return true;

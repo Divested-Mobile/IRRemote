@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import android.content.res.AssetManager;
 import android.util.Log;
@@ -51,21 +52,24 @@ public class FileUtils {
 
 	public static String read(AssetManager assets, String filename) {
 		try {
-			return read(assets.open(filename));
+			return read(assets.open(filename), false);
 		} catch (Exception e) {
 			Log.d(TAG, "Error getting assets file: " + filename);
 			return null;
 		}
 	}
 
-	public static String read(InputStream is) {
+	public static String read(InputStream is, boolean withNewLines) {
 		try {
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
 			StringBuilder sb = new StringBuilder();
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				sb.append(line).append('\n');
+				sb.append(line);
+				if (withNewLines) {
+					sb.append('\n');
+				}
 			}
 			is.close();
 			return sb.toString();
@@ -74,11 +78,49 @@ public class FileUtils {
 		}
 		return null;
 	}
-	
+
+	public static String[] readLines(InputStream is) {
+		ArrayList<String> strings = new ArrayList<String>();
+		try {
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				strings.add(line);
+			}
+			is.close();
+			return strings.toArray(new String[strings.size()]);
+		} catch (Exception e) {
+			Log.w(TAG, "Error reading from inputstream");
+		}
+		return null;
+
+	}
+
 	public static String read(File file) {
 		try {
 			InputStream is = new FileInputStream(file);
-			return read(is);
+			return read(is, false);
+		} catch (Exception e) {
+			Log.w(TAG, "Error reading file " + file.getName());
+			return null;
+		}
+	}
+
+	public static String readWithNewLines(File file) {
+		try {
+			InputStream is = new FileInputStream(file);
+			return read(is, true);
+		} catch (Exception e) {
+			Log.w(TAG, "Error reading file " + file.getName());
+			return null;
+		}
+	}
+
+	public static String[] readLines(File file) {
+		try {
+			InputStream is = new FileInputStream(file);
+			return readLines(is);
 		} catch (Exception e) {
 			Log.w(TAG, "Error reading file " + file.getName());
 			return null;

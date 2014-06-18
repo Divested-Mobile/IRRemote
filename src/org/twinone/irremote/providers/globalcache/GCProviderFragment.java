@@ -37,7 +37,6 @@ public class GCProviderFragment extends BaseProviderFragment implements
 
 	private boolean mCreated;
 	private AlertDialog mDialog;
-	private ListableAdapter mAdapter;
 
 	private UriData mUriData;
 

@@ -1,20 +1,30 @@
 package org.twinone.irremote.ir;
 
-import java.io.Serializable;
+import android.content.Context;
 
-public class Signal implements Serializable {
+public class Signal {
 
-	
 	public static final int FORMAT_AUTO = 0;
 	public static final int FORMAT_PRONTO = 1;
 	public static final int FORMAT_GLOBALCACHE = 2;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4245046369663289219L;
-
 	public int frequency;
 	public int[] pattern;
+
+	public Signal(int frequency, int[] pattern) {
+		this.frequency = frequency;
+		this.pattern = pattern;
+	}
+
+	private boolean isFixed;
+
+	public Signal fix(Context c) {
+		if (isFixed)
+			return this;
+		this.pattern = new SignalCompat(c).fix(frequency, pattern);
+		isFixed = true;
+		return this;
+
+	}
 
 }

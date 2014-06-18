@@ -59,7 +59,6 @@ public class IrCode extends GCBaseListable {
 		button.code = SignalFactory
 				.toPronto(SignalFactory.parse(irCode.IRCode));
 		button.id = getBestMatchId(irCode);
-		button.common = button.id != Button.ID_NONE;
 		if (button.id != Button.ID_NONE) {
 			button.text = ButtonUtils.getCommonButtonDisplyaName(button.id, c);
 		}

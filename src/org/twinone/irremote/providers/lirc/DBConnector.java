@@ -70,7 +70,7 @@ public class DBConnector {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String cached = SimpleCache.get(mContext, mCacheName);
+			String cached = SimpleCache.readWithNewLines(mContext, mCacheName);
 			if (cached != null) {
 				Log.d("", "From cached");
 				return cached;
@@ -93,7 +93,7 @@ public class DBConnector {
 				}
 				urlConnection.disconnect();
 				// Save to cache for future access
-				SimpleCache.put(mContext, mCacheName, data.toString());
+				SimpleCache.write(mContext, mCacheName, data.toString());
 
 				return data.toString();
 			} catch (Exception e) {

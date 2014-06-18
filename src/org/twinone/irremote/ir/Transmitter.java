@@ -4,14 +4,18 @@ import android.content.Context;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
 import android.os.Handler;
+import android.util.Log;
 
 public class Transmitter {
 
 	// private static final String TAG = "IRManager";
 
+	private Context mContext;
+
 	private ConsumerIrManager mIrManager;
 
 	public Transmitter(Context context) {
+		mContext = context;
 		mIrManager = (ConsumerIrManager) context
 				.getSystemService(Context.CONSUMER_IR_SERVICE);
 		mHandler = new Handler();
@@ -79,9 +83,18 @@ public class Transmitter {
 	}
 
 	private synchronized void transmitImpl(Signal s) {
+		 s.fix(mContext);
+		Log.d("", "hasIrEmitter: " + mIrManager.hasIrEmitter());
+
 		if (mListener != null) {
 			mListener.onBeforeTransmit();
 		}
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < s.pattern.length; i++) {
+			sb.append(s.pattern[i]).append(" ");
+		}
+		Log.d("", "Sending: " + sb.toString());
+
 		mIrManager.transmit(s.frequency, s.pattern);
 		if (mListener != null) {
 			mListener.onAfterTransmit();

@@ -178,8 +178,6 @@ public class LircParser {
 	}
 
 	private String buildProntoCode(PulseSpacePair[] code) {
-		Signal s = new Signal();
-		s.frequency = mFrequency;
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		addToList(list, mHeader);
 		addToList(list, mLead);
@@ -193,8 +191,7 @@ public class LircParser {
 		addToList(list, mTrail);
 		addToList(list, mFoot);
 
-		s.pattern = toIntArray(list);
-		return SignalFactory.toPronto(s);
+		return SignalFactory.toPronto(new Signal(mFrequency, toIntArray(list)));
 	}
 
 	private void addToList(ArrayList<Integer> list, PulseSpacePair[] pairs) {
@@ -255,8 +252,6 @@ public class LircParser {
 						"Expected code name in raw_codes block instead of " + s);
 			}
 			final String name = ss[1];
-			Signal sig = new Signal();
-			sig.frequency = mFrequency;
 			ArrayList<Integer> pattern = new ArrayList<Integer>();
 			while (!(s = readLine()).startsWith("name")
 					&& !s.equals("end raw_codes")) {
@@ -266,7 +261,7 @@ public class LircParser {
 					pattern.add(Integer.parseInt(pulse));
 				}
 			}
-			sig.pattern = toIntArray(pattern);
+			Signal sig = new Signal(mFrequency, toIntArray(pattern));
 			mCodes.add(new IrCode(name, SignalFactory.toPronto(sig)));
 			mPosition--;
 		}

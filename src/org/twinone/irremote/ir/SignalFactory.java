@@ -47,14 +47,13 @@ public class SignalFactory {
 		// Frequency,Repeat,Offset,On1,Off1, ... ,OnN,OffN
 		// We ignore Repeat and Offset
 		in = in.trim();
-		final Signal out = new Signal();
 		final String[] split = in.split(",");
 		final long[] values = new long[split.length];
 		for (int i = 0; i < split.length; i++) {
 			values[i] = Long.parseLong(split[i]);
 		}
+		int freq = (int) values[0];
 
-		out.frequency = (int) values[0];
 		// TODO 1 or 3 for offset, depending on repeat and offset being present
 		final int offset = 1;
 		final int[] pattern = new int[values.length - offset];
@@ -62,13 +61,11 @@ public class SignalFactory {
 			pattern[i] = (int) values[offset + i];
 		}
 
-		out.pattern = pattern;
-		return out;
+		return new Signal(freq, pattern);
 	}
 
 	private static final Signal fromPronto(String in) {
 		in = in.trim();
-		final Signal out = new Signal();
 		final String[] split = in.split(" ");
 		final long[] pronto = new long[split.length];
 		for (int i = 0; i < split.length; i++) {
@@ -78,7 +75,7 @@ public class SignalFactory {
 		if (pronto[0] != 0x0000)
 			throw new IllegalArgumentException("Invalid pronto code");
 
-		out.frequency = (int) (1000000 / (pronto[1] * 0.241246));
+		int freq = (int) (1000000 / (pronto[1] * 0.241246));
 
 		final int bps1 = (int) pronto[2] * 2;
 		final int bps2 = (int) pronto[3] * 2;
@@ -90,8 +87,7 @@ public class SignalFactory {
 					: (int) pronto[offset + i];
 		}
 
-		out.pattern = pattern;
-		return out;
+		return new Signal(freq, pattern);
 	}
 
 	public static String toPronto(Signal s) {

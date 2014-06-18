@@ -87,8 +87,6 @@ public class Button implements Serializable {
 
 	public static final int BUTTON_ID_COUNT = 46;
 
-	public boolean common;
-
 	public transient static final int[] map = {};
 
 	/** Ids are to identify common buttons */
@@ -124,7 +122,8 @@ public class Button implements Serializable {
 
 	public Signal getSignal() {
 		// Since v1008 we store everything in pronto
-		Signal s = SignalFactory.parse(Signal.FORMAT_PRONTO, code);
+		// BUT USERS CAN STILL HAVE AN OLD FORMAT STORED FROM PRE-v1008!!!
+		Signal s = SignalFactory.parse(Signal.FORMAT_AUTO, code);
 		return s;
 	}
 
@@ -134,7 +133,7 @@ public class Button implements Serializable {
 			// Not a button
 			return false;
 		final Button b = (Button) o;
-		if (common != b.common || id != b.id)
+		if (id != b.id)
 			// Two different buttons
 			return false;
 		if (id != ID_NONE)

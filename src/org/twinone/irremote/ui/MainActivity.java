@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		OnRemoteSelectedListener, OnRemoteRenamedListener {
@@ -48,15 +47,13 @@ public class MainActivity extends ActionBarActivity implements
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 
 		mNavFragment.setEdgeSizeDp(30);
-		// Removed the 80dp because it interfeared with buttons when added long
-		// press
 
 		mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
 		// Show ads
 		if (SHOW_ADS) {
 			AdMobBannerBuilder builder = new AdMobBannerBuilder();
 			builder.setParent(mAdViewContainer);
-			builder.addTestDevice("896CB3D3288417013D38303D179FD45B");
+			builder.addTestDevice("285ACA7E7666862031AA5111058518DB");
 			builder.setAdUnitId("ca-app-pub-5756278739960648/2006850014");
 			builder.show();
 		} else {
@@ -145,8 +142,9 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case R.id.menu_action_edit:
-			Toast.makeText(this, "Edit will be available soon!",
-					Toast.LENGTH_LONG).show();
+			Intent i = new Intent(this, EditRemoteActivity.class);
+			i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
+			startActivity(i);
 			break;
 		}
 		return false;

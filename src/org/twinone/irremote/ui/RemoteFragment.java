@@ -101,7 +101,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 		for (Button b : mButtons) {
 			int buttonId = mButtonUtils.getButtonId(b.getId());
 			b.setVisibility(View.VISIBLE);
-			if (mRemote.contains(true, buttonId)) {
+			if (mRemote.contains(buttonId)) {
 				b.setText(mRemote.getButton(true, buttonId).getDisplayName());
 				b.setOnTouchListener(this);
 				b.setEnabled(true);
