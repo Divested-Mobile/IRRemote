@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		OnRemoteSelectedListener, OnRemoteRenamedListener {
@@ -142,12 +143,16 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case R.id.menu_action_edit:
+
+			Toast.makeText(this, "Edit will be available soon!",
+					Toast.LENGTH_SHORT).show();
+
 			// Intent i = new Intent(this, EditRemoteActivity.class);
 			// i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
 			// startActivity(i);
 
-			getFragmentManager().beginTransaction()
-					.replace(R.id.container, new LearnFragment()).commit();
+			// getFragmentManager().beginTransaction()
+			// .replace(R.id.container, new LearnFragment()).commit();
 			break;
 		}
 		return false;
