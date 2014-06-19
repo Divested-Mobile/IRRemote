@@ -3,6 +3,7 @@
 
     <!-- Same as used in icon -->
     <color name="main_red">#ff4444</color>
+    <color name="green_learned">#44ff44</color>
     <!-- Default button -->
     <color name="remote_button_bg_default_start">#202020</color>
     <color name="remote_button_bg_default_center">#232323</color>

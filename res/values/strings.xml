@@ -101,7 +101,9 @@
     <string name="nav_b_share">Share</string>
     <string name="nav_b_rate">Rate</string>
     <string name="share_promo">Check out Twinone IR Remote! Free Infrared remote that works for any TV! (Android) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
-
     <string name="my_remotes">My remotes</string>
-    
+    <string name="learn_ready">Ready!\nClick Learn to start learning</string>
+    <string name="learn_learning">Learning…</string>
+    <string name="learn_learned">Learned!</string>
+
 </resources>

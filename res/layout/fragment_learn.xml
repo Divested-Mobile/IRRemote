@@ -1,34 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app1="http://schemas.android.com/apk/res/org.twinone.irremote"
     style="@style/RemoteTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <Button
-        android:id="@+id/learn_start"
+        android:id="@+id/learn_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Learn" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Test" />
 
     <Button
         android:id="@+id/learn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="Cancel" />
 
     <Button
-        android:id="@+id/learn_test"
+        android:id="@+id/learn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Learn" />
 
     <TextView
         android:id="@+id/learn_status"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/learn_ready" />
 
-</LinearLayout>
+    <de.passsy.holocircularprogressbar.HoloCircularProgressBar
+        android:id="@+id/learn_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:marker_visible="false"
+        app:progress_background_color="#aaa"
+        app:progress_color="#ff0000"
+        app:thumb_visible="false" >
+    </de.passsy.holocircularprogressbar.HoloCircularProgressBar>
+
+</RelativeLayout>

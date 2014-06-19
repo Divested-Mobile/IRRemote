@@ -35,13 +35,19 @@ public class HTCReceiverHandler extends Handler {
 		} else if (what == CIRControl.MSG_RET_STARTED) {
 			mListener.onReceiveStart();
 		} else if (what == CIRControl.MSG_RET_LEARN_IR) {
-			if (error == CIRControl.ERR_NONE) {
+			switch (error) {
+			case CIRControl.ERR_NONE:
 				HtcIrData code = (HtcIrData) msg.getData().getSerializable(
 						CIRControl.KEY_CMD_RESULT);
 				mListener.onReceiveComplete(code);
-			} else if (error == CIRControl.ERR_LEARNING_TIMEOUT) {
+				break;
+			case CIRControl.ERR_CANCEL:
+				mListener.onReceiveCancel();
+				break;
+			case CIRControl.ERR_LEARNING_TIMEOUT:
 				mListener.onTimeout();
-			} else {
+				break;
+			default:
 				mListener.onError(error);
 			}
 		}
