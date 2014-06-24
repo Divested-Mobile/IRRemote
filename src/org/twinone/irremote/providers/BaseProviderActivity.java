@@ -8,6 +8,7 @@ import org.twinone.irremote.ui.SaveRemoteDialog;
 import org.twinone.irremote.ui.SaveRemoteDialog.OnRemoteSavedListener;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -27,7 +28,11 @@ public class BaseProviderActivity extends Activity {
 	protected int mCurrentType;
 	private int mExitType;
 
-	protected void setExitType(int exitType) {
+	public void setCurrentType(int currentType) {
+		mCurrentType = currentType;
+	}
+
+	public void setExitType(int exitType) {
 		mExitType = exitType;
 	}
 
@@ -80,7 +85,13 @@ public class BaseProviderActivity extends Activity {
 		getTransmitter().transmit(signal);
 	}
 
-	private Transmitter getTransmitter() {
+	public void addFragment(Fragment fragment) {
+		getFragmentManager().beginTransaction()
+				.replace(R.id.container, fragment).addToBackStack("default")
+				.commit();
+	}
+
+	public Transmitter getTransmitter() {
 		// Lazy initialization
 		if (mTransmitter == null) {
 			mTransmitter = Transmitter.getInstance(this);

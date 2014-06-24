@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <gradient
-        android:angle="270"
-        android:centerColor="@color/remote_button_bg_default_center"
-        android:endColor="@color/remote_button_bg_default_end"
-        android:startColor="@color/remote_button_bg_default_start" />
+    <solid android:color="#0000" />
 
 </shape>

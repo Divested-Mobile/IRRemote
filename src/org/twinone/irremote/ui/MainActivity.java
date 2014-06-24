@@ -5,6 +5,7 @@ import org.twinone.androidlib.ShareManager;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
+import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.providers.common.CommonProviderActivity;
 import org.twinone.irremote.ui.RenameRemoteDialog.OnRemoteRenamedListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
@@ -40,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 
 		SignalCorrector.setAffectedOnce(this);
+		HTCReceiver.setReceiverAvailableOnce(this);
 
 		setContentView(R.layout.activity_main);
 
@@ -129,7 +131,7 @@ public class MainActivity extends ActionBarActivity implements
 		menu.findItem(R.id.menu_action_delete).setVisible(hasRemote);
 		menu.findItem(R.id.menu_action_rename).setVisible(hasRemote);
 		menu.findItem(R.id.menu_action_edit).setVisible(hasRemote);
-		
+
 		// TODO edit is not learn
 		// menu.findItem(R.id.menu_action_edit).setVisible(
 		// HTCReceiver.isAvailable(this));

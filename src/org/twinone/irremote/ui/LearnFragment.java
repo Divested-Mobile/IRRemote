@@ -1,5 +1,7 @@
 package org.twinone.irremote.ui;
 
+import java.util.Random;
+
 import org.twinone.irremote.R;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Receiver;
@@ -12,6 +14,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +50,18 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 		mTransmitter = Transmitter.getInstance(getActivity());
 		mReceiver = Receiver.getInstance(getActivity());
 		mReceiver.setListener(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 		mReceiver.start();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		mReceiver.stop();
 	}
 
 	@Override
@@ -66,6 +80,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 
 		mProgress = (HoloCircularProgressBar) view
 				.findViewById(R.id.learn_progress);
+
+		mProgress.setOnClickListener(this);
 
 		mAnimator = ObjectAnimator.ofFloat(mProgress, "float", 1f);
 		mAnimator.setDuration(TIMEOUT_SECONDS * 1000);
@@ -92,15 +108,14 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 			learnStop();
 			break;
 		case R.id.learn_test:
-			if (mSignal != null) {
-				mTransmitter.transmit(mSignal);
+			if (mLearnedSignal != null) {
+				mTransmitter.transmit(mLearnedSignal);
 			}
 			break;
 		}
-
 	}
 
-	private Signal mSignal;
+	private Signal mLearnedSignal;
 
 	@Override
 	public void onError(int errorCode) {
@@ -121,10 +136,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 	@Override
 	public void onLearn(Signal s) {
 		Log.d(TAG, "onLearn");
-		mSignal = s;
+		mLearnedSignal = s;
 		mStatus.setText(R.string.learn_learned);
 		learnConfirm();
-
 	}
 
 	private void learnStart() {

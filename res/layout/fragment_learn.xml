@@ -15,6 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
         android:text="Test" />
 
     <Button
@@ -23,6 +27,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
         android:text="Cancel" />
 
     <Button
@@ -31,6 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
         android:text="Learn" />
 
     <TextView
@@ -49,7 +61,6 @@
         app:marker_visible="false"
         app:progress_background_color="#aaa"
         app:progress_color="#ff0000"
-        app:thumb_visible="false" >
-    </de.passsy.holocircularprogressbar.HoloCircularProgressBar>
+        app:thumb_visible="false" />
 
 </RelativeLayout>

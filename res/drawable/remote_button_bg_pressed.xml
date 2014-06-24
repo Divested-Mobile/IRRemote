@@ -9,4 +9,8 @@
         android:endColor="@color/remote_button_bg_pressed_end"
         android:startColor="@color/remote_button_bg_pressed_start" />
 
+    <stroke
+        android:width="1dp"
+        android:color="#60676b" />
+
 </shape>

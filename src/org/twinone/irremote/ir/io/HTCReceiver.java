@@ -6,6 +6,7 @@ import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.HTCReceiverHandler.OnMessageListener;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Handler;
 
@@ -43,14 +44,7 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 	}
 
 	public static boolean isAvailable(Context c) {
-		List<PackageInfo> list = c.getPackageManager().getInstalledPackages(
-				Integer.MAX_VALUE);
-		for (PackageInfo pi : list) {
-			if ("com.htc.cirmodule".equals(pi.packageName)) {
-				return true;
-			}
-		}
-		return false;
+		return getPreferences(c).getBoolean("available", false);
 	}
 
 	@Override
@@ -102,5 +96,25 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 	@Override
 	public void onTimeout() {
 		getListener().onTimeout();
+	}
+
+	private static SharedPreferences getPreferences(Context c) {
+		return c.getSharedPreferences("receiver", Context.MODE_PRIVATE);
+	}
+
+	public static void setReceiverAvailableOnce(Context c) {
+		SharedPreferences sp = getPreferences(c);
+		if (sp.contains("available")) {
+			return;
+		}
+		boolean isAvailable = false;
+		List<PackageInfo> list = c.getPackageManager().getInstalledPackages(
+				Integer.MAX_VALUE);
+		for (PackageInfo pi : list) {
+			if ("com.htc.cirmodule".equals(pi.packageName)) {
+				isAvailable = true;
+			}
+		}
+		sp.edit().putBoolean("available", isAvailable).apply();
 	}
 }
