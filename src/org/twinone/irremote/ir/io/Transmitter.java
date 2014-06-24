@@ -3,6 +3,7 @@ package org.twinone.irremote.ir.io;
 import org.twinone.irremote.ir.Signal;
 
 import android.content.Context;
+import android.util.Log;
 
 public abstract class Transmitter {
 	private Context mContext;
@@ -24,6 +25,7 @@ public abstract class Transmitter {
 		try {
 			return new KitKatTransmitter(c);
 		} catch (RuntimeException e) {
+			Log.d("", "", e);
 		}
 		return null;
 	}
@@ -69,5 +71,11 @@ public abstract class Transmitter {
 
 		public void onAfterTransmit();
 	}
+
+	public abstract void pause();
+
+	public abstract void resume();
+	
+	public abstract void cancel();
 
 }

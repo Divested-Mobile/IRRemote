@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_def_fix"
+        android:key="@string/pref_key_fix"
+        android:summary="@string/pref_desc_fix"
+        android:title="@string/pref_tit_fix" />
+
+</PreferenceScreen>

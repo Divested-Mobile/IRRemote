@@ -1,6 +1,7 @@
 package org.twinone.irremote.ir.io;
 
 import org.twinone.irremote.ir.Signal;
+import org.twinone.irremote.ir.SignalCorrector;
 
 import android.content.Context;
 import android.hardware.ConsumerIrManager;
@@ -10,15 +11,18 @@ import android.util.Log;
 
 public class KitKatTransmitter extends Transmitter {
 
-	// private static final String TAG = "IRManager";
-
+	private Context mContext;
 	private ConsumerIrManager mIrManager;
+	private SignalCorrector mSignalCorrector;
 
 	public KitKatTransmitter(Context context) {
 		super(context);
+		mContext = context;
+		mHandler = new Handler();
+		mSignalCorrector = new SignalCorrector(context);
 		mIrManager = (ConsumerIrManager) context
 				.getSystemService(Context.CONSUMER_IR_SERVICE);
-		mHandler = new Handler();
+
 	}
 
 	public boolean isAvailable() {
@@ -83,7 +87,7 @@ public class KitKatTransmitter extends Transmitter {
 	}
 
 	private synchronized void transmitImpl(Signal s) {
-		s.fix(getContext());
+		s.fix(mSignalCorrector);
 		Log.d("", "hasIrEmitter: " + mIrManager.hasIrEmitter());
 
 		if (getListener() != null) {
@@ -131,6 +135,19 @@ public class KitKatTransmitter extends Transmitter {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void pause() {
+		mHandler.removeCallbacks(mRunnable);
+	}
+
+	@Override
+	public void resume() {
+	}
+
+	@Override
+	public void cancel() {
 	}
 
 }

@@ -4,6 +4,7 @@ import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.ShareManager;
 import org.twinone.irremote.R;
 import org.twinone.irremote.Remote;
+import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.providers.common.CommonProviderActivity;
 import org.twinone.irremote.ui.RenameRemoteDialog.OnRemoteRenamedListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
@@ -37,6 +38,8 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		SignalCorrector.setAffectedOnce(this);
 
 		setContentView(R.layout.activity_main);
 
@@ -126,6 +129,10 @@ public class MainActivity extends ActionBarActivity implements
 		menu.findItem(R.id.menu_action_delete).setVisible(hasRemote);
 		menu.findItem(R.id.menu_action_rename).setVisible(hasRemote);
 		menu.findItem(R.id.menu_action_edit).setVisible(hasRemote);
+		
+		// TODO edit is not learn
+		// menu.findItem(R.id.menu_action_edit).setVisible(
+		// HTCReceiver.isAvailable(this));
 		return true;
 	}
 
@@ -153,6 +160,10 @@ public class MainActivity extends ActionBarActivity implements
 
 			// getFragmentManager().beginTransaction()
 			// .replace(R.id.container, new LearnFragment()).commit();
+			break;
+		case R.id.menu_action_settings:
+			Intent i = new Intent(this, SettingsActivity.class);
+			startActivity(i);
 			break;
 		}
 		return false;

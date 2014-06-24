@@ -18,10 +18,10 @@ public class Signal {
 
 	private boolean isFixed;
 
-	public Signal fix(Context c) {
+	public Signal fix(SignalCorrector sc) {
 		if (isFixed)
 			return this;
-		this.pattern = new SignalCompat(c).fix(frequency, pattern);
+		this.pattern = sc.fix(frequency, pattern);
 		isFixed = true;
 		return this;
 

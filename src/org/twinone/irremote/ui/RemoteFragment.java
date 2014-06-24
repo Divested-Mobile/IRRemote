@@ -187,4 +187,16 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	public void onAfterTransmit() {
 		mHandler.postDelayed(mHideFeedbackRunnable, MINIMUM_SHOW_TIME);
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mTransmitter.resume();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mTransmitter.pause();
+	}
 }

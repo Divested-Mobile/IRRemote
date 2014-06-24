@@ -18,6 +18,7 @@
     <string name="menu_action_delete_remote">Delete</string>
     <string name="menu_action_rename">Rename</string>
     <string name="menu_action_edit">Edit</string>
+    <string name="menu_action_settings">Settings</string>
 
     <!-- Save -->
     <string name="save_remote_title">Save remote</string>
@@ -105,5 +106,11 @@
     <string name="learn_ready">Ready!\nClick Learn to start learning</string>
     <string name="learn_learning">Learning…</string>
     <string name="learn_learned">Learned!</string>
+
+    <!-- Preferences and all that awesome stuff -->
+    <string name="pref_tit_fix">Fix buttons</string>
+    <string name="pref_desc_fix">On some devices Android doesn\'t send the codes correctly. Enable this to fix it.</string>
+    <string name="pref_dlg_tit_fix">Warning</string>
+    <string name="pref_dlg_msg_fix">You may need to reboot your device for the changes to take effect</string>
 
 </resources>

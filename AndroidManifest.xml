@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.twinone.irremote"
-    android:versionCode="1101"
-    android:versionName="1.1.1" >
+    android:versionCode="1103"
+    android:versionName="1.1.3" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -29,6 +29,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name="org.twinone.irremote.ui.SettingsActivity" />
         <activity android:name="org.twinone.irremote.providers.globalcache.GCProviderActivity" />
         <activity android:name="org.twinone.irremote.providers.lirc.LircProviderActivity" />
         <activity android:name="org.twinone.irremote.providers.common.CommonProviderActivity" />
