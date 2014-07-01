@@ -42,18 +42,22 @@ public class LearnProviderActivity extends BaseProviderActivity implements
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle(R.string.learn_select_tit);
 		ab.setItems(R.array.learn_device_types, this);
+		ab.setNegativeButton(android.R.string.cancel, this);
+		ab.setCancelable(false);
 		ab.show();
 
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-
-		mSelectedDeviceType = getResources().getStringArray(
-				R.array.learn_device_types)[which];
-
-		showLearnFragmentForType(which);
-		dialog.dismiss();
+		if (which == DialogInterface.BUTTON_NEGATIVE) {
+			finish();
+		} else {
+			mSelectedDeviceType = getResources().getStringArray(
+					R.array.learn_device_types)[which];
+			showLearnFragmentForType(which);
+			dialog.dismiss();
+		}
 	}
 
 }

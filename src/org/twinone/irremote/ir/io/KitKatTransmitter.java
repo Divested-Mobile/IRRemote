@@ -89,12 +89,14 @@ public class KitKatTransmitter extends Transmitter {
 	}
 
 	private synchronized void transmitImpl(Signal signal) {
+		Log.d("", "Null: " + (signal == null));
+		
+		if (signal == null)
+			return;
 		Signal realSignal = signal.clone().fix(mSignalCorrector);
 		if (getListener() != null) {
 			getListener().onBeforeTransmit();
 		}
-		Log.d("", "Sending: " + realSignal.toString());
-
 		mIrManager.transmit(realSignal.frequency, realSignal.pattern);
 		if (getListener() != null) {
 			getListener().onAfterTransmit();

@@ -23,7 +23,7 @@
 
     <!-- Save -->
     <string name="save_remote_title">Save remote</string>
-    <string name="save_remote_text">Your new remote will appear in the My Remotes section</string>
+    <string name="save_remote_text">Choose a name for your remote.\nYour new remote will appear in the My Remotes section</string>
     <string name="save_remote_hint">Remote name</string>
     <string name="save_remote_save">Save</string>
     <string name="save_remote_empty">Remote name cannot be empty!</string>
@@ -121,12 +121,12 @@
     <string name="edit_remote_message"></string>
     <string name="nav_b_share">Share</string>
     <string name="nav_b_rate">Rate</string>
-    <string name="share_promo">Check out Twinone IR Remote! Free Infrared remote that works for any TV! (Android) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
+    <string name="share_promo">Check out Twinone IR Remote! Free Infrared remote that works for any TV! (Android app) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
     <string name="my_remotes">My remotes</string>
 
     <!-- Preferences and all that awesome stuff -->
     <string name="pref_tit_fix">Fix buttons</string>
-    <string name="pref_desc_fix">On some devices Android doesn\'t send the codes correctly. Enable this to fix it.</string>
+    <string name="pref_desc_fix">On some devices Android doesn\'t send the codes correctly. Enable or disable this to fix it.</string>
     <string name="pref_dlg_tit_fix">Warning</string>
     <string name="pref_dlg_msg_fix">You may need to reboot your device for the changes to take effect</string>
     <string name="dlg_na_tit">Oops!</string>
@@ -138,7 +138,7 @@
 
     <!-- Learning -->
     <string name="learn_tit_learning">Learning…</string>
-    <string name="learn_desc_learning">Hold the \"%s\" button until it\'s recognized…</string>
+    <string name="learn_desc_learning">Keep holding \"%s\"…</string>
 
     <!-- Learned -->
     <string name="learn_tit_learned">Learned!</string>

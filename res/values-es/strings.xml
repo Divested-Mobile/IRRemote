@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IR Remote</string>
+
+    <!-- Da menu -->
+    <string name="db_menu_search_tit">Buscar</string>
+    <string name="db_menu_refresh">Refrescar</string>
+    <string name="db_menu_save">Guardar mando</string>
+    <string name="db_search_hint_manufacturers">Buscar fabricantes</string>
+    <string name="db_search_hint_custom">Buscar %s</string>
+    <string name="db_search_hint_buttons">Buscar botones</string>
+    <string name="db_select_manufacturer">Selecciona fabricante</string>
+    <string name="db_select_device_type">Selecciona tipo de aparato</string>
+    <!--  -->
+    <string name="common_menu_todb">Más</string>
+    <!--  -->
+    <string name="menu_action_delete_remote">Borrar</string>
+    <string name="menu_action_rename">Renombrar</string>
+    <string name="menu_action_edit">Editar</string>
+    <string name="menu_action_learn">Aprender</string>
+    <string name="menu_action_settings">Ajustes</string>
+
+    <!-- Save -->
+    <string name="save_remote_title">Guardar mando</string>
+    <string name="save_remote_text">Introduce un nombre para tu mando.\nEl mando aparecerá en la sección Mis mandos</string>
+    <string name="save_remote_hint">Nombre del mando</string>
+    <string name="save_remote_save">Guardar</string>
+    <string name="save_remote_empty">El nombre no puede estar vacío!</string>
+    <!-- Rename -->
+    <string name="rename_remote_title">Nombre del mando</string>
+    <string name="rename_remote_message">Introduce un nombre nuevo para %s</string>
+    <string name="rename_remote_hint">Nombre nuevo</string>
+    <string name="rename_remote_save">Renombrar</string>
+
+    <!--  -->
+    <string name="save_button_title">Guardar botón</string>
+    <string name="select_remote">Elige un mando</string>
+    <string name="save_button_text_title">Nombre del botón</string>
+    <string name="save_button_hint">Nombre del botón</string>
+    <string name="save_button_save">Guardar</string>
+    <string name="add_remote">Añadir mando</string>
+    <string name="select_remote_first">Elige un mando primero</string>
+    <string name="remote_saved_toast">Mando guardado</string>
+
+    <!-- Button text. Translators: keep it short! (max 5 chars) -->
+    <string name="button_text_power">Power</string>
+    <string name="button_text_power_on">On</string>
+    <string name="button_text_power_off">Off</string>
+    <string name="button_text_vol_up">Vol +</string>
+    <string name="button_text_vol_down">Vol -</string>
+    <string name="button_text_ch_up">Ch +</string>
+    <string name="button_text_ch_down">Ch -</string>
+    <string name="button_text_nav_up">Arriba</string>
+    <string name="button_text_nav_down">Abajo</string>
+    <string name="button_text_nav_left">Izqda</string>
+    <string name="button_text_nav_right">Dcha</string>
+    <string name="button_text_nav_ok">OK</string>
+    <string name="button_text_back">Atrás</string>
+    <string name="button_text_mute">Mute</string>
+    <string name="button_text_menu">Menú</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_9">9</string>
+
+    <!--  -->
+    <string name="button_text_input">Entrada</string>
+    <string name="button_text_guide">Guía</string>
+    <string name="button_text_smart">Smart</string>
+    <string name="button_text_last">Anterior</string>
+    <string name="button_text_clear">Borrar</string>
+    <string name="button_text_exit">Salir</string>
+    <string name="button_text_cc">Subt.</string>
+    <string name="button_text_info">Info</string>
+    <string name="button_text_sleep">Temp.</string>
+
+    <!--  -->
+    <string name="button_text_play">Play</string>
+    <string name="button_text_pause">Pausa</string>
+    <string name="button_text_stop">Stop</string>
+    <string name="button_text_fast_forward">Fwd</string>
+    <string name="button_text_rewind">Rwd</string>
+    <string name="button_text_next">Sig.</string>
+    <string name="button_text_prev">Ant.</string>
+    <string name="button_text_rec">Rec</string>
+    <string name="button_text_disp">Disp</string>
+    <!--  -->
+    <string name="button_text_src_cd">CD</string>
+    <string name="button_text_src_aux">AUX</string>
+    <string name="button_text_src_tape">Cinta</string>
+    <string name="button_text_src_tuner">Sint.</string>
+    <string name="button_text_red">Rojo</string>
+    <string name="button_text_green">Verde</string>
+    <string name="button_text_blue">Azul</string>
+    <string name="button_text_yellow">Amarillo</string>
+    <string name="button_text_input_1">Ent.1</string>
+    <string name="button_text_input_2">Ent.2</string>
+    <string name="button_text_input_3">Ent.3</string>
+    <string name="button_text_input_4">Ent.4</string>
+    <string name="button_text_input_5">Ent.5</string>
+    <string name="button_text_fan_up">Vent +</string>
+    <string name="button_text_fan_down">Vent -</string>
+    <string name="button_text_temp_up">Tmp +</string>
+    <string name="button_text_temp_down">Tmp -</string>
+
+    <!-- Digits allowed to save a remote name -->
+    <!-- Don't put spaces at the end or beginning -->
+    <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZÑÇabcdefghijklmnñopqrstuvwxyzñç0123456789- _</string>
+
+    <!--  -->
+    <string name="delete_remote_title">Borrar mando</string>
+    <string name="delete_remote_message">¿Estás seguro de que quieres borrar %s?</string>
+    <string name="edit_remote_title">Editar mando</string>
+    <string name="edit_remote_message"></string>
+    <string name="nav_b_share">Compartir</string>
+    <string name="nav_b_rate">Valorar</string>
+    <string name="share_promo">Echa un vistazo a IR Remote! Mando a distancia gratuito que funciona para cualquier televisión (App para Android) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
+    <string name="my_remotes">Mis mandos</string>
+
+    <!-- Preferences and all that awesome stuff -->
+    <string name="pref_tit_fix">Arreglar botones</string>
+    <string name="pref_desc_fix">En algunas versiones de Android, no se envían correctamente las señales. Activa o desactiva esto para corregirlo.</string>
+    <string name="pref_dlg_tit_fix">Aviso</string>
+    <string name="pref_dlg_msg_fix">Puede que necesites reiniciar tu dispositivo para que los cambios se hagan efectivos</string>
+    <string name="dlg_na_tit">Ups!</string>
+    <string name="dlg_na_msg">Parece que tu dispositivo no tiene emisor de infrarrojos\nLo sentimos, pero no podrás usar esta app en este dispositivo.</string>
+
+    <!-- Ready -->
+    <string name="learn_tit_ready">Configurar \"%s\"</string>
+    <string name="learn_desc_ready">Pulsa y mantén el botón \"%s\" en tu mando apuntando al lector de infrarrojos de tu dispositivo a unos 5cm.\nCuando estés listo, pulsa Aprender</string>
+
+    <!-- Learning -->
+    <string name="learn_tit_learning">Aprendiendo…</string>
+    <string name="learn_desc_learning">Continúa manteniendo \"%s\"…</string>
+
+    <!-- Learned -->
+    <string name="learn_tit_learned">Aprendido!</string>
+    <string name="learn_desc_learned">Estupendo. Ahora prueba tu nuevo botón.</string>
+    <!--  -->
+    <string name="learn_button_ready">Aprender</string>
+    <string name="learn_button_cancel">Cancelar</string>
+    <string name="learn_button_back">Atrás</string>
+    <string name="learn_button_skip">Saltar</string>
+    <string name="learn_button_it_works">Si</string>
+    <string name="learn_button_try_again">No</string>
+    <string name="learn_button_finish">Finalizar</string>
+    <!--  -->
+    <string name="learn_learning">Aprendiendo…</string>
+    <string name="learn_learned">Aprendido!</string>
+    <!--  -->
+    <string name="learn_help_tit">No funciona?</string>
+    <string name="learn_help_msg">Apunta tu mando directamente al lector de infrarrojos de tu dispositivo. También puedes probar a mantenerlo un poco más cerca o más lejos.</string>
+    <string name="learn_footer">Botón %1$d de %2$d</string>
+    <string name="learn_footer_did_it_work">El botón funciona?</string>
+    <string name="learn_select_tit">Tipo de dispositivo</string>
+    <string name="learn_select_msg">Elige el tipo de dispositivo que estás aprendiendo</string>
+    <!-- %s is the device type (tv, cable, blu ray, air conditioning... -->
+	<string name="learn_activity_title">Aprender nuevo mando de %s</string>
+    <!--  -->
+    <string name="device_type_tv">TV</string>
+    <string name="device_type_cable">TDT/Reproductor</string>
+    <string name="device_type_bluray">Bluray</string>
+    <string name="device_type_audio_amplifier">Altavoces</string>
+    <string name="device_type_air_con">Aire acondicionado</string>
+
+</resources>

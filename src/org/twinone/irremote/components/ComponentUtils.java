@@ -264,6 +264,9 @@ public class ComponentUtils {
 		case Remote.TYPE_AIR_CONDITIONER:
 			return R.layout.fragment_remote_air_conditioner;
 
+		case Remote.TYPE_AUDIO_AMPLIFIER:
+			return R.layout.fragment_remote_audio_amplifier;
+
 		default:
 			return R.layout.fragment_remote_tv;
 		}

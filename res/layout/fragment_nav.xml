@@ -18,11 +18,11 @@
         android:id="@+id/select_remote_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/nav_bottom_buttons"
+        android:layout_above="@+id/share_rate_view"
         android:choiceMode="singleChoice" />
 
     <include
-        android:id="@+id/share_rate_view"
+        android:id="@id/share_rate_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
