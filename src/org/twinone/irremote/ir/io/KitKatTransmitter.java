@@ -11,18 +11,20 @@ import android.util.Log;
 
 public class KitKatTransmitter extends Transmitter {
 
-	private Context mContext;
 	private ConsumerIrManager mIrManager;
 	private SignalCorrector mSignalCorrector;
 
 	public KitKatTransmitter(Context context) {
 		super(context);
-		mContext = context;
-		mHandler = new Handler();
-		mSignalCorrector = new SignalCorrector(context);
 		mIrManager = (ConsumerIrManager) context
 				.getSystemService(Context.CONSUMER_IR_SERVICE);
+		if (!isAvailable()) {
+			throw new ComponentNotAvailableException(
+					"Transmitter not available on this device");
+		}
 
+		mHandler = new Handler();
+		mSignalCorrector = new SignalCorrector(context);
 	}
 
 	public boolean isAvailable() {
@@ -86,20 +88,14 @@ public class KitKatTransmitter extends Transmitter {
 		}
 	}
 
-	private synchronized void transmitImpl(Signal s) {
-		s.fix(mSignalCorrector);
-		Log.d("", "hasIrEmitter: " + mIrManager.hasIrEmitter());
-
+	private synchronized void transmitImpl(Signal signal) {
+		Signal realSignal = signal.clone().fix(mSignalCorrector);
 		if (getListener() != null) {
 			getListener().onBeforeTransmit();
 		}
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < s.pattern.length; i++) {
-			sb.append(s.pattern[i]).append(" ");
-		}
-		Log.d("", "Sending: " + sb.toString());
+		Log.d("", "Sending: " + realSignal.toString());
 
-		mIrManager.transmit(s.frequency, s.pattern);
+		mIrManager.transmit(realSignal.frequency, realSignal.pattern);
 		if (getListener() != null) {
 			getListener().onAfterTransmit();
 		}

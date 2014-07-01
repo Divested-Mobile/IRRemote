@@ -3,7 +3,6 @@ package org.twinone.irremote.providers;
 import org.twinone.irremote.R;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 
 public class ProviderActivity extends Activity {

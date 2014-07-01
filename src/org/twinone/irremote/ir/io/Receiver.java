@@ -32,6 +32,10 @@ public abstract class Receiver {
 		return null;
 	}
 
+	public static boolean isAvailable(Context c) {
+		return getInstance(c) != null;
+	}
+
 	/**
 	 * @return True if the receiver is currently active
 	 */
@@ -65,19 +69,19 @@ public abstract class Receiver {
 	public interface OnLearnListener {
 		public void onError(int errorCode);
 
-		public void onCancel();
+		public void onLearnCancel();
 
-		public void onStart();
+		public void onLearnStart();
 
 		public void onLearn(Signal s);
-		
+
 		public void onTimeout();
 	}
 
 	public abstract void start();
 
 	public abstract void stop();
-	
+
 	public abstract boolean isAvailable();
 
 }

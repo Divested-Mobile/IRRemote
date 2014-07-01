@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.twinone.irremote.Button;
-import org.twinone.irremote.ButtonUtils;
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.ComponentUtils;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
@@ -214,12 +214,12 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 			b.code = FileUtils.read(getActivity().getAssets(), remotedir
 					+ File.separator + name);
 			b.id = Integer.parseInt(name.substring(2).split("\\.")[0]);
-			b.text = ButtonUtils
+			b.text = ComponentUtils
 					.getCommonButtonDisplyaName(b.id, getActivity());
 			r.addButton(b);
 		}
 		r.options.type = getDeviceTypeInt(mTarget.deviceType);
-		getProvider().save(r);
+		getProvider().saveRemote(r);
 	}
 
 	public boolean onItemLongClick(AdapterView<?> parent, View view,

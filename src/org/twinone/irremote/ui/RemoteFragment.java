@@ -3,9 +3,9 @@ package org.twinone.irremote.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.twinone.irremote.ButtonUtils;
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.ComponentUtils;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 
@@ -32,7 +32,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	private Transmitter mTransmitter;
 	protected List<Button> mButtons = new ArrayList<Button>();
 
-	private ButtonUtils mButtonUtils;
+	private ComponentUtils mButtonUtils;
 
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
 
@@ -50,8 +50,10 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mTransmitter = Transmitter.getInstance(getActivity());
-		mTransmitter.setListener(this);
-		mButtonUtils = new ButtonUtils(getActivity());
+		if (mTransmitter != null) {
+			mTransmitter.setListener(this);
+		}
+		mButtonUtils = new ComponentUtils(getActivity());
 
 		if (getArguments() == null
 				|| !getArguments().containsKey(ARG_REMOTE_NAME)) {
@@ -72,9 +74,10 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 		setHasOptionsMenu(true);
 
 		int resId = R.layout.fragment_remote_tv;
-		if (mRemote.options == null
-				|| mRemote.options.type == Remote.TYPE_CABLE) {
-			resId = R.layout.fragment_remote_cable;
+		try {
+			resId = ComponentUtils.getLayout(mRemote.options.type);
+		} catch (Exception e) {
+			// Older versions don't have the options file in remote
 		}
 
 		View view = inflater.inflate(resId, container, false);
@@ -136,7 +139,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP:
 			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
-				boolean atLeastOnce = event.getAction() != MotionEvent.ACTION_CANCEL;
+				boolean atLeastOnce = event.getAction() == MotionEvent.ACTION_UP;
 				mTransmitter.stopTransmitting(atLeastOnce);
 				mFingerDown = false;
 				return false;
@@ -191,12 +194,15 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	@Override
 	public void onResume() {
 		super.onResume();
-		mTransmitter.resume();
+		if (mTransmitter != null)
+			mTransmitter.resume();
+
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		mTransmitter.pause();
+		if (mTransmitter != null)
+			mTransmitter.pause();
 	}
 }

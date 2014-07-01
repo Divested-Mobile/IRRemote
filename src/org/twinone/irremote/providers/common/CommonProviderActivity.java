@@ -13,7 +13,7 @@ public class CommonProviderActivity extends BaseProviderActivity {
 		super.onCreate(savedInstanceState);
 		setExitType(Data.TARGET_DEVICE_TYPE);
 
-		setContentView(R.layout.activity_db);
+		setContentView(R.layout.activity_empty);
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()

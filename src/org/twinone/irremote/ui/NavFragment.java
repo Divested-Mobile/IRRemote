@@ -6,7 +6,7 @@ import org.twinone.androidlib.NavigationFragment;
 import org.twinone.androidlib.ShareManager;
 import org.twinone.androidlib.ShareRateView;
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 
 import android.app.Activity;

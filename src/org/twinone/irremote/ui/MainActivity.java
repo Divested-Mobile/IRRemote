@@ -2,18 +2,24 @@ package org.twinone.irremote.ui;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.ShareManager;
+import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
+import org.twinone.irremote.ir.io.Receiver;
+import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.common.CommonProviderActivity;
+import org.twinone.irremote.providers.learn.LearnProviderActivity;
 import org.twinone.irremote.ui.RenameRemoteDialog.OnRemoteRenamedListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements
 	private static final String TAG = "MainActivity";
 
 	public static final boolean SHOW_ADS = true;
+	public static boolean DEBUG = BuildConfig.DEBUG && true;
 
 	private NavFragment mNavFragment;
 
@@ -39,6 +46,10 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (!checkTransmitterAvailable() && !DEBUG) {
+			showNotAvailableDialog();
+		}
 
 		SignalCorrector.setAffectedOnce(this);
 		HTCReceiver.setReceiverAvailableOnce(this);
@@ -69,6 +80,34 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 		ShareManager.show(this, getString(R.string.share_promo));
+	}
+
+	private boolean checkTransmitterAvailable() {
+		final String key = "_has_ir_emitter";
+		SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
+		boolean available = false;
+		if (sp.getBoolean(key, false)) {
+			return true;
+		}
+
+		available = Transmitter.isTransmitterAvailable(this);
+		sp.edit().putBoolean(key, true);
+		return available;
+	}
+
+	private void showNotAvailableDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		ab.setTitle(R.string.dlg_na_tit);
+		ab.setMessage(R.string.dlg_na_msg);
+		ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				finish();
+			}
+		});
+		ab.setCancelable(false);
+		ab.show();
 	}
 
 	@Override
@@ -125,6 +164,7 @@ public class MainActivity extends ActionBarActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.remote, menu);
 		boolean hasRemote = getRemoteName() != null;
+		boolean canReceive = Receiver.isAvailable(this);
 		if (!hasRemote) {
 			setTitle(R.string.app_name);
 		}
@@ -132,9 +172,8 @@ public class MainActivity extends ActionBarActivity implements
 		menu.findItem(R.id.menu_action_rename).setVisible(hasRemote);
 		menu.findItem(R.id.menu_action_edit).setVisible(hasRemote);
 
-		// TODO edit is not learn
-		// menu.findItem(R.id.menu_action_edit).setVisible(
-		// HTCReceiver.isAvailable(this));
+		menu.findItem(R.id.menu_action_learn).setVisible(canReceive);
+
 		return true;
 	}
 
@@ -152,16 +191,18 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case R.id.menu_action_edit:
-
 			Toast.makeText(this, "Edit will be available soon!",
 					Toast.LENGTH_SHORT).show();
+			break;
+
+		case R.id.menu_action_learn:
 
 			// Intent i = new Intent(this, EditRemoteActivity.class);
 			// i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
 			// startActivity(i);
 
-			// getFragmentManager().beginTransaction()
-			// .replace(R.id.container, new LearnFragment()).commit();
+			Intent learn = new Intent(this, LearnProviderActivity.class);
+			startActivity(learn);
 			break;
 		case R.id.menu_action_settings:
 			Intent i = new Intent(this, SettingsActivity.class);

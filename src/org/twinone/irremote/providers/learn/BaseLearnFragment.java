@@ -1,31 +1,23 @@
-package org.twinone.irremote.ui;
-
-import java.util.Random;
+package org.twinone.irremote.providers.learn;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Receiver.OnLearnListener;
 import org.twinone.irremote.ir.io.Transmitter;
+import org.twinone.irremote.providers.BaseProviderFragment;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
-import android.widget.TextView;
 import de.passsy.holocircularprogressbar.HoloCircularProgressBar;
 
-public class LearnFragment extends Fragment implements View.OnClickListener,
+public abstract class BaseLearnFragment extends BaseProviderFragment implements
 		OnLearnListener, AnimatorListener {
 
 	private static final String TAG = "LearnFragment";
@@ -37,11 +29,15 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 	private Transmitter mTransmitter;
 	private Receiver mReceiver;
 
-	private Button mLearn;
-	private Button mCancel;
-	private Button mTest;
+	private State mCurrentState = State.READY;
 
-	private TextView mStatus;
+	protected State getState() {
+		return mCurrentState;
+	}
+
+	protected enum State {
+		READY, LEARNING, LEARNED
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,40 +45,23 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 
 		mTransmitter = Transmitter.getInstance(getActivity());
 		mReceiver = Receiver.getInstance(getActivity());
-		mReceiver.setListener(this);
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		mReceiver.start();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
+	public void onPause() {
+		super.onPause();
 		mReceiver.stop();
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public void onResume() {
+		super.onResume();
+		mReceiver.setListener(this);
+		mReceiver.start();
+	}
 
-		View view = inflater.inflate(R.layout.fragment_learn, container, false);
-		mLearn = (Button) view.findViewById(R.id.learn_start);
-		mCancel = (Button) view.findViewById(R.id.learn_cancel);
-		mTest = (Button) view.findViewById(R.id.learn_test);
-		mStatus = (TextView) view.findViewById(R.id.learn_status);
-
-		mLearn.setOnClickListener(this);
-		mCancel.setOnClickListener(this);
-		mTest.setOnClickListener(this);
-
-		mProgress = (HoloCircularProgressBar) view
-				.findViewById(R.id.learn_progress);
-
-		mProgress.setOnClickListener(this);
-
+	protected void setProgressBar(HoloCircularProgressBar bar) {
+		mProgress = bar;
 		mAnimator = ObjectAnimator.ofFloat(mProgress, "float", 1f);
 		mAnimator.setDuration(TIMEOUT_SECONDS * 1000);
 
@@ -95,27 +74,11 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 			}
 		});
 
-		return view;
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.learn_start:
-			learnStart();
-			break;
-		case R.id.learn_cancel:
-			learnStop();
-			break;
-		case R.id.learn_test:
-			if (mLearnedSignal != null) {
-				mTransmitter.transmit(mLearnedSignal);
-			}
-			break;
-		}
+	public void onLearnStart() {
 	}
-
-	private Signal mLearnedSignal;
 
 	@Override
 	public void onError(int errorCode) {
@@ -129,20 +92,20 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 	}
 
 	@Override
-	public void onCancel() {
+	public void onLearnCancel() {
 		Log.d(TAG, "OnCancel");
 	}
 
 	@Override
 	public void onLearn(Signal s) {
 		Log.d(TAG, "onLearn");
-		mLearnedSignal = s;
-		mStatus.setText(R.string.learn_learned);
-		learnConfirm();
+		learnConfirm(s);
 	}
 
-	private void learnStart() {
+	protected void learnStart() {
 		Log.d(TAG, "LearnStart");
+		mCurrentState = State.LEARNING;
+
 		mReceiver.learn(TIMEOUT_SECONDS);
 
 		mProgress.setThumbEnabled(true);
@@ -152,18 +115,14 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 			mAnimator.cancel();
 		}
 		mAnimator.addListener(this);
+		Log.d("", "LEarn start");
 		mAnimator.start();
-		mStatus.setText(R.string.learn_learning);
-
-		mLearn.setEnabled(false);
-		mCancel.setEnabled(true);
-		mTest.setEnabled(false);
 
 	}
 
-	private void learnStop() {
-		Log.d(TAG, "LearnStop");
-		Log.d(TAG, "Cancelling receiver");
+	protected void learnStop() {
+		mCurrentState = State.READY;
+
 		mReceiver.cancel();
 
 		mAnimator.removeAllListeners();
@@ -171,28 +130,18 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 		mProgress.setThumbEnabled(false);
 		mProgress.setProgress(0.0F);
 		mProgress.setProgressColor(getResources().getColor(R.color.main_red));
-		mStatus.setText(R.string.learn_ready);
-
-		mLearn.setEnabled(true);
-		mCancel.setEnabled(false);
-		mTest.setEnabled(false);
-
 	}
 
-	private void learnConfirm() {
-		Log.d(TAG, "LearnConfirm");
+	protected void learnConfirm(Signal s) {
+		mCurrentState = State.LEARNED;
+
+		mAnimator.removeAllListeners();
 		mAnimator.cancel();
 		mReceiver.cancel();
 		mProgress.setThumbEnabled(false);
 		mProgress.setProgress(1.0F);
 		mProgress.setProgressColor(getResources().getColor(
 				R.color.green_learned));
-		mStatus.setText(R.string.learn_learned);
-
-		mLearn.setEnabled(true);
-		mCancel.setEnabled(false);
-		mTest.setEnabled(true);
-
 	}
 
 	@Override
@@ -202,9 +151,13 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 	@Override
 	public void onAnimationEnd(Animator animation) {
 		Log.d(TAG, "Animation end");
+		if (getState() == State.LEARNING) {
+			onLearnTimeout();
+		}
 		learnStop();
-		mStatus.setText("Timed out\nTouch Learn to try again");
 	}
+
+	protected abstract void onLearnTimeout();
 
 	@Override
 	public void onAnimationRepeat(Animator animation) {
@@ -212,6 +165,10 @@ public class LearnFragment extends Fragment implements View.OnClickListener,
 
 	@Override
 	public void onAnimationStart(Animator animation) {
+	}
+
+	protected Transmitter getTransmitter() {
+		return mTransmitter;
 	}
 
 }

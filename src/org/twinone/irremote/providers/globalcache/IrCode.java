@@ -2,9 +2,9 @@ package org.twinone.irremote.providers.globalcache;
 
 import java.util.Locale;
 
-import org.twinone.irremote.Button;
-import org.twinone.irremote.ButtonUtils;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.ComponentUtils;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 
@@ -60,7 +60,7 @@ public class IrCode extends GCBaseListable {
 				.toPronto(SignalFactory.parse(irCode.IRCode));
 		button.id = getBestMatchId(irCode);
 		if (button.id != Button.ID_NONE) {
-			button.text = ButtonUtils.getCommonButtonDisplyaName(button.id, c);
+			button.text = ComponentUtils.getCommonButtonDisplyaName(button.id, c);
 		}
 		return button;
 	}

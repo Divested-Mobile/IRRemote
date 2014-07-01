@@ -90,6 +90,11 @@ public class SignalFactory {
 		return new Signal(freq, pattern);
 	}
 
+	/**
+	 * Converts a NOT FIXED signal to Pronto format
+	 * @param s
+	 * @return
+	 */
 	public static String toPronto(Signal s) {
 		if (s == null)
 			return null;

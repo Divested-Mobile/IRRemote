@@ -1,4 +1,4 @@
-package org.twinone.irremote;
+package org.twinone.irremote.components;
 
 import java.io.File;
 import java.io.Serializable;
@@ -34,6 +34,8 @@ public class Remote implements Serializable {
 	public static final int TYPE_CABLE = 1;
 	public static final int TYPE_BLURAY = 2;
 	public static final int TYPE_AUDIO_AMPLIFIER = 3;
+	public static final int TYPE_AIR_CONDITIONER = 4;
+
 	// Unknown remotes will be displayed as a list
 	public static final int TYPE_UNKNOWN = -1;
 
@@ -41,11 +43,19 @@ public class Remote implements Serializable {
 
 	public static class Options implements Serializable {
 		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6674520681482052007L;
+
+		/**
 		 * The type of remote this is<br>
 		 * one of {@link Remote#TYPE_BLURAY}, {@link Remote#TYPE_CABLE} or
 		 * {@link Remote#TYPE_TV}
 		 */
 		public int type;
+
+		public String manufacturer;
+		public String model;
 	}
 
 	private static final String REMOTES_VERSION = "_v2";
@@ -125,7 +135,7 @@ public class Remote implements Serializable {
 		File dir = getRemoteDir(c);
 		FileUtils.clear(dir);
 		for (Button b : buttons) {
-			if (b.id != 0) {
+			if (b.id != 0 && b.code != null && !b.code.isEmpty()) {
 				// File f = getNextFile(dir, BUTTON_PREFIX, BUTTON_EXTENSION);
 				File f = new File(dir, BUTTON_PREFIX + b.id + BUTTON_EXTENSION);
 				FileUtils.write(f, gson.toJson(b));

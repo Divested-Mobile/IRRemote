@@ -1,4 +1,4 @@
-package org.twinone.irremote;
+package org.twinone.irremote.components;
 
 import java.io.Serializable;
 
@@ -85,9 +85,18 @@ public class Button implements Serializable {
 	public static final int ID_BLUE = 50;
 	public static final int ID_YELLOW = 51;
 
-	public static final int BUTTON_ID_COUNT = 46;
+	// Home theater
+	public static final int ID_INPUT_1 = 52;
+	public static final int ID_INPUT_2 = 53;
+	public static final int ID_INPUT_3 = 54;
+	public static final int ID_INPUT_4 = 55;
+	public static final int ID_INPUT_5 = 56;
 
-	public transient static final int[] map = {};
+	// Air conditioning
+	public static final int ID_FAN_UP = 57;
+	public static final int ID_FAN_DOWN = 58;
+	public static final int ID_TEMP_UP = 59;
+	public static final int ID_TEMP_DOWN = 60;
 
 	/** Ids are to identify common buttons */
 	public int id;
@@ -108,6 +117,23 @@ public class Button implements Serializable {
 	 * One of Signal.FORMAT_*
 	 */
 	public String code;
+
+	public Button(String text) {
+		this(0, text);
+	}
+
+	public Button() {
+
+	}
+
+	public Button(int id) {
+		this(id, null);
+	}
+
+	public Button(int id, String text) {
+		this.id = id;
+		this.text = text;
+	}
 
 	public String getDisplayName() {
 		return text;

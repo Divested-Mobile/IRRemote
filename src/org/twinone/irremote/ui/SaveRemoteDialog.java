@@ -1,7 +1,7 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Remote;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SaveRemoteDialog extends DialogFragment implements
 		DialogInterface.OnClickListener {
@@ -19,8 +20,8 @@ public class SaveRemoteDialog extends DialogFragment implements
 	private static final String ARG_REMOTE = "org.twinone.irremote.arg.remote";
 
 	public static void showFor(Activity a, Remote remote) {
-		SaveRemoteDialog.newInstance(remote).show(
-				a.getFragmentManager(), "save_remote_dialog");
+		SaveRemoteDialog.newInstance(remote).show(a.getFragmentManager(),
+				"save_remote_dialog");
 	}
 
 	public void show(Activity a) {
@@ -66,7 +67,13 @@ public class SaveRemoteDialog extends DialogFragment implements
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
-			mTarget.name = mRemoteName.getText().toString();
+			final String name = mRemoteName.getText().toString();
+			if (name == null || name.isEmpty()) {
+				Toast.makeText(getActivity(), R.string.save_remote_empty,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+			mTarget.name = name;
 			mTarget.save(getActivity());
 			if (mListener != null)
 				mListener.onRemoteSaved(mTarget.name);

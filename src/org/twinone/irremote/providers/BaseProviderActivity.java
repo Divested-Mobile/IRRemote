@@ -1,7 +1,7 @@
 package org.twinone.irremote.providers;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.ui.SaveRemoteDialog;
@@ -48,7 +48,7 @@ public class BaseProviderActivity extends Activity {
 	 * 
 	 * @param r
 	 */
-	public void save(Remote remote) {
+	public void saveRemote(Remote remote) {
 		SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
 		dialog.setListener(new OnRemoteSavedListener() {
 

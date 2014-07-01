@@ -3,7 +3,7 @@ package org.twinone.irremote.ui;
 import java.util.ArrayList;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Remote;
 
 import android.content.Context;
 import android.util.AttributeSet;

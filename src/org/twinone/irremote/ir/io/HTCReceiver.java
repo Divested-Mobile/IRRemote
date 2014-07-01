@@ -27,7 +27,7 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 			mContext = context;
 			mCirControl = new CIRControl(context, mHandler);
 			checkAvailable();
-		} catch (NoClassDefFoundError ncde) {
+		} catch (NoClassDefFoundError e) {
 			throw new ComponentNotAvailableException();
 		}
 	}
@@ -70,12 +70,12 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 
 	@Override
 	public void onReceiveCancel() {
-		getListener().onCancel();
+		getListener().onLearnCancel();
 	}
 
 	@Override
 	public void onReceiveStart() {
-		getListener().onStart();
+		getListener().onLearnStart();
 	}
 
 	@Override

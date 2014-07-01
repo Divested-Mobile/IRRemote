@@ -1,6 +1,5 @@
 <resources>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="element_horizontal_margin">8dp</dimen>
@@ -11,5 +10,9 @@
     <dimen name="remote_button_vertical_margin">4dp</dimen>
     <dimen name="remote_digit_button_minheight">92dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
+    
+    <!--  -->
+    <dimen name="learn_button_size">200dp</dimen>
+    <dimen name="learn_progress_size">208dp</dimen>
 
 </resources>

@@ -1,7 +1,7 @@
 package org.twinone.irremote.providers.globalcache;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
 
@@ -216,7 +216,7 @@ public class GCProviderFragment extends BaseProviderFragment implements
 						+ mUriData.deviceType.DeviceType;
 				Remote remote = IrCode.toRemote(getActivity(), name,
 						(IrCode[]) mData);
-				getProvider().save(remote);
+				getProvider().saveRemote(remote);
 			}
 			return true;
 		}

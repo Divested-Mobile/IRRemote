@@ -18,6 +18,7 @@
     <string name="menu_action_delete_remote">Delete</string>
     <string name="menu_action_rename">Rename</string>
     <string name="menu_action_edit">Edit</string>
+    <string name="menu_action_learn">Learn</string>
     <string name="menu_action_settings">Settings</string>
 
     <!-- Save -->
@@ -25,6 +26,7 @@
     <string name="save_remote_text">Your new remote will appear in the My Remotes section</string>
     <string name="save_remote_hint">Remote name</string>
     <string name="save_remote_save">Save</string>
+    <string name="save_remote_empty">Remote name cannot be empty!</string>
     <!-- Rename -->
     <string name="rename_remote_title">Rename remote</string>
     <string name="rename_remote_message">Enter a new name for %s</string>
@@ -89,6 +91,24 @@
     <string name="button_text_prev">Prev</string>
     <string name="button_text_rec">Rec</string>
     <string name="button_text_disp">Disp</string>
+    <!--  -->
+    <string name="button_text_src_cd">CD</string>
+    <string name="button_text_src_aux">AUX</string>
+    <string name="button_text_src_tape">Tape</string>
+    <string name="button_text_src_tuner">Tuner</string>
+    <string name="button_text_red">Red</string>
+    <string name="button_text_green">Green</string>
+    <string name="button_text_blue">Blue</string>
+    <string name="button_text_yellow">Yellow</string>
+    <string name="button_text_input_1">Src 1</string>
+    <string name="button_text_input_2">Src 2</string>
+    <string name="button_text_input_3">Src 3</string>
+    <string name="button_text_input_4">Src 4</string>
+    <string name="button_text_input_5">Src 5</string>
+    <string name="button_text_fan_up">Fan +</string>
+    <string name="button_text_fan_down">Fan -</string>
+    <string name="button_text_temp_up">Tmp +</string>
+    <string name="button_text_temp_down">Tmp -</string>
 
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->
@@ -103,14 +123,51 @@
     <string name="nav_b_rate">Rate</string>
     <string name="share_promo">Check out Twinone IR Remote! Free Infrared remote that works for any TV! (Android) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
     <string name="my_remotes">My remotes</string>
-    <string name="learn_ready">Ready!\nClick Learn to start learning</string>
-    <string name="learn_learning">Learning…</string>
-    <string name="learn_learned">Learned!</string>
 
     <!-- Preferences and all that awesome stuff -->
     <string name="pref_tit_fix">Fix buttons</string>
     <string name="pref_desc_fix">On some devices Android doesn\'t send the codes correctly. Enable this to fix it.</string>
     <string name="pref_dlg_tit_fix">Warning</string>
     <string name="pref_dlg_msg_fix">You may need to reboot your device for the changes to take effect</string>
+    <string name="dlg_na_tit">Oops!</string>
+    <string name="dlg_na_msg">It looks like your device does not have an IR Transmitter\nWe\'re sorry, but you will not be able to use this app on this device</string>
+
+    <!-- Ready -->
+    <string name="learn_tit_ready">Configure \"%s\"</string>
+    <string name="learn_desc_ready">Press and hold the \"%s\" button on your remote aiming at your device\'s IR Receiver at about 2inch(5cm)\nWhen you\'re ready, click Learn</string>
+
+    <!-- Learning -->
+    <string name="learn_tit_learning">Learning…</string>
+    <string name="learn_desc_learning">Hold the \"%s\" button until it\'s recognized…</string>
+
+    <!-- Learned -->
+    <string name="learn_tit_learned">Learned!</string>
+    <string name="learn_desc_learned">Awesome. Now go ahead and try the button.</string>
+    <!--  -->
+    <string name="learn_button_ready">Learn</string>
+    <string name="learn_button_cancel">Cancel</string>
+    <string name="learn_button_back">Back</string>
+    <string name="learn_button_skip">Skip</string>
+    <string name="learn_button_it_works">It works!</string>
+    <string name="learn_button_try_again">Try again</string>
+    <string name="learn_button_finish">Finish</string>
+    <!--  -->
+    <string name="learn_learning">Learning…</string>
+    <string name="learn_learned">Learned!</string>
+    <!--  -->
+    <string name="learn_help_tit">Having trouble?</string>
+    <string name="learn_help_msg">Aim your remote directly at your device\'s IR Receiver.\nYou can also try holding it a little farther or nearer.</string>
+    <string name="learn_footer">Button %1$d of %2$d</string>
+    <string name="learn_footer_did_it_work">Did it work?</string>
+    <string name="learn_select_tit">Select device type</string>
+    <string name="learn_select_msg">Select the type of device that you\'re learning from</string>
+    <!-- %s is the device type (tv, cable, blu ray, air conditioning... -->
+	<string name="learn_activity_title">Learn new %s remote</string>
+    <!--  -->
+    <string name="device_type_tv">TV</string>
+    <string name="device_type_cable">Cable</string>
+    <string name="device_type_bluray">Bluray</string>
+    <string name="device_type_audio_amplifier">Audio amplifier</string>
+    <string name="device_type_air_con">Air conditioning</string>
 
 </resources>

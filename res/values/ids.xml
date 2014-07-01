@@ -2,10 +2,10 @@
 <resources>
 
     <!-- Navigation drawer -->
-    <item name="nav_bottom_buttons" type="id"></item>
-    <item name="nav_b_share" type="id"></item>
-    <item name="nav_b_rate" type="id"></item>
-    <item name="nav_list" type="id"></item>
+    <item name="nav_bottom_buttons" type="id"/>
+    <item name="nav_b_share" type="id"/>
+    <item name="nav_b_rate" type="id"/>
+    <item name="nav_list" type="id"/>
 
     <!--  -->
     <item name="button_power" type="id"/>
@@ -49,5 +49,24 @@
     <item name="button_prev" type="id"/>
     <item name="button_rec" type="id"/>
     <item name="button_disp" type="id"/>
+
+    <!--  -->
+    <item name="button_src_cd" type="id"/>
+    <item name="button_src_aux" type="id"/>
+    <item name="button_src_tape" type="id"/>
+    <item name="button_src_tuner" type="id"/>
+    <item name="button_red" type="id"/>
+    <item name="button_green" type="id"/>
+    <item name="button_blue" type="id"/>
+    <item name="button_yellow" type="id"/>
+    <item name="button_input_1" type="id"/>
+    <item name="button_input_2" type="id"/>
+    <item name="button_input_3" type="id"/>
+    <item name="button_input_4" type="id"/>
+    <item name="button_input_5" type="id"/>
+    <item name="button_fan_up" type="id"/>
+    <item name="button_fan_down" type="id"/>
+    <item name="button_temp_up" type="id"/>
+    <item name="button_temp_down" type="id"/>
 
 </resources>

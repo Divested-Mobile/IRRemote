@@ -1,7 +1,7 @@
 package org.twinone.irremote.providers.lirc;
 
-import org.twinone.irremote.Button;
-import org.twinone.irremote.Remote;
+import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 

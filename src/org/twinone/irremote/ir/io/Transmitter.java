@@ -6,7 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 public abstract class Transmitter {
-	private Context mContext;
+	private final Context mContext;
 
 	protected Context getContext() {
 		return mContext;
@@ -24,10 +24,14 @@ public abstract class Transmitter {
 	public static Transmitter getInstance(Context c) {
 		try {
 			return new KitKatTransmitter(c);
-		} catch (RuntimeException e) {
+		} catch (ComponentNotAvailableException e) {
 			Log.d("", "", e);
 		}
 		return null;
+	}
+
+	public static boolean isTransmitterAvailable(Context c) {
+		return getInstance(c) != null;
 	}
 
 	/**
@@ -75,7 +79,7 @@ public abstract class Transmitter {
 	public abstract void pause();
 
 	public abstract void resume();
-	
+
 	public abstract void cancel();
 
 }

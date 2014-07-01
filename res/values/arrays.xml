@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="learn_device_types">
+        <item>@string/device_type_tv</item>
+        <item>@string/device_type_cable</item>
+        <item>@string/device_type_bluray</item>
+        <item>@string/device_type_audio_amplifier</item>
+        <item>@string/device_type_air_con</item>
+    </string-array>
+
+</resources>
