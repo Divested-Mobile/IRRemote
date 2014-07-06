@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Handler;
+import android.util.Log;
 
 import com.htc.circontrol.CIRControl;
 import com.htc.htcircontrol.HtcIrData;
@@ -110,11 +111,14 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 		boolean isAvailable = false;
 		List<PackageInfo> list = c.getPackageManager().getInstalledPackages(
 				Integer.MAX_VALUE);
+		Log.d("PKG", "------START-----");
 		for (PackageInfo pi : list) {
+			Log.d("PKG", pi.packageName);
 			if ("com.htc.cirmodule".equals(pi.packageName)) {
 				isAvailable = true;
 			}
 		}
+		Log.d("PKG", "------STOP-----");
 		sp.edit().putBoolean("available", isAvailable).apply();
 	}
 }

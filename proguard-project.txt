@@ -19,9 +19,9 @@
 #   public *;
 #}
 
-
--dontobfuscate
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
+-keep class * {*;}
+#-dontobfuscate
+#-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
 #-keepclassmembers class * implements java.io.Serializable { public *; }
 #
 #-keep class com.google.android.gms.** { *; }
