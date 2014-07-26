@@ -175,8 +175,16 @@
     <string name="ori_auto">Auto-rotate</string>
     <string name="ori_port">Portrait</string>
     <string name="ori_land">Landscape</string>
-    
+
     <!-- BEGIN v1302 -->
     <string name="pref_tit_orientation">Orientation</string>
+    <string name="pref_tit_bg">Background</string>
+    <string name="pref_desc_bg">Display a custom background for remotes</string>
+    <string name="pref_tit_fullscreen">Fullscreen</string>
+    <string name="pref_desc_fullscreen">Remotes will show in fullscreen mode - No statusbar will be displayed</string>
+    <!-- bg -->
+    <string name="bg_gallery">Gallery</string>
+    <string name="bg_remove">Remove Background</string>
+    <string name="bg_changed_ok">Background changed</string>
 
 </resources>

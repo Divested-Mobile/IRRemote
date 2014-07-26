@@ -20,5 +20,13 @@
         <item>@string/pref_val_ori_port</item>
         <item>@string/pref_val_ori_land</item>
     </string-array>
+    <string-array name="bg_names">
+        <item>@string/bg_gallery</item>
+        <item>@string/bg_remove</item>
+    </string-array>
+    <string-array name="bg_values">
+        <item>@string/pref_val_bg_gallery</item>
+        <item>@string/pref_val_bg_none</item>
+    </string-array>
 
 </resources>

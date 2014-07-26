@@ -6,12 +6,23 @@
         android:key="@string/pref_key_fix"
         android:summary="@string/pref_desc_fix"
         android:title="@string/pref_tit_fix" />
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_def_fullscreen"
+        android:key="@string/pref_key_fullscreen"
+        android:summary="@string/pref_desc_fullscreen"
+        android:title="@string/pref_tit_fullscreen" />
 
     <ListPreference
-        android:title="@string/pref_tit_orientation"
         android:defaultValue="@string/pref_def_orientation"
         android:entries="@array/orientation_names"
         android:entryValues="@array/orientation_values"
-        android:key="@string/pref_key_orientation" />
+        android:key="@string/pref_key_orientation"
+        android:title="@string/pref_tit_orientation" />
+    
+    <ListPreference
+        android:entries="@array/bg_names"
+        android:entryValues="@array/bg_values"
+        android:key="@string/pref_key_bg"
+        android:title="@string/pref_tit_bg" />
 
 </PreferenceScreen>

@@ -4,9 +4,13 @@
     <!-- Keys -->
     <string name="pref_key_fix">org.twinone.irremote.pref.fix_pulses</string>
     <string name="pref_key_orientation">org.twinone.irremote.pref.orientation</string>
+    <string name="pref_key_bg">org.twinone.irremote.pref.remote_background</string>
+    <string name="pref_key_bg_uri">org.twinone.irremote.pref.background_uri</string>
+    <string name="pref_key_fullscreen">org.twinone.irremote.pref.fullscreen</string>
 
     <!-- Defaults -->
     <item name="pref_def_fix" type="bool">false</item>
+    <item name="pref_def_fullscreen" type="bool">false</item>
     <item name="pref_def_orientation" type="string">@string/pref_val_ori_system</item>
 
     <!-- Values -->
@@ -14,5 +18,9 @@
     <string name="pref_val_ori_auto">auto</string>
     <string name="pref_val_ori_port">port</string>
     <string name="pref_val_ori_land">land</string>
+
+    <!--  -->
+    <string name="pref_val_bg_gallery">0</string>
+    <string name="pref_val_bg_none">1</string>
 
 </resources>

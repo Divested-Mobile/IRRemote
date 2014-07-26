@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -29,6 +30,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
@@ -39,26 +43,31 @@ public class MainActivity extends ActionBarActivity implements
 	public static final boolean SHOW_ADS = true;
 	public static boolean DEBUG = BuildConfig.DEBUG && true;
 
+	public static final String EXTRA_FROM_PREFS = "org.twinone.irremote.intent.extra.from_prefs";
+
 	private NavFragment mNavFragment;
 
+	private ImageView mBackground;
 	private ViewGroup mAdViewContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Log.d(TAG, "onCreate");
+
 		if (!checkTransmitterAvailable() && !DEBUG) {
 			showNotAvailableDialog();
 		}
 
-		setupOrientation();
-
 		SignalCorrector.setAffectedOnce(this);
 		HTCReceiver.setReceiverAvailableOnce(this);
 
-		setContentView(R.layout.activity_main);
+		setupPreferencesAndSetContentView();
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	private void setupNavigation() {
 
 		mNavFragment = (NavFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
@@ -66,9 +75,10 @@ public class MainActivity extends ActionBarActivity implements
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 
 		mNavFragment.setEdgeSizeDp(30);
+	}
 
+	private void setupShowAds() {
 		mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
-		// Show ads
 		if (SHOW_ADS) {
 			AdMobBannerBuilder builder = new AdMobBannerBuilder();
 			builder.setParent(mAdViewContainer);
@@ -80,24 +90,41 @@ public class MainActivity extends ActionBarActivity implements
 			// Don't waste my precious space :D
 			mAdViewContainer.setVisibility(View.GONE);
 		}
+	}
+
+	private void setupPreferencesAndSetContentView() {
+		final SharedPreferences sp = SettingsActivity.getPreferences(this);
+		if (sp.getBoolean(getString(R.string.pref_key_fullscreen), false)) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+
+		// Orientation
+		setRequestedOrientation(getRequestedOrientation());
+
+		setContentView(R.layout.activity_main);
+		setupNavigation();
+		setupShowAds();
+
+		mBackground = (ImageView) findViewById(R.id.background);
+		new BackgroundManager(this, mBackground).setBackgroundFromPreference();
 
 		ShareManager.show(this, getString(R.string.share_promo));
 	}
 
-	private void setupOrientation() {
-		SharedPreferences sp = SettingsActivity.getPreferences(this);
-		String ori = sp.getString(getString(R.string.pref_key_orientation),
-				getString(R.string.pref_def_orientation));
-		if (ori.equals(getString(R.string.pref_val_ori_port))) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		} else if (ori.equals(getString(R.string.pref_val_ori_land))) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-		} else if (ori.equals(getString(R.string.pref_val_ori_port))) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-		} else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		}
+	@Override
+	protected void onStop() {
+		super.onStop();
+		finish();
+	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.d(TAG, "onNewIntent");
+		setIntent(intent);
+
+		setupPreferencesAndSetContentView();
 	}
 
 	private boolean checkTransmitterAvailable() {
@@ -132,9 +159,8 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onResume() {
 		super.onResume();
 
-		setRequestedOrientation(getRequestedOrientation());
-
 		onRemotesChanged();
+
 	}
 
 	@Override
@@ -277,10 +303,8 @@ public class MainActivity extends ActionBarActivity implements
 		updateRemoteLayout();
 		if (getRemoteName() == null) {
 			mNavFragment.lockOpen(true);
-			Log.d("", "Opened and locked!");
 		} else {
 			mNavFragment.unlock();
 		}
 	}
-
 }
