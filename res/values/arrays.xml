@@ -8,5 +8,17 @@
         <item>@string/device_type_audio_amplifier</item>
         <item>@string/device_type_air_con</item>
     </string-array>
+    <string-array name="orientation_names">
+        <item>@string/ori_system</item>
+        <item>@string/ori_auto</item>
+        <item>@string/ori_port</item>
+        <item>@string/ori_land</item>
+    </string-array>
+    <string-array name="orientation_values">
+        <item>@string/pref_val_ori_system</item>
+        <item>@string/pref_val_ori_auto</item>
+        <item>@string/pref_val_ori_port</item>
+        <item>@string/pref_val_ori_land</item>
+    </string-array>
 
 </resources>

@@ -162,12 +162,21 @@
     <string name="learn_select_tit">Select device type</string>
     <string name="learn_select_msg">Select the type of device that you\'re learning from</string>
     <!-- %s is the device type (tv, cable, blu ray, air conditioning... -->
-	<string name="learn_activity_title">Learn new %s remote</string>
+    <string name="learn_activity_title">Learn new %s remote</string>
     <!--  -->
     <string name="device_type_tv">TV</string>
     <string name="device_type_cable">Cable</string>
     <string name="device_type_bluray">Bluray</string>
     <string name="device_type_audio_amplifier">Audio amplifier</string>
     <string name="device_type_air_con">Air conditioning</string>
+
+    <!--  -->
+    <string name="ori_system">System setting</string>
+    <string name="ori_auto">Auto-rotate</string>
+    <string name="ori_port">Portrait</string>
+    <string name="ori_land">Landscape</string>
+    
+    <!-- BEGIN v1302 -->
+    <string name="pref_tit_orientation">Orientation</string>
 
 </resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Keys -->
+    <string name="pref_key_fix">org.twinone.irremote.pref.fix_pulses</string>
+    <string name="pref_key_orientation">org.twinone.irremote.pref.orientation</string>
+
+    <!-- Defaults -->
+    <item name="pref_def_fix" type="bool">false</item>
+    <item name="pref_def_orientation" type="string">@string/pref_val_ori_system</item>
+
+    <!-- Values -->
+    <string name="pref_val_ori_system">system</string>
+    <string name="pref_val_ori_auto">auto</string>
+    <string name="pref_val_ori_port">port</string>
+    <string name="pref_val_ori_land">land</string>
+
+</resources>

@@ -51,6 +51,8 @@ public class MainActivity extends ActionBarActivity implements
 			showNotAvailableDialog();
 		}
 
+		setupOrientation();
+
 		SignalCorrector.setAffectedOnce(this);
 		HTCReceiver.setReceiverAvailableOnce(this);
 
@@ -80,6 +82,22 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 		ShareManager.show(this, getString(R.string.share_promo));
+	}
+
+	private void setupOrientation() {
+		SharedPreferences sp = SettingsActivity.getPreferences(this);
+		String ori = sp.getString(getString(R.string.pref_key_orientation),
+				getString(R.string.pref_def_orientation));
+		if (ori.equals(getString(R.string.pref_val_ori_port))) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		} else if (ori.equals(getString(R.string.pref_val_ori_land))) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+		} else if (ori.equals(getString(R.string.pref_val_ori_port))) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+		} else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		}
+
 	}
 
 	private boolean checkTransmitterAvailable() {
@@ -113,7 +131,30 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		setRequestedOrientation(getRequestedOrientation());
+
 		onRemotesChanged();
+	}
+
+	@Override
+	public int getRequestedOrientation() {
+		SharedPreferences sp = SettingsActivity.getPreferences(this);
+		String value = sp.getString(getString(R.string.pref_key_orientation),
+				getString(R.string.pref_val_ori_system));
+		String auto = getString(R.string.pref_val_ori_auto);
+		String port = getString(R.string.pref_val_ori_port);
+		String land = getString(R.string.pref_val_ori_land);
+
+		if (value.equals(auto)) {
+			return ActivityInfo.SCREEN_ORIENTATION_SENSOR;
+		} else if (value.equals(port)) {
+			return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+		} else if (value.equals(land)) {
+			return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+		} else {
+			return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+		}
 	}
 
 	public void setRemote(String name) {

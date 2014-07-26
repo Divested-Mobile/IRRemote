@@ -7,4 +7,11 @@
         android:summary="@string/pref_desc_fix"
         android:title="@string/pref_tit_fix" />
 
+    <ListPreference
+        android:title="@string/pref_tit_orientation"
+        android:defaultValue="@string/pref_def_orientation"
+        android:entries="@array/orientation_names"
+        android:entryValues="@array/orientation_values"
+        android:key="@string/pref_key_orientation" />
+
 </PreferenceScreen>
