@@ -219,11 +219,13 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 
 	@Override
 	protected void onLearnTimeout() {
-		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setTitle(R.string.learn_help_tit);
-		ab.setMessage(R.string.learn_help_msg);
-		ab.setPositiveButton(android.R.string.ok, null);
-		ab.show();
+		if (isAdded()) {
+			AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+			ab.setTitle(R.string.learn_help_tit);
+			ab.setMessage(R.string.learn_help_msg);
+			ab.setPositiveButton(android.R.string.ok, null);
+			ab.show();
+		}
 	}
 
 	private void saveCurrentButton() {

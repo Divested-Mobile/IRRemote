@@ -11,7 +11,10 @@ import android.os.Bundle;
 public class LearnProviderActivity extends BaseProviderActivity implements
 		DialogInterface.OnClickListener {
 
-	private String mSelectedDeviceType;
+	private static final String SAVE_DEVICE_TYPE = "device_type";
+
+	private String mName;
+	private int mSelectedDeviceType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,22 +22,36 @@ public class LearnProviderActivity extends BaseProviderActivity implements
 
 		setContentView(R.layout.activity_empty);
 
-		showSelectDialog();
+		if (savedInstanceState != null
+				&& savedInstanceState.containsKey(SAVE_DEVICE_TYPE)) {
+			mSelectedDeviceType = savedInstanceState.getInt(SAVE_DEVICE_TYPE);
+			showLearnFragmentForType();
+		} else {
+			showSelectDialog();
+		}
 
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt(SAVE_DEVICE_TYPE, mSelectedDeviceType);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
 	public void saveRemote(Remote remote) {
-		remote.name = mSelectedDeviceType;
+		remote.name = mName;
 		super.saveRemote(remote);
 	}
 
-	private void showLearnFragmentForType(int type) {
-		getActionBar().setTitle(
-				getString(R.string.learn_activity_title, mSelectedDeviceType));
+	private void showLearnFragmentForType() {
+		getActionBar()
+				.setTitle(getString(R.string.learn_activity_title, mName));
 
-		getFragmentManager().beginTransaction()
-				.replace(R.id.container, LearnRemoteFragment.getInstance(type))
+		getFragmentManager()
+				.beginTransaction()
+				.replace(R.id.container,
+						LearnRemoteFragment.getInstance(mSelectedDeviceType))
 				.commit();
 	}
 
@@ -53,9 +70,9 @@ public class LearnProviderActivity extends BaseProviderActivity implements
 		if (which == DialogInterface.BUTTON_NEGATIVE) {
 			finish();
 		} else {
-			mSelectedDeviceType = getResources().getStringArray(
-					R.array.learn_device_types)[which];
-			showLearnFragmentForType(which);
+			mName = getResources().getStringArray(R.array.learn_device_types)[which];
+			mSelectedDeviceType = which;
+			showLearnFragmentForType();
 			dialog.dismiss();
 		}
 	}

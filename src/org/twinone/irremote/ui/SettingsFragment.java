@@ -1,6 +1,5 @@
 package org.twinone.irremote.ui;
 
-import java.io.InputStream;
 import java.util.List;
 
 import org.twinone.irremote.R;
@@ -13,10 +12,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
@@ -25,6 +22,8 @@ public class SettingsFragment extends PreferenceFragment implements
 		OnSharedPreferenceChangeListener {
 
 	private static final int BG_REQUEST_CODE = 1337;
+	
+	private ListPreference mBackground;
 
 	@Override
 	public void onResume() {
