@@ -76,6 +76,10 @@ public abstract class BaseLearnFragment extends BaseProviderFragment implements
 
 	}
 
+	protected HoloCircularProgressBar getProgressBar() {
+		return mProgress;
+	}
+
 	@Override
 	public void onLearnStart() {
 	}
@@ -150,11 +154,13 @@ public abstract class BaseLearnFragment extends BaseProviderFragment implements
 
 	@Override
 	public void onAnimationEnd(Animator animation) {
-		Log.d(TAG, "Animation end");
-		if (getState() == State.LEARNING) {
-			onLearnTimeout();
+		if (isAdded()) {
+			Log.d(TAG, "Animation end");
+			if (getState() == State.LEARNING) {
+				onLearnTimeout();
+			}
+			learnStop();
 		}
-		learnStop();
 	}
 
 	protected abstract void onLearnTimeout();

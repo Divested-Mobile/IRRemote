@@ -67,6 +67,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		// If no remote specified, just cancel
 		if (mRemote == null)
 			return new View(getActivity());

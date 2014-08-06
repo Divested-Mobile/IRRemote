@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <corners android:radius="@dimen/remote_button_radius" />
+
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/remote_button_bg_sl_disabled_center"
+        android:endColor="@color/remote_button_bg_sl_disabled_end"
+        android:startColor="@color/remote_button_bg_sl_disabled_start" />
+
+</shape>

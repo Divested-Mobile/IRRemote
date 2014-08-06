@@ -56,6 +56,8 @@ public class Remote implements Serializable {
 
 		public String manufacturer;
 		public String model;
+		public String country;
+		
 	}
 
 	private static final String REMOTES_VERSION = "_v2";

@@ -1,13 +1,10 @@
 package org.twinone.irremote.ir.io;
 
-import java.util.List;
-
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.HTCReceiverHandler.OnMessageListener;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.os.Handler;
 import android.util.Log;
 
@@ -109,16 +106,28 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 			return;
 		}
 		boolean isAvailable = false;
-		List<PackageInfo> list = c.getPackageManager().getInstalledPackages(
-				Integer.MAX_VALUE);
-		Log.d("PKG", "------START-----");
-		for (PackageInfo pi : list) {
-			Log.d("PKG", pi.packageName);
-			if ("com.htc.cirmodule".equals(pi.packageName)) {
-				isAvailable = true;
-			}
-		}
-		Log.d("PKG", "------STOP-----");
+		// List<PackageInfo> list = c.getPackageManager().getInstalledPackages(
+		// Integer.MAX_VALUE);
+		// Log.d("PKG", "------START-----");
+		// for (PackageInfo pi : list) {
+		// Log.d("PKG", pi.packageName);
+		// if ("com.htc.cirmodule".equals(pi.packageName)) {
+		// isAvailable = true;
+		// }
+		// }
+		// Log.d("PKG", "------STOP-----");
+		isAvailable = isPackageAvailable(c, "com.htc.cirmodule");
+		Log.d("", "CirModule: " + isAvailable);
 		sp.edit().putBoolean("available", isAvailable).apply();
+	}
+
+	private static boolean isPackageAvailable(Context c, String name) {
+		try {
+			c.getPackageManager().getPackageInfo(name, 0);
+			return true;
+		} catch (Exception e) {
+		}
+
+		return false;
 	}
 }

@@ -66,13 +66,12 @@ public class SignalCorrector {
 		if (SettingsActivity.getPreferences(c).contains(
 				c.getString(R.string.pref_key_fix)))
 			return;
-		boolean affected = isCyanogen(c) || isAffectedSamsung();
-		Log.w("SignalCompat", "Setting afected: " + affected);
+		// It looks like CyanogenMod is no longer affected...
+		boolean affected = isAffectedSamsung() && !isCyanogen(c);
 		setPreference(c, affected);
 	}
 
 	private static boolean isCyanogen(Context c) {
-		Log.d("", "os.version: " + System.getProperty("os.version"));
 		if (c.getPackageManager().hasSystemFeature("com.cyanogenmod.android"))
 			return true;
 		if (System.getProperty("os.version").contains("cyanogenmod"))
@@ -100,10 +99,13 @@ public class SignalCorrector {
 	}
 
 	private static int getVersionMR() {
-		int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-		int versionmr = Integer.valueOf(Build.VERSION.RELEASE
-				.substring(lastIdx + 1));
-		return versionmr;
-
+		try {
+			int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
+			int versionmr = Integer.valueOf(Build.VERSION.RELEASE
+					.substring(lastIdx + 1));
+			return versionmr;
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 }

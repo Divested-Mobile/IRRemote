@@ -2,6 +2,9 @@ package org.twinone.irremote.ui;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.ShareManager;
+import org.twinone.androidlib.versionmanager.VersionManager;
+import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
+import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
@@ -20,9 +23,9 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -30,20 +33,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
-		OnRemoteSelectedListener, OnRemoteRenamedListener {
+		OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener {
 
 	private static final String TAG = "MainActivity";
 
 	public static final boolean SHOW_ADS = true;
 	public static boolean DEBUG = BuildConfig.DEBUG && true;
 
-	public static final String EXTRA_FROM_PREFS = "org.twinone.irremote.intent.extra.from_prefs";
+	public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
 
 	private NavFragment mNavFragment;
 
@@ -54,16 +56,46 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.d(TAG, "onCreate");
-
 		if (!checkTransmitterAvailable() && !DEBUG) {
 			showNotAvailableDialog();
 		}
 
+		setTheme(getThemeIdFromPrefs());
+
+		new VersionManager(this, this).callFromEntryPoint();
+
 		SignalCorrector.setAffectedOnce(this);
 		HTCReceiver.setReceiverAvailableOnce(this);
 
-		setupPreferencesAndSetContentView();
+		final SharedPreferences sp = SettingsActivity.getPreferences(this);
+		if (sp.getBoolean(getString(R.string.pref_key_fullscreen), false)) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+
+		// Orientation
+		setRequestedOrientation(getRequestedOrientation());
+
+		setContentView(R.layout.activity_main);
+		setupNavigation();
+		setupShowAds();
+
+		mBackground = (ImageView) findViewById(R.id.background);
+		new BackgroundManager(this, mBackground).setBackgroundFromPreference();
+
+		ShareManager.show(this, getString(R.string.share_promo));
+
+	}
+
+	private int getThemeIdFromPrefs() {
+		SharedPreferences sp = SettingsActivity.getPreferences(this);
+		String theme = sp.getString(getString(R.string.pref_key_theme),
+				getString(R.string.pref_def_theme));
+		Log.d("", "Got theme: " + theme);
+		if (theme.equals(getString(R.string.pref_val_theme_sl))) {
+			return R.style.theme_solid;
+		}
+		return R.style.theme_transparent;
 
 	}
 
@@ -92,39 +124,24 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 
-	private void setupPreferencesAndSetContentView() {
-		final SharedPreferences sp = SettingsActivity.getPreferences(this);
-		if (sp.getBoolean(getString(R.string.pref_key_fullscreen), false)) {
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
-
-		// Orientation
-		setRequestedOrientation(getRequestedOrientation());
-
-		setContentView(R.layout.activity_main);
-		setupNavigation();
-		setupShowAds();
-
-		mBackground = (ImageView) findViewById(R.id.background);
-		new BackgroundManager(this, mBackground).setBackgroundFromPreference();
-
-		ShareManager.show(this, getString(R.string.share_promo));
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		finish();
-	}
-
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		Log.d(TAG, "onNewIntent");
 		setIntent(intent);
+		if (intent.getBooleanExtra(EXTRA_RECREATE, false)) {
+			recreate();
+		}
+	}
 
-		setupPreferencesAndSetContentView();
+	/**
+	 * Starts MainActivity, but if it's already created, it will recreate
+	 * 
+	 * @param c
+	 */
+	public static void recreate(Context c) {
+		Intent i = new Intent(c, MainActivity.class);
+		i.putExtra(EXTRA_RECREATE, true);
+		c.startActivity(i);
 	}
 
 	private boolean checkTransmitterAvailable() {
@@ -305,6 +322,30 @@ public class MainActivity extends ActionBarActivity implements
 			mNavFragment.lockOpen(true);
 		} else {
 			mNavFragment.unlock();
+		}
+	}
+
+	@Override
+	public void onUpdate(Context c, UpdateInfo ui) {
+		if (ui.isUpdated() && ui.getCurrentVersion() == 1305) {
+			Editor editor = SettingsActivity.getPreferences(this).edit();
+			// No full screen ads for old users
+			editor.putBoolean("no-fsa-old-user", true);
+			editor.apply();
+		} else {
+			// Run once
+		}
+
+		// If user is updating to (or installing) v1303..
+		switch (ui.getCurrentVersion()) {
+		case 1303:
+			AlertDialog.Builder ab = new AlertDialog.Builder(this);
+			ab.setTitle(R.string.whatsnew);
+			ab.setMessage(R.string.whatsnew_1303);
+			ab.setCancelable(false);
+			ab.setPositiveButton(android.R.string.ok, null);
+			ab.show();
+			break;
 		}
 	}
 }

@@ -5,11 +5,11 @@
 
     <gradient
         android:angle="270"
-        android:endColor="@color/remote_button_bg_default_end"
-        android:startColor="@color/remote_button_bg_default_start" />
+        android:endColor="@color/remote_button_bg_tr_default_end"
+        android:startColor="@color/remote_button_bg_tr_default_start" />
 
     <stroke
         android:width="1dp"
-        android:color="@color/remote_button_stroke" />
+        android:color="@color/remote_button_stroke_tr" />
 
 </shape>

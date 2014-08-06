@@ -34,7 +34,8 @@ public class BackgroundManager {
 		if (gallery.equals(sp.getString(bgKey, null))) {
 			final String uriKey = mContext.getString(R.string.pref_key_bg_uri);
 			final String uriString = sp.getString(uriKey, null);
-			setBackgroundFromUri(Uri.parse(uriString));
+			if (uriString != null)
+				setBackgroundFromUri(Uri.parse(uriString));
 		} else {
 		}
 	}

@@ -18,11 +18,16 @@
         android:entryValues="@array/orientation_values"
         android:key="@string/pref_key_orientation"
         android:title="@string/pref_tit_orientation" />
-    
     <ListPreference
         android:entries="@array/bg_names"
         android:entryValues="@array/bg_values"
         android:key="@string/pref_key_bg"
         android:title="@string/pref_tit_bg" />
+    <ListPreference
+        android:defaultValue="@string/pref_def_theme"
+        android:entries="@array/theme_names"
+        android:entryValues="@array/theme_values"
+        android:key="@string/pref_key_theme"
+        android:title="@string/pref_tit_theme" />
 
 </PreferenceScreen>

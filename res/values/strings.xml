@@ -133,6 +133,7 @@
     <string name="dlg_na_msg">It looks like your device does not have an IR Transmitter\nWe\'re sorry, but you will not be able to use this app on this device</string>
 
     <!-- Ready -->
+    <string name="learn">Learn</string>
     <string name="learn_tit_ready">Configure \"%s\"</string>
     <string name="learn_desc_ready">Press and hold the \"%s\" button on your remote aiming at your device\'s IR Receiver at about 2inch(5cm)\nWhen you\'re ready, click Learn</string>
 
@@ -186,5 +187,12 @@
     <string name="bg_gallery">Gallery</string>
     <string name="bg_remove">Remove Background</string>
     <string name="bg_changed_ok">Background changed</string>
+    <!-- BEGIN v1303 -->
+    <string name="whatsnew">What\'s new</string>
+    <string name="whatsnew_1303">You can now set custom backgrounds and use IR Remote in fullscreen mode (see Settings)</string>
+    <string name="pref_tit_theme">Button style</string>
+    <!--  -->
+    <string name="theme_tr">Transparent</string>
+    <string name="theme_sl">Solid</string>
 
 </resources>

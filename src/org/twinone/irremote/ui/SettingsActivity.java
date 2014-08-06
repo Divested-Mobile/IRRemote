@@ -4,10 +4,8 @@ import org.twinone.irremote.R;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 public class SettingsActivity extends Activity {
 
@@ -30,7 +28,6 @@ public class SettingsActivity extends Activity {
 
 	@Override
 	public boolean onNavigateUp() {
-		// Start main activity telling it we came from preferences.
 		exit();
 		return true;
 	}
@@ -41,12 +38,8 @@ public class SettingsActivity extends Activity {
 	}
 
 	private void exit() {
-		Intent i = new Intent(this, MainActivity.class);
-		i.putExtra(MainActivity.EXTRA_FROM_PREFS, true);
-		startActivity(i);
-		Log.d("", "onNavigateUp");
+		MainActivity.recreate(this);
 		finish();
-
 	}
 
 	public void startChooseBackgroundActivity() {

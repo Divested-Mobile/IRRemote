@@ -24,17 +24,28 @@ public class LearnProviderActivity extends BaseProviderActivity implements
 
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(SAVE_DEVICE_TYPE)) {
-			mSelectedDeviceType = savedInstanceState.getInt(SAVE_DEVICE_TYPE);
-			showLearnFragmentForType();
+			setSelectedDeviceType(savedInstanceState.getInt(SAVE_DEVICE_TYPE));
 		} else {
 			showSelectDialog();
 		}
+	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		super.setTitle(title);
+		getActionBar().setTitle(title);
+	}
+
+	private void setSelectedDeviceType(int type) {
+		mSelectedDeviceType = type;
+		mName = getResources().getStringArray(R.array.learn_device_types)[mSelectedDeviceType];
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putInt(SAVE_DEVICE_TYPE, mSelectedDeviceType);
+		if (mName != null) {
+			outState.putInt(SAVE_DEVICE_TYPE, mSelectedDeviceType);
+		}
 		super.onSaveInstanceState(outState);
 	}
 
@@ -45,8 +56,7 @@ public class LearnProviderActivity extends BaseProviderActivity implements
 	}
 
 	private void showLearnFragmentForType() {
-		getActionBar()
-				.setTitle(getString(R.string.learn_activity_title, mName));
+		setTitle(getString(R.string.learn_activity_title, mName));
 
 		getFragmentManager()
 				.beginTransaction()
@@ -70,8 +80,7 @@ public class LearnProviderActivity extends BaseProviderActivity implements
 		if (which == DialogInterface.BUTTON_NEGATIVE) {
 			finish();
 		} else {
-			mName = getResources().getStringArray(R.array.learn_device_types)[which];
-			mSelectedDeviceType = which;
+			setSelectedDeviceType(which);
 			showLearnFragmentForType();
 			dialog.dismiss();
 		}

@@ -40,6 +40,12 @@ public class BaseProviderActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(SAVE_TITLE)) {
+				setTitle(savedInstanceState.getString(SAVE_TITLE));
+			}
+		}
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -75,10 +81,20 @@ public class BaseProviderActivity extends Activity {
 		return true;
 	}
 
+	private String mTitle;
+	private static final String SAVE_TITLE = "save_title";
+
 	@Override
 	public void setTitle(CharSequence title) {
 		super.setTitle(title);
 		getActionBar().setTitle(title);
+		mTitle = (String) title;
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(SAVE_TITLE, mTitle);
 	}
 
 	public void transmit(Signal signal) {

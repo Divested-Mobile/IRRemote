@@ -14,15 +14,17 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 
 public class SettingsFragment extends PreferenceFragment implements
-		OnSharedPreferenceChangeListener {
+		OnSharedPreferenceChangeListener, OnPreferenceClickListener {
 
 	private static final int BG_REQUEST_CODE = 1337;
-	
+
 	private ListPreference mBackground;
 
 	@Override
@@ -48,6 +50,17 @@ public class SettingsFragment extends PreferenceFragment implements
 		pm.setSharedPreferencesMode(Context.MODE_PRIVATE);
 		addPreferencesFromResource(R.xml.prefs);
 
+		mBackground = (ListPreference) findPreference(getString(R.string.pref_key_bg));
+		mBackground.setOnPreferenceClickListener(this);
+	}
+
+	@Override
+	public boolean onPreferenceClick(Preference preference) {
+		if (preference.getKey().equals(getString(R.string.pref_key_bg))) {
+			((ListPreference) preference).setValue("");
+		}
+
+		return false;
 	}
 
 	@Override
@@ -93,7 +106,7 @@ public class SettingsFragment extends PreferenceFragment implements
 				getPreferenceManager().getSharedPreferences().edit()
 						.putString(getString(R.string.pref_key_bg_uri), path)
 						.apply();
-				
+
 				Toast.makeText(getActivity(), R.string.bg_changed_ok,
 						Toast.LENGTH_LONG).show();
 			}

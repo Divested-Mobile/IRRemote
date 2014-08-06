@@ -20,6 +20,8 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 		View.OnClickListener {
 
 	private static final String ARG_REMOTE_TYPE = "arg_remote_type";
+	private static final String SAVE_BUTTON_NUMBER = "button_number";
+	private static final String SAVE_REMOTE = "save_remote";
 
 	private Remote mRemote;
 
@@ -51,6 +53,8 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Log.d("Fragment", "onCreate");
+
 		if (getArguments() == null
 				|| !getArguments().containsKey(ARG_REMOTE_TYPE)) {
 			throw new RuntimeException(
@@ -58,12 +62,22 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 		}
 		int type = getArguments().getInt(ARG_REMOTE_TYPE);
 
-		mRemote = ComponentUtils.createEmptyRemote(getActivity(), type);
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(SAVE_BUTTON_NUMBER)) {
+				mCurrentButtonIndex = savedInstanceState
+						.getInt(SAVE_BUTTON_NUMBER);
+				mRemote = (Remote) savedInstanceState
+						.getSerializable(SAVE_REMOTE);
+			}
+		} else {
+			mRemote = ComponentUtils.createEmptyRemote(getActivity(), type);
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View view = inflater.inflate(R.layout.fragment_learn_remote, container,
 				false);
 
@@ -93,6 +107,15 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 		setupLayout(State.READY);
 		return view;
 
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putInt(SAVE_BUTTON_NUMBER, mCurrentButtonIndex);
+		if (mRemote != null) {
+			outState.putSerializable(SAVE_REMOTE, mRemote);
+		}
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -142,6 +165,7 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 	private void setupLayout(State state) {
 		switch (state) {
 		case READY:
+
 			mTitle.setText(getString(R.string.learn_tit_ready,
 					getCurrentButtonName()));
 			mDescription.setText(getString(R.string.learn_desc_ready,
@@ -219,13 +243,11 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 
 	@Override
 	protected void onLearnTimeout() {
-		if (isAdded()) {
-			AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-			ab.setTitle(R.string.learn_help_tit);
-			ab.setMessage(R.string.learn_help_msg);
-			ab.setPositiveButton(android.R.string.ok, null);
-			ab.show();
-		}
+		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+		ab.setTitle(R.string.learn_help_tit);
+		ab.setMessage(R.string.learn_help_msg);
+		ab.setPositiveButton(android.R.string.ok, null);
+		ab.show();
 	}
 
 	private void saveCurrentButton() {

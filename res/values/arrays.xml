@@ -28,5 +28,13 @@
         <item>@string/pref_val_bg_gallery</item>
         <item>@string/pref_val_bg_none</item>
     </string-array>
+     <string-array name="theme_names">
+        <item>@string/theme_tr</item>
+        <item>@string/theme_sl</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>@string/pref_val_theme_tr</item>
+        <item>@string/pref_val_theme_sl</item>
+    </string-array>
 
 </resources>

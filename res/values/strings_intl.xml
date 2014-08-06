@@ -7,20 +7,24 @@
     <string name="pref_key_bg">org.twinone.irremote.pref.remote_background</string>
     <string name="pref_key_bg_uri">org.twinone.irremote.pref.background_uri</string>
     <string name="pref_key_fullscreen">org.twinone.irremote.pref.fullscreen</string>
-
+    <string name="pref_key_theme">org.twinone.irremote.pref.theme</string>
+    
     <!-- Defaults -->
     <item name="pref_def_fix" type="bool">false</item>
     <item name="pref_def_fullscreen" type="bool">false</item>
     <item name="pref_def_orientation" type="string">@string/pref_val_ori_system</item>
+    <item name="pref_def_theme" type="string">@string/pref_val_theme_tr</item>
 
     <!-- Values -->
     <string name="pref_val_ori_system">system</string>
     <string name="pref_val_ori_auto">auto</string>
     <string name="pref_val_ori_port">port</string>
     <string name="pref_val_ori_land">land</string>
-
     <!--  -->
     <string name="pref_val_bg_gallery">0</string>
     <string name="pref_val_bg_none">1</string>
+    <!--  -->
+    <string name="pref_val_theme_tr">tr</string>
+    <string name="pref_val_theme_sl">sl</string>
 
 </resources>

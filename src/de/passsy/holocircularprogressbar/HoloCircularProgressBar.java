@@ -32,7 +32,8 @@ public class HoloCircularProgressBar extends View {
 	/**
 	 * The Constant TAG.
 	 */
-	private static final String TAG = HoloCircularProgressBar.class.getSimpleName();
+//	private static final String TAG = HoloCircularProgressBar.class
+//			.getSimpleName();
 
 	/**
 	 * used to save the super state on configuration change
@@ -216,7 +217,8 @@ public class HoloCircularProgressBar extends View {
 	 * @param attrs
 	 *            the attrs
 	 */
-	public HoloCircularProgressBar(final Context context, final AttributeSet attrs) {
+	public HoloCircularProgressBar(final Context context,
+			final AttributeSet attrs) {
 		this(context, attrs, R.attr.circularProgressBarStyle);
 	}
 
@@ -230,23 +232,33 @@ public class HoloCircularProgressBar extends View {
 	 * @param defStyle
 	 *            the def style
 	 */
-	public HoloCircularProgressBar(final Context context, final AttributeSet attrs, final int defStyle) {
+	public HoloCircularProgressBar(final Context context,
+			final AttributeSet attrs, final int defStyle) {
 		super(context, attrs, defStyle);
 
 		// load the styled attributes and set their properties
-		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.HoloCircularProgressBar,
-				defStyle, 0);
+		final TypedArray attributes = context.obtainStyledAttributes(attrs,
+				R.styleable.HoloCircularProgressBar, defStyle, 0);
 
-		setProgressColor(attributes.getColor(R.styleable.HoloCircularProgressBar_progress_color, Color.CYAN));
-		setProgressBackgroundColor(attributes.getColor(R.styleable.HoloCircularProgressBar_progress_background_color,
+		setProgressColor(attributes.getColor(
+				R.styleable.HoloCircularProgressBar_progress_color, Color.CYAN));
+		setProgressBackgroundColor(attributes.getColor(
+				R.styleable.HoloCircularProgressBar_progress_background_color,
 				Color.MAGENTA));
-		setProgress(attributes.getFloat(R.styleable.HoloCircularProgressBar_progress, 0.0f));
-		setMarkerProgress(attributes.getFloat(R.styleable.HoloCircularProgressBar_marker_progress, 0.0f));
-		setWheelSize((int) attributes.getDimension(R.styleable.HoloCircularProgressBar_stroke_width, 10));
-		mIsThumbEnabled = attributes.getBoolean(R.styleable.HoloCircularProgressBar_thumb_visible, true);
-		mIsMarkerEnabled = attributes.getBoolean(R.styleable.HoloCircularProgressBar_marker_visible, true);
+		setProgress(attributes.getFloat(
+				R.styleable.HoloCircularProgressBar_progress, 0.0f));
+		setMarkerProgress(attributes.getFloat(
+				R.styleable.HoloCircularProgressBar_marker_progress, 0.0f));
+		setWheelSize((int) attributes.getDimension(
+				R.styleable.HoloCircularProgressBar_stroke_width, 10));
+		mIsThumbEnabled = attributes.getBoolean(
+				R.styleable.HoloCircularProgressBar_thumb_visible, true);
+		mIsMarkerEnabled = attributes.getBoolean(
+				R.styleable.HoloCircularProgressBar_marker_visible, true);
 
-		mGravity = attributes.getInt(R.styleable.HoloCircularProgressBar_android_gravity, Gravity.CENTER);
+		mGravity = attributes.getInt(
+				R.styleable.HoloCircularProgressBar_android_gravity,
+				Gravity.CENTER);
 
 		attributes.recycle();
 
@@ -280,21 +292,26 @@ public class HoloCircularProgressBar extends View {
 
 		// draw the background
 		if (!mOverrdraw) {
-			canvas.drawArc(mCircleBounds, 270, -(360 - progressRotation), false, mBackgroundColorPaint);
+			canvas.drawArc(mCircleBounds, 270, -(360 - progressRotation),
+					false, mBackgroundColorPaint);
 		}
 
 		// draw the progress or a full circle if overdraw is true
-		canvas.drawArc(mCircleBounds, 270, mOverrdraw ? 360 : progressRotation, false, mProgressColorPaint);
+		canvas.drawArc(mCircleBounds, 270, mOverrdraw ? 360 : progressRotation,
+				false, mProgressColorPaint);
 
 		// draw the marker at the correct rotated position
 		if (mIsMarkerEnabled) {
-			final float markerRotation = getMarkerRotation();
-
-			canvas.save();
-			canvas.rotate(markerRotation - 90);
-			canvas.drawLine((float) (mThumbPosX + mThumbRadius / 2 * 1.4), mThumbPosY,
-					(float) (mThumbPosX - mThumbRadius / 2 * 1.4), mThumbPosY, mMarkerColorPaint);
-			canvas.restore();
+			// Don't draw the ugly marker
+			// final float markerRotation = getMarkerRotation();
+			//
+			// canvas.save();
+			// canvas.rotate(markerRotation - 90);
+			// canvas.drawLine((float) (mThumbPosX + mThumbRadius / 2 * 1.4),
+			// mThumbPosY,
+			// (float) (mThumbPosX - mThumbRadius / 2 * 1.4), mThumbPosY,
+			// mMarkerColorPaint);
+			// canvas.restore();
 		}
 
 		if (isThumbEnabled()) {
@@ -318,9 +335,12 @@ public class HoloCircularProgressBar extends View {
 	 * @see android.view.View#onMeasure(int, int)
 	 */
 	@Override
-	protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-		final int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-		final int width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+	protected void onMeasure(final int widthMeasureSpec,
+			final int heightMeasureSpec) {
+		final int height = getDefaultSize(getSuggestedMinimumHeight(),
+				heightMeasureSpec);
+		final int width = getDefaultSize(getSuggestedMinimumWidth(),
+				widthMeasureSpec);
 		final int min = Math.min(width, height);
 		setMeasuredDimension(min, height);
 
@@ -350,19 +370,22 @@ public class HoloCircularProgressBar extends View {
 			setProgress(bundle.getFloat(INSTANCE_STATE_PROGRESS));
 			setMarkerProgress(bundle.getFloat(INSTANCE_STATE_MARKER_PROGRESS));
 
-			final int progressColor = bundle.getInt(INSTANCE_STATE_PROGRESS_COLOR);
+			final int progressColor = bundle
+					.getInt(INSTANCE_STATE_PROGRESS_COLOR);
 			if (progressColor != mProgressColor) {
 				mProgressColor = progressColor;
 				updateProgressColor();
 			}
 
-			final int progressBackgroundColor = bundle.getInt(INSTANCE_STATE_PROGRESS_BACKGROUND_COLOR);
+			final int progressBackgroundColor = bundle
+					.getInt(INSTANCE_STATE_PROGRESS_BACKGROUND_COLOR);
 			if (progressBackgroundColor != mProgressBackgroundColor) {
 				mProgressBackgroundColor = progressBackgroundColor;
 				updateBackgroundColor();
 			}
 
-			super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE_SAVEDSTATE));
+			super.onRestoreInstanceState(bundle
+					.getParcelable(INSTANCE_STATE_SAVEDSTATE));
 			return;
 		}
 
@@ -377,11 +400,13 @@ public class HoloCircularProgressBar extends View {
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		final Bundle bundle = new Bundle();
-		bundle.putParcelable(INSTANCE_STATE_SAVEDSTATE, super.onSaveInstanceState());
+		bundle.putParcelable(INSTANCE_STATE_SAVEDSTATE,
+				super.onSaveInstanceState());
 		bundle.putFloat(INSTANCE_STATE_PROGRESS, mProgress);
 		bundle.putFloat(INSTANCE_STATE_MARKER_PROGRESS, mMarkerProgress);
 		bundle.putInt(INSTANCE_STATE_PROGRESS_COLOR, mProgressColor);
-		bundle.putInt(INSTANCE_STATE_PROGRESS_BACKGROUND_COLOR, mProgressBackgroundColor);
+		bundle.putInt(INSTANCE_STATE_PROGRESS_BACKGROUND_COLOR,
+				mProgressBackgroundColor);
 		return bundle;
 	}
 
@@ -408,7 +433,8 @@ public class HoloCircularProgressBar extends View {
 		int absoluteGravity = mGravity;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			layoutDirection = getLayoutDirection();
-			absoluteGravity = Gravity.getAbsoluteGravity(mGravity, layoutDirection);
+			absoluteGravity = Gravity.getAbsoluteGravity(mGravity,
+					layoutDirection);
 		}
 
 		switch (absoluteGravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
@@ -446,15 +472,15 @@ public class HoloCircularProgressBar extends View {
 		return 360 * mProgress;
 	}
 
-	/**
-	 * Gets the marker rotation.
-	 * 
-	 * @return the marker rotation
-	 */
-	private float getMarkerRotation() {
-
-		return 360 * mMarkerProgress;
-	}
+//	/**
+//	 * Gets the marker rotation.
+//	 * 
+//	 * @return the marker rotation
+//	 */
+//	private float getMarkerRotation() {
+//
+//		return 360 * mMarkerProgress;
+//	}
 
 	/**
 	 * Sets the wheel size.
@@ -611,8 +637,8 @@ public class HoloCircularProgressBar extends View {
 	 */
 	public void setProgressBackgroundColor(final int color) {
 		mProgressBackgroundColor = color;
-        	
-    	updateMarkerColor();
+
+		updateMarkerColor();
 		updateBackgroundColor();
 	}
 

@@ -162,12 +162,32 @@
     <string name="learn_select_tit">Tipo de dispositivo</string>
     <string name="learn_select_msg">Elige el tipo de dispositivo que estás aprendiendo</string>
     <!-- %s is the device type (tv, cable, blu ray, air conditioning... -->
-	<string name="learn_activity_title">Aprender nuevo mando de %s</string>
+    <string name="learn_activity_title">Aprender nuevo mando de %s</string>
     <!--  -->
     <string name="device_type_tv">TV</string>
     <string name="device_type_cable">TDT/Reproductor</string>
     <string name="device_type_bluray">Bluray</string>
     <string name="device_type_audio_amplifier">Altavoces</string>
     <string name="device_type_air_con">Aire acondicionado</string>
+
+    <!--  -->
+    <string name="ori_system">Sistema</string>
+    <string name="ori_auto">Girar siempre</string>
+    <string name="ori_port">Vertical</string>
+    <string name="ori_land">Horizontal</string>
+
+    <!-- BEGIN v1302 -->
+    <string name="pref_tit_orientation">Oriención</string>
+    <string name="pref_tit_bg">Fondo</string>
+    <string name="pref_desc_bg">Mostrar un fondo personalizado</string>
+    <string name="pref_tit_fullscreen">Pantalla completa</string>
+    <string name="pref_desc_fullscreen">Los mandos se mostrarán en pantalla completa - Se ocultará la barra de notificaciones</string>
+    <!-- bg -->
+    <string name="bg_gallery">Galería</string>
+    <string name="bg_remove">Ninguno</string>
+    <string name="bg_changed_ok">Fondo cambiado</string>
+    <!-- BEGIN v1303 -->
+    <string name="whatsnew">Lo nuevo...</string>
+    <string name="whatsnew_1303">Ahora puedes cambiar el fondo de tus mandos y usar el modo pantalla completa (en ajustes)</string>
 
 </resources>
