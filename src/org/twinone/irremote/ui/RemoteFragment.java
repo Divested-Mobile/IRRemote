@@ -9,10 +9,12 @@ import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -120,6 +122,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	private boolean mFingerDown;
 	private int mFingerDownId;
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) {
@@ -127,28 +130,49 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 		case MotionEvent.ACTION_DOWN:
 
 			if (!mFingerDown) {
+				mFingerDown = true;
 				mFingerDownId = event.getPointerId(0);
 				final Signal s = mRemote.getButton(true,
 						mButtonUtils.getButtonId(v.getId())).getSignal();
-				mTransmitter.startTransmitting(s);
-				mFingerDown = true;
+				mTransmitter.setSignal(s);
+				mHandler.postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						if (mFingerDown) {
+							mTransmitter.startTransmitting();
+						}
+					}
+				}, 200);
 				return false;
 			}
 
 			break;
 
+		case MotionEvent.ACTION_MOVE:
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP:
 			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
 				boolean atLeastOnce = event.getAction() == MotionEvent.ACTION_UP;
 				mTransmitter.stopTransmitting(atLeastOnce);
+				Log.d("", "Stopping transmission: AtLeastOnce: "+atLeastOnce);
 				mFingerDown = false;
 				return false;
 			}
-			break;
+			return false;
 		}
 		// Block multiple fingers from appearing as clicked
 		return true;
+	}
+
+	private void stopTransmittingAsync(final boolean atLeastOnce) {
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				mTransmitter.stopTransmitting(atLeastOnce);
+			}
+		});
 	}
 
 	public void transmit(boolean common, int id) {
@@ -206,4 +230,5 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 		if (mTransmitter != null)
 			mTransmitter.pause();
 	}
+
 }

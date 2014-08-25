@@ -59,7 +59,10 @@ public class BaseProviderFragment extends Fragment {
 
 		@Override
 		public boolean onQueryTextSubmit(String query) {
-			mAdapter.getFilter().filter(query);
+			// Android calls this when navigating to a new fragment, adapter =
+			// null
+			if (mAdapter != null)
+				mAdapter.getFilter().filter(query);
 			return true;
 		}
 

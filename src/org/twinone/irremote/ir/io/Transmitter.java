@@ -35,9 +35,15 @@ public abstract class Transmitter {
 	}
 
 	/**
+	 * Set the signal to be transmitted in the next {@link #transmit()} or
+	 * {@link #startTransmitting()} call
+	 */
+	public abstract void setSignal(Signal signal);
+
+	/**
 	 * Transmit a {@link Signal} once
 	 */
-	public abstract void transmit(Signal signal);
+	public abstract void transmit();
 
 	/**
 	 * Start transmitting a signal repeatedly until
@@ -45,7 +51,22 @@ public abstract class Transmitter {
 	 * 
 	 * @param s
 	 */
-	public abstract void startTransmitting(Signal s);
+	public abstract void startTransmitting();
+
+	/**
+	 * Convenience method for {@link #setSignal(Signal)} and
+	 * {@link #startTransmitting()}
+	 */
+	public void startTransmitting(Signal signal) {
+		setSignal(signal);
+		startTransmitting();
+	}
+
+	/** Convenience method for {@link #setSignal(Signal)} and {@link #transmit()} */
+	public void transmit(Signal signal) {
+		setSignal(signal);
+		transmit();
+	}
 
 	/**
 	 * Stop transmitting a repeating signal started by

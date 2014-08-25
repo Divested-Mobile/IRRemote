@@ -67,6 +67,9 @@ public class SignalCorrector {
 				c.getString(R.string.pref_key_fix)))
 			return;
 		// It looks like CyanogenMod is no longer affected...
+		boolean sams = isAffectedSamsung();
+		boolean cyan = isCyanogen(c);
+		Log.d("SignalCorrector", "Sams: " + sams + " cyan: " + cyan);
 		boolean affected = isAffectedSamsung() && !isCyanogen(c);
 		setPreference(c, affected);
 	}

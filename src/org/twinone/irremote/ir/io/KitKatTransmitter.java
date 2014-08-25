@@ -11,6 +11,7 @@ import android.util.Log;
 
 public class KitKatTransmitter extends Transmitter {
 
+	private static final String TAG = "KitKatTransmitter";
 	private ConsumerIrManager mIrManager;
 	private SignalCorrector mSignalCorrector;
 
@@ -31,21 +32,28 @@ public class KitKatTransmitter extends Transmitter {
 		return mIrManager.hasIrEmitter();
 	}
 
-	public void transmit(final Signal signal) {
-		if (!isFrequencySupported(signal.frequency))
+	public void transmit() {
+		if (!isFrequencySupported(mSignal.frequency))
 			return;
-		transmitImpl(signal);
+		transmitImpl(mSignal);
 	}
 
-	public void startTransmitting(Signal signal) {
-		if (!isFrequencySupported(signal.frequency))
+	public void setSignal(Signal signal) {
+		mSignal = signal;
+	}
+
+	public void startTransmitting() {
+		Log.d(TAG, "startTransmitting " + mSignal);
+		if (!isFrequencySupported(mSignal.frequency))
 			return;
 		if (mTransmitting)
-			return;
+			stopTransmitting(false);
+
 		mTransmitting = true;
-		mTSignal = signal;
+		mHasTransmittedOnce = false;
+		mSignal = mSignal;
 		mRunnable = new TransmitterRunnable();
-		mHandler.postDelayed(mRunnable, mOffsetMillis);
+		mHandler.post(mRunnable);
 	}
 
 	private Runnable mRunnable;
@@ -54,10 +62,10 @@ public class KitKatTransmitter extends Transmitter {
 	 * Time between the end of a transmission and the start of the next one
 	 */
 	private int mPeriodMillis = 200;
+
 	/**
 	 * If the user doesn't cancel in this time, we'll start transmitting
 	 */
-	private int mOffsetMillis = 100;
 
 	/**
 	 * Set how much each transmission should be away from another
@@ -68,20 +76,17 @@ public class KitKatTransmitter extends Transmitter {
 		mPeriodMillis = millis;
 	}
 
-	public void setOffsetMillis(int millis) {
-		mOffsetMillis = millis;
-	}
-
 	private Handler mHandler;
 	private volatile boolean mTransmitting;
-	private Signal mTSignal;
+	private Signal mSignal;
 	private volatile boolean mHasTransmittedOnce;
 
 	private class TransmitterRunnable implements Runnable {
 		@Override
 		public void run() {
-			transmitImpl(mTSignal);
-			mHasTransmittedOnce = true;
+			transmitImpl(mSignal);
+			if (!mHasTransmittedOnce)
+				mHasTransmittedOnce = true;
 			if (mTransmitting) {
 				mHandler.postDelayed(this, mPeriodMillis);
 			}
@@ -89,8 +94,6 @@ public class KitKatTransmitter extends Transmitter {
 	}
 
 	private synchronized void transmitImpl(Signal signal) {
-		Log.d("", "Null: " + (signal == null));
-		
 		if (signal == null)
 			return;
 		Signal realSignal = signal.clone().fix(mSignalCorrector);
@@ -112,14 +115,14 @@ public class KitKatTransmitter extends Transmitter {
 		// Ensure the signal is transmitted at least one time
 		mTransmitting = false;
 		mHandler.removeCallbacks(mRunnable);
-		mHasTransmittedOnce = false;
 
 		if (transmitAtLeastOnce && !mHasTransmittedOnce) {
+			Log.d(TAG, "Posting new runnable");
 			mHandler.post(new Runnable() {
-
 				@Override
 				public void run() {
-					transmitImpl(mTSignal);
+					Log.d(TAG, "Runnable running " + mSignal);
+					transmitImpl(mSignal);
 				}
 			});
 		}
