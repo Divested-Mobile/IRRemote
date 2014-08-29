@@ -3,7 +3,6 @@ package org.twinone.irremote.components;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.twinone.irremote.ui.NavFragment;
@@ -47,17 +46,12 @@ public class Remote implements Serializable {
 		 */
 		private static final long serialVersionUID = -6674520681482052007L;
 
-		/**
-		 * The type of remote this is<br>
-		 * one of {@link Remote#TYPE_BLURAY}, {@link Remote#TYPE_CABLE} or
-		 * {@link Remote#TYPE_TV}
-		 */
+		// Receiving device details
 		public int type;
-
+		// if type == null, indicate unknownType
+		public String unknownType;
 		public String manufacturer;
 		public String model;
-		public String country;
-		
 	}
 
 	private static final String REMOTES_VERSION = "_v2";
@@ -147,15 +141,6 @@ public class Remote implements Serializable {
 		FileUtils.write(f, gson.toJson(options));
 	}
 
-	private static final File getNextFile(File dir, String prefix, String suffix) {
-		List<String> list = Arrays.asList(dir.list());
-		for (int i = 0;; i++) {
-			if (!list.contains(prefix + i + suffix)) {
-				return new File(dir, prefix + i + suffix);
-			}
-		}
-	}
-
 	public static List<String> getNames(Context c) {
 		List<String> result = new ArrayList<String>();
 		File dir = getRemotesDir(c);
@@ -231,5 +216,17 @@ public class Remote implements Serializable {
 		Remote r = Remote.load(c, remote);
 		r.addButton(b);
 		r.save(c);
+	}
+
+	public String serialize() {
+		return serialize(this);
+	}
+
+	public static String serialize(Remote remote) {
+		return new Gson().toJson(remote);
+	}
+
+	public static Remote deserialize(String remote) {
+		return new Gson().fromJson(remote, Remote.class);
 	}
 }

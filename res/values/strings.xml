@@ -195,4 +195,11 @@
     <string name="theme_tr">Transparent</string>
     <string name="theme_sl">Solid</string>
 
+    <!--  -->
+    <string name="edit_confirmexitdlg_tit">Save changes?</string>
+    <string name="edit_confirmexitdlg_save">Save</string>
+    <string name="edit_confirmexitdlg_discard">Discard</string>
+    <!-- %s will be replaced with the remote name -->
+    <string name="edit_activity_title">Edit - %s</string>
+
 </resources>

@@ -118,6 +118,14 @@ public class Button implements Serializable {
 	 */
 	public String code;
 
+	// x, y, width, height in dp
+	public float x;
+	public float y;
+	public float w;
+	public float h;
+	// corner radius in dp
+	public float r;
+
 	public Button(String text) {
 		this(0, text);
 	}

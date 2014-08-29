@@ -39,19 +39,18 @@ public class KitKatTransmitter extends Transmitter {
 	}
 
 	public void setSignal(Signal signal) {
+		mHasTransmittedOnce = false;
 		mSignal = signal;
 	}
 
 	public void startTransmitting() {
-		Log.d(TAG, "startTransmitting " + mSignal);
 		if (!isFrequencySupported(mSignal.frequency))
 			return;
 		if (mTransmitting)
 			stopTransmitting(false);
 
 		mTransmitting = true;
-		mHasTransmittedOnce = false;
-		mSignal = mSignal;
+		Log.d(TAG, "Setting hasTransmitted to false");
 		mRunnable = new TransmitterRunnable();
 		mHandler.post(mRunnable);
 	}
@@ -109,20 +108,17 @@ public class KitKatTransmitter extends Transmitter {
 	/**
 	 * 
 	 * @param transmitAtLeastOnce
-	 *            If this is set to true, a
+	 *            If this is set to true, the signal is transmitted at least
+	 *            once
 	 */
 	public void stopTransmitting(boolean transmitAtLeastOnce) {
-		// Ensure the signal is transmitted at least one time
-		mTransmitting = false;
 		mHandler.removeCallbacks(mRunnable);
-
 		if (transmitAtLeastOnce && !mHasTransmittedOnce) {
-			Log.d(TAG, "Posting new runnable");
 			mHandler.post(new Runnable() {
 				@Override
 				public void run() {
-					Log.d(TAG, "Runnable running " + mSignal);
 					transmitImpl(mSignal);
+					mTransmitting = false;
 				}
 			});
 		}

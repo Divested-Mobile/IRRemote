@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
@@ -181,9 +182,9 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.common_menu_todb:
-			Intent i = new Intent(getActivity(), GCProviderActivity.class);
-			startActivity(i);
 			getActivity().finish();
+			Intent i = new Intent(getActivity(), GCProviderActivity.class);
+			AnimHelper.startActivity(getActivity(), i);
 		}
 		return false;
 	}
@@ -214,8 +215,8 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 			b.code = FileUtils.read(getActivity().getAssets(), remotedir
 					+ File.separator + name);
 			b.id = Integer.parseInt(name.substring(2).split("\\.")[0]);
-			b.text = ComponentUtils
-					.getCommonButtonDisplyaName(b.id, getActivity());
+			b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
+					getActivity());
 			r.addButton(b);
 		}
 		r.options.type = getDeviceTypeInt(mTarget.deviceType);

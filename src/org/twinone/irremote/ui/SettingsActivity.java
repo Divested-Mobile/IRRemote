@@ -1,6 +1,7 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -42,8 +43,10 @@ public class SettingsActivity extends Activity {
 		finish();
 	}
 
-	public void startChooseBackgroundActivity() {
-
+	@Override
+	public void finish() {
+		super.finish();
+		AnimHelper.onFinish(this);
 	}
 
 }

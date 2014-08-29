@@ -6,12 +6,11 @@ import java.util.List;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,60 +19,82 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RemoteFragment extends Fragment implements View.OnTouchListener,
-		Transmitter.OnTransmitListener {
+/**
+ * Displays the remote.
+ * 
+ * @author twinone
+ * 
+ */
+public abstract class BaseRemoteFragment extends Fragment implements
+		View.OnTouchListener, Transmitter.OnTransmitListener {
 
 	private static final String TAG = "RemoteFragment";
 
-	private Remote mRemote;
-	private Transmitter mTransmitter;
-	protected List<Button> mButtons = new ArrayList<Button>();
+	protected static final int DETECT_LONGPRESS_DELAY = 250; // ms
 
-	private ComponentUtils mButtonUtils;
+	protected Remote mRemote;
+	protected Transmitter mTransmitter;
+	protected List<Button> mButtons = new ArrayList<Button>();
+	protected ComponentUtils mComponentUtils;
 
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
 
-	public static final void showFor(Activity a, String remoteName) {
+	/** Use this method just after calling the constructor */
+	public final void showFor(Activity a, String remoteName) {
 
-		final RemoteFragment frag = new RemoteFragment();
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE_NAME, remoteName);
-		frag.setArguments(b);
-		a.getFragmentManager().beginTransaction().replace(R.id.container, frag)
+		setArguments(b);
+		a.getFragmentManager().beginTransaction().replace(R.id.container, this)
 				.commit();
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (getArguments() == null
+				|| !getArguments().containsKey(ARG_REMOTE_NAME)) {
+			throw new RuntimeException(
+					"You should create this fragment with the showFor method");
+		}
+		mRemote = Remote.load(getActivity(), (String) getArguments()
+				.getSerializable(ARG_REMOTE_NAME));
+
 		mTransmitter = Transmitter.getInstance(getActivity());
 		if (mTransmitter != null) {
 			mTransmitter.setListener(this);
 		}
-		mButtonUtils = new ComponentUtils(getActivity());
+		mComponentUtils = new ComponentUtils(getActivity());
 
-		if (getArguments() == null
-				|| !getArguments().containsKey(ARG_REMOTE_NAME)) {
-			throw new RuntimeException(
-					"You create this fragment with the showFor method");
+	}
+
+	private int getThemeIdFromPrefs() {
+		SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
+		String theme = sp.getString(getString(R.string.pref_key_theme),
+				getString(R.string.pref_def_theme));
+		Log.d("", "Got theme: " + theme);
+		if (theme.equals(getString(R.string.pref_val_theme_sl))) {
+			return R.style.theme_solid;
 		}
-		mRemote = Remote.load(getActivity(), (String) getArguments()
-				.getSerializable(ARG_REMOTE_NAME));
+		return R.style.theme_transparent;
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		getActivity().setTheme(getThemeIdFromPrefs());
 
 		// If no remote specified, just cancel
-		if (mRemote == null)
+		if (mRemote == null) {
+			Log.w(TAG, "null remote");
 			return new View(getActivity());
 
+		}
 		setHasOptionsMenu(true);
 
 		int resId = R.layout.fragment_remote_tv;
@@ -85,7 +106,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 
 		View view = inflater.inflate(resId, container, false);
 
-		SparseIntArray ids = mButtonUtils.getArray();
+		SparseIntArray ids = mComponentUtils.getArray();
 		for (int i = 0; i < ids.size(); i++) {
 			final int id = ids.valueAt(i);
 			if (id != 0) {
@@ -105,7 +126,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 			return;
 
 		for (Button b : mButtons) {
-			int buttonId = mButtonUtils.getButtonId(b.getId());
+			int buttonId = mComponentUtils.getButtonId(b.getId());
 			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(buttonId)) {
 				b.setText(mRemote.getButton(true, buttonId).getDisplayName());
@@ -119,65 +140,8 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 		}
 	}
 
-	private boolean mFingerDown;
-	private int mFingerDownId;
-
-	@SuppressLint("ClickableViewAccessibility")
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		switch (event.getAction()) {
-
-		case MotionEvent.ACTION_DOWN:
-
-			if (!mFingerDown) {
-				mFingerDown = true;
-				mFingerDownId = event.getPointerId(0);
-				final Signal s = mRemote.getButton(true,
-						mButtonUtils.getButtonId(v.getId())).getSignal();
-				mTransmitter.setSignal(s);
-				mHandler.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						if (mFingerDown) {
-							mTransmitter.startTransmitting();
-						}
-					}
-				}, 200);
-				return false;
-			}
-
-			break;
-
-		case MotionEvent.ACTION_MOVE:
-		case MotionEvent.ACTION_CANCEL:
-		case MotionEvent.ACTION_UP:
-			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
-				boolean atLeastOnce = event.getAction() == MotionEvent.ACTION_UP;
-				mTransmitter.stopTransmitting(atLeastOnce);
-				Log.d("", "Stopping transmission: AtLeastOnce: "+atLeastOnce);
-				mFingerDown = false;
-				return false;
-			}
-			return false;
-		}
-		// Block multiple fingers from appearing as clicked
-		return true;
-	}
-
-	private void stopTransmittingAsync(final boolean atLeastOnce) {
-		mHandler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				mTransmitter.stopTransmitting(atLeastOnce);
-			}
-		});
-	}
-
-	public void transmit(boolean common, int id) {
-		final Signal s = mRemote.getButton(common, id).getSignal();
-		mTransmitter.transmit(s);
+	protected Transmitter getTransmitter() {
+		return mTransmitter;
 	}
 
 	public Remote getRemote() {
@@ -192,9 +156,8 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 	}
 
 	private MenuItem mMenuIcon;
-
 	private static final int MINIMUM_SHOW_TIME = 100; // ms
-	private Handler mHandler = new Handler();
+	protected Handler mHandler = new Handler();
 	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
 
 	private class HideFeedbackRunnable implements Runnable {
@@ -231,4 +194,7 @@ public class RemoteFragment extends Fragment implements View.OnTouchListener,
 			mTransmitter.pause();
 	}
 
+	protected ComponentUtils getUtils() {
+		return mComponentUtils;
+	}
 }

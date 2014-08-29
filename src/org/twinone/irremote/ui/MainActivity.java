@@ -7,6 +7,7 @@ import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
@@ -23,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener {
@@ -60,8 +59,6 @@ public class MainActivity extends ActionBarActivity implements
 			showNotAvailableDialog();
 		}
 
-		setTheme(getThemeIdFromPrefs());
-
 		new VersionManager(this, this).callFromEntryPoint();
 
 		SignalCorrector.setAffectedOnce(this);
@@ -84,18 +81,6 @@ public class MainActivity extends ActionBarActivity implements
 		new BackgroundManager(this, mBackground).setBackgroundFromPreference();
 
 		ShareManager.show(this, getString(R.string.share_promo));
-
-	}
-
-	private int getThemeIdFromPrefs() {
-		SharedPreferences sp = SettingsActivity.getPreferences(this);
-		String theme = sp.getString(getString(R.string.pref_key_theme),
-				getString(R.string.pref_def_theme));
-		Log.d("", "Got theme: " + theme);
-		if (theme.equals(getString(R.string.pref_val_theme_sl))) {
-			return R.style.theme_solid;
-		}
-		return R.style.theme_transparent;
 
 	}
 
@@ -201,8 +186,7 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	public void setRemote(String name) {
-		Log.d("", "Set remote!!");
-		RemoteFragment.showFor(this, name);
+		new DefaultRemoteFragment().showFor(this, name);
 	}
 
 	public String getRemoteName() {
@@ -234,14 +218,13 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onRemoteSelected(int position, String remoteName) {
-		Log.d("", "OnSelectedListener MainActivity");
 		setRemote(remoteName);
 	}
 
 	@Override
 	public void onAddRemoteSelected() {
 		Intent i = new Intent(this, CommonProviderActivity.class);
-		startActivity(i);
+		AnimHelper.startActivity(this, i);
 	}
 
 	@Override
@@ -275,8 +258,7 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case R.id.menu_action_edit:
-			Toast.makeText(this, "Edit will be available soon!",
-					Toast.LENGTH_SHORT).show();
+			EditRemoteActivity.show(this, getRemoteName());
 			break;
 
 		case R.id.menu_action_learn:
@@ -286,11 +268,14 @@ public class MainActivity extends ActionBarActivity implements
 			// startActivity(i);
 
 			Intent learn = new Intent(this, LearnProviderActivity.class);
-			startActivity(learn);
+			AnimHelper.startActivity(this, learn);
 			break;
 		case R.id.menu_action_settings:
+			// Uploader u = new Uploader(this);
+			// u.upload(Remote.getNames(this).get(0));
 			Intent i = new Intent(this, SettingsActivity.class);
-			startActivity(i);
+			AnimHelper.startActivity(this, i);
+
 			break;
 		}
 		return false;
@@ -300,6 +285,7 @@ public class MainActivity extends ActionBarActivity implements
 		final String remoteName = getRemoteName();
 		if (remoteName == null)
 			return;
+
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle(R.string.delete_remote_title);
 		ab.setMessage(getString(R.string.delete_remote_message, remoteName));
@@ -312,7 +298,7 @@ public class MainActivity extends ActionBarActivity implements
 			}
 		});
 		ab.setNegativeButton(android.R.string.cancel, null);
-		ab.show();
+		AnimHelper.showDialog(ab);
 	}
 
 	private void onRemotesChanged() {
@@ -327,25 +313,6 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onUpdate(Context c, UpdateInfo ui) {
-		if (ui.isUpdated() && ui.getCurrentVersion() == 1305) {
-			Editor editor = SettingsActivity.getPreferences(this).edit();
-			// No full screen ads for old users
-			editor.putBoolean("no-fsa-old-user", true);
-			editor.apply();
-		} else {
-			// Run once
-		}
 
-		// If user is updating to (or installing) v1303..
-		switch (ui.getCurrentVersion()) {
-		case 1303:
-			AlertDialog.Builder ab = new AlertDialog.Builder(this);
-			ab.setTitle(R.string.whatsnew);
-			ab.setMessage(R.string.whatsnew_1303);
-			ab.setCancelable(false);
-			ab.setPositiveButton(android.R.string.ok, null);
-			ab.show();
-			break;
-		}
 	}
 }

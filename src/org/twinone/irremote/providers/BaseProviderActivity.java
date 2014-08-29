@@ -1,6 +1,7 @@
 package org.twinone.irremote.providers;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
@@ -115,4 +116,9 @@ public class BaseProviderActivity extends Activity {
 		return mTransmitter;
 	}
 
+	@Override
+	public void finish() {
+		super.finish();
+		AnimHelper.onFinish(this);
+	}
 }

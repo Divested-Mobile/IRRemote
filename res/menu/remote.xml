@@ -24,8 +24,7 @@
         android:id="@+id/menu_action_settings"
         android:title="@string/menu_action_settings"
         app:showAsAction="never"/>
-   
-     <item
+    <item
         android:id="@+id/menu_action_learn"
         android:title="@string/menu_action_learn"
         app:showAsAction="never"/>
