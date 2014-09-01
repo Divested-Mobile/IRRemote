@@ -118,13 +118,33 @@ public class Button implements Serializable {
 	 */
 	public String code;
 
-	// x, y, width, height in dp
+	// x, y, width, height in px
 	public float x;
 	public float y;
 	public float w;
 	public float h;
-	// corner radius in dp
-	public float r;
+	// corner radius in px
+
+	public int rtl;
+	public int rbl;
+	public int rtr;
+	public int rbr;
+
+	/** Set the radius for all 4 corners */
+	public void setCornerRadius(int radius) {
+		rtl = rbl = rtr = rbr = radius;
+	}
+
+	public void setCornerRadii(int[] radii) {
+		rtl = radii[0];
+		rtr = radii[1];
+		rbr = radii[2];
+		rbl = radii[3];
+	}
+
+	public float[] getCornerRadii() {
+		return new float[] { rtl, rtr, rbr, rbl };
+	}
 
 	public Button(String text) {
 		this(0, text);
@@ -143,7 +163,7 @@ public class Button implements Serializable {
 		this.text = text;
 	}
 
-	public String getDisplayName() {
+	public String getText() {
 		return text;
 	}
 

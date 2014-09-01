@@ -10,8 +10,7 @@ import android.content.Intent;
 public abstract class AnimHelper {
 	public static void startActivity(Activity from, Intent to) {
 		from.startActivity(to);
-		from.overridePendingTransition(R.anim.slide_in_right,
-				R.anim.slide_out_left);
+		from.overridePendingTransition(R.anim.slide_in_right, 0);
 	}
 
 	/**
@@ -19,8 +18,7 @@ public abstract class AnimHelper {
 	 * 
 	 */
 	public static void onFinish(Activity a) {
-		a.overridePendingTransition(android.R.anim.slide_in_left,
-				android.R.anim.slide_out_right);
+		a.overridePendingTransition(0, R.anim.slide_out_right);
 	}
 
 	public static void showDialog(AlertDialog.Builder ab) {
@@ -33,11 +31,11 @@ public abstract class AnimHelper {
 	 * @param d
 	 */
 	public static void showDialog(Dialog d) {
-		setDialogAnimations(d);
+		addAnimations(d);
 		d.show();
 	}
 
-	public static void setDialogAnimations(Dialog d) {
+	public static void addAnimations(Dialog d) {
 		d.getWindow().getAttributes().windowAnimations = R.style.DialogAnims;
 	}
 }

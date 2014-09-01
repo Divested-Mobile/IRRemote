@@ -8,6 +8,7 @@ import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
@@ -53,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 
 		if (!checkTransmitterAvailable() && !DEBUG) {

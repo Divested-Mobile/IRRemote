@@ -35,7 +35,7 @@ public class EditRemoteActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mEditFragment = new EditRemoteFragment();
-		new DefaultRemoteFragment().showFor(this, mRemoteName);
+		mEditFragment.showFor(this, mRemoteName);
 		// mEditFragment.showFor(this,
 		// getIntent().getStringExtra(EXTRA_REMOTE_NAME));
 

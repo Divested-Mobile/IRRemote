@@ -36,7 +36,7 @@ public class LearnRemoteFragment extends BaseLearnFragment implements
 	private Signal mSignal;
 
 	private String getCurrentButtonName() {
-		return mRemote.buttons.get(mCurrentButtonIndex).getDisplayName();
+		return mRemote.buttons.get(mCurrentButtonIndex).getText();
 	}
 
 	private int mCurrentButtonIndex = 0;

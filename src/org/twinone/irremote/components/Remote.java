@@ -3,6 +3,8 @@ package org.twinone.irremote.components;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.twinone.irremote.ui.NavFragment;
@@ -82,6 +84,15 @@ public class Remote implements Serializable {
 			dir.mkdirs();
 		}
 		return dir;
+	}
+
+	public void sortButtonsById() {
+		Collections.sort(buttons, new Comparator<Button>() {
+			@Override
+			public int compare(Button lhs, Button rhs) {
+				return lhs.id < rhs.id ? -1 : 1;
+			}
+		});
 	}
 
 	public static boolean exists(Context c, String name) {
@@ -164,6 +175,19 @@ public class Remote implements Serializable {
 
 	/**
 	 * @return The matching button or null if no such button found
+	 */
+	public Button getButton(int id) {
+		for (int i = 0; i < buttons.size(); i++) {
+			if (buttons.get(i).id == id) {
+				return buttons.get(i);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return The matching button or null if no such button found
+	 * @deprecated Use {@link #getButton(int)} instead
 	 */
 	public Button getButton(boolean common, int id) {
 		for (int i = 0; i < buttons.size(); i++) {

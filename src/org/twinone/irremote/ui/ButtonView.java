@@ -18,6 +18,7 @@ public class ButtonView extends Button {
 
 	public void setButton(org.twinone.irremote.components.Button button) {
 		mButton = button;
+		setText(mButton.text);
 	}
 
 	public org.twinone.irremote.components.Button getButton() {

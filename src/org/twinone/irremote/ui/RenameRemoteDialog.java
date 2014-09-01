@@ -1,6 +1,7 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 
 import android.app.Activity;
@@ -24,6 +25,14 @@ public class RenameRemoteDialog extends DialogFragment implements
 	public static void showFor(Activity a, String remoteName) {
 		RenameRemoteDialog.newInstance(remoteName).show(a.getFragmentManager(),
 				"save_remote_dialog");
+	}
+
+	@Override
+	public void onStart() {
+		if (getDialog() != null) {
+			AnimHelper.addAnimations(getDialog());
+		}
+		super.onStart();
 	}
 
 	public void show(Activity a) {

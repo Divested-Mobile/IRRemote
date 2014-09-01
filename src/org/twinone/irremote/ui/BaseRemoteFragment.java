@@ -13,8 +13,6 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +30,7 @@ import android.widget.Button;
 public abstract class BaseRemoteFragment extends Fragment implements
 		View.OnTouchListener, Transmitter.OnTransmitListener {
 
-	private static final String TAG = "RemoteFragment";
+	protected static final String TAG = "RemoteFragment";
 
 	protected static final int DETECT_LONGPRESS_DELAY = 250; // ms
 
@@ -76,7 +74,6 @@ public abstract class BaseRemoteFragment extends Fragment implements
 		SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
 		String theme = sp.getString(getString(R.string.pref_key_theme),
 				getString(R.string.pref_def_theme));
-		Log.d("", "Got theme: " + theme);
 		if (theme.equals(getString(R.string.pref_val_theme_sl))) {
 			return R.style.theme_solid;
 		}
@@ -84,41 +81,15 @@ public abstract class BaseRemoteFragment extends Fragment implements
 
 	}
 
+	/**
+	 * Call super.onCreateView for theming and optionsMenu
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		getActivity().setTheme(getThemeIdFromPrefs());
-
-		// If no remote specified, just cancel
-		if (mRemote == null) {
-			Log.w(TAG, "null remote");
-			return new View(getActivity());
-
-		}
 		setHasOptionsMenu(true);
-
-		int resId = R.layout.fragment_remote_tv;
-		try {
-			resId = ComponentUtils.getLayout(mRemote.options.type);
-		} catch (Exception e) {
-			// Older versions don't have the options file in remote
-		}
-
-		View view = inflater.inflate(resId, container, false);
-
-		SparseIntArray ids = mComponentUtils.getArray();
-		for (int i = 0; i < ids.size(); i++) {
-			final int id = ids.valueAt(i);
-			if (id != 0) {
-				Button b = (Button) view.findViewById(id);
-				if (b != null) {
-					mButtons.add((Button) view.findViewById(id));
-				}
-			}
-		}
-
-		setupButtons();
-		return view;
+		return null;
 	}
 
 	protected void setupButtons() {
@@ -126,10 +97,11 @@ public abstract class BaseRemoteFragment extends Fragment implements
 			return;
 
 		for (Button b : mButtons) {
+
 			int buttonId = mComponentUtils.getButtonId(b.getId());
 			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(buttonId)) {
-				b.setText(mRemote.getButton(true, buttonId).getDisplayName());
+				b.setText(mRemote.getButton(buttonId).getText());
 				b.setOnTouchListener(this);
 				b.setEnabled(true);
 			} else {

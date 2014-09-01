@@ -10,7 +10,10 @@
     <dimen name="remote_button_vertical_margin">4dp</dimen>
     <dimen name="remote_digit_button_minheight">92dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
-    
+
+    <!--  -->
+    <dimen name="button_height_small">48dp</dimen>
+    <dimen name="button_height">60dp</dimen>
     <!--  -->
     <dimen name="learn_button_size">200dp</dimen>
     <dimen name="learn_progress_size">208dp</dimen>
