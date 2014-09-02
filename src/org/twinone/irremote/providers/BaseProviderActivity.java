@@ -62,7 +62,7 @@ public class BaseProviderActivity extends Activity {
 			@Override
 			public void onRemoteSaved(String name) {
 				// Finish the activity, we've saved the remote
-				Remote.setPersistedRemoteName(BaseProviderActivity.this, name);
+				Remote.setLastUsedRemoteName(BaseProviderActivity.this, name);
 				Toast.makeText(BaseProviderActivity.this,
 						R.string.remote_saved_toast, Toast.LENGTH_SHORT).show();
 				finish();

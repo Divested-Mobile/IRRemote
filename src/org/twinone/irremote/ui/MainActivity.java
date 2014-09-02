@@ -7,8 +7,8 @@ import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.CompatLogic;
 import org.twinone.irremote.components.AnimHelper;
-import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
@@ -214,7 +214,7 @@ public class MainActivity extends ActionBarActivity implements
 	public void onRemoteRenamed(String oldName, String newName) {
 		// As we renamed this remote, it was selected before, so we need to
 		// select it again
-		Remote.setPersistedRemoteName(this, newName);
+		Remote.setLastUsedRemoteName(this, newName);
 		mNavFragment.update();
 	}
 
@@ -315,6 +315,8 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onUpdate(Context c, UpdateInfo ui) {
-
+		if (ui.isUpdated()) {
+			new CompatLogic(c).updateRemotesToCoordinateSystem();
+		}
 	}
 }

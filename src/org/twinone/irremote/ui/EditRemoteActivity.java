@@ -53,8 +53,6 @@ public class EditRemoteActivity extends Activity {
 			showConfirmationDialog();
 			return false;
 		} else {
-			Toast.makeText(this, R.string.remote_saved_toast, Toast.LENGTH_LONG)
-					.show();
 			finish();
 		}
 		return true;
@@ -85,8 +83,11 @@ public class EditRemoteActivity extends Activity {
 	}
 
 	private void saveRemote() {
-		if (mEditFragment.isModified())
+		if (mEditFragment.isModified()) {
 			mEditFragment.getRemote().save(this);
+			Toast.makeText(this, R.string.remote_saved_toast,
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

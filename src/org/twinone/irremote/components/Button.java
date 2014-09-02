@@ -98,6 +98,9 @@ public class Button implements Serializable {
 	public static final int ID_TEMP_UP = 59;
 	public static final int ID_TEMP_DOWN = 60;
 
+	/** Custom or unknown buttons are assigned a random id bigger as this */
+	public static final int MIN_CUSTOM_ID = 10000;
+
 	/** Ids are to identify common buttons */
 	public int id;
 
@@ -150,10 +153,6 @@ public class Button implements Serializable {
 		this(0, text);
 	}
 
-	public Button() {
-
-	}
-
 	public Button(int id) {
 		this(id, null);
 	}
@@ -170,8 +169,8 @@ public class Button implements Serializable {
 	/**
 	 * Returns true if this button is a common button
 	 */
-	public boolean isCommonButton() {
-		return id != ID_NONE;
+	public boolean isCommon() {
+		return id != ID_NONE && id < MIN_CUSTOM_ID;
 	}
 
 	public Signal getSignal() {
@@ -187,21 +186,22 @@ public class Button implements Serializable {
 			// Not a button
 			return false;
 		final Button b = (Button) o;
-		if (id != b.id)
-			// Two different buttons
-			return false;
-		if (id != ID_NONE)
-			// Two the same common buttons
-			return true;
-		// Both undefined buttons
-		if (b.text == null && b.text == null)
-			return true;
-		return text != null && text.equals(b.text);
+		return b.id == this.id;
+		// if (id != b.id)
+		// // Two different buttons
+		// return false;
+		// if (id != ID_NONE)
+		// // Two the same common buttons
+		// return true;
+		// // Both undefined buttons
+		// if (b.text == null && b.text == null)
+		// return true;
+		// return text != null && text.equals(b.text);
 	}
 
 	@Override
 	public int hashCode() {
-		return (id + text).hashCode();
+		return ("button" + id).hashCode();
 	}
 
 }

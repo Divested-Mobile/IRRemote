@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 /**
  * Displays the remote.
@@ -36,8 +38,11 @@ public abstract class BaseRemoteFragment extends Fragment implements
 
 	protected Remote mRemote;
 	protected Transmitter mTransmitter;
-	protected List<Button> mButtons = new ArrayList<Button>();
-	protected ComponentUtils mComponentUtils;
+	protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
+	// protected ComponentUtils mComponentUtils;
+
+	protected RelativeLayout mContainer;
+	protected ScrollView mScroll;
 
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
 
@@ -66,7 +71,7 @@ public abstract class BaseRemoteFragment extends Fragment implements
 		if (mTransmitter != null) {
 			mTransmitter.setListener(this);
 		}
-		mComponentUtils = new ComponentUtils(getActivity());
+		// mComponentUtils = new ComponentUtils(getActivity());
 
 	}
 
@@ -89,16 +94,44 @@ public abstract class BaseRemoteFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		getActivity().setTheme(getThemeIdFromPrefs());
 		setHasOptionsMenu(true);
-		return null;
+
+		if (mRemote == null) {
+			return new View(getActivity());
+		}
+
+		mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
+				container, false);
+
+		mContainer = (RelativeLayout) mScroll.findViewById(R.id.container);
+
+		mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
+		for (org.twinone.irremote.components.Button b : mRemote.buttons) {
+			ButtonView bv = new ButtonView(getActivity());
+			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+					(int) b.w, (int) b.h);
+			// bv.setX(b.x);
+			// bv.setY(b.y);
+			lp.topMargin = (int) b.y;
+			lp.leftMargin = (int) b.x;
+			bv.setLayoutParams(lp);
+			bv.setButton(b);
+			bv.setOnTouchListener(this);
+			mButtons.add(bv);
+			mContainer.addView(bv);
+		}
+
+		return mScroll;
+
 	}
 
 	protected void setupButtons() {
 		if (mButtons == null)
 			return;
 
-		for (Button b : mButtons) {
+		for (ButtonView b : mButtons) {
 
-			int buttonId = mComponentUtils.getButtonId(b.getId());
+			// int buttonId = mComponentUtils.getButtonId(b.getId());
+			int buttonId = b.getButton().id;
 			b.setVisibility(View.VISIBLE);
 			if (mRemote.contains(buttonId)) {
 				b.setText(mRemote.getButton(buttonId).getText());
@@ -142,8 +175,12 @@ public abstract class BaseRemoteFragment extends Fragment implements
 
 	@Override
 	public void onBeforeTransmit() {
-		mHandler.removeCallbacks(mHideFeedbackRunnable);
-		mMenuIcon.setVisible(true);
+		if (mHandler != null && mHideFeedbackRunnable != null) {
+			mHandler.removeCallbacks(mHideFeedbackRunnable);
+		}
+		if (mMenuIcon != null) {
+			mMenuIcon.setVisible(true);
+		}
 	}
 
 	@Override
@@ -166,7 +203,4 @@ public abstract class BaseRemoteFragment extends Fragment implements
 			mTransmitter.pause();
 	}
 
-	protected ComponentUtils getUtils() {
-		return mComponentUtils;
-	}
 }

@@ -199,10 +199,20 @@ public class Remote implements Serializable {
 	}
 
 	public void addButton(Button b) {
-		// Remove first, if already present
-		// This will not affect other buttons
+		// Empty buttons are assigned a new id
+		if (b.id == Button.ID_NONE) {
+			b.id = getNextId();
+		}
 		buttons.remove(b);
 		buttons.add(b);
+	}
+
+	private int getNextId() {
+		int id = Button.MIN_CUSTOM_ID;
+		while (this.contains(id)) {
+			id++;
+		}
+		return id;
 	}
 
 	/**
@@ -219,7 +229,7 @@ public class Remote implements Serializable {
 	 * 
 	 * @param remoteName
 	 */
-	public static void setPersistedRemoteName(Context c, String remoteName) {
+	public static void setLastUsedRemoteName(Context c, String remoteName) {
 		c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
 				.putString(NavFragment.PREF_KEY_LAST_REMOTE, remoteName)
 				.apply();

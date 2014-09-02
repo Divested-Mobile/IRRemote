@@ -30,10 +30,10 @@ public class IrCode extends LircListable {
 		r.options.type = Remote.TYPE_UNKNOWN;
 		int i = 0;
 		for (IrCode code : irCodes) {
-			Button b = new Button();
+			int id = i++;
+			Button b = new Button(id);
 			b.text = code.name;
 			b.code = code.pronto;
-			b.id = i++;
 			r.buttons.add(b);
 		}
 		return r;

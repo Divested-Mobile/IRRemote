@@ -1,9 +1,6 @@
 package org.twinone.irremote.ui;
 
-import java.util.ArrayList;
-
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.Button;
 
 import android.content.ClipData;
 import android.os.Bundle;
@@ -16,13 +13,11 @@ import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 public class EditRemoteFragment extends BaseRemoteFragment implements
 		OnDragListener {
 
-	private ArrayList<ButtonView> mButtons;
+	private boolean mIsRemoteModified;
 
 	private static int AUTOSCROLL_PERCENTAGE = 15;
 	private static int SCROLL_DP = 3; // converts to mScrollPixels
@@ -32,16 +27,12 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	private static int DEFAULT_GRID_SIZE_X = 16;// in dp
 	private static int DEFAULT_GRID_SIZE_Y = 16;// in dp
-	private boolean mModified;
 
 	private int mGridSizeX;
 	private int mGridSizeY;
 
-	private RelativeLayout mContainer;
-	private ScrollView mScroll;
-
 	public boolean isModified() {
-		return mModified;
+		return mIsRemoteModified;
 	}
 
 	private float mActivityMarginH;
@@ -80,16 +71,27 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			ClipData data = ClipData.newPlainText("", "");
 			DragShadowBuilder shadowBuilder = new DragShadowBuilder(v);
 			v.startDrag(data, shadowBuilder, v, 0);
-
-			v.setVisibility(View.INVISIBLE);
-			// Log.d(TAG, "Touched " + ((ButtonView) v).getButton().text);
+			v.setVisibility(View.GONE);
 			return true;
 		}
 		return false;
 	}
 
+	private void onDragStart() {
+
+	}
+
+	private void onDragMove() {
+
+	}
+
+	private void onDragStop() {
+
+	}
+
 	@Override
 	public boolean onDrag(View v, DragEvent event) {
+		View view;
 		switch (event.getAction()) {
 
 		case DragEvent.ACTION_DRAG_ENTERED:
@@ -114,8 +116,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			}
 			break;
 		case DragEvent.ACTION_DROP:
-
-			View view = (View) event.getLocalState();
+			view = (View) event.getLocalState();
 			if (view == null)
 				break;
 
@@ -130,14 +131,20 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			view.setX(round(x, mGridSizeX));
 			view.setY(round(y, mGridSizeY));
 
-//			mContainer.addView(view);
-			view.setVisibility(View.VISIBLE);
+			mIsRemoteModified = true;
+
+			break;
+		case DragEvent.ACTION_DRAG_ENDED:
+			view = (View) event.getLocalState();
+			if (view != null)
+				view.setVisibility(View.VISIBLE);
 			stopScrolling();
 
 			resizeContainer();
 
 			break;
 		}
+
 		return true;
 	}
 
@@ -150,17 +157,15 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		for (ButtonView bv : mButtons) {
 
 			// tmp
-			int bottom = bv.getBottom();
+			float bottom = bv.getBottom() + bv.getTranslationY();
 			if (bottom > max) {
 				btm = bv;
 			}
 			max = Math.max(max, (int) (bv.getBottom() + bv.getTranslationY()));
-			//
-
 		}
 		Log.d(TAG, "Bottom bv: " + btm.getButton().text + " at " + max + " px");
 		Log.d(TAG, "Current height of the view: " + mContainer.getHeight());
-		int h = (int) max;
+		int h = (int) (max + mActivityMarginV);
 		int w = mContainer.getWidth();
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
 		mContainer.setLayoutParams(lp);
@@ -184,6 +189,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = super.onCreateView(inflater, container, savedInstanceState);
+		v.setOnDragListener(this);
+		return v;
+	}
+
 	private int round(float what, int to) {
 		what = Math.round(what);
 		final int mod = (int) what % to;
@@ -195,39 +208,39 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		return (int) what;
 	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		if (mRemote == null) {
-			return new View(getActivity());
-		}
-
-		mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
-				container, false);
-
-		mContainer = (RelativeLayout) mScroll.findViewById(R.id.container);
-
-		mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
-		for (Button b : mRemote.buttons) {
-			ButtonView bv = new ButtonView(getActivity());
-			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-					(int) b.w, (int) b.h);
-			// bv.setX(b.x);
-			// bv.setY(b.y);
-			lp.topMargin = (int) b.y;
-			lp.leftMargin = (int) b.x;
-			bv.setLayoutParams(lp);
-			bv.setButton(b);
-			bv.setOnTouchListener(this);
-			mButtons.add(bv);
-			mContainer.addView(bv);
-		}
-
-		mScroll.setOnDragListener(this);
-
-		return mScroll;
-	}
+	// @Override
+	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	// Bundle savedInstanceState) {
+	// super.onCreateView(inflater, container, savedInstanceState);
+	// if (mRemote == null) {
+	// return new View(getActivity());
+	// }
+	//
+	// mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
+	// container, false);
+	//
+	// mContainer = (RelativeLayout) mScroll.findViewById(R.id.container);
+	//
+	// mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
+	// for (Button b : mRemote.buttons) {
+	// ButtonView bv = new ButtonView(getActivity());
+	// RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+	// (int) b.w, (int) b.h);
+	// // bv.setX(b.x);
+	// // bv.setY(b.y);
+	// lp.topMargin = (int) b.y;
+	// lp.leftMargin = (int) b.x;
+	// bv.setLayoutParams(lp);
+	// bv.setButton(b);
+	// bv.setOnTouchListener(this);
+	// mButtons.add(bv);
+	// mContainer.addView(bv);
+	// }
+	//
+	// mScroll.setOnDragListener(this);
+	//
+	// return mScroll;
+	// }
 
 	private float dpToPx(float dp) {
 		return dp * getActivity().getResources().getDisplayMetrics().density;

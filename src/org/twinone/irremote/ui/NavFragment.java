@@ -147,7 +147,7 @@ public class NavFragment extends NavigationFragment implements
 
 	@Override
 	public void onRemoteSelected(int position, String remoteName) {
-		Remote.setPersistedRemoteName(getActivity(), remoteName);
+		Remote.setLastUsedRemoteName(getActivity(), remoteName);
 		mTargetRemotePosition = position;
 		close();
 

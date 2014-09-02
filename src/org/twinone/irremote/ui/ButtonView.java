@@ -25,4 +25,16 @@ public class ButtonView extends Button {
 		return mButton;
 	}
 
+	@Override
+	public void setX(float x) {
+		getButton().x = x;
+		super.setX(x);
+	}
+
+	@Override
+	public void setY(float y) {
+		getButton().y = y;
+		super.setY(y);
+	}
+
 }

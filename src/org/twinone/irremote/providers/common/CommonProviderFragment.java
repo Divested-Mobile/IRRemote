@@ -211,10 +211,10 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 		r.name = mTarget.deviceName + " " + mTarget.deviceType;
 		final String remotedir = getDBPath();
 		for (String name : listAssets(getDBPath())) {
-			Button b = new Button();
+			int id = Integer.parseInt(name.substring(2).split("\\.")[0]);
+			Button b = new Button(id);
 			b.code = FileUtils.read(getActivity().getAssets(), remotedir
 					+ File.separator + name);
-			b.id = Integer.parseInt(name.substring(2).split("\\.")[0]);
 			b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
 					getActivity());
 			r.addButton(b);

@@ -54,13 +54,14 @@ public class IrCode extends GCBaseListable {
 	}
 
 	public static Button toButton(Context c, IrCode irCode) {
-		Button button = new Button();
+		int id = getBestMatchId(irCode);
+		Button button = new Button(id);
 		button.text = irCode.KeyName;
 		button.code = SignalFactory
 				.toPronto(SignalFactory.parse(irCode.IRCode));
-		button.id = getBestMatchId(irCode);
 		if (button.id != Button.ID_NONE) {
-			button.text = ComponentUtils.getCommonButtonDisplyaName(button.id, c);
+			button.text = ComponentUtils.getCommonButtonDisplyaName(button.id,
+					c);
 		}
 		return button;
 	}
