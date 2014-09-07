@@ -5,7 +5,6 @@ import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.common.CommonProviderActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -233,14 +232,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	private int mRequestCodeChangeButtonUID;
 
 	private void editIrCode(ButtonView v) {
-		Intent i = new Intent(getActivity(), CommonProviderActivity.class);
+		Intent i = new Intent(getActivity(), ProviderActivity.class);
 		i.setAction(ProviderActivity.ACTION_GET_BUTTON);
 		mRequestCodeChangeButtonUID = v.getButton().uid;
 		startActivityForResult(i, REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON);
 	}
 
 	private void requestNewButton() {
-		Intent i = new Intent(getActivity(), CommonProviderActivity.class);
+		Intent i = new Intent(getActivity(), ProviderActivity.class);
 		i.setAction(ProviderActivity.ACTION_GET_BUTTON);
 		startActivityForResult(i, REQ_GET_NEW_BUTTON);
 	}

@@ -35,7 +35,7 @@ public class GCProviderFragment extends ProviderFragment implements
 	private boolean mCreated;
 	private AlertDialog mDialog;
 
-	private UriData mUriData;
+	private GlobalCacheProviderData mUriData;
 
 	public GCProviderFragment() {
 	}
@@ -45,9 +45,10 @@ public class GCProviderFragment extends ProviderFragment implements
 		super.onCreate(savedInstanceState);
 
 		if (getArguments() != null && getArguments().containsKey(ARG_URI_DATA)) {
-			mUriData = (UriData) getArguments().getSerializable(ARG_URI_DATA);
+			mUriData = (GlobalCacheProviderData) getArguments()
+					.getSerializable(ARG_URI_DATA);
 		} else {
-			mUriData = new UriData();
+			mUriData = new GlobalCacheProviderData();
 		}
 	}
 
@@ -131,15 +132,15 @@ public class GCProviderFragment extends ProviderFragment implements
 		prepareSearch(menu, inflater);
 		mSearchView.setQueryHint(getSearchHint(mUriData));
 
-		boolean show = mUriData.targetType == UriData.TYPE_IR_CODE
+		boolean show = mUriData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
 				&& ACTION_SAVE_REMOTE.equals(getProvider().getAction());
 		menu.findItem(R.id.menu_db_save).setVisible(show);
 	}
 
-	private String getSearchHint(UriData data) {
-		if (data.targetType == UriData.TYPE_MANUFACTURER) {
+	private String getSearchHint(GlobalCacheProviderData data) {
+		if (data.targetType == GlobalCacheProviderData.TYPE_MANUFACTURER) {
 			return getString(R.string.db_search_hint_manufacturers);
-		} else if (data.targetType == UriData.TYPE_IR_CODE) {
+		} else if (data.targetType == GlobalCacheProviderData.TYPE_IR_CODE) {
 			return getString(R.string.db_search_hint_buttons);
 		} else {
 			return getString(R.string.db_search_hint_custom,
@@ -207,7 +208,7 @@ public class GCProviderFragment extends ProviderFragment implements
 			long id) {
 		GCBaseListable item = (GCBaseListable) mListView.getAdapter().getItem(
 				position);
-		if (item.getType() == UriData.TYPE_IR_CODE) {
+		if (item.getType() == GlobalCacheProviderData.TYPE_IR_CODE) {
 			if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
 				getProvider().transmit(((IrCode) item).getSignal());
 			} else {
@@ -215,9 +216,9 @@ public class GCProviderFragment extends ProviderFragment implements
 				getProvider().saveButton(b);
 			}
 		} else {
-			UriData clone = mUriData.clone();
+			GlobalCacheProviderData clone = mUriData.clone();
 			select(clone, item);
-			((GCProviderActivity) getActivity()).addFragment(clone);
+			getProvider().addGCProviderFragment(clone);
 		}
 	}
 
@@ -234,18 +235,18 @@ public class GCProviderFragment extends ProviderFragment implements
 		return false;
 	}
 
-	private void select(UriData data, GCBaseListable listable) {
-		data.targetType = UriData.TYPE_MANUFACTURER;
+	private void select(GlobalCacheProviderData data, GCBaseListable listable) {
+		data.targetType = GlobalCacheProviderData.TYPE_MANUFACTURER;
 		if (listable != null) {
-			if (listable.getType() == UriData.TYPE_MANUFACTURER) {
+			if (listable.getType() == GlobalCacheProviderData.TYPE_MANUFACTURER) {
 				data.manufacturer = (Manufacturer) listable;
-				data.targetType = UriData.TYPE_DEVICE_TYPE;
-			} else if (listable.getType() == UriData.TYPE_DEVICE_TYPE) {
+				data.targetType = GlobalCacheProviderData.TYPE_DEVICE_TYPE;
+			} else if (listable.getType() == GlobalCacheProviderData.TYPE_DEVICE_TYPE) {
 				data.deviceType = (DeviceType) listable;
-				data.targetType = UriData.TYPE_CODESET;
-			} else if (listable.getType() == UriData.TYPE_CODESET) {
+				data.targetType = GlobalCacheProviderData.TYPE_CODESET;
+			} else if (listable.getType() == GlobalCacheProviderData.TYPE_CODESET) {
 				data.codeset = (Codeset) listable;
-				data.targetType = UriData.TYPE_IR_CODE;
+				data.targetType = GlobalCacheProviderData.TYPE_IR_CODE;
 			}
 		}
 	}

@@ -17,7 +17,7 @@ public class Manufacturer extends GCBaseListable {
 
 	@Override
 	public int getType() {
-		return UriData.TYPE_MANUFACTURER;
+		return GlobalCacheProviderData.TYPE_MANUFACTURER;
 	}
 
 	@Override

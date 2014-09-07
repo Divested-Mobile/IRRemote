@@ -18,7 +18,7 @@ public class DeviceType extends GCBaseListable {
 
 	@Override
 	public int getType() {
-		return UriData.TYPE_DEVICE_TYPE;
+		return GlobalCacheProviderData.TYPE_DEVICE_TYPE;
 	}
 
 	@Override

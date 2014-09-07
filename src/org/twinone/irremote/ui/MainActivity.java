@@ -15,7 +15,6 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.common.CommonProviderActivity;
 import org.twinone.irremote.providers.learn.LearnProviderActivity;
 import org.twinone.irremote.ui.RenameRemoteDialog.OnRemoteRenamedListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
@@ -230,7 +229,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onAddRemoteSelected() {
-		Intent i = new Intent(this, CommonProviderActivity.class);
+		Intent i = new Intent(this, ProviderActivity.class);
 		i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
 		AnimHelper.startActivity(this, i);
 	}

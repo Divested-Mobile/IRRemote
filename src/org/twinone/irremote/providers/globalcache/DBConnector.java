@@ -30,9 +30,9 @@ public class DBConnector {
 
 	// private UriData mUriData = new UriData();
 
-	public void query(UriData data) {
+	public void query(GlobalCacheProviderData data) {
 		if (data == null)
-			data = new UriData();
+			data = new GlobalCacheProviderData();
 		queryServer(data);
 	}
 
@@ -47,7 +47,7 @@ public class DBConnector {
 		this.mContext = c;
 	}
 
-	private void queryServer(UriData data) {
+	private void queryServer(GlobalCacheProviderData data) {
 		cancelQuery();
 		mDBTask = new DBTask(data);
 		mDBTask.execute();
@@ -60,7 +60,7 @@ public class DBConnector {
 		private String mCacheName;
 		private int mTarget;
 
-		public DBTask(UriData data) {
+		public DBTask(GlobalCacheProviderData data) {
 			mUrl = data.getUrl();
 			mCacheName = data.getCacheName();
 			mTarget = data.targetType;
@@ -119,16 +119,16 @@ public class DBConnector {
 		Object[] data = null;
 		if (result != null) {
 			switch (target) {
-			case UriData.TYPE_MANUFACTURER:
+			case GlobalCacheProviderData.TYPE_MANUFACTURER:
 				data = gson.fromJson(result, Manufacturer[].class);
 				break;
-			case UriData.TYPE_DEVICE_TYPE:
+			case GlobalCacheProviderData.TYPE_DEVICE_TYPE:
 				data = gson.fromJson(result, DeviceType[].class);
 				break;
-			case UriData.TYPE_CODESET:
+			case GlobalCacheProviderData.TYPE_CODESET:
 				data = gson.fromJson(result, Codeset[].class);
 				break;
-			case UriData.TYPE_IR_CODE:
+			case GlobalCacheProviderData.TYPE_IR_CODE:
 				data = gson.fromJson(result, IrCode[].class);
 				break;
 			}

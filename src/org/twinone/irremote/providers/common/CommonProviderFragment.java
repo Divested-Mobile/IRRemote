@@ -5,17 +5,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.ListableAdapter;
 import org.twinone.irremote.providers.ProviderFragment;
-import org.twinone.irremote.providers.globalcache.GCProviderActivity;
+import org.twinone.irremote.providers.ProviderActivity.Provider;
 import org.twinone.irremote.util.FileUtils;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,11 +39,11 @@ public class CommonProviderFragment extends ProviderFragment implements
 	private ListableAdapter mAdapter;
 
 	public static final String ARG_DATA = "arg.data";
-	private Data mTarget;
+	private CommonProviderData mTarget;
 
-	public static class Data implements Serializable {
+	public static class CommonProviderData implements Serializable {
 
-		public Data() {
+		public CommonProviderData() {
 			targetType = TARGET_DEVICE_TYPE;
 		}
 
@@ -58,12 +56,12 @@ public class CommonProviderFragment extends ProviderFragment implements
 		public static final int TARGET_DEVICE_NAME = 1;
 		public static final int TARGET_IR_CODE = 2;
 
-		int targetType;
+		public int targetType;
 		String deviceType;
 		String deviceName;
 
-		public Data clone() {
-			Data d = new Data();
+		public CommonProviderData clone() {
+			CommonProviderData d = new CommonProviderData();
 			d.targetType = targetType;
 			d.deviceType = deviceType;
 			d.deviceName = deviceName;
@@ -92,10 +90,11 @@ public class CommonProviderFragment extends ProviderFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null && getArguments().containsKey(ARG_DATA)) {
-			mTarget = (Data) getArguments().getSerializable(ARG_DATA);
+			mTarget = (CommonProviderData) getArguments().getSerializable(
+					ARG_DATA);
 			Log.d("", "mTarget.deviceType = " + mTarget.deviceType);
 		} else {
-			mTarget = new Data();
+			mTarget = new CommonProviderData();
 		}
 	}
 
@@ -166,7 +165,7 @@ public class CommonProviderFragment extends ProviderFragment implements
 
 	private MyListable[] getItems() {
 		ArrayList<MyListable> items = new ArrayList<MyListable>();
-		if (mTarget.targetType == Data.TARGET_IR_CODE) {
+		if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
 			mRemote = buildRemote();
 			for (Button b : mRemote.buttons) {
 				MyListable l = new MyListable(b.text);
@@ -196,10 +195,8 @@ public class CommonProviderFragment extends ProviderFragment implements
 			saveRemote();
 			break;
 		case R.id.menu_more:
-			getActivity().finish();
-			Intent i = new Intent(getActivity(), GCProviderActivity.class);
-			i.setAction(getProvider().getAction());
-			AnimHelper.startActivity(getActivity(), i);
+			getProvider().switchTo(Provider.GLOBALCACHE);
+
 		}
 		return false;
 	}
@@ -208,22 +205,21 @@ public class CommonProviderFragment extends ProviderFragment implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long viewId) {
 		MyListable item = (MyListable) mListView.getAdapter().getItem(position);
-		if (mTarget.targetType == Data.TARGET_DEVICE_TYPE) {
-			Data clone = mTarget.clone();
+		if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_TYPE) {
+			CommonProviderData clone = mTarget.clone();
 			clone.deviceType = item.getDisplayName();
-			clone.targetType = Data.TARGET_DEVICE_NAME;
-			((CommonProviderActivity) getActivity()).addFragment(clone);
-		} else if (mTarget.targetType == Data.TARGET_DEVICE_NAME) {
+			clone.targetType = CommonProviderData.TARGET_DEVICE_NAME;
+			getProvider().addCommonProviderFragment(clone);
+		} else if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_NAME) {
 			mTarget.deviceName = item.getDisplayName();
 			if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
 				mRemote = buildRemote();
 				saveRemote();
 			} else {
-				mTarget.targetType = Data.TARGET_IR_CODE;
-				((CommonProviderActivity) getActivity()).addFragment(mTarget
-						.clone());
+				mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
+				getProvider().addCommonProviderFragment(mTarget.clone());
 			}
-		} else if (mTarget.targetType == Data.TARGET_IR_CODE) {
+		} else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
 			Button b = mRemote.getButton(item.id);
 			getProvider().saveButton(b);
 		}
@@ -265,7 +261,7 @@ public class CommonProviderFragment extends ProviderFragment implements
 		inflater.inflate(R.menu.common_menu, menu);
 		MenuItem save = menu.findItem(R.id.menu_save);
 		MenuItem more = menu.findItem(R.id.menu_more);
-		boolean ircode = mTarget.targetType == Data.TARGET_IR_CODE;
+		boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
 		boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
 		save.setVisible(ircode && remote);
 		more.setVisible(!ircode);

@@ -7,6 +7,10 @@ import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
+import org.twinone.irremote.providers.common.CommonProviderFragment;
+import org.twinone.irremote.providers.common.CommonProviderFragment.CommonProviderData;
+import org.twinone.irremote.providers.globalcache.GCProviderFragment;
+import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
 import org.twinone.irremote.ui.ButtonView;
 import org.twinone.irremote.ui.SaveRemoteDialog;
 import org.twinone.irremote.ui.SaveRemoteDialog.OnRemoteSavedListener;
@@ -14,6 +18,7 @@ import org.twinone.irremote.ui.SaveRemoteDialog.OnRemoteSavedListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,9 +26,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-public abstract class ProviderActivity extends Activity {
+public class ProviderActivity extends Activity {
 
 	private String mAction;
+
+	public enum Provider {
+		GLOBALCACHE, COMMON
+	}
 
 	public String getAction() {
 		return mAction;
@@ -69,7 +78,11 @@ public abstract class ProviderActivity extends Activity {
 			throw new IllegalStateException(
 					"ProviderActivity should be called with one of ACTION_SAVE_REMOTE of ACTION_GET_BUTTON specified");
 		}
+
 		mAction = getIntent().getAction();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		setContentView(R.layout.activity_empty);
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(SAVE_TITLE)) {
@@ -77,7 +90,9 @@ public abstract class ProviderActivity extends Activity {
 			}
 		}
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getFragmentManager().beginTransaction()
+				.add(R.id.container, new CommonProviderFragment()).commit();
+
 	}
 
 	/**
@@ -108,7 +123,7 @@ public abstract class ProviderActivity extends Activity {
 						setResult(Activity.RESULT_OK, i);
 
 						finish();
-
+						
 					}
 				});
 		AnimHelper.showDialog(ab);
@@ -186,4 +201,52 @@ public abstract class ProviderActivity extends Activity {
 		super.finish();
 		AnimHelper.onFinish(this);
 	}
+
+	public void addCommonProviderFragment(CommonProviderData data) {
+		setExitType(CommonProviderData.TARGET_DEVICE_TYPE);
+
+		mCurrentType = data.targetType;
+		CommonProviderFragment frag = new CommonProviderFragment();
+		Bundle args = new Bundle();
+		args.putSerializable(CommonProviderFragment.ARG_DATA, data);
+		frag.setArguments(args);
+		getFragmentManager().beginTransaction().replace(R.id.container, frag)
+				.addToBackStack("default").commit();
+		// Update action bar back button:
+	}
+
+	public void addGCProviderFragment(GlobalCacheProviderData data) {
+		setExitType(CommonProviderData.TARGET_DEVICE_TYPE);
+
+		mCurrentType = data.targetType;
+		GCProviderFragment frag = new GCProviderFragment();
+		Bundle args = new Bundle();
+		args.putSerializable(GCProviderFragment.ARG_URI_DATA, data);
+		frag.setArguments(args);
+		getFragmentManager().beginTransaction().replace(R.id.container, frag)
+				.addToBackStack("default").commit();
+		// Update action bar back button:
+	}
+
+	public void popAllFragments() {
+		getFragmentManager().popBackStack(null,
+				FragmentManager.POP_BACK_STACK_INCLUSIVE);
+	}
+
+	public void popFragment() {
+		getFragmentManager().popBackStack();
+	}
+
+	public void switchTo(Provider provider) {
+		popAllFragments();
+		switch (provider) {
+		case COMMON:
+			addFragment(new CommonProviderFragment());
+			break;
+		case GLOBALCACHE:
+			addFragment(new GCProviderFragment());
+			break;
+		}
+	}
+
 }

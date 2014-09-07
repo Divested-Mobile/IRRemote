@@ -32,9 +32,7 @@
 
         <activity android:name="org.twinone.irremote.ui.SettingsActivity" />
         <activity android:name="org.twinone.irremote.ui.EditRemoteActivity" />
-        <activity android:name="org.twinone.irremote.providers.globalcache.GCProviderActivity" />
-        <activity android:name="org.twinone.irremote.providers.lirc.LircProviderActivity" />
-        <activity android:name="org.twinone.irremote.providers.common.CommonProviderActivity" />
+        <activity android:name="org.twinone.irremote.providers.ProviderActivity" />
         <activity android:name="org.twinone.irremote.providers.learn.LearnProviderActivity" />
         <activity
             android:name="org.twinone.irremote.ui.MainActivity"

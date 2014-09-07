@@ -2,7 +2,7 @@ package org.twinone.irremote.providers.lirc;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.common.CommonProviderFragment.Data;
+import org.twinone.irremote.providers.common.CommonProviderFragment.CommonProviderData;
 
 import android.os.Bundle;
 
@@ -12,7 +12,7 @@ public class LircProviderActivity extends ProviderActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setExitType(Data.TARGET_DEVICE_TYPE);
+		setExitType(CommonProviderData.TARGET_DEVICE_TYPE);
 
 		setContentView(R.layout.activity_empty);
 

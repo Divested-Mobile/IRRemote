@@ -10,7 +10,7 @@ import android.net.Uri;
 
 import com.google.gson.Gson;
 
-public class UriData implements Serializable {
+public class GlobalCacheProviderData implements Serializable {
 
 	/**
 	 * 
@@ -124,7 +124,7 @@ public class UriData implements Serializable {
 		return SimpleCache.isAvailable(c, getCacheName());
 	}
 
-	public UriData clone() {
+	public GlobalCacheProviderData clone() {
 		return deserialize(serialize());
 	}
 
@@ -132,8 +132,8 @@ public class UriData implements Serializable {
 		return new Gson().toJson(this);
 	}
 
-	public static UriData deserialize(String data) {
-		return new Gson().fromJson(data, UriData.class);
+	public static GlobalCacheProviderData deserialize(String data) {
+		return new Gson().fromJson(data, GlobalCacheProviderData.class);
 	}
 
 }

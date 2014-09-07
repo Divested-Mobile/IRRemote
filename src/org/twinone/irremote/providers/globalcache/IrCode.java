@@ -35,7 +35,7 @@ public class IrCode extends GCBaseListable {
 
 	@Override
 	public int getType() {
-		return UriData.TYPE_IR_CODE;
+		return GlobalCacheProviderData.TYPE_IR_CODE;
 	}
 
 	@Override

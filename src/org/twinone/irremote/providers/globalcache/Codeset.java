@@ -23,6 +23,6 @@ public class Codeset extends GCBaseListable {
 
 	@Override
 	public int getType() {
-		return UriData.TYPE_CODESET;
+		return GlobalCacheProviderData.TYPE_CODESET;
 	}
 }
