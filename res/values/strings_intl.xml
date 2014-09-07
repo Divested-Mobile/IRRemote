@@ -13,7 +13,7 @@
     <item name="pref_def_fix" type="bool">false</item>
     <item name="pref_def_fullscreen" type="bool">false</item>
     <item name="pref_def_orientation" type="string">@string/pref_val_ori_system</item>
-    <item name="pref_def_theme" type="string">@string/pref_val_theme_tr</item>
+    <item name="pref_def_theme" type="string">@string/pref_val_theme_sl</item>
 
     <!-- Values -->
     <string name="pref_val_ori_system">system</string>

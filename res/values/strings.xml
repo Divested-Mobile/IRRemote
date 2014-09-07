@@ -188,8 +188,6 @@
     <string name="bg_remove">Remove Background</string>
     <string name="bg_changed_ok">Background changed</string>
     <!-- BEGIN v1303 -->
-    <string name="whatsnew">What\'s new</string>
-    <string name="whatsnew_1303">You can now set custom backgrounds and use IR Remote in fullscreen mode (see Settings)</string>
     <string name="pref_tit_theme">Button style</string>
     <!--  -->
     <string name="theme_tr">Transparent</string>

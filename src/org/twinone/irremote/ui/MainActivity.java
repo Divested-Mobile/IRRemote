@@ -1,7 +1,7 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
-import org.twinone.androidlib.ShareManager;
+import org.twinone.androidlib.RateManager;
 import org.twinone.androidlib.versionmanager.VersionManager;
 import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity implements
 		mBackground = (ImageView) findViewById(R.id.background);
 		new BackgroundManager(this, mBackground).setBackgroundFromPreference();
 
-		ShareManager.show(this, getString(R.string.share_promo));
+		RateManager.show(this, getString(R.string.share_promo));
 
 	}
 

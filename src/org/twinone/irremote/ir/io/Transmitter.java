@@ -25,7 +25,6 @@ public abstract class Transmitter {
 		try {
 			return new KitKatTransmitter(c);
 		} catch (ComponentNotAvailableException e) {
-			Log.d("", "", e);
 		}
 		return null;
 	}

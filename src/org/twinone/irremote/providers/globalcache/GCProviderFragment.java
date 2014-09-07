@@ -1,6 +1,7 @@
 package org.twinone.irremote.providers.globalcache;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ListableAdapter;
 import org.twinone.irremote.providers.ProviderFragment;
@@ -130,9 +131,9 @@ public class GCProviderFragment extends ProviderFragment implements
 		prepareSearch(menu, inflater);
 		mSearchView.setQueryHint(getSearchHint(mUriData));
 
-		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
-			menu.findItem(R.id.menu_db_save).setVisible(true);
-		}
+		boolean show = mUriData.targetType == UriData.TYPE_IR_CODE
+				&& ACTION_SAVE_REMOTE.equals(getProvider().getAction());
+		menu.findItem(R.id.menu_db_save).setVisible(show);
 	}
 
 	private String getSearchHint(UriData data) {
@@ -207,7 +208,12 @@ public class GCProviderFragment extends ProviderFragment implements
 		GCBaseListable item = (GCBaseListable) mListView.getAdapter().getItem(
 				position);
 		if (item.getType() == UriData.TYPE_IR_CODE) {
-			getProvider().transmit(((IrCode) item).getSignal());
+			if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
+				getProvider().transmit(((IrCode) item).getSignal());
+			} else {
+				Button b = IrCode.toButton(getActivity(), (IrCode) item);
+				getProvider().saveButton(b);
+			}
 		} else {
 			UriData clone = mUriData.clone();
 			select(clone, item);

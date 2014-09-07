@@ -186,8 +186,42 @@
     <string name="bg_gallery">Galería</string>
     <string name="bg_remove">Ninguno</string>
     <string name="bg_changed_ok">Fondo cambiado</string>
+
     <!-- BEGIN v1303 -->
-    <string name="whatsnew">Lo nuevo...</string>
-    <string name="whatsnew_1303">Ahora puedes cambiar el fondo de tus mandos y usar el modo pantalla completa (en ajustes)</string>
+    <string name="pref_tit_theme">Estilo de los botones</string>
+    <!--  -->
+    <string name="theme_tr">Transparente</string>
+    <string name="theme_sl">Opaco</string>
+
+    <!--  -->
+    <string name="edit_confirmexitdlg_tit">Guardar cambios?</string>
+    <string name="edit_confirmexitdlg_save">Guardado</string>
+    <string name="edit_confirmexitdlg_discard">Cancelar</string>
+    <!-- %s will be replaced with the remote name -->
+    <string name="edit_activity_title">Editar - \"%s\"</string>
+    <!--  -->
+    <string name="menu_edit_organize">Organizar</string>
+    <string name="menu_edit_snap">Alinear a cuadrícula</string>
+    <string name="menu_edit_save">Guardar</string>
+    <string name="menu_edit_help">Ayuda</string>
+    <string name="menu_edit_add_button">Añadir botón</string>
+    <string name="edit_helpdlg_tit">Ayuda</string>
+    <string name="edit_helpdlg_msg">Clic largo en un botón para moverlo.\n\nClic corto en un botón para editarlo.\n\nCuando terminas, pulsa el botón de guardado de arriba.\n\nSi no te gustan los cambios que has hecho, pulsa atrás para deshacerlos.</string>
+    <string name="save_button_dlgtit">Guardar botón</string>
+    <string name="save_button_dlgmsg">Prueba el botón y pulsa aceptar si funciona</string>
+    <string name="edit_button_code_updated">Código de \"%s\" cambiado</string>
+    <!--  -->
+
+
+    <!-- %s is the name of the button -->
+    <string name="edit_button_title">Editar - \"%s\"</string>
+    <string name="edit_option_text">Texto</string>
+    <string name="edit_option_size">Tamaño</string>
+    <string name="edit_option_remove">Eliminar botón</string>
+    <string name="edit_option_icon">Icono</string>
+    <string name="edit_option_color">Fondo</string>
+    <string name="edit_option_code">Código infrarrojo</string>
+    <string name="sizepicker_width">Anchura</string>
+    <string name="sizepicker_height">Altura</string>
 
 </resources>

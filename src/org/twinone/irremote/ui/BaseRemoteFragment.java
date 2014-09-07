@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ public abstract class BaseRemoteFragment extends Fragment implements
 		Transmitter.OnTransmitListener {
 
 	protected static final String TAG = "RemoteFragment";
+	private static final String SAVE_REMOTE = "save_remote";
 
 	protected Remote mRemote;
 	private Transmitter mTransmitter;
@@ -41,14 +43,18 @@ public abstract class BaseRemoteFragment extends Fragment implements
 
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
 
-	/** Use this method just after calling the constructor */
 	public final void showFor(Activity a, String remoteName) {
+		showFor(a, remoteName, null);
+	}
+
+	/** Use this method just after calling the constructor */
+	public final void showFor(Activity a, String remoteName, String tag) {
 
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE_NAME, remoteName);
 		setArguments(b);
-		a.getFragmentManager().beginTransaction().replace(R.id.container, this)
-				.commit();
+		a.getFragmentManager().beginTransaction()
+				.replace(R.id.container, this, tag).commit();
 	}
 
 	@Override
@@ -59,9 +65,14 @@ public abstract class BaseRemoteFragment extends Fragment implements
 			throw new RuntimeException(
 					"You should create this fragment with the showFor method");
 		}
-		mRemote = Remote.load(getActivity(), (String) getArguments()
-				.getSerializable(ARG_REMOTE_NAME));
 
+		if (savedInstanceState != null) {
+			Log.d(TAG, "Retrieving remote from savedInstanceState");
+			mRemote = (Remote) savedInstanceState.getSerializable(SAVE_REMOTE);
+		} else {
+			mRemote = Remote.load(getActivity(), (String) getArguments()
+					.getSerializable(ARG_REMOTE_NAME));
+		}
 		mTransmitter = Transmitter.getInstance(getActivity());
 		if (mTransmitter != null) {
 			mTransmitter.setListener(this);
@@ -89,6 +100,7 @@ public abstract class BaseRemoteFragment extends Fragment implements
 			Bundle savedInstanceState) {
 
 		getActivity().setTheme(getThemeIdFromPrefs());
+
 		setHasOptionsMenu(true);
 
 		if (mRemote == null) {
@@ -103,7 +115,13 @@ public abstract class BaseRemoteFragment extends Fragment implements
 		setupButtons();
 
 		return mScroll;
+	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG, "SaveInstanceState");
+		outState.putSerializable(SAVE_REMOTE, mRemote);
+		super.onSaveInstanceState(outState);
 	}
 
 	protected void setupButtons() {

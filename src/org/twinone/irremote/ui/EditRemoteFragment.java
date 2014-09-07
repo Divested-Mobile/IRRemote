@@ -33,6 +33,8 @@ import android.widget.Toast;
 public class EditRemoteFragment extends BaseRemoteFragment implements
 		OnDragListener, OnLongClickListener, OnClickListener {
 
+	private static final String SAVE_EDITED = "save_edited";
+
 	private static final int REQ_GET_NEW_BUTTON = 0;
 	private static final int REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON = 1;
 
@@ -133,12 +135,12 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 							case OPTION_SIZE:
 								editSize(bv);
 								break;
-//							case OPTION_ICON:
-//								editIcon(bv);
-//								break;
-//							case OPTION_COLOR:
-//								editColor(bv);
-//								break;
+							// case OPTION_ICON:
+							// editIcon(bv);
+							// break;
+							// case OPTION_COLOR:
+							// editColor(bv);
+							// break;
 							case OPTION_CODE:
 								editIrCode(bv);
 								break;
@@ -413,8 +415,16 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 		mScrollPixels = (int) dpToPx(SCROLL_DP);
 
-		setHasOptionsMenu(true);
+		if (savedInstanceState != null) {
+			mIsEdited = savedInstanceState.getBoolean(SAVE_EDITED);
+		}
 
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(SAVE_EDITED, mIsEdited);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -422,6 +432,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.edit_remote, menu);
 		mMenuSave = menu.findItem(R.id.menu_edit_save);
+		mMenuSave.setVisible(mIsEdited);
 		mSnapToGrid = menu.findItem(R.id.menu_edit_snap).isChecked();
 	}
 
