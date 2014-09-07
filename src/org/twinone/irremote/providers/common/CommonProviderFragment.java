@@ -10,8 +10,8 @@ import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseListable;
-import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
+import org.twinone.irremote.providers.ProviderFragment;
 import org.twinone.irremote.providers.globalcache.GCProviderActivity;
 import org.twinone.irremote.util.FileUtils;
 
@@ -29,7 +29,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class CommonProviderFragment extends BaseProviderFragment implements
+public class CommonProviderFragment extends ProviderFragment implements
 		OnItemClickListener, OnItemLongClickListener {
 
 	private static final String COMMON_TV_NAME = "TV";
@@ -115,7 +115,7 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 		mListView.setOnItemClickListener(this);
 		mListView.setOnItemLongClickListener(this);
 
-		mAdapter = new ListableAdapter(getActivity(), getItems(getDBPath()));
+		mAdapter = new ListableAdapter(getActivity(), getItems());
 		mListView.setAdapter(mAdapter);
 
 		String name = getDataName(" > ");
@@ -155,6 +155,8 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 
 		private String text;
 
+		public int id;
+
 		@Override
 		public String getDisplayName() {
 			return text;
@@ -162,10 +164,19 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 
 	}
 
-	private MyListable[] getItems(String path) {
+	private MyListable[] getItems() {
 		ArrayList<MyListable> items = new ArrayList<MyListable>();
-		for (String s : listAssets(path)) {
-			items.add(new MyListable(s));
+		if (mTarget.targetType == Data.TARGET_IR_CODE) {
+			mRemote = buildRemote();
+			for (Button b : mRemote.buttons) {
+				MyListable l = new MyListable(b.text);
+				l.id = b.uid;
+				items.add(l);
+			}
+		} else {
+			for (String s : listAssets(getDBPath())) {
+				items.add(new MyListable(s));
+			}
 		}
 		return items.toArray(new MyListable[items.size()]);
 	}
@@ -181,9 +192,13 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.common_menu_todb:
+		case R.id.menu_save:
+			saveRemote();
+			break;
+		case R.id.menu_more:
 			getActivity().finish();
 			Intent i = new Intent(getActivity(), GCProviderActivity.class);
+			i.setAction(getProvider().getAction());
 			AnimHelper.startActivity(getActivity(), i);
 		}
 		return false;
@@ -191,22 +206,30 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		BaseListable item = (BaseListable) mListView.getAdapter().getItem(
-				position);
+			long viewId) {
+		MyListable item = (MyListable) mListView.getAdapter().getItem(position);
 		if (mTarget.targetType == Data.TARGET_DEVICE_TYPE) {
 			Data clone = mTarget.clone();
 			clone.deviceType = item.getDisplayName();
 			clone.targetType = Data.TARGET_DEVICE_NAME;
 			((CommonProviderActivity) getActivity()).addFragment(clone);
-		} else {
-			mTarget.targetType = Data.TARGET_IR_CODE;
+		} else if (mTarget.targetType == Data.TARGET_DEVICE_NAME) {
 			mTarget.deviceName = item.getDisplayName();
-			saveRemote();
+			if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
+				mRemote = buildRemote();
+				saveRemote();
+			} else {
+				mTarget.targetType = Data.TARGET_IR_CODE;
+				((CommonProviderActivity) getActivity()).addFragment(mTarget
+						.clone());
+			}
+		} else if (mTarget.targetType == Data.TARGET_IR_CODE) {
+			Button b = mRemote.getButton(item.id);
+			getProvider().saveButton(b);
 		}
 	}
 
-	private void saveRemote() {
+	private Remote buildRemote() {
 		Remote r = new Remote();
 		r.name = mTarget.deviceName + " " + mTarget.deviceType;
 		final String remotedir = getDBPath();
@@ -218,9 +241,16 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 			b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
 					getActivity());
 			r.addButton(b);
+			Log.d("TEST", "Adding button " + b.text + " to remote");
 		}
 		r.options.type = getDeviceTypeInt(mTarget.deviceType);
-		getProvider().saveRemote(r);
+		return r;
+	}
+
+	private Remote mRemote;
+
+	private void saveRemote() {
+		getProvider().saveRemote(mRemote);
 	}
 
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -233,6 +263,11 @@ public class CommonProviderFragment extends BaseProviderFragment implements
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.common_menu, menu);
+		MenuItem save = menu.findItem(R.id.menu_save);
+		MenuItem more = menu.findItem(R.id.menu_more);
+		boolean ircode = mTarget.targetType == Data.TARGET_IR_CODE;
+		boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
+		save.setVisible(ircode && remote);
+		more.setVisible(!ircode);
 	}
-
 }

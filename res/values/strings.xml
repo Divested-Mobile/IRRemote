@@ -6,7 +6,7 @@
     <!-- Da menu -->
     <string name="db_menu_search_tit">Search</string>
     <string name="db_menu_refresh">Refresh</string>
-    <string name="db_menu_save">Save remote</string>
+    <string name="menu_save">Save Remote</string>
     <string name="db_search_hint_manufacturers">Search manufacturers</string>
     <string name="db_search_hint_custom">Search %s</string>
     <string name="db_search_hint_buttons">Search buttons</string>
@@ -200,6 +200,30 @@
     <string name="edit_confirmexitdlg_save">Save</string>
     <string name="edit_confirmexitdlg_discard">Discard</string>
     <!-- %s will be replaced with the remote name -->
-    <string name="edit_activity_title">Edit - %s</string>
+    <string name="edit_activity_title">Edit - \"%s\"</string>
+    <!--  -->
+    <string name="menu_edit_organize">Organize</string>
+    <string name="menu_edit_snap">Snap to grid</string>
+    <string name="menu_edit_save">Save</string>
+    <string name="menu_edit_help">Help</string>
+    <string name="menu_edit_add_button">Add button</string>
+    <string name="edit_helpdlg_tit">Help</string>
+    <string name="edit_helpdlg_msg">Long press on a button to drag and drop.\n\nShort press on a button to see more options.\n\nWhen you\'re done, click the save button at the top.\n\nIf you don\'t like your changes, just click back to discard them.</string>
+    <string name="save_button_dlgtit">Save button</string>
+    <string name="save_button_dlgmsg">Test your button and touch OK if it works</string>
+    <string name="edit_button_code_updated">IR Code of \"%s\" changed</string>
+    <!--  -->
+
+
+    <!-- %s is the name of the button -->
+    <string name="edit_button_title">Edit - \"%s\"</string>
+    <string name="edit_option_text">Text</string>
+    <string name="edit_option_size">Size</string>
+    <string name="edit_option_remove">Remove Button</string>
+    <string name="edit_option_icon">Change Icon</string>
+    <string name="edit_option_color">Background Color</string>
+    <string name="edit_option_code">IR Code</string>
+    <string name="sizepicker_width">Width</string>
+    <string name="sizepicker_height">Height</string>
 
 </resources>

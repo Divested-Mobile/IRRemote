@@ -3,9 +3,16 @@
     tools:context="com.twinone.irremote.MainActivity" >
 
     <item
-        android:id="@+id/common_menu_todb"
+        android:id="@+id/menu_more"
         android:showAsAction="ifRoom|withText"
         android:title="@string/common_menu_todb">
+    </item>
+    <item
+        android:id="@+id/menu_save"
+        android:icon="@drawable/ic_action_save"
+        android:showAsAction="always"
+        android:title="@string/menu_save"
+        android:visible="false">
     </item>
 
 </menu>

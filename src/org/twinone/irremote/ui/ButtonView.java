@@ -37,4 +37,17 @@ public class ButtonView extends Button {
 		super.setY(y);
 	}
 
+	@Override
+	public void setWidth(int pixels) {
+		getButton().w = pixels;
+		setRight(getLeft() + pixels);
+		super.setWidth(pixels);
+	}
+
+	@Override
+	public void setHeight(int pixels) {
+		getButton().h = pixels;
+		setBottom(getTop() + pixels);
+		super.setHeight(pixels);
+	}
 }

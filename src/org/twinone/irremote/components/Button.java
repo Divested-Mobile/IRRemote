@@ -21,7 +21,6 @@ public class Button implements Serializable {
 	public static final int ID_NONE = 0;
 
 	public static final int ID_POWER = 1;
-	// TODO decide if "off" is more important than "on"
 	public static final int ID_POWER_ON = 2;
 	public static final int ID_POWER_OFF = 3;
 
@@ -66,8 +65,8 @@ public class Button implements Serializable {
 	public static final int ID_PLAY = 35;
 	public static final int ID_PAUSE = 36;
 	public static final int ID_STOP = 37;
-	public static final int ID_FAST_FORWARD = 38;
-	public static final int ID_REWIND = 39;
+	public static final int ID_FFWD = 38;
+	public static final int ID_RWD = 39;
 	public static final int ID_NEXT = 40;
 	public static final int ID_PREV = 41;
 	public static final int ID_REC = 42;
@@ -98,21 +97,18 @@ public class Button implements Serializable {
 	public static final int ID_TEMP_UP = 59;
 	public static final int ID_TEMP_DOWN = 60;
 
-	/** Custom or unknown buttons are assigned a random id bigger as this */
-	public static final int MIN_CUSTOM_ID = 10000;
-
-	/** Ids are to identify common buttons */
+	/** Used to identify the purpose of a button */
 	public int id;
+	/**
+	 * Used to identify this button in this remote (unique inside a remote)
+	 */
+	public int uid;
 
 	/** URI of the icon that will be displayed with this button */
 	public String ic;
 
 	/**
 	 * Text that will be shown on the button<br>
-	 * The text will also be used to distinguish buttons, which implies that no
-	 * two buttons can have the same text.
-	 * 
-	 * 
 	 */
 	public String text;
 
@@ -170,7 +166,7 @@ public class Button implements Serializable {
 	 * Returns true if this button is a common button
 	 */
 	public boolean isCommon() {
-		return id != ID_NONE && id < MIN_CUSTOM_ID;
+		return id != ID_NONE;
 	}
 
 	public Signal getSignal() {
@@ -186,7 +182,7 @@ public class Button implements Serializable {
 			// Not a button
 			return false;
 		final Button b = (Button) o;
-		return b.id == this.id;
+		return b.uid == this.uid;
 		// if (id != b.id)
 		// // Two different buttons
 		// return false;
@@ -201,7 +197,7 @@ public class Button implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return ("button" + id).hashCode();
+		return ("button" + uid).hashCode();
 	}
 
 }

@@ -7,13 +7,14 @@ import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.CompatLogic;
+import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
+import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.common.CommonProviderActivity;
 import org.twinone.irremote.providers.learn.LearnProviderActivity;
 import org.twinone.irremote.ui.RenameRemoteDialog.OnRemoteRenamedListener;
@@ -169,12 +170,16 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public int getRequestedOrientation() {
-		SharedPreferences sp = SettingsActivity.getPreferences(this);
-		String value = sp.getString(getString(R.string.pref_key_orientation),
-				getString(R.string.pref_val_ori_system));
-		String auto = getString(R.string.pref_val_ori_auto);
-		String port = getString(R.string.pref_val_ori_port);
-		String land = getString(R.string.pref_val_ori_land);
+		return getRequestedOrientation(this);
+	}
+
+	public static int getRequestedOrientation(Context c) {
+		SharedPreferences sp = SettingsActivity.getPreferences(c);
+		String value = sp.getString(c.getString(R.string.pref_key_orientation),
+				c.getString(R.string.pref_val_ori_system));
+		String auto = c.getString(R.string.pref_val_ori_auto);
+		String port = c.getString(R.string.pref_val_ori_port);
+		String land = c.getString(R.string.pref_val_ori_land);
 
 		if (value.equals(auto)) {
 			return ActivityInfo.SCREEN_ORIENTATION_SENSOR;
@@ -226,6 +231,7 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public void onAddRemoteSelected() {
 		Intent i = new Intent(this, CommonProviderActivity.class);
+		i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
 		AnimHelper.startActivity(this, i);
 	}
 
@@ -316,7 +322,7 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public void onUpdate(Context c, UpdateInfo ui) {
 		if (ui.isUpdated()) {
-			new CompatLogic(c).updateRemotesToCoordinateSystem();
+			new RemoteOrganizer(c).updateAndSaveAll();
 		}
 	}
 }

@@ -6,7 +6,7 @@
     <!-- Da menu -->
     <string name="db_menu_search_tit">Buscar</string>
     <string name="db_menu_refresh">Refrescar</string>
-    <string name="db_menu_save">Guardar mando</string>
+    <string name="menu_save">Guardar mando</string>
     <string name="db_search_hint_manufacturers">Buscar fabricantes</string>
     <string name="db_search_hint_custom">Buscar %s</string>
     <string name="db_search_hint_buttons">Buscar botones</string>

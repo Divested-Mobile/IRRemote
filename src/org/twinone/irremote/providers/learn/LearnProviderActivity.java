@@ -2,13 +2,13 @@ package org.twinone.irremote.providers.learn;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.providers.BaseProviderActivity;
+import org.twinone.irremote.providers.ProviderActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-public class LearnProviderActivity extends BaseProviderActivity implements
+public class LearnProviderActivity extends ProviderActivity implements
 		DialogInterface.OnClickListener {
 
 	private static final String SAVE_DEVICE_TYPE = "device_type";

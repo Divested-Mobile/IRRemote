@@ -8,8 +8,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.widget.Toast;
 
 public class EditRemoteActivity extends Activity {
 
@@ -27,11 +25,14 @@ public class EditRemoteActivity extends Activity {
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		setRequestedOrientation(MainActivity.getRequestedOrientation(this));
+
 		setContentView(R.layout.activity_empty);
 
 		mRemoteName = getIntent().getStringExtra(EXTRA_REMOTE_NAME);
 		setTitle(getString(R.string.edit_activity_title, mRemoteName));
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mEditFragment = new EditRemoteFragment();
@@ -48,14 +49,26 @@ public class EditRemoteActivity extends Activity {
 	}
 
 	@Override
-	public boolean onNavigateUp() {
-		if (mEditFragment.isModified()) {
+	public void onBackPressed() {
+		finishOrShowSaveDialog();
+	}
+
+	/**
+	 * @return True if the activity finished
+	 */
+	private boolean finishOrShowSaveDialog() {
+		if (mEditFragment.isEdited()) {
 			showConfirmationDialog();
 			return false;
 		} else {
 			finish();
+			return true;
 		}
-		return true;
+	}
+
+	@Override
+	public boolean onNavigateUp() {
+		return finishOrShowSaveDialog();
 	}
 
 	private void showConfirmationDialog() {
@@ -83,11 +96,7 @@ public class EditRemoteActivity extends Activity {
 	}
 
 	private void saveRemote() {
-		if (mEditFragment.isModified()) {
-			mEditFragment.getRemote().save(this);
-			Toast.makeText(this, R.string.remote_saved_toast,
-					Toast.LENGTH_SHORT).show();
-		}
+		mEditFragment.saveRemote();
 	}
 
 	@Override

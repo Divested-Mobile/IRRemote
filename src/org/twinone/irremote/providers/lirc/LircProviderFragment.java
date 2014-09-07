@@ -2,14 +2,12 @@ package org.twinone.irremote.providers.lirc;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.providers.BaseProviderFragment;
 import org.twinone.irremote.providers.ListableAdapter;
+import org.twinone.irremote.providers.ProviderFragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,13 +22,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class LircProviderFragment extends BaseProviderFragment implements
+public class LircProviderFragment extends ProviderFragment implements
 		DBConnector.OnDataReceivedListener, OnItemClickListener,
 		OnItemLongClickListener {
 
 	public static final String ARG_URI_DATA = "com.twinone.irremote.arg.uri_data";
-	private static final String PREF_KEY_EXPLAIN_CODESETS = "__explain_remote_codesets";
-	private static final String PREF_KEY_EXPLAIN_SAVE_REMOTE = "__explain_save_remote";
 
 	private ListView mListView;
 
@@ -81,9 +77,6 @@ public class LircProviderFragment extends BaseProviderFragment implements
 			queryServer(true);
 		}
 
-		explainSaveRemote();
-		explainSelectCodesets();
-
 		String title = mUriData.getFullyQualifiedName(" > ");
 		if (title == null) {
 			title = getString(R.string.db_select_manufacturer);
@@ -92,55 +85,6 @@ public class LircProviderFragment extends BaseProviderFragment implements
 
 		mCreated = true;
 		return rootView;
-	}
-
-	private void explainSelectCodesets() {
-		if (mUriData.targetType == UriData.TYPE_CODESET) {
-			// Explain codesets
-			final SharedPreferences sp = getActivity().getPreferences(
-					Context.MODE_PRIVATE);
-			if (sp.getBoolean(PREF_KEY_EXPLAIN_CODESETS, true)) {
-				AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-				ab.setTitle("Selecting a remote");
-				ab.setMessage("If you don't know what remote to choose, just pick one. Most of the time the first will do. If not, just try another one.");
-				ab.setPositiveButton(android.R.string.ok,
-						new OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								sp.edit()
-										.putBoolean(PREF_KEY_EXPLAIN_CODESETS,
-												false).apply();
-							}
-						});
-				ab.show();
-			}
-		}
-	}
-
-	private void explainSaveRemote() {
-		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
-			// Explain codesets
-			final SharedPreferences sp = getActivity().getPreferences(
-					Context.MODE_PRIVATE);
-			if (sp.getBoolean(PREF_KEY_EXPLAIN_SAVE_REMOTE, true)) {
-				AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-				ab.setTitle("Try it!");
-				ab.setMessage("At this screen you can try the buttons in this remote. If it works for you, go ahead and click the save button at the top.");
-				ab.setPositiveButton(android.R.string.ok,
-						new OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								sp.edit()
-										.putBoolean(
-												PREF_KEY_EXPLAIN_SAVE_REMOTE,
-												false).apply();
-							}
-						});
-				ab.show();
-			}
-		}
 	}
 
 	private void queryServer(boolean showDialog) {
@@ -231,7 +175,7 @@ public class LircProviderFragment extends BaseProviderFragment implements
 			return;
 
 		cancelDialog();
-		
+
 		mData = data;
 		if (data == null) {
 			Toast.makeText(getActivity(), "Oops! There was an error",

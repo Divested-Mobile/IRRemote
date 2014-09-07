@@ -8,8 +8,8 @@
     <EditText
         android:id="@+id/dialog_edittext_input"
         android:layout_width="match_parent"
+        android:selectAllOnFocus="true"
         android:layout_height="wrap_content"
-        android:digits="@string/allowed_digits"
-        android:hint="@string/save_remote_hint" />
+        android:digits="@string/allowed_digits" />
 
 </LinearLayout>

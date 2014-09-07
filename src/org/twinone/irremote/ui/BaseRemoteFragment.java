@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.io.Transmitter;
 
@@ -19,8 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 /**
@@ -30,18 +27,16 @@ import android.widget.ScrollView;
  * 
  */
 public abstract class BaseRemoteFragment extends Fragment implements
-		View.OnTouchListener, Transmitter.OnTransmitListener {
+		Transmitter.OnTransmitListener {
 
 	protected static final String TAG = "RemoteFragment";
 
-	protected static final int DETECT_LONGPRESS_DELAY = 250; // ms
-
 	protected Remote mRemote;
-	protected Transmitter mTransmitter;
+	private Transmitter mTransmitter;
 	protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
 	// protected ComponentUtils mComponentUtils;
 
-	protected RelativeLayout mContainer;
+	protected RemoteView mRemoteView;
 	protected ScrollView mScroll;
 
 	private static final String ARG_REMOTE_NAME = "arg_remote_name";
@@ -92,6 +87,7 @@ public abstract class BaseRemoteFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		getActivity().setTheme(getThemeIdFromPrefs());
 		setHasOptionsMenu(true);
 
@@ -102,46 +98,32 @@ public abstract class BaseRemoteFragment extends Fragment implements
 		mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
 				container, false);
 
-		mContainer = (RelativeLayout) mScroll.findViewById(R.id.container);
-
-		mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
-		for (org.twinone.irremote.components.Button b : mRemote.buttons) {
-			ButtonView bv = new ButtonView(getActivity());
-			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-					(int) b.w, (int) b.h);
-			// bv.setX(b.x);
-			// bv.setY(b.y);
-			lp.topMargin = (int) b.y;
-			lp.leftMargin = (int) b.x;
-			bv.setLayoutParams(lp);
-			bv.setButton(b);
-			bv.setOnTouchListener(this);
-			mButtons.add(bv);
-			mContainer.addView(bv);
-		}
+		mRemoteView = (RemoteView) mScroll.findViewById(R.id.container);
+		mRemoteView.setRemote(mRemote);
+		setupButtons();
 
 		return mScroll;
 
 	}
 
 	protected void setupButtons() {
-		if (mButtons == null)
-			return;
+		mRemoteView.removeAllViews();
+		mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
+		for (org.twinone.irremote.components.Button b : mRemote.buttons) {
+			ButtonView bv = new ButtonView(getActivity());
+			// // lp.topMargin = (int) b.y;
+			// // lp.leftMargin = (int) b.x;
+			// bv.setLayoutParams(lp);
+			bv.setButton(b);
 
-		for (ButtonView b : mButtons) {
+			mButtons.add(bv);
+			mRemoteView.addView(bv);
+			bv.setX(b.x);
+			bv.setY(b.y);
+			bv.getLayoutParams().width = (int) b.w;
+			bv.getLayoutParams().height = (int) b.h;
+			bv.requestLayout();
 
-			// int buttonId = mComponentUtils.getButtonId(b.getId());
-			int buttonId = b.getButton().id;
-			b.setVisibility(View.VISIBLE);
-			if (mRemote.contains(buttonId)) {
-				b.setText(mRemote.getButton(buttonId).getText());
-				b.setOnTouchListener(this);
-				b.setEnabled(true);
-			} else {
-				b.setEnabled(false);
-				b.setOnTouchListener(this);
-				b.setText(null);
-			}
 		}
 	}
 
@@ -168,8 +150,8 @@ public abstract class BaseRemoteFragment extends Fragment implements
 	private class HideFeedbackRunnable implements Runnable {
 		@Override
 		public void run() {
-			// must be run on ui thread, use handlers
-			mMenuIcon.setVisible(false);
+			if (mMenuIcon != null)
+				mMenuIcon.setVisible(false);
 		}
 	}
 

@@ -54,6 +54,12 @@ public class Remote implements Serializable {
 		public String unknownType;
 		public String manufacturer;
 		public String model;
+
+		/** Height of the remote (in pixels) */
+		public int h;
+		/** Width of the remote (in pixels) */
+		public int w;
+
 	}
 
 	private static final String REMOTES_VERSION = "_v2";
@@ -142,9 +148,9 @@ public class Remote implements Serializable {
 		File dir = getRemoteDir(c);
 		FileUtils.clear(dir);
 		for (Button b : buttons) {
-			if (b.id != 0 && b.code != null && !b.code.isEmpty()) {
+			if (b != null) {
 				// File f = getNextFile(dir, BUTTON_PREFIX, BUTTON_EXTENSION);
-				File f = new File(dir, BUTTON_PREFIX + b.id + BUTTON_EXTENSION);
+				File f = new File(dir, BUTTON_PREFIX + b.uid + BUTTON_EXTENSION);
 				FileUtils.write(f, gson.toJson(b));
 			}
 		}
@@ -164,9 +170,9 @@ public class Remote implements Serializable {
 	}
 
 	/** True if this remote contains the specified button */
-	public boolean contains(int id) {
+	public boolean contains(int uid) {
 		for (int i = 0; i < buttons.size(); i++) {
-			if (buttons.get(i).id == id) {
+			if (buttons.get(i).uid == uid) {
 				return true;
 			}
 		}
@@ -174,9 +180,14 @@ public class Remote implements Serializable {
 	}
 
 	/**
-	 * @return The matching button or null if no such button found
+	 * Get a button by it's ID rather than UID
+	 * 
+	 * @param id
+	 * @return
 	 */
-	public Button getButton(int id) {
+	public Button getButtonById(int id) {
+		if (id == Button.ID_NONE)
+			return null;
 		for (int i = 0; i < buttons.size(); i++) {
 			if (buttons.get(i).id == id) {
 				return buttons.get(i);
@@ -187,28 +198,39 @@ public class Remote implements Serializable {
 
 	/**
 	 * @return The matching button or null if no such button found
-	 * @deprecated Use {@link #getButton(int)} instead
 	 */
-	public Button getButton(boolean common, int id) {
+	public Button getButton(int id) {
 		for (int i = 0; i < buttons.size(); i++) {
-			if (buttons.get(i).id == id) {
+			if (buttons.get(i).uid == id) {
 				return buttons.get(i);
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * Add a button
+	 * 
+	 * @param b
+	 */
 	public void addButton(Button b) {
-		// Empty buttons are assigned a new id
-		if (b.id == Button.ID_NONE) {
-			b.id = getNextId();
-		}
-		buttons.remove(b);
+		b.uid = getNextId();
 		buttons.add(b);
 	}
 
+	/**
+	 * Replace a button by another one
+	 */
+	public void replaceButton(Button b) {
+		buttons.add(b);
+	}
+
+	public void removeButton(Button b) {
+		buttons.remove(b);
+	}
+
 	private int getNextId() {
-		int id = Button.MIN_CUSTOM_ID;
+		int id = 1;
 		while (this.contains(id)) {
 			id++;
 		}

@@ -140,9 +140,9 @@ public class ComponentUtils {
 			return c.getString(R.string.button_text_pause);
 		case Button.ID_STOP:
 			return c.getString(R.string.button_text_stop);
-		case Button.ID_FAST_FORWARD:
+		case Button.ID_FFWD:
 			return c.getString(R.string.button_text_fast_forward);
-		case Button.ID_REWIND:
+		case Button.ID_RWD:
 			return c.getString(R.string.button_text_rewind);
 		case Button.ID_NEXT:
 			return c.getString(R.string.button_text_next);
@@ -209,8 +209,8 @@ public class ComponentUtils {
 			Button.ID_MENU, Button.ID_NAV_OK, Button.ID_NAV_LEFT,
 			Button.ID_NAV_RIGHT, Button.ID_NAV_UP, Button.ID_NAV_DOWN,
 			Button.ID_EXIT, Button.ID_PLAY, Button.ID_PAUSE, Button.ID_STOP,
-			Button.ID_PREV, Button.ID_NEXT, Button.ID_FAST_FORWARD,
-			Button.ID_REWIND, Button.ID_REC, };
+			Button.ID_PREV, Button.ID_NEXT, Button.ID_FFWD,
+			Button.ID_RWD, Button.ID_REC, };
 
 	public static final int[] BUTTONS_AUDIO_AMPLIFIER = { Button.ID_POWER,
 			Button.ID_MUTE, Button.ID_VOL_UP, Button.ID_VOL_DOWN,

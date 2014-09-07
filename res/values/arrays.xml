@@ -28,13 +28,23 @@
         <item>@string/pref_val_bg_gallery</item>
         <item>@string/pref_val_bg_none</item>
     </string-array>
-     <string-array name="theme_names">
+    <string-array name="theme_names">
         <item>@string/theme_tr</item>
         <item>@string/theme_sl</item>
     </string-array>
     <string-array name="theme_values">
         <item>@string/pref_val_theme_tr</item>
         <item>@string/pref_val_theme_sl</item>
+    </string-array>
+    <string-array name="edit_button_options">
+        <item>@string/edit_option_text</item>
+        <item>@string/edit_option_size</item>
+        <!--
+             <item>@string/edit_option_icon</item>
+        <item>@string/edit_option_color</item>
+        -->
+        <item>@string/edit_option_code</item>
+        <item>@string/edit_option_remove</item>
     </string-array>
 
 </resources>

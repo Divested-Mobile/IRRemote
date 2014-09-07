@@ -1,12 +1,12 @@
 package org.twinone.irremote.providers.globalcache;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.providers.BaseProviderActivity;
+import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.common.CommonProviderFragment.Data;
 
 import android.os.Bundle;
 
-public class GCProviderActivity extends BaseProviderActivity {
+public class GCProviderActivity extends ProviderActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

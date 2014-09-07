@@ -5,7 +5,7 @@ import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Receiver.OnLearnListener;
 import org.twinone.irremote.ir.io.Transmitter;
-import org.twinone.irremote.providers.BaseProviderFragment;
+import org.twinone.irremote.providers.ProviderFragment;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import de.passsy.holocircularprogressbar.HoloCircularProgressBar;
 
-public abstract class BaseLearnFragment extends BaseProviderFragment implements
+public abstract class BaseLearnFragment extends ProviderFragment implements
 		OnLearnListener, AnimatorListener {
 
 	private static final String TAG = "LearnFragment";

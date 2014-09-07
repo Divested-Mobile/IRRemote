@@ -1,6 +1,8 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.RemoteOrganizer;
+import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 
 import android.app.Activity;
@@ -29,6 +31,8 @@ public class SaveRemoteDialog extends DialogFragment implements
 	}
 
 	public static SaveRemoteDialog newInstance(Remote remote) {
+		if (remote == null)
+			throw new NullPointerException("Remote cannot be null");
 		SaveRemoteDialog f = new SaveRemoteDialog();
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE, remote);
@@ -36,13 +40,13 @@ public class SaveRemoteDialog extends DialogFragment implements
 		return f;
 	}
 
-	private Remote mTarget;
+	private Remote mRemote;
 	private EditText mRemoteName;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mTarget = (Remote) getArguments().getSerializable(ARG_REMOTE);
+		mRemote = (Remote) getArguments().getSerializable(ARG_REMOTE);
 	}
 
 	@Override
@@ -50,8 +54,10 @@ public class SaveRemoteDialog extends DialogFragment implements
 		View view = LayoutInflater.from(getActivity()).inflate(
 				R.layout.dialog_edittext, null, false);
 		mRemoteName = (EditText) view.findViewById(R.id.dialog_edittext_input);
-		mRemoteName.setText(mTarget.name);
-
+		mRemoteName.setSelectAllOnFocus(true);
+		if (mRemote != null) {
+			mRemoteName.setText(mRemote.name);
+		}
 		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
 		ab.setView(view);
 
@@ -59,8 +65,7 @@ public class SaveRemoteDialog extends DialogFragment implements
 		ab.setMessage(R.string.save_remote_text);
 		ab.setPositiveButton(R.string.save_remote_save, this);
 		ab.setNegativeButton(android.R.string.cancel, null);
-
-		return ab.create();
+		return AnimHelper.addAnimations(ab.create());
 	}
 
 	@Override
@@ -73,10 +78,11 @@ public class SaveRemoteDialog extends DialogFragment implements
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			mTarget.name = name;
-			mTarget.save(getActivity());
+			mRemote.name = name;
+			new RemoteOrganizer(getActivity()).updateWithoutSaving(mRemote);
+			mRemote.save(getActivity());
 			if (mListener != null)
-				mListener.onRemoteSaved(mTarget.name);
+				mListener.onRemoteSaved(mRemote.name);
 			break;
 		}
 	}

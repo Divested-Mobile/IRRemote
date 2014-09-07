@@ -35,7 +35,8 @@ public abstract class AnimHelper {
 		d.show();
 	}
 
-	public static void addAnimations(Dialog d) {
+	public static Dialog addAnimations(Dialog d) {
 		d.getWindow().getAttributes().windowAnimations = R.style.DialogAnims;
+		return d;
 	}
 }

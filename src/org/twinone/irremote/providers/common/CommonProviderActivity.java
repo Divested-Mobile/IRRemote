@@ -1,12 +1,12 @@
 package org.twinone.irremote.providers.common;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.providers.BaseProviderActivity;
+import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.common.CommonProviderFragment.Data;
 
 import android.os.Bundle;
 
-public class CommonProviderActivity extends BaseProviderActivity {
+public class CommonProviderActivity extends ProviderActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

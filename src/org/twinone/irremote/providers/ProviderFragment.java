@@ -11,14 +11,18 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
 import android.widget.SearchView.OnQueryTextListener;
 
-public class BaseProviderFragment extends Fragment {
+public abstract class ProviderFragment extends Fragment {
 
 	protected ListableAdapter mAdapter;
+
+	protected static final String ACTION_SAVE_REMOTE = ProviderActivity.ACTION_SAVE_REMOTE;
+	protected static final String ACTION_GET_BUTTON = ProviderActivity.ACTION_GET_BUTTON;
+	protected static final String EXTRA_RESULT_BUTTON = ProviderActivity.EXTRA_RESULT_BUTTON;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (!(activity instanceof BaseProviderActivity)) {
+		if (!(activity instanceof ProviderActivity)) {
 			throw new ClassCastException(
 					"BaseProviderFragment should be attached to a BaseProviderActivity");
 		}
@@ -28,8 +32,8 @@ public class BaseProviderFragment extends Fragment {
 		getProvider().mCurrentType = type;
 	}
 
-	protected BaseProviderActivity getProvider() {
-		return (BaseProviderActivity) getActivity();
+	protected ProviderActivity getProvider() {
+		return (ProviderActivity) getActivity();
 	}
 
 	protected MySearchViewListener mSearchViewListener;
