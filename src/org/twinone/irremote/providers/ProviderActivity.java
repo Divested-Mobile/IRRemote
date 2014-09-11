@@ -90,8 +90,7 @@ public class ProviderActivity extends Activity {
 			}
 		}
 
-		getFragmentManager().beginTransaction()
-				.add(R.id.container, new CommonProviderFragment()).commit();
+		addFragment(new CommonProviderFragment());
 
 	}
 
@@ -121,9 +120,7 @@ public class ProviderActivity extends Activity {
 						Intent i = new Intent();
 						i.putExtra(EXTRA_RESULT_BUTTON, result);
 						setResult(Activity.RESULT_OK, i);
-
 						finish();
-						
 					}
 				});
 		AnimHelper.showDialog(ab);

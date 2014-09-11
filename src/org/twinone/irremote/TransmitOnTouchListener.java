@@ -22,6 +22,8 @@ public class TransmitOnTouchListener implements OnTouchListener {
 	}
 
 	private boolean mFingerDown;
+	private float mFingerDownX;
+	private float mFingerDownY;
 	private int mFingerDownId;
 
 	public boolean onTouch(View v, MotionEvent event) {
@@ -30,6 +32,8 @@ public class TransmitOnTouchListener implements OnTouchListener {
 
 			if (!mFingerDown) {
 				mFingerDown = true;
+				mFingerDownX = event.getX();
+				mFingerDownY = event.getY();
 				mFingerDownId = event.getPointerId(0);
 
 				final Signal s = ((ButtonView) v).getButton().getSignal();
@@ -48,12 +52,28 @@ public class TransmitOnTouchListener implements OnTouchListener {
 
 			break;
 
-		case MotionEvent.ACTION_MOVE:
+		// case MotionEvent.ACTION_MOVE:
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP:
+			// if (event.getAction() == MotionEvent.ACTION_UP)
+			// Log.d("EMER", "ACTION UP ");
+			// if (event.getAction() == MotionEvent.ACTION_DOWN)
+			// Log.d("EMER", "ACTION DOWN ");
+			// if (event.getAction() == MotionEvent.ACTION_MOVE)
+			// Log.d("EMER",
+			// "ACTION MOVE " + event.getX() + "," + event.getY());
+
 			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
+
 				boolean atLeastOnce = event.getAction() == MotionEvent.ACTION_UP;
-				Log.d("", "Stopping transmission: AtLeastOnce: " + atLeastOnce);
+				Log.d("EMER", "orig: " + mFingerDownX + "," + mFingerDownY);
+				Log.d("EMER", "curr: " + event.getX() + "," + event.getY());
+				if (event.getX() == mFingerDownX
+						&& event.getY() == mFingerDownY) {
+					atLeastOnce = true;
+				}
+				Log.d("EMER", "Stopping transmission: AtLeastOnce: "
+						+ atLeastOnce);
 				mTransmitter.stopTransmitting(atLeastOnce);
 				mFingerDown = false;
 				return false;

@@ -49,6 +49,7 @@ public class KitKatTransmitter extends Transmitter {
 		if (mTransmitting)
 			stopTransmitting(false);
 
+//		mHasTransmittedOnce = false;
 		mTransmitting = true;
 		Log.d(TAG, "Setting hasTransmitted to false");
 		mRunnable = new TransmitterRunnable();
@@ -95,6 +96,7 @@ public class KitKatTransmitter extends Transmitter {
 	private synchronized void transmitImpl(Signal signal) {
 		if (signal == null)
 			return;
+		Log.d("EMER", "Transmitting!!! :D");
 		Signal realSignal = signal.clone().fix(mSignalCorrector);
 		if (getListener() != null) {
 			getListener().onBeforeTransmit();
