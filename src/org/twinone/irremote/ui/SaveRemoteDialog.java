@@ -1,8 +1,11 @@
 package org.twinone.irremote.ui;
 
+import java.util.Iterator;
+
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 
 import android.app.Activity;
@@ -79,6 +82,13 @@ public class SaveRemoteDialog extends DialogFragment implements
 				return;
 			}
 			mRemote.name = name;
+			Iterator<Button> it = mRemote.buttons.iterator();
+			while (it.hasNext()) {
+				final Button b = it.next();
+				if (b.code == null || b.code.isEmpty()) {
+					it.remove();
+				}
+			}
 			new RemoteOrganizer(getActivity()).updateWithoutSaving(mRemote);
 			mRemote.save(getActivity());
 			if (mListener != null)

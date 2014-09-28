@@ -1,5 +1,6 @@
 package org.twinone.irremote.compat;
 
+import org.twinone.irremote.R;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 
@@ -16,9 +17,6 @@ public class RemoteOrganizer {
 
 	private static final int BUTTON_SPACING_H = 8;// dp
 	private static final int BUTTON_SPACING_V = 8;// dp
-
-	private static final int ACTIVITY_MARGIN_H = 16; // dp
-	private static final int ACTIVITY_MARGIN_V = 16;// dp
 
 	private static final int BUTTON_HEIGHT = 64 - BUTTON_SPACING_V;// dp
 	private static final int BUTTON_HEIGHT_SMALL = 48 - BUTTON_SPACING_V;// dp
@@ -55,8 +53,12 @@ public class RemoteOrganizer {
 		wm.getDefaultDisplay().getSize(p);
 		mDeviceWidth = p.x;
 
-		mActivityMarginH = dpToPx(ACTIVITY_MARGIN_H);
-		mActivityMarginV = dpToPx(ACTIVITY_MARGIN_V);
+		mActivityMarginH = c.getResources().getDimension(
+				R.dimen.activity_horizontal_margin);
+		mActivityMarginV = c.getResources().getDimension(
+				R.dimen.activity_vertical_margin);
+		// mActivityMarginH = dpToPx(ACTIVITY_MARGIN_H);
+		// mActivityMarginV = dpToPx(ACTIVITY_MARGIN_V);
 
 		mButtonSpacingH = dpToPx(BUTTON_SPACING_H);
 		mButtonSpacingV = dpToPx(BUTTON_SPACING_V);

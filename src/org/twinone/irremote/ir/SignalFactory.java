@@ -9,7 +9,7 @@ public class SignalFactory {
 	 */
 	public static final Signal parse(String signal) {
 		final int format = getFormat(signal);
-		if (format == Signal.FORMAT_AUTO) {
+		if (format == Signal.FORMAT_UNKNOWN) {
 			throw new RuntimeException("Could not parse signal (" + signal
 					+ ")");
 		}
@@ -21,6 +21,8 @@ public class SignalFactory {
 	 * match
 	 */
 	public static int getFormat(String signal) {
+		if (signal == null || signal.isEmpty())
+			return Signal.FORMAT_UNKNOWN;
 		if (signal.startsWith("0000")) {
 			return Signal.FORMAT_PRONTO;
 		} else {
@@ -92,6 +94,7 @@ public class SignalFactory {
 
 	/**
 	 * Converts a NOT FIXED signal to Pronto format
+	 * 
 	 * @param s
 	 * @return
 	 */

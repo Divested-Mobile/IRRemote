@@ -60,7 +60,29 @@ public class Remote implements Serializable {
 		/** Width of the remote (in pixels) */
 		public int w;
 
+		public int flags;
 	}
+
+	/**
+	 * Add flags to this remote, you can OR them together
+	 * 
+	 * @param flags
+	 */
+	public void addFlags(int flags) {
+		options.flags |= flags;
+	}
+
+	/**
+	 * Remove flags from this remote, you can OR them together
+	 * 
+	 * @param flags
+	 */
+	public void removeFlags(int flags) {
+		options.flags &= ~flags;
+	}
+
+	public static final int FLAG_LEARNED = 1 << 0;
+	public static final int FLAG_IRREMOTE_DB = 1 << 1;
 
 	private static final String REMOTES_VERSION = "_v2";
 	private static final String EXTENSION = ".remote";
@@ -96,6 +118,8 @@ public class Remote implements Serializable {
 		Collections.sort(buttons, new Comparator<Button>() {
 			@Override
 			public int compare(Button lhs, Button rhs) {
+				if (lhs.id == rhs.id)
+					return 0;
 				return lhs.id < rhs.id ? -1 : 1;
 			}
 		});

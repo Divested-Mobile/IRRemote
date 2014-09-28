@@ -90,8 +90,9 @@ public class ProviderActivity extends Activity {
 			}
 		}
 
+		// TODO: If provider is LearnProvider, we should NOT add a common
+		// fragment
 		addFragment(new CommonProviderFragment());
-
 	}
 
 	/**
@@ -146,7 +147,15 @@ public class ProviderActivity extends Activity {
 			}
 		});
 		dialog.show(this);
+	}
 
+	@Override
+	public void onBackPressed() {
+		if (mCurrentType == mExitType) {
+			finish();
+		} else {
+			getFragmentManager().popBackStack();
+		}
 	}
 
 	@Override

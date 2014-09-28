@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.twinone.irremote"
-    android:versionCode="1402"
-    android:versionName="1.4.0" >
+    android:versionCode="1410"
+    android:versionName="1.4.1" >
 
     <uses-sdk
         android:minSdkVersion="19"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="20" />
 
     <!-- Don't list in Google Play to people that don't have IR Blaster -->
     <uses-feature
@@ -49,6 +49,16 @@
 
         <service android:name="org.twinone.irremote.TransmitterService" >
         </service>
+
+        <receiver android:name="WidgetProviderName" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+<!--             <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/example_appwidget_info" />
+ -->        </receiver>
 
         <!-- Admob -->
         <activity

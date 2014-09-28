@@ -52,6 +52,7 @@ public class LearnProviderActivity extends ProviderActivity implements
 	@Override
 	public void saveRemote(Remote remote) {
 		remote.name = mName;
+		remote.addFlags(Remote.FLAG_LEARNED);
 		super.saveRemote(remote);
 	}
 

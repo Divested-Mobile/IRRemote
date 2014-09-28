@@ -64,6 +64,30 @@ public class ComponentUtils {
 		return result;
 	}
 
+	public static int getIconReference(int iconId) {
+		if (iconId == Button.ID_NAV_LEFT)
+			return R.drawable.b_arrow_left;
+		return 0;
+	}
+
+	public static int getCommonButtonIconFromId(int id) {
+		if (id == Button.ID_POWER || id == Button.ID_VOL_UP
+				|| id == Button.ID_VOL_DOWN || id == Button.ID_MUTE
+
+				|| id == Button.ID_MENU || id == Button.ID_NAV_DOWN
+				|| id == Button.ID_NAV_UP || id == Button.ID_NAV_LEFT
+				|| id == Button.ID_NAV_RIGHT || id == Button.ID_NAV_OK
+
+				|| id == Button.ID_CH_UP || id == Button.ID_CH_DOWN
+				|| id == Button.ID_INPUT || id == Button.ID_BACK
+
+				|| id == Button.ID_PLAY || id == Button.ID_PAUSE
+				|| id == Button.ID_RWD || id == Button.ID_FFWD
+				|| id == Button.ID_REC || id == Button.ID_STOP)
+			return id;
+		return Button.ID_NONE;
+	}
+
 	public static String getCommonButtonDisplyaName(int id, Context c) {
 		switch (id) {
 		case Button.ID_POWER:
@@ -209,8 +233,8 @@ public class ComponentUtils {
 			Button.ID_MENU, Button.ID_NAV_OK, Button.ID_NAV_LEFT,
 			Button.ID_NAV_RIGHT, Button.ID_NAV_UP, Button.ID_NAV_DOWN,
 			Button.ID_EXIT, Button.ID_PLAY, Button.ID_PAUSE, Button.ID_STOP,
-			Button.ID_PREV, Button.ID_NEXT, Button.ID_FFWD,
-			Button.ID_RWD, Button.ID_REC, };
+			Button.ID_PREV, Button.ID_NEXT, Button.ID_FFWD, Button.ID_RWD,
+			Button.ID_REC, };
 
 	public static final int[] BUTTONS_AUDIO_AMPLIFIER = { Button.ID_POWER,
 			Button.ID_MUTE, Button.ID_VOL_UP, Button.ID_VOL_DOWN,
@@ -253,23 +277,6 @@ public class ComponentUtils {
 		}
 
 		return r;
-	}
-
-	public static int getLayout(int type) {
-		switch (type) {
-		case Remote.TYPE_CABLE:
-		case Remote.TYPE_BLURAY:
-			return R.layout.fragment_remote_cable;
-
-		case Remote.TYPE_AIR_CONDITIONER:
-			return R.layout.fragment_remote_air_conditioner;
-
-		case Remote.TYPE_AUDIO_AMPLIFIER:
-			return R.layout.fragment_remote_audio_amplifier;
-
-		default:
-			return R.layout.fragment_remote_tv;
-		}
 	}
 
 }

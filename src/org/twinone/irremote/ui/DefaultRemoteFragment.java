@@ -11,6 +11,9 @@ public class DefaultRemoteFragment extends BaseRemoteFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (getTransmitter() == null) {
+			return;
+		}
 		mOnTouchListener = new TransmitOnTouchListener(getTransmitter());
 	}
 

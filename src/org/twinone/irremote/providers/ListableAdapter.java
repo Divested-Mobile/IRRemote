@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.twinone.irremote.R;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// populate mItems
 		mOriginalItems = (List<BaseListable>) (List<?>) Arrays.asList(items);
-		Collections.sort(mOriginalItems);
+		sort(mOriginalItems);
 		mCurrentItems = mOriginalItems;
 		mFilter = new MyFilter();
 	}
@@ -76,8 +77,17 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 
 	}
 
+	private void sort(List<? extends BaseListable> items) {
+		try {
+			Collections.sort(items);
+		} catch (Exception e) {
+			Log.d("BaseListable", "known sort exception in BaseListable", e);
+		}
+
+	}
+
 	public void sort() {
-		Collections.sort(mCurrentItems);
+		sort(mCurrentItems);
 	}
 
 	@Override

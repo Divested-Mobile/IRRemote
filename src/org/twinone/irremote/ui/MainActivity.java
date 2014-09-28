@@ -275,6 +275,7 @@ public class MainActivity extends ActionBarActivity implements
 			// startActivity(i);
 
 			Intent learn = new Intent(this, LearnProviderActivity.class);
+			learn.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
 			AnimHelper.startActivity(this, learn);
 			break;
 		case R.id.menu_action_settings:

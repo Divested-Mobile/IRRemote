@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 public class Signal {
 
+	public static final int FORMAT_UNKNOWN = -1;
 	public static final int FORMAT_AUTO = 0;
 	public static final int FORMAT_PRONTO = 1;
 	public static final int FORMAT_GLOBALCACHE = 2;
-	public static final int FORMAT_RAW = 3;
 
 	public int frequency;
 	public int[] pattern;

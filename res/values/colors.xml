@@ -18,9 +18,12 @@
     <color name="remote_button_bg_tr_pressed_end">#333</color>
 
     <!-- Solid -->
-    <color name="remote_button_bg_sl_default_start">#494f52</color>
+   <!-- <color name="remote_button_bg_sl_default_start">#494f52</color>
     <color name="remote_button_bg_sl_default_end">#313639</color>
     <color name="remote_button_stroke_sl">#cc70797d</color>
+    --><color name="remote_button_bg_sl_default_start">#e51c23</color>
+    <color name="remote_button_bg_sl_default_end">#dde51c23</color>
+    <color name="remote_button_stroke_sl">#e51c23</color>
     <!-- Disabled button -->
     <color name="remote_button_bg_sl_disabled_start">#333</color>
     <color name="remote_button_bg_sl_disabled_center">#333</color>
