@@ -4,7 +4,6 @@ import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.ui.ButtonView;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -66,14 +65,14 @@ public class TransmitOnTouchListener implements OnTouchListener {
 			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
 
 				boolean atLeastOnce = event.getAction() == MotionEvent.ACTION_UP;
-				Log.d("EMER", "orig: " + mFingerDownX + "," + mFingerDownY);
-				Log.d("EMER", "curr: " + event.getX() + "," + event.getY());
+//				Log.d("EMER", "orig: " + mFingerDownX + "," + mFingerDownY);
+//				Log.d("EMER", "curr: " + event.getX() + "," + event.getY());
 				if (event.getX() == mFingerDownX
 						&& event.getY() == mFingerDownY) {
 					atLeastOnce = true;
 				}
-				Log.d("EMER", "Stopping transmission: AtLeastOnce: "
-						+ atLeastOnce);
+				// Log.d("EMER", "Stopping transmission: AtLeastOnce: "
+				// + atLeastOnce);
 				mTransmitter.stopTransmitting(atLeastOnce);
 				mFingerDown = false;
 				return false;

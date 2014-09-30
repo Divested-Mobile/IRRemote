@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	private static final String TAG = "MainActivity";
 
-	public static final boolean SHOW_ADS = true;
+	public static final boolean SHOW_ADS = false;
 	public static boolean DEBUG = BuildConfig.DEBUG && true;
 
 	public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
@@ -83,7 +83,6 @@ public class MainActivity extends ActionBarActivity implements
 		new BackgroundManager(this, mBackground).setBackgroundFromPreference();
 
 		RateManager.show(this, getString(R.string.share_promo));
-
 	}
 
 	private void setupNavigation() {

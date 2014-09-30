@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- gradient_red -->
+    <array name="gradient_red">
+        <item>@color/material_red_500</item>
+        <item>@color/material_red_700</item>
+    </array>
+    <!-- gradient_red_pressed -->
+    <array name="gradient_red_pressed">
+        <item>@color/material_red_900</item>
+        <item>@color/material_red_900</item>
+    </array>
+    <!-- gradient_pink -->
+    <array name="gradient_pink">
+        <item>@color/material_pink_500</item>
+        <item>@color/material_pink_700</item>
+    </array>
+    <!-- gradient_pink_pressed -->
+    <array name="gradient_pink_pressed">
+        <item>@color/material_pink_700</item>
+        <item>@color/material_pink_900</item>
+    </array>
+    <!-- gradient_purple -->
+    <array name="gradient_purple">
+        <item>@color/material_purple_500</item>
+        <item>@color/material_purple_700</item>
+    </array>
+    <!-- gradient_purple_pressed -->
+    <array name="gradient_purple_pressed">
+        <item>@color/material_purple_700</item>
+        <item>@color/material_purple_900</item>
+    </array>
+    <!-- gradient_deep_purple -->
+    <array name="gradient_deep_purple">
+        <item>@color/material_deep_purple_500</item>
+        <item>@color/material_deep_purple_700</item>
+    </array>
+    <!-- gradient_deep_purple_pressed -->
+    <array name="gradient_deep_purple_pressed">
+        <item>@color/material_deep_purple_700</item>
+        <item>@color/material_deep_purple_900</item>
+    </array>
+    <!-- gradient_indigo -->
+    <array name="gradient_indigo">
+        <item>@color/material_indigo_500</item>
+        <item>@color/material_indigo_700</item>
+    </array>
+    <!-- gradient_indigo_pressed -->
+    <array name="gradient_indigo_pressed">
+        <item>@color/material_indigo_700</item>
+        <item>@color/material_indigo_900</item>
+    </array>
+    <!-- gradient_blue -->
+    <array name="gradient_blue">
+        <item>@color/material_blue_500</item>
+        <item>@color/material_blue_700</item>
+    </array>
+    <!-- gradient_blue_pressed -->
+    <array name="gradient_blue_pressed">
+        <item>@color/material_blue_700</item>
+        <item>@color/material_blue_900</item>
+    </array>
+    <!-- gradient_light_blue -->
+    <array name="gradient_light_blue">
+        <item>@color/material_light_blue_500</item>
+        <item>@color/material_light_blue_700</item>
+    </array>
+    <!-- gradient_light_blue_pressed -->
+    <array name="gradient_light_blue_pressed">
+        <item>@color/material_light_blue_700</item>
+        <item>@color/material_light_blue_900</item>
+    </array>
+    <!-- gradient_cyan -->
+    <array name="gradient_cyan">
+        <item>@color/material_cyan_500</item>
+        <item>@color/material_cyan_700</item>
+    </array>
+    <!-- gradient_cyan_pressed -->
+    <array name="gradient_cyan_pressed">
+        <item>@color/material_cyan_700</item>
+        <item>@color/material_cyan_900</item>
+    </array>
+    <!-- gradient_teal -->
+    <array name="gradient_teal">
+        <item>@color/material_teal_500</item>
+        <item>@color/material_teal_700</item>
+    </array>
+    <!-- gradient_teal_pressed -->
+    <array name="gradient_teal_pressed">
+        <item>@color/material_teal_700</item>
+        <item>@color/material_teal_900</item>
+    </array>
+    <!-- gradient_green -->
+    <array name="gradient_green">
+        <item>@color/material_green_500</item>
+        <item>@color/material_green_700</item>
+    </array>
+    <!-- gradient_green_pressed -->
+    <array name="gradient_green_pressed">
+        <item>@color/material_green_700</item>
+        <item>@color/material_green_900</item>
+    </array>
+    <!-- gradient_light_green -->
+    <array name="gradient_light_green">
+        <item>@color/material_light_green_500</item>
+        <item>@color/material_light_green_700</item>
+    </array>
+    <!-- gradient_light_green_pressed -->
+    <array name="gradient_light_green_pressed">
+        <item>@color/material_light_green_700</item>
+        <item>@color/material_light_green_900</item>
+    </array>
+    <!-- gradient_lime -->
+    <array name="gradient_lime">
+        <item>@color/material_lime_500</item>
+        <item>@color/material_lime_700</item>
+    </array>
+    <!-- gradient_lime_pressed -->
+    <array name="gradient_lime_pressed">
+        <item>@color/material_lime_700</item>
+        <item>@color/material_lime_900</item>
+    </array>
+    <!-- gradient_yellow -->
+    <array name="gradient_yellow">
+        <item>@color/material_yellow_500</item>
+        <item>@color/material_yellow_700</item>
+    </array>
+    <!-- gradient_yellow_pressed -->
+    <array name="gradient_yellow_pressed">
+        <item>@color/material_yellow_700</item>
+        <item>@color/material_yellow_900</item>
+    </array>
+    <!-- gradient_amber -->
+    <array name="gradient_amber">
+        <item>@color/material_amber_500</item>
+        <item>@color/material_amber_700</item>
+    </array>
+    <!-- gradient_amber_pressed -->
+    <array name="gradient_amber_pressed">
+        <item>@color/material_amber_700</item>
+        <item>@color/material_amber_900</item>
+    </array>
+    <!-- gradient_orange -->
+    <array name="gradient_orange">
+        <item>@color/material_orange_500</item>
+        <item>@color/material_orange_700</item>
+    </array>
+    <!-- gradient_orange_pressed -->
+    <array name="gradient_orange_pressed">
+        <item>@color/material_orange_700</item>
+        <item>@color/material_orange_900</item>
+    </array>
+    <!-- gradient_deep_orange -->
+    <array name="gradient_deep_orange">
+        <item>@color/material_deep_orange_500</item>
+        <item>@color/material_deep_orange_700</item>
+    </array>
+    <!-- gradient_deep_orange_pressed -->
+    <array name="gradient_deep_orange_pressed">
+        <item>@color/material_deep_orange_700</item>
+        <item>@color/material_deep_orange_900</item>
+    </array>
+    <!-- gradient_brown -->
+    <array name="gradient_brown">
+        <item>@color/material_brown_500</item>
+        <item>@color/material_brown_700</item>
+    </array>
+    <!-- gradient_brown_pressed -->
+    <array name="gradient_brown_pressed">
+        <item>@color/material_brown_700</item>
+        <item>@color/material_brown_900</item>
+    </array>
+    <!-- gradient_grey -->
+    <array name="gradient_grey">
+        <item>@color/material_grey_500</item>
+        <item>@color/material_grey_700</item>
+    </array>
+    <!-- gradient_grey_pressed -->
+    <array name="gradient_grey_pressed">
+        <item>@color/material_grey_700</item>
+        <item>@color/material_grey_900</item>
+    </array>
+    <!-- gradient_blue_grey -->
+    <array name="gradient_blue_grey">
+        <item>@color/material_blue_grey_500</item>
+        <item>@color/material_blue_grey_700</item>
+    </array>
+    <!-- gradient_blue_grey_pressed -->
+    <array name="gradient_blue_grey_pressed">
+        <item>@color/material_blue_grey_700</item>
+        <item>@color/material_blue_grey_900</item>
+    </array>
+
+</resources>

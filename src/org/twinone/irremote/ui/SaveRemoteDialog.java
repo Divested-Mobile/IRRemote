@@ -89,7 +89,10 @@ public class SaveRemoteDialog extends DialogFragment implements
 					it.remove();
 				}
 			}
-			new RemoteOrganizer(getActivity()).updateWithoutSaving(mRemote);
+			RemoteOrganizer ro = new RemoteOrganizer(getActivity());
+			ro.updateWithoutSaving(mRemote);
+			RemoteOrganizer.addIcons(mRemote, true);
+
 			mRemote.save(getActivity());
 			if (mListener != null)
 				mListener.onRemoteSaved(mRemote.name);

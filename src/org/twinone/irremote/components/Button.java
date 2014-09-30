@@ -97,6 +97,37 @@ public class Button implements Serializable {
 	public static final int ID_TEMP_UP = 59;
 	public static final int ID_TEMP_DOWN = 60;
 
+	// backgrounds...
+	
+//	"red", "pink", "purple",
+//	"deep_purple", "indigo", "blue", "light_blue", "cyan", "teal",
+//	"green", "light_green", "lime", "yellow", "amber", "orange",
+//	"deep_orange", "brown", "grey", "blue_grey"
+
+	public static final int BG_SOLID = 1;
+	public static final int BG_TRANSPARENT = 2;
+	
+	public static final int BG_RED = 3;
+	public static final int BG_PINK = 4;
+	public static final int BG_PURPLE = 5;
+	public static final int BG_DEEP_PURPLE = 6;
+	public static final int BG_INDIGO = 7;
+	public static final int BG_BLUE = 8;
+	public static final int BG_LIGHT_BLUE = 9;
+	public static final int BG_CYAN = 10;
+	public static final int BG_TEAL = 11;
+	public static final int BG_GREEN = 12;
+	public static final int BG_LIGHT_GREEN = 13;
+	public static final int BG_LIME = 14;
+	public static final int BG_YELLOW = 15;
+	public static final int BG_AMBER = 16;
+	public static final int BG_ORANGE = 17;
+	public static final int BG_DEEP_ORANGE = 18;
+	public static final int BG_BROWN = 19;
+	public static final int BG_GREY = 20;
+	public static final int BG_BLUE_GREY = 21;
+
+
 	/** Used to identify the purpose of a button */
 	public int id;
 	/**
@@ -104,8 +135,8 @@ public class Button implements Serializable {
 	 */
 	public int uid;
 
-	/** URI of the icon that will be displayed with this button */
-	public String ic;
+	/** Button ID that represents the icon of this button */
+	public int ic;
 
 	/**
 	 * Text that will be shown on the button<br>
@@ -117,11 +148,14 @@ public class Button implements Serializable {
 	 */
 	public String code;
 
+	public int bg;
+
 	// x, y, width, height in px
 	public float x;
 	public float y;
 	public float w;
 	public float h;
+
 	// corner radius in px
 
 	public int rtl;
@@ -142,7 +176,7 @@ public class Button implements Serializable {
 	}
 
 	public float[] getCornerRadii() {
-		return new float[] { rtl, rtr, rbr, rbl };
+		return new float[] { rtl, rtl, rtr, rtr, rbr, rbr, rbl, rbl };
 	}
 
 	public Button(String text) {
@@ -156,6 +190,10 @@ public class Button implements Serializable {
 	public Button(int id, String text) {
 		this.id = id;
 		this.text = text;
+	}
+
+	public boolean hasText() {
+		return text != null && !text.isEmpty();
 	}
 
 	public String getText() {

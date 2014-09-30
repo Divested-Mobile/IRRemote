@@ -119,7 +119,6 @@ public abstract class BaseRemoteFragment extends Fragment implements
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		Log.d(TAG, "SaveInstanceState");
 		outState.putSerializable(SAVE_REMOTE, mRemote);
 		super.onSaveInstanceState(outState);
 	}

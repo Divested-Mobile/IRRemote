@@ -214,14 +214,41 @@
 
 
     <!-- %s is the name of the button -->
-    <string name="edit_button_title">Edit - \"%s\"</string>
+    <string name="edit_button_title">Edit Button</string>
     <string name="edit_option_text">Text</string>
     <string name="edit_option_size">Size</string>
     <string name="edit_option_remove">Remove Button</string>
     <string name="edit_option_icon">Change Icon</string>
-    <string name="edit_option_color">Background Color</string>
+    <string name="edit_option_color">Color</string>
     <string name="edit_option_code">IR Code</string>
     <string name="sizepicker_width">Width</string>
     <string name="sizepicker_height">Height</string>
+
+    <!-- BEGIN 1420 -->
+    <string name="color_dlgtit">Change color</string>
+    <string name="icon_dlgtit">Change icon</string>
+    <string name="icon_remove">Remove icon</string>
+    <!--  -->
+    <string name="color_solid">Solid</string>
+    <string name="color_transparent">Transparent</string>
+    <string name="color_red">Red</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_deep_purple">Deep Purple</string>
+    <string name="color_indigo">Indigo</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_light_blue">Light Blue</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_teal">Teal</string>
+    <string name="color_green">Green</string>
+    <string name="color_light_green">Light Green</string>
+    <string name="color_lime">Lime</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_amber">Amber</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_deep_orange">Deep Orange</string>
+    <string name="color_brown">Brown</string>
+    <string name="color_grey">Grey</string>
+    <string name="color_blue_grey">Blue Grey</string>
 
 </resources>

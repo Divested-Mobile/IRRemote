@@ -5,6 +5,8 @@ import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.ui.SelectColorDialog.OnColorSelectedListener;
+import org.twinone.irremote.ui.SelectIconDialog.OnIconSelectedListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +31,14 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+/**
+ * TODO: Multi-edit
+ * 
+ * TODO: SelectIconDialogFragment
+ * 
+ * TODO: In ProviderActivity for {@link ProviderActivity#ACTION_GET_BUTTON}, allow direct reading (???)
+ * 
+ */
 public class EditRemoteFragment extends BaseRemoteFragment implements
 		OnDragListener, OnLongClickListener, OnClickListener {
 
@@ -39,13 +49,10 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	private static final int OPTION_TEXT = 0;
 	private static final int OPTION_SIZE = 1;
-	// private static final int OPTION_ICON = 2;
-	// private static final int OPTION_COLOR = 3;
-	// private static final int OPTION_CODE = 4;
-	// private static final int OPTION_REMOVE = 5;
-
-	private static final int OPTION_CODE = 2;
-	private static final int OPTION_REMOVE = 3;
+	private static final int OPTION_ICON = 2;
+	private static final int OPTION_COLOR = 3;
+	private static final int OPTION_CODE = 4;
+	private static final int OPTION_REMOVE = 5;
 
 	private boolean mIsEdited;
 
@@ -134,12 +141,12 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 							case OPTION_SIZE:
 								editSize(bv);
 								break;
-							// case OPTION_ICON:
-							// editIcon(bv);
-							// break;
-							// case OPTION_COLOR:
-							// editColor(bv);
-							// break;
+							case OPTION_ICON:
+								editIcon(bv);
+								break;
+							case OPTION_COLOR:
+								editColor(bv);
+								break;
 							case OPTION_CODE:
 								editIrCode(bv);
 								break;
@@ -221,11 +228,33 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	}
 
-	private void editIcon(ButtonView v) {
+	private void editIcon(final ButtonView v) {
+		SelectIconDialog d = SelectIconDialog.newInstance(v.getButton().ic);
+
+		d.setListener(new OnIconSelectedListener() {
+
+			@Override
+			public void onIconSelected(int iconId) {
+				v.setIcon(iconId);
+				refreshButtonsLayout();
+			}
+		});
+		d.show(getActivity());
 
 	}
 
-	private void editColor(ButtonView v) {
+	private void editColor(final ButtonView v) {
+		SelectColorDialog d = SelectColorDialog.newInstance(v.getButton().bg);
+
+		d.setListener(new OnColorSelectedListener() {
+
+			@Override
+			public void onColorSelected(int color) {
+				v.setBackground(color);
+				refreshButtonsLayout();
+			}
+		});
+		d.show(getActivity());
 
 	}
 

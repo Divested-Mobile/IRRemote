@@ -1,91 +1,203 @@
 package org.twinone.irremote.components;
 
-import java.lang.reflect.Field;
-import java.util.Locale;
-
 import org.twinone.irremote.R;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.SparseIntArray;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.GradientDrawable.Orientation;
 
 public class ComponentUtils {
 
-	private static SparseIntArray mButtonIdArray;
+	public static final int[] ICON_IDS = new int[] { Button.ID_POWER,
+			Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_MUTE,
+			Button.ID_MENU, Button.ID_NAV_DOWN, Button.ID_NAV_UP,
+			Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT, Button.ID_CH_UP,
+			Button.ID_CH_DOWN, Button.ID_INPUT, Button.ID_BACK, Button.ID_PLAY,
+			Button.ID_PAUSE, Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV,
+			Button.ID_NEXT, Button.ID_REC, Button.ID_STOP };
 
-	public SparseIntArray getArray() {
-		return mButtonIdArray;
-	}
-
-	public ComponentUtils(Context c) {
-		if (mButtonIdArray == null) {
-			mButtonIdArray = getButtonIdList(c);
-		}
-	}
-
-	public int getButtonIdCount() {
-		return mButtonIdArray.size();
-	}
-
-	public int getButtonId(int resId) {
-		final int index = mButtonIdArray.indexOfValue(resId);
-		return (index < 0) ? 0 : mButtonIdArray.keyAt(index);
-	}
-
-	public int getResId(int buttonId) {
-		final int index = mButtonIdArray.indexOfKey(buttonId);
-		return (index < 0) ? 0 : mButtonIdArray.valueAt(index);
+	public static Drawable getIconDrawable(Context c, int iconId) {
+		return c.getResources().getDrawable(getIconResId(iconId));
 	}
 
 	/**
-	 * Load the mappings of button res id's and button id's
+	 * Get the drawable res id for a given button id
+	 */
+	public static int getIconResId(int iconId) {
+		switch (iconId) {
+		case Button.ID_NAV_LEFT:
+			return R.drawable.b_nav_left;
+		case Button.ID_NAV_RIGHT:
+			return R.drawable.b_nav_right;
+		case Button.ID_NAV_UP:
+			return R.drawable.b_nav_up;
+		case Button.ID_NAV_DOWN:
+			return R.drawable.b_nav_down;
+
+		case Button.ID_PLAY:
+			return R.drawable.b_play;
+		case Button.ID_POWER:
+			return R.drawable.b_power;
+		case Button.ID_PAUSE:
+			return R.drawable.b_pause;
+		case Button.ID_STOP:
+			return R.drawable.b_stop;
+		case Button.ID_RWD:
+			return R.drawable.b_rwd;
+		case Button.ID_FFWD:
+			return R.drawable.b_ffwd;
+		case Button.ID_REC:
+			return R.drawable.b_rec;
+
+		case Button.ID_MENU:
+			return R.drawable.b_menu;
+		case Button.ID_PREV:
+			return R.drawable.b_prev;
+		case Button.ID_NEXT:
+			return R.drawable.b_next;
+
+		case Button.ID_VOL_DOWN:
+			return R.drawable.b_vol_down;
+		case Button.ID_VOL_UP:
+			return R.drawable.b_vol_up;
+		case Button.ID_MUTE:
+			return R.drawable.b_mute;
+		case 0:
+			return 0;
+
+		}
+		return R.drawable.ic_launcher;
+	}
+
+	// recycle button ids...
+	public static int getCommonButtonIconFromId(int id) {
+		for (int i : ICON_IDS)
+			if (id == i)
+				return i;
+		return Button.ID_NONE;
+	}
+
+	/**
+	 * Returns the array resource id for the specified Button.BG* color
 	 * 
-	 * @param c
+	 * @param color
 	 * @return
 	 */
-	private static SparseIntArray getButtonIdList(Context c) {
-		SparseIntArray result = new SparseIntArray();
-		final Class<?> button = org.twinone.irremote.components.Button.class;
-		try {
-			for (Field f : button.getFields()) {
-				final String name = f.getName();
-				if (name.startsWith("ID_")) {
-					final String resName = "button_"
-							+ name.substring(3).toLowerCase(Locale.ENGLISH);
-					int bid = f.getInt(button);
-					int rid = c.getResources().getIdentifier(resName, "id",
-							c.getPackageName());
-					result.put(bid, rid);
-				}
-			}
-		} catch (Exception e) {
-			Log.d("", "Error: ", e);
+
+	// "red", "pink", "purple",
+	// "deep_purple", "indigo", "blue", "light_blue", "cyan", "teal",
+	// "green", "light_green", "lime", "yellow", "amber", "orange",
+	// "deep_orange", "brown", "grey", "blue_grey"
+	//
+	private static int getGradientResIdPressed(int color) {
+		switch (color) {
+		case Button.BG_TRANSPARENT:
+			return R.array.gradient_transparent_pressed;
+		case Button.BG_RED:
+			return R.array.gradient_red_pressed;
+		case Button.BG_PINK:
+			return R.array.gradient_pink_pressed;
+		case Button.BG_PURPLE:
+			return R.array.gradient_purple_pressed;
+		case Button.BG_DEEP_PURPLE:
+			return R.array.gradient_deep_purple_pressed;
+		case Button.BG_INDIGO:
+			return R.array.gradient_indigo_pressed;
+		case Button.BG_BLUE:
+			return R.array.gradient_blue_pressed;
+		case Button.BG_LIGHT_BLUE:
+			return R.array.gradient_light_blue_pressed;
+		case Button.BG_CYAN:
+			return R.array.gradient_cyan_pressed;
+		case Button.BG_TEAL:
+			return R.array.gradient_teal_pressed;
+		case Button.BG_GREEN:
+			return R.array.gradient_green_pressed;
+		case Button.BG_LIGHT_GREEN:
+			return R.array.gradient_light_green_pressed;
+		case Button.BG_LIME:
+			return R.array.gradient_lime_pressed;
+		case Button.BG_YELLOW:
+			return R.array.gradient_yellow_pressed;
+		case Button.BG_AMBER:
+			return R.array.gradient_amber_pressed;
+		case Button.BG_ORANGE:
+			return R.array.gradient_orange_pressed;
+		case Button.BG_DEEP_ORANGE:
+			return R.array.gradient_deep_orange_pressed;
+		case Button.BG_BROWN:
+			return R.array.gradient_brown_pressed;
+		case Button.BG_GREY:
+			return R.array.gradient_grey_pressed;
+		case Button.BG_BLUE_GREY:
+			return R.array.gradient_blue_grey_pressed;
+		default:
+			return R.array.gradient_solid_pressed;
 		}
-		return result;
 	}
 
-	public static int getIconReference(int iconId) {
-		if (iconId == Button.ID_NAV_LEFT)
-			return R.drawable.b_arrow_left;
-		return 0;
+	private static int getGradientResId(int color) {
+		switch (color) {
+		case Button.BG_TRANSPARENT:
+			return R.array.gradient_transparent;
+		case Button.BG_RED:
+			return R.array.gradient_red;
+		case Button.BG_PINK:
+			return R.array.gradient_pink;
+		case Button.BG_PURPLE:
+			return R.array.gradient_purple;
+		case Button.BG_DEEP_PURPLE:
+			return R.array.gradient_deep_purple;
+		case Button.BG_INDIGO:
+			return R.array.gradient_indigo;
+		case Button.BG_BLUE:
+			return R.array.gradient_blue;
+		case Button.BG_LIGHT_BLUE:
+			return R.array.gradient_light_blue;
+		case Button.BG_CYAN:
+			return R.array.gradient_cyan;
+		case Button.BG_TEAL:
+			return R.array.gradient_teal;
+		case Button.BG_GREEN:
+			return R.array.gradient_green;
+		case Button.BG_LIGHT_GREEN:
+			return R.array.gradient_light_green;
+		case Button.BG_LIME:
+			return R.array.gradient_lime;
+		case Button.BG_YELLOW:
+			return R.array.gradient_yellow;
+		case Button.BG_AMBER:
+			return R.array.gradient_amber;
+		case Button.BG_ORANGE:
+			return R.array.gradient_orange;
+		case Button.BG_DEEP_ORANGE:
+			return R.array.gradient_deep_orange;
+		case Button.BG_BROWN:
+			return R.array.gradient_brown;
+		case Button.BG_GREY:
+			return R.array.gradient_grey;
+		case Button.BG_BLUE_GREY:
+			return R.array.gradient_blue_grey;
+		default:
+			return R.array.gradient_solid;
+		}
 	}
 
-	public static int getCommonButtonIconFromId(int id) {
-		if (id == Button.ID_POWER || id == Button.ID_VOL_UP
-				|| id == Button.ID_VOL_DOWN || id == Button.ID_MUTE
-
-				|| id == Button.ID_MENU || id == Button.ID_NAV_DOWN
-				|| id == Button.ID_NAV_UP || id == Button.ID_NAV_LEFT
-				|| id == Button.ID_NAV_RIGHT || id == Button.ID_NAV_OK
-
-				|| id == Button.ID_CH_UP || id == Button.ID_CH_DOWN
-				|| id == Button.ID_INPUT || id == Button.ID_BACK
-
-				|| id == Button.ID_PLAY || id == Button.ID_PAUSE
-				|| id == Button.ID_RWD || id == Button.ID_FFWD
-				|| id == Button.ID_REC || id == Button.ID_STOP)
-			return id;
-		return Button.ID_NONE;
+	/**
+	 * Get a drawable with the corner radii set
+	 */
+	public static GradientDrawable getGradientDrawable(Context c, int color,
+			boolean pressed) {
+		GradientDrawable d = new GradientDrawable();
+		d.setOrientation(Orientation.TOP_BOTTOM);
+		int id = pressed ? getGradientResIdPressed(color)
+				: getGradientResId(color);
+		if (id != 0) {
+			int[] colors = c.getResources().getIntArray(id);
+			d.setColors(colors);
+		}
+		return d;
 	}
 
 	public static String getCommonButtonDisplyaName(int id, Context c) {

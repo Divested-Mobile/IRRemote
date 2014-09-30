@@ -21,8 +21,10 @@ public abstract class AnimHelper {
 		a.overridePendingTransition(0, R.anim.slide_out_right);
 	}
 
-	public static void showDialog(AlertDialog.Builder ab) {
-		showDialog(ab.create());
+	public static Dialog showDialog(AlertDialog.Builder ab) {
+		final Dialog d = ab.create();
+		showDialog(d);
+		return d;
 	}
 
 	/**

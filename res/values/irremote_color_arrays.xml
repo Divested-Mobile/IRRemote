@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- gradient_red -->
+    <array name="gradient_solid">
+        <item>@color/remote_button_bg_sl_default_start</item>
+        <item>@color/remote_button_bg_sl_default_end</item>
+    </array>
+    <array name="gradient_solid_pressed">
+        <item>@color/remote_button_bg_sl_pressed_start</item>
+        <item>@color/remote_button_bg_sl_pressed_end</item>
+    </array>
+    <array name="gradient_transparent">
+        <item>@color/remote_button_bg_tr_default_start</item>
+        <item>@color/remote_button_bg_tr_default_end</item>
+    </array>
+    <array name="gradient_transparent_pressed">
+        <item>@color/remote_button_bg_tr_pressed_start</item>
+        <item>@color/remote_button_bg_tr_pressed_end</item>
+    </array>
+
+</resources>

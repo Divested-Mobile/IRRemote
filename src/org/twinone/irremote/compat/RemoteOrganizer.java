@@ -2,12 +2,31 @@ package org.twinone.irremote.compat;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
+
+/**
+ * 
+ * FIXME: This is a mess.
+ * 
+ *
+ * TODO:
+ * Organize buttons better (in blocks instead of px/dp)
+ * 
+ * TODO:
+ * Should we support tablets with different layouts?
+ * 
+ * TODO:
+ * Margins should be variable instead of fixed 16dp
+ * 
+ * TODO: Block & grid size variable???
+ *
+ */
 public class RemoteOrganizer {
 
 	private final Context mContext;
@@ -103,6 +122,16 @@ public class RemoteOrganizer {
 		mRemote.options.h = (int) mTrackHeight;
 	}
 
+	/** Add default icons to this remote's buttons based on their ID's */
+	public static void addIcons(Remote remote, boolean removeTextIfIconFound) {
+		for (Button b : remote.buttons) {
+			int icon = ComponentUtils.getCommonButtonIconFromId(b.id);
+			b.ic = icon;
+			if (icon != 0 && removeTextIfIconFound)
+				b.text = null;
+		}
+	}
+
 	public void updateAndSave(String remoteName) {
 		updateAndSave(Remote.load(mContext, remoteName));
 	}
@@ -125,6 +154,10 @@ public class RemoteOrganizer {
 	float mTrackHeight;
 
 	private void setupButtons() {
+		for (Button b : mRemote.buttons) {
+			b.setCornerRadius((int) dpToPx(15));
+		}
+
 		mTrackHeight = mActivityMarginV;
 		addRowById(false, Button.ID_POWER, 0, 0);
 		addRowById(false, Button.ID_CH_UP, Button.ID_NAV_UP, Button.ID_VOL_UP);
@@ -186,7 +219,6 @@ public class RemoteOrganizer {
 
 	}
 
-	// TODO make this work
 	private void makeCircular(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			final Button b = mRemote.getButtonById(ids[i]);

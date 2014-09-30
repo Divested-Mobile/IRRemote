@@ -1,15 +1,18 @@
 package org.twinone.irremote.ui;
 
-import org.twinone.irremote.R;
+import org.twinone.androidlib.view.CenterImageButton;
+import org.twinone.irremote.components.ComponentUtils;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.util.Log;
+import android.util.StateSet;
 
-public class ButtonView extends Button {
+public class ButtonView extends CenterImageButton {
 
 	public ButtonView(Context context) {
 		super(context);
@@ -23,42 +26,62 @@ public class ButtonView extends Button {
 
 	public void setButton(org.twinone.irremote.components.Button button) {
 		mButton = button;
+		setText(mButton.text);
+		updateIcon();
+		updateBackground();
+	}
 
-		// setText(mButton.text);
+	/**
+	 * Set the icon drawable for this button<br>
+	 * If the button has text, it will snap to the left, if not it will show in
+	 * the center
+	 */
+	public void setIcon(int iconId) {
+		mButton.ic = iconId;
+		updateIcon();
+		setBackground(mButton.bg);
+	}
 
-		Drawable d = getResources().getDrawable(R.drawable.b_arrow_left);
-		int size = (int) Math.min(mButton.w, mButton.h);
-		size *= 0.7;
-		d.setBounds(new Rect(0, 0, size, size));
+	private void updateIcon() {
+		int iconResId = ComponentUtils.getIconResId(mButton.ic);
+		if (iconResId == 0) {
+			setCompoundDrawableCenter(null);
+			return;
+		}
+		try {
+			Drawable d = getResources().getDrawable(iconResId);
+			int size = (int) Math.min(mButton.w, mButton.h);
+			size *= 0.6;
+			d.setBounds(new Rect(0, 0, size, size));
+			if (mButton.hasText()) {
+				setCompoundDrawables(d, null, null, null);
+			} else {
+				setCompoundDrawableCenter(d);
+			}
 
-		boolean text = false;
-		if (text) {
-			setCompoundDrawables(d, null, null, null);
-		} else {
-			mDrawable = d;
+		} catch (Exception e) {
+			Log.w("ButtonView", "Exception loading drawable: ", e);
 		}
 	}
 
-	private float dpToPx(float dp) {
-		return dp * getContext().getResources().getDisplayMetrics().density;
+	public void setBackground(int bg) {
+		mButton.bg = bg;
+		updateBackground();
 	}
 
-	private Drawable mDrawable;
-
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		if (mDrawable != null) {
-			canvas.save();
-			final Rect bounds = mDrawable.getBounds();
-			int w = (getWidth() - (bounds.right - bounds.left)) / 2;
-			int h = (getHeight() - (bounds.bottom - bounds.top)) / 2;
-
-			canvas.translate(w, h);
-			mDrawable.draw(canvas);
-
-			canvas.restore();
-		}
+	private void updateBackground() {
+		// if (mButton.bg == 0)
+		// return;
+		final StateListDrawable dd = new StateListDrawable();
+		final GradientDrawable pressed = (GradientDrawable) ComponentUtils
+				.getGradientDrawable(getContext(), mButton.bg, true).mutate();
+		pressed.setCornerRadii(mButton.getCornerRadii());
+		dd.addState(new int[] { android.R.attr.state_pressed }, pressed);
+		final GradientDrawable def = (GradientDrawable) ComponentUtils
+				.getGradientDrawable(getContext(), mButton.bg, false).mutate();
+		def.setCornerRadii(mButton.getCornerRadii());
+		dd.addState(StateSet.WILD_CARD, def);
+		setBackground(dd);
 	}
 
 	public org.twinone.irremote.components.Button getButton() {

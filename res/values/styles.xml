@@ -22,17 +22,13 @@
         <item name="android:buttonStyle">@style/transparent_button</item>
     </style>
 
-    <style name="theme_solid" parent="AppBaseTheme">
-        <item name="android:buttonStyle">@style/solid_button</item>
-    </style>
+    <style name="theme_solid" parent="AppBaseTheme"></style>
 
     <style name="transparent_button" parent="@android:style/Widget.Holo.Button">
-        <item name="android:background">@drawable/remote_button_bg_tr</item>
         <item name="android:minHeight">60dp</item>
     </style>
 
     <style name="solid_button" parent="@android:style/Widget.Holo.Button">
-        <item name="android:background">@drawable/remote_button_bg_sl</item>
         <item name="android:minHeight">60dp</item>
     </style>
 
