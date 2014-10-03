@@ -4,9 +4,12 @@ import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.ui.ButtonView;
 
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
+import android.view.MotionEvent.PointerCoords;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
 
 public class TransmitOnTouchListener implements OnTouchListener {
 
@@ -21,11 +24,22 @@ public class TransmitOnTouchListener implements OnTouchListener {
 	}
 
 	private boolean mFingerDown;
+
 	private float mFingerDownX;
 	private float mFingerDownY;
 	private int mFingerDownId;
+	PointerCoords mCoords = new PointerCoords();
 
-	public boolean onTouch(View v, MotionEvent event) {
+	private View mView;
+
+	public boolean onTouch(final View v, MotionEvent event) {
+		if (v instanceof ButtonView) {
+			return onTouch((ButtonView) v, event);
+		}
+		return false;
+	}
+
+	public boolean onTouch(final ButtonView v, MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 
@@ -37,49 +51,75 @@ public class TransmitOnTouchListener implements OnTouchListener {
 
 				final Signal s = ((ButtonView) v).getButton().getSignal();
 				mTransmitter.setSignal(s);
-				v.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						if (mFingerDown) {
-							mTransmitter.startTransmitting();
-						}
-					}
-				}, DETECT_LONGPRESS_DELAY);
+				mView = v;
+				v.removeCallbacks(mDelayedRunnable);
+				v.postDelayed(mDelayedRunnable, DETECT_LONGPRESS_DELAY);
 				return false;
 			}
 
 			break;
 
-		// case MotionEvent.ACTION_MOVE:
+		case MotionEvent.ACTION_MOVE:
+
+			event.getPointerCoords(0, mCoords);
+			final int x = (int) mCoords.x;
+			final int y = (int) mCoords.y;
+
+			// Be lenient about moving outside of buttons
+			int slop = ViewConfiguration.get(v.getContext())
+					.getScaledTouchSlop();
+			if ((x < 0 - slop) || (x >= v.getWidth() + slop) || (y < 0 - slop)
+					|| (y >= v.getHeight() + slop)) {
+				// Outside button
+				mTransmitter.stopTransmitting(false);
+				v.removeCallbacks(mDelayedRunnable);
+				if (v.isPressed()) {
+					v.setPressed(false);
+				}
+				mFingerDown = false;
+				return false;
+			}
+			break;
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP:
-			// if (event.getAction() == MotionEvent.ACTION_UP)
-			// Log.d("EMER", "ACTION UP ");
-			// if (event.getAction() == MotionEvent.ACTION_DOWN)
-			// Log.d("EMER", "ACTION DOWN ");
-			// if (event.getAction() == MotionEvent.ACTION_MOVE)
-			// Log.d("EMER",
-			// "ACTION MOVE " + event.getX() + "," + event.getY());
 
-			if (mFingerDown && event.getPointerId(0) == mFingerDownId) {
-
+			if (mFingerDown && mFingerDownId == event.getPointerId(0)) {
 				boolean atLeastOnce = event.getAction() == MotionEvent.ACTION_UP;
-//				Log.d("EMER", "orig: " + mFingerDownX + "," + mFingerDownY);
-//				Log.d("EMER", "curr: " + event.getX() + "," + event.getY());
 				if (event.getX() == mFingerDownX
 						&& event.getY() == mFingerDownY) {
 					atLeastOnce = true;
 				}
-				// Log.d("EMER", "Stopping transmission: AtLeastOnce: "
-				// + atLeastOnce);
-				mTransmitter.stopTransmitting(atLeastOnce);
+				v.performClick();
+
+				final boolean once = atLeastOnce;
+				if (once && !mTransmitter.hasTransmittedOnce()) {
+					vibrateShort(v);
+				}
+				mTransmitter.stopTransmitting(once);
 				mFingerDown = false;
-				return false;
 			}
+
 			return false;
 		}
-		// Block multiple fingers from appearing as clicked
 		return true;
+	}
+
+	private void vibrateShort(View v) {
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+	}
+
+	private Runnable mDelayedRunnable = new MyDelayedRunnable();
+
+	private class MyDelayedRunnable implements Runnable {
+
+		@Override
+		public void run() {
+			if (mFingerDown) {
+				mTransmitter.startTransmitting();
+				vibrateShort(mView);
+				// Don't scroll...
+				mView.getParent().requestDisallowInterceptTouchEvent(true);
+			}
+		}
 	}
 }

@@ -138,7 +138,8 @@ public class SelectIconDialog extends DialogFragment implements
 			}
 		});
 		ab.setTitle(R.string.icon_dlgtit);
-		return AnimHelper.addAnimations(ab.create());
+		return ab.create();
+		// return AnimHelper.addAnimations(ab.create());
 	}
 
 	@Override

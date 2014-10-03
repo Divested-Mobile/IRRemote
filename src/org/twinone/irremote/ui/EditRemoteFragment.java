@@ -1,10 +1,14 @@
 package org.twinone.irremote.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.ui.EditCornersDialog.OnCornersEditedListener;
 import org.twinone.irremote.ui.SelectColorDialog.OnColorSelectedListener;
 import org.twinone.irremote.ui.SelectIconDialog.OnIconSelectedListener;
 
@@ -15,6 +19,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.ActionMode.Callback;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,13 +42,15 @@ import android.widget.Toast;
  * 
  * TODO: SelectIconDialogFragment
  * 
- * TODO: In ProviderActivity for {@link ProviderActivity#ACTION_GET_BUTTON}, allow direct reading (???)
+ * TODO: In ProviderActivity for {@link ProviderActivity#ACTION_GET_BUTTON},
+ * allow direct reading (???)
  * 
  */
 public class EditRemoteFragment extends BaseRemoteFragment implements
-		OnDragListener, OnLongClickListener, OnClickListener {
+		OnDragListener, OnLongClickListener, OnClickListener, Callback {
 
 	private static final String SAVE_EDITED = "save_edited";
+	private static final String SAVE_TARGETS = "save_targets";
 
 	private static final int REQ_GET_NEW_BUTTON = 0;
 	private static final int REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON = 1;
@@ -51,8 +59,9 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	private static final int OPTION_SIZE = 1;
 	private static final int OPTION_ICON = 2;
 	private static final int OPTION_COLOR = 3;
-	private static final int OPTION_CODE = 4;
-	private static final int OPTION_REMOVE = 5;
+	private static final int OPTION_CORNERS = 4;
+	private static final int OPTION_CODE = 5;
+	private static final int OPTION_REMOVE = 6;
 
 	private boolean mIsEdited;
 
@@ -64,11 +73,10 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	private int mScrollPixels;
 
-	private static int DEFAULT_GRID_SIZE_X = 16;// in dp
-	private static int DEFAULT_GRID_SIZE_Y = 16;// in dp
-
 	private int mGridSizeX;
 	private int mGridSizeY;
+	private int mGridMarginX;
+	private int mGridMarginY;
 
 	public boolean isEdited() {
 		return mIsEdited;
@@ -79,6 +87,69 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	private boolean mScrolling;
 	private Runnable mScrollRunnable;
+
+	private ArrayList<Integer> mTargetInts = new ArrayList<Integer>();
+
+	/**
+	 * Return the nth target
+	 * 
+	 * @param index
+	 * @return
+	 */
+	private ButtonView getTarget(int index) {
+		return mRemoteView.findButtonViewById(mTargetInts.get(index));
+	}
+
+	private void toggleTarget(final ButtonView bv) {
+		// TODO increment counter...
+		final int uid = bv.getButton().uid;
+		if (mTargetInts.contains(uid)) {
+			removeTarget(bv);
+		} else {
+			addTarget(bv);
+		}
+		updateButtonCount();
+	}
+
+	private void updateButtonCount() {
+		if (isInActionMode()) {
+			int size = mTargetInts.size();
+			mActionMode.setTitle(getResources().getQuantityString(
+					R.plurals.selected, size, size));
+			boolean all = mTargetInts.size() == getRemote().buttons.size();
+			mSelectAll.setVisible(!all);
+			mSelectNone.setVisible(all);
+		}
+	}
+
+	private void addTarget(final ButtonView bv) {
+		final int uid = bv.getButton().uid;
+		if (!mTargetInts.contains(uid)) {
+			mTargetInts.add(bv.getButton().uid);
+			bv.setPressed(true);
+			bv.setPressLock(true);
+		}
+	}
+
+	private void removeTarget(final ButtonView bv) {
+		final int uid = bv.getButton().uid;
+		if (mTargetInts.contains(uid)) {
+			mTargetInts.remove(mTargetInts.indexOf(uid));
+			bv.setPressLock(false);
+			bv.setPressed(false);
+		}
+		if (mTargetInts.size() == 0) {
+			exitActionMode();
+		}
+	}
+
+	private ArrayList<ButtonView> getTargets() {
+		ArrayList<ButtonView> result = new ArrayList<ButtonView>();
+		for (int uid : mTargetInts) {
+			result.add(mRemoteView.findButtonViewById(uid));
+		}
+		return result;
+	}
 
 	private void startScrolling(final int pixels) {
 		if (mScrolling) {
@@ -110,62 +181,89 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	@Override
 	public boolean onLongClick(View v) {
-		ClipData data = ClipData.newPlainText("", "");
-		DragShadowBuilder shadowBuilder = new DragShadowBuilder(v);
-		v.startDrag(data, shadowBuilder, v, 0);
-		v.setVisibility(View.GONE);
-
-		return true;
-	}
-
-	private String getEditTitle(ButtonView v) {
-		return getString(R.string.edit_button_title, v.getButton().text);
+		if (!isInActionMode()) {
+			ClipData data = ClipData.newPlainText("", "");
+			DragShadowBuilder shadowBuilder = new DragShadowBuilder(v);
+			v.startDrag(data, shadowBuilder, v, 0);
+			v.setVisibility(View.GONE);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v instanceof ButtonView) {
-			final ButtonView bv = (ButtonView) v;
-			AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-
-			ab.setTitle(getEditTitle(bv));
-			ab.setItems(R.array.edit_button_options,
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							switch (which) {
-							case OPTION_TEXT:
-								editText(bv);
-								break;
-							case OPTION_SIZE:
-								editSize(bv);
-								break;
-							case OPTION_ICON:
-								editIcon(bv);
-								break;
-							case OPTION_COLOR:
-								editColor(bv);
-								break;
-							case OPTION_CODE:
-								editIrCode(bv);
-								break;
-							case OPTION_REMOVE:
-								removeButton(bv);
-								break;
-							}
-						}
-					});
-			AnimHelper.showDialog(ab);
+		if (!(v instanceof ButtonView)) {
+			return;
+		}
+		final ButtonView bv = (ButtonView) v;
+		if (isInActionMode()) {
+			toggleTarget(bv);
+		} else {
+			enterActionMode();
+			addTarget(bv);
+			updateButtonCount();
+			// mTargetInts.clear();
+			// mTargetInts.add(bv.getButton().uid);
+			// showEditDialog();
 		}
 	}
 
-	private void editText(final ButtonView v) {
-		final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setTitle(getEditTitle(v));
-		final EditText et = new EditText(getActivity());
-		et.setText(v.getButton().text);
+	private void showEditDialog() {
+		if (mTargetInts.size() == 0)
+			return;
+		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+		ab.setTitle(R.string.edit_button_title);
+		ab.setItems(R.array.edit_button_options, mEditTypeListener);
+		AnimHelper.showDialog(ab).setCanceledOnTouchOutside(true);
+	}
 
+	private MyEditTypeListener mEditTypeListener = new MyEditTypeListener();
+
+	private class MyEditTypeListener implements DialogInterface.OnClickListener {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			switch (which) {
+			case OPTION_TEXT:
+				editText();
+				break;
+			case OPTION_SIZE:
+				editSize();
+				break;
+			case OPTION_ICON:
+				editIcon();
+				break;
+			case OPTION_COLOR:
+				editColor();
+				break;
+			case OPTION_CORNERS:
+				editCorners();
+				break;
+			case OPTION_CODE:
+				editCode();
+				break;
+			case OPTION_REMOVE:
+				editRemove();
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Should be called when a single edit action (such as changing text or
+	 * icon) is finished
+	 */
+	private void onEditFinished() {
+		exitActionMode();
+	}
+
+	private void editText() {
+		final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+		ab.setTitle(R.string.edit_button_title);
+		final EditText et = new EditText(getActivity());
+		if (mTargetInts.size() == 1) {
+			et.setText(getTarget(0).getButton().text);
+		}
 		et.setSelectAllOnFocus(true);
 		ab.setView(et);
 		ab.setNegativeButton(android.R.string.cancel, null);
@@ -174,21 +272,33 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						v.getButton().text = et.getText().toString();
+						final String text = (String) et.getText().toString();
+						for (ButtonView v : getTargets()) {
+							v.setText(text, true);
+						}
 						refreshButtonsLayout();
+						onEditFinished();
 					}
 				});
 		AnimHelper.showDialog(ab);
-
 	}
 
-	private void editSize(final ButtonView v) {
+	private void editSize() {
 		final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setTitle(getEditTitle(v));
+		ab.setTitle(R.string.edit_button_title);
 		LayoutInflater li = LayoutInflater.from(getActivity());
 		View sizeView = li.inflate(R.layout.dialog_size_picker, null);
-		final int w = (int) v.getButton().w / mGridSizeX;
-		final int h = (int) v.getButton().h / mGridSizeY;
+		float totalW = 0;
+		float totalH = 0;
+		for (ButtonView v : getTargets()) {
+			totalW += v.getButton().w;
+			totalH += v.getButton().h;
+		}
+		totalW /= mTargetInts.size();
+		totalH /= mTargetInts.size();
+		final int w = (int) (totalW / mGridSizeX) + 1;
+		final int h = (int) (totalH / mGridSizeY) + 1;
+
 		final NumberPicker npw = (NumberPicker) sizeView
 				.findViewById(R.id.sizepicker_width);
 		npw.setMaxValue(40);
@@ -208,62 +318,105 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						int width = (int) v.getButton().w
-								+ (npw.getValue() - w) * mGridSizeX;
-						int height = (int) v.getButton().h
-								+ (nph.getValue() - h) * mGridSizeY;
-						// v.getButton().w += (npw.getValue() - w) * mGridSizeX;
-						// v.getButton().h += (nph.getValue() - h) * mGridSizeY;
-						v.setWidth(width);
-						v.setHeight(height);
-						v.requestLayout();
-						// ((ViewGroup) v.getParent()).removeView(v);
-						// mRemoteView.addView(v);
+						// int width = (int) v.getButton().w
+						// + (npw.getValue() - w) * mGridSizeX;
+						// int height = (int) v.getButton().h
+						// + (nph.getValue() - h) * mGridSizeY;
 
+						int width = (npw.getValue()) * mGridSizeX
+								- mGridMarginX;
+						int height = (nph.getValue()) * mGridSizeY
+								- mGridMarginY;
+						for (ButtonView v : getTargets()) {
+							v.setWidth(width);
+							v.setHeight(height);
+							v.requestLayout();
+						}
 						refreshButtonsLayout();
 						adjustRemoteLayoutHeightToButtons();
+						onEditFinished();
 					}
 				});
 		AnimHelper.showDialog(ab);
 
 	}
 
-	private void editIcon(final ButtonView v) {
-		SelectIconDialog d = SelectIconDialog.newInstance(v.getButton().ic);
+	private void editIcon() {
+		SelectIconDialog d = SelectIconDialog.newInstance(0);
 
 		d.setListener(new OnIconSelectedListener() {
 
 			@Override
 			public void onIconSelected(int iconId) {
-				v.setIcon(iconId);
+
+				for (ButtonView v : getTargets()) {
+					v.setIcon(iconId);
+					v.setText(null, true);
+				}
 				refreshButtonsLayout();
+				onEditFinished();
 			}
 		});
 		d.show(getActivity());
 
 	}
 
-	private void editColor(final ButtonView v) {
-		SelectColorDialog d = SelectColorDialog.newInstance(v.getButton().bg);
+	private void editColor() {
+		SelectColorDialog d = SelectColorDialog.newInstance(0);
 
 		d.setListener(new OnColorSelectedListener() {
 
 			@Override
 			public void onColorSelected(int color) {
-				v.setBackground(color);
+				for (ButtonView v : getTargets()) {
+					v.setBackground(color);
+				}
 				refreshButtonsLayout();
+				onEditFinished();
 			}
 		});
 		d.show(getActivity());
 
 	}
 
-	private int mRequestCodeChangeButtonUID;
+	private void editCorners() {
+		float[] c = getTarget(0).getButton().getCornerRadii();
+		Arrays.fill(c, 0);
+		final ArrayList<ButtonView> targets = getTargets();
+		for (ButtonView bv : targets) {
+			float[] radii = bv.getButton().getCornerRadii();
+			for (int i = 0; i < radii.length; i++) {
+				c[i] += radii[i];
+			}
+		}
+		for (int i = 0; i < c.length; i++) {
+			c[i] = pxToDp(c[i] / targets.size());
+		}
 
-	private void editIrCode(ButtonView v) {
+		EditCornersDialog d = EditCornersDialog.newInstance(c);
+
+		d.setListener(new OnCornersEditedListener() {
+
+			@Override
+			public void onCornersEdited(float[] corners) {
+				for (int i = 0; i < corners.length; i++) {
+					corners[i] = dpToPx(corners[i]);
+				}
+
+				for (ButtonView v : getTargets()) {
+					v.getButton().setCornerRadii(corners);
+				}
+				refreshButtonsLayout();
+				onEditFinished();
+			}
+		});
+		d.show(getActivity());
+
+	}
+
+	private void editCode() {
 		Intent i = new Intent(getActivity(), ProviderActivity.class);
 		i.setAction(ProviderActivity.ACTION_GET_BUTTON);
-		mRequestCodeChangeButtonUID = v.getButton().uid;
 		startActivityForResult(i, REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON);
 	}
 
@@ -281,13 +434,13 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			return;
 		}
 		if (requestCode == REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON) {
-			final Button b = mRemote.getButton(mRequestCodeChangeButtonUID);
 
 			Button result = (Button) data
 					.getSerializableExtra(ProviderActivity.EXTRA_RESULT_BUTTON);
-			b.code = result.code;
-			Toast.makeText(getActivity(),
-					getString(R.string.edit_button_code_updated, b.text),
+			for (ButtonView v : getTargets()) {
+				v.getButton().code = result.code;
+			}
+			Toast.makeText(getActivity(), R.string.edit_button_code_updated,
 					Toast.LENGTH_SHORT).show();
 			setEdited(true);
 		} else if (requestCode == REQ_GET_NEW_BUTTON) {
@@ -303,14 +456,25 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		b.id = Button.ID_NONE;
 		b.w = ro.getButtonWidth();
 		b.h = ro.getButtonHeight();
-		mRemote.addButton(b);
+		getRemote().addButton(b);
 		refreshButtonsLayout();
 	}
 
-	private void removeButton(ButtonView v) {
-		mRemote.removeButton(v.getButton());
+	private void editRemove() {
+		boolean action = isInActionMode();
+		for (ButtonView v : getTargets()) {
+			getRemote().removeButton(v.getButton());
+			removeTarget(v);
+			// if (action) {
+			// final int uid = v.getButton().uid;
+			// if (mTargetInts.contains(uid))
+			// mTargetInts.remove(mTargetInts.);
+			// }
+		}
+
 		refreshButtonsLayout();
 		adjustRemoteLayoutHeightToButtons();
+		onEditFinished();
 	}
 
 	@Override
@@ -376,7 +540,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	}
 
 	private void organizeButtons() {
-		new RemoteOrganizer(getActivity()).updateWithoutSaving(mRemote);
+		new RemoteOrganizer(getActivity()).updateWithoutSaving(getRemote());
 		refreshButtonsLayout();
 		adjustRemoteLayoutHeightToButtons();
 	}
@@ -407,44 +571,51 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	private void adjustRemoteLayoutHeightToButtons() {
 		int max = 0;
-		ButtonView bottomView = null;
+		// ButtonView bottomView = null;
 		for (ButtonView bv : mButtons) {
 			float bottom = bv.getBottom() + bv.getTranslationY();
 			bottom = bv.getButton().y + bv.getButton().h;
-			if (bottom > max) {
-				bottomView = bv;
-			}
+			// if (bottom > max) {
+			// bottomView = bv;
+			// }
 			max = Math.max(max, (int) bottom);
 
 		}
 
-		Log.d(TAG,
-				"BottomView (" + bottomView.getButton().text + " y: "
-						+ bottomView.getY() + " translationY: "
-						+ bottomView.getTranslationY() + ", bottom: "
-						+ bottomView.getBottom());
+		// Log.d(TAG,
+		// "BottomView (" + bottomView.getButton().text + " y: "
+		// + bottomView.getY() + " translationY: "
+		// + bottomView.getTranslationY() + ", bottom: "
+		// + bottomView.getBottom());
 		int h = (int) (max + mActivityMarginV);
 		int w = mRemoteView.getWidth();
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
 		mRemoteView.setLayoutParams(lp);
-		mRemote.options.h = h;
+		getRemote().options.h = h;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		mActivityMarginH = getResources().getDimensionPixelOffset(
 				R.dimen.activity_horizontal_margin);
 		mActivityMarginV = getResources().getDimensionPixelOffset(
 				R.dimen.activity_vertical_margin);
 
-		mGridSizeX = (int) dpToPx(DEFAULT_GRID_SIZE_X);
-		mGridSizeY = (int) dpToPx(DEFAULT_GRID_SIZE_Y);
+		mGridSizeX = getResources().getDimensionPixelSize(R.dimen.grid_size_x);
+		mGridSizeY = getResources().getDimensionPixelSize(R.dimen.grid_size_y);
+		mGridMarginX = getResources().getDimensionPixelSize(
+				R.dimen.grid_margin_x);
+		mGridMarginY = getResources().getDimensionPixelSize(
+				R.dimen.grid_margin_y);
 
 		mScrollPixels = (int) dpToPx(SCROLL_DP);
 
 		if (savedInstanceState != null) {
 			mIsEdited = savedInstanceState.getBoolean(SAVE_EDITED);
+			mTargetInts = (ArrayList<Integer>) savedInstanceState
+					.getIntegerArrayList(SAVE_TARGETS);
 		}
 
 	}
@@ -452,13 +623,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean(SAVE_EDITED, mIsEdited);
+		outState.putIntegerArrayList(SAVE_TARGETS, mTargetInts);
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.edit_remote, menu);
+		inflater.inflate(R.menu.edit, menu);
 		mMenuSave = menu.findItem(R.id.menu_edit_save);
 		mMenuSave.setVisible(mIsEdited);
 		mSnapToGrid = menu.findItem(R.id.menu_edit_snap).isChecked();
@@ -470,6 +642,10 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+		// We're now entering action mode clicking a button
+		// case R.id.menu_edit_multi:
+		// enterActionMode();
+		// break;
 		case R.id.menu_edit_add_button:
 			requestNewButton();
 			break;
@@ -528,42 +704,94 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		return (int) what;
 	}
 
-	// @Override
-	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	// Bundle savedInstanceState) {
-	// super.onCreateView(inflater, container, savedInstanceState);
-	// if (mRemote == null) {
-	// return new View(getActivity());
-	// }
-	//
-	// mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
-	// container, false);
-	//
-	// mContainer = (RelativeLayout) mScroll.findViewById(R.id.container);
-	//
-	// mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
-	// for (Button b : mRemote.buttons) {
-	// ButtonView bv = new ButtonView(getActivity());
-	// RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-	// (int) b.w, (int) b.h);
-	// // bv.setX(b.x);
-	// // bv.setY(b.y);
-	// lp.topMargin = (int) b.y;
-	// lp.leftMargin = (int) b.x;
-	// bv.setLayoutParams(lp);
-	// bv.setButton(b);
-	// bv.setOnTouchListener(this);
-	// mButtons.add(bv);
-	// mContainer.addView(bv);
-	// }
-	//
-	// mScroll.setOnDragListener(this);
-	//
-	// return mScroll;
-	// }
-
 	private float dpToPx(float dp) {
 		return dp * getActivity().getResources().getDisplayMetrics().density;
+	}
+
+	private float pxToDp(float px) {
+		return px / getActivity().getResources().getDisplayMetrics().density;
+	}
+
+	/* ACTION MODE */
+
+	private boolean isInActionMode() {
+		return mActionMode != null;
+	}
+
+	private ActionMode mActionMode;
+
+	private void enterActionMode() {
+		if (mActionMode == null) {
+			mTargetInts.clear();
+			getActivity().startActionMode(this);
+		}
+	}
+
+	private void exitActionMode() {
+		if (mActionMode != null)
+			mActionMode.finish();
+	}
+
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_edit_cab_edit:
+			showEditDialog();
+			return true;
+		case R.id.menu_edit_cab_sel_all:
+			setAllSelected(true);
+			return true;
+		case R.id.menu_edit_cab_sel_none:
+			setAllSelected(false);
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	private void setAllSelected(boolean select) {
+		mSelectAll.setVisible(!select);
+		mSelectNone.setVisible(select);
+
+		if (select) {
+			for (ButtonView bv : mButtons) {
+				addTarget(bv);
+			}
+		} else {
+			for (ButtonView bv : mButtons) {
+				removeTarget(bv);
+			}
+		}
+		updateButtonCount();
+	}
+
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		mActionMode = mode;
+		MenuInflater inflater = mode.getMenuInflater();
+		inflater.inflate(R.menu.edit_cab, menu);
+		return true;
+	}
+
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+		for (ButtonView bv : getTargets()) {
+			bv.setPressLock(false);
+			bv.setPressed(false);
+		}
+		mActionMode = null;
+		mSelectAll = null;
+		mSelectNone = null;
+	}
+
+	private MenuItem mSelectAll;
+	private MenuItem mSelectNone;
+
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		mSelectAll = menu.findItem(R.id.menu_edit_cab_sel_all);
+		mSelectNone = menu.findItem(R.id.menu_edit_cab_sel_none);
+		return false;
 	}
 
 }

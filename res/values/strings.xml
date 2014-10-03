@@ -209,7 +209,7 @@
     <string name="edit_helpdlg_msg">Long press on a button to drag and drop.\n\nShort press on a button to see more options.\n\nWhen you\'re done, click the save button at the top.\n\nIf you don\'t like your changes, just click back to discard them.</string>
     <string name="save_button_dlgtit">Save button</string>
     <string name="save_button_dlgmsg">Test your button and touch OK if it works</string>
-    <string name="edit_button_code_updated">IR Code of \"%s\" changed</string>
+    <string name="edit_button_code_updated">Code changed</string>
     <!--  -->
 
 
@@ -217,9 +217,10 @@
     <string name="edit_button_title">Edit Button</string>
     <string name="edit_option_text">Text</string>
     <string name="edit_option_size">Size</string>
-    <string name="edit_option_remove">Remove Button</string>
-    <string name="edit_option_icon">Change Icon</string>
-    <string name="edit_option_color">Color</string>
+    <string name="edit_option_remove">Remove</string>
+    <string name="edit_option_icon">Icon</string>
+    <string name="edit_option_color">Background Color</string>
+    <string name="edit_option_corners">Corners</string>
     <string name="edit_option_code">IR Code</string>
     <string name="sizepicker_width">Width</string>
     <string name="sizepicker_height">Height</string>
@@ -250,5 +251,23 @@
     <string name="color_brown">Brown</string>
     <string name="color_grey">Grey</string>
     <string name="color_blue_grey">Blue Grey</string>
+
+    <!--  -->
+    <string name="menu_edit_multi">Multi Edit</string>
+    <string name="menu_edit_cab_edit">Edit</string>
+    <string name="menu_edit_cab_sel_all">ALL</string>
+    <string name="menu_edit_cab_sel_none">NONE</string>
+    <!--  -->
+    <plurals name="selected">
+        <item quantity="other">%d selected</item>
+    </plurals>
+
+    <string name="edit_corners_c">Radius</string>
+    <string name="edit_corners_tl">Top Left</string>
+    <string name="edit_corners_tr">Top Right</string>
+    <string name="edit_corners_bl">Bottom Left</string>
+    <string name="edit_corners_br">Bottom Right</string>
+    <string name="edit_corners_advanced">Advanced</string>
+    <string name="edit_corners_dlgtit">Corner Radius</string>
 
 </resources>

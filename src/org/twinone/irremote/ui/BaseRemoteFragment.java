@@ -27,13 +27,14 @@ import android.widget.ScrollView;
  * @author twinone
  * 
  */
-public abstract class BaseRemoteFragment extends Fragment implements
-		Transmitter.OnTransmitListener {
+public abstract class BaseRemoteFragment extends Fragment {
 
 	protected static final String TAG = "RemoteFragment";
 	private static final String SAVE_REMOTE = "save_remote";
 
-	protected Remote mRemote;
+	protected Handler mHandler = new Handler();
+
+	private Remote mRemote;
 	private Transmitter mTransmitter;
 	protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
 	// protected ComponentUtils mComponentUtils;
@@ -74,9 +75,6 @@ public abstract class BaseRemoteFragment extends Fragment implements
 					.getSerializable(ARG_REMOTE_NAME));
 		}
 		mTransmitter = Transmitter.getInstance(getActivity());
-		if (mTransmitter != null) {
-			mTransmitter.setListener(this);
-		}
 		// mComponentUtils = new ComponentUtils(getActivity());
 
 	}
@@ -150,41 +148,6 @@ public abstract class BaseRemoteFragment extends Fragment implements
 
 	public Remote getRemote() {
 		return mRemote;
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		mMenuIcon = menu.findItem(R.id.menu_transmit_feedback);
-
-	}
-
-	private MenuItem mMenuIcon;
-	private static final int MINIMUM_SHOW_TIME = 100; // ms
-	protected Handler mHandler = new Handler();
-	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
-
-	private class HideFeedbackRunnable implements Runnable {
-		@Override
-		public void run() {
-			if (mMenuIcon != null)
-				mMenuIcon.setVisible(false);
-		}
-	}
-
-	@Override
-	public void onBeforeTransmit() {
-		if (mHandler != null && mHideFeedbackRunnable != null) {
-			mHandler.removeCallbacks(mHideFeedbackRunnable);
-		}
-		if (mMenuIcon != null) {
-			mMenuIcon.setVisible(true);
-		}
-	}
-
-	@Override
-	public void onAfterTransmit() {
-		mHandler.postDelayed(mHideFeedbackRunnable, MINIMUM_SHOW_TIME);
 	}
 
 	@Override

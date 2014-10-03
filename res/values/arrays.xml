@@ -41,6 +41,7 @@
         <item>@string/edit_option_size</item>
         <item>@string/edit_option_icon</item>
         <item>@string/edit_option_color</item>
+        <item>@string/edit_option_corners</item>
         <item>@string/edit_option_code</item>
         <item>@string/edit_option_remove</item>
     </string-array>

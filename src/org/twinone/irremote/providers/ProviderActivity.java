@@ -106,7 +106,8 @@ public class ProviderActivity extends Activity {
 		final ButtonView bv = (ButtonView) v
 				.findViewById(R.id.dialog_save_button_button);
 		bv.setButton(result);
-		bv.setOnTouchListener(new TransmitOnTouchListener(getTransmitter()));
+		if (getTransmitter() != null)
+			bv.setOnTouchListener(new TransmitOnTouchListener(getTransmitter()));
 
 		final AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle(R.string.save_button_dlgtit);

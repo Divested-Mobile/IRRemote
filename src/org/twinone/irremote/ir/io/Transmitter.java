@@ -3,7 +3,9 @@ package org.twinone.irremote.ir.io;
 import org.twinone.irremote.ir.Signal;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 public abstract class Transmitter {
 	private final Context mContext;
@@ -12,8 +14,32 @@ public abstract class Transmitter {
 		return mContext;
 	}
 
+	private LooperThread mThread;
+	protected Handler mHandler;
+
+	private class LooperThread extends Thread {
+
+		public void run() {
+			Looper.prepare();
+
+			mHandler = new Handler(new Handler.Callback() {
+
+				@Override
+				public boolean handleMessage(Message msg) {
+
+					return false;
+				}
+			});
+
+			Looper.loop();
+		}
+	}
+
 	protected Transmitter(Context context) {
 		mContext = context;
+
+		mThread = new LooperThread();
+		mThread.start();
 	}
 
 	/**
@@ -76,6 +102,8 @@ public abstract class Transmitter {
 	 */
 	public abstract void stopTransmitting(boolean atLeastOnce);
 
+	public abstract boolean hasTransmittedOnce();
+
 	public void setListener(OnTransmitListener listener) {
 		mListener = listener;
 	}
@@ -101,5 +129,15 @@ public abstract class Transmitter {
 	public abstract void resume();
 
 	public abstract void cancel();
+
+	private boolean mTransmitting;
+
+	public boolean isTransmitting() {
+		return mTransmitting;
+	}
+
+	protected void setTransmitting(boolean transmitting) {
+		mTransmitting = transmitting;
+	}
 
 }

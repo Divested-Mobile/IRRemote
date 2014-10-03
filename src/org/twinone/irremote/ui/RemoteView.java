@@ -36,4 +36,14 @@ public class RemoteView extends RelativeLayout {
 		super(context, attrs, defStyle);
 	}
 
+	/**
+	 * Returns the ButtonView for a specific UID
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ButtonView findButtonViewById(int uid) {
+		return (ButtonView) findViewById(uid);
+	}
+
 }

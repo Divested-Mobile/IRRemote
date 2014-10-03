@@ -98,15 +98,10 @@ public class Button implements Serializable {
 	public static final int ID_TEMP_DOWN = 60;
 
 	// backgrounds...
-	
-//	"red", "pink", "purple",
-//	"deep_purple", "indigo", "blue", "light_blue", "cyan", "teal",
-//	"green", "light_green", "lime", "yellow", "amber", "orange",
-//	"deep_orange", "brown", "grey", "blue_grey"
 
 	public static final int BG_SOLID = 1;
 	public static final int BG_TRANSPARENT = 2;
-	
+
 	public static final int BG_RED = 3;
 	public static final int BG_PINK = 4;
 	public static final int BG_PURPLE = 5;
@@ -126,7 +121,6 @@ public class Button implements Serializable {
 	public static final int BG_BROWN = 19;
 	public static final int BG_GREY = 20;
 	public static final int BG_BLUE_GREY = 21;
-
 
 	/** Used to identify the purpose of a button */
 	public int id;
@@ -158,24 +152,30 @@ public class Button implements Serializable {
 
 	// corner radius in px
 
-	public int rtl;
-	public int rbl;
-	public int rtr;
-	public int rbr;
+	public float rtl;
+	public float rbl;
+	public float rtr;
+	public float rbr;
 
 	/** Set the radius for all 4 corners */
-	public void setCornerRadius(int radius) {
+	public void setCornerRadius(float radius) {
 		rtl = rbl = rtr = rbr = radius;
 	}
 
-	public void setCornerRadii(int[] radii) {
+	public void setCornerRadii(float[] radii) {
+		// rtl = radii[0];
+		// rtr = radii[1];
+		// rbr = radii[2];
+		// rbl = radii[3];
 		rtl = radii[0];
-		rtr = radii[1];
-		rbr = radii[2];
-		rbl = radii[3];
+		rtr = radii[2];
+		rbr = radii[4];
+		rbl = radii[6];
+
 	}
 
 	public float[] getCornerRadii() {
+		// return new float[] { rtl, rtr, rbr, rbl, rtl, rtr, rbr, rbl };
 		return new float[] { rtl, rtl, rtr, rtr, rbr, rbr, rbl, rbl };
 	}
 

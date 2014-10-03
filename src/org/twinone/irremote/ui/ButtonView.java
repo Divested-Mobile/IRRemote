@@ -25,8 +25,10 @@ public class ButtonView extends CenterImageButton {
 	private org.twinone.irremote.components.Button mButton;
 
 	public void setButton(org.twinone.irremote.components.Button button) {
+		setHapticFeedbackEnabled(true);
 		mButton = button;
 		setText(mButton.text);
+		setId(mButton.uid);
 		updateIcon();
 		updateBackground();
 	}
@@ -75,6 +77,7 @@ public class ButtonView extends CenterImageButton {
 		final StateListDrawable dd = new StateListDrawable();
 		final GradientDrawable pressed = (GradientDrawable) ComponentUtils
 				.getGradientDrawable(getContext(), mButton.bg, true).mutate();
+
 		pressed.setCornerRadii(mButton.getCornerRadii());
 		dd.addState(new int[] { android.R.attr.state_pressed }, pressed);
 		final GradientDrawable def = (GradientDrawable) ComponentUtils
@@ -113,4 +116,45 @@ public class ButtonView extends CenterImageButton {
 		setBottom(getTop() + pixels);
 		super.setHeight(pixels);
 	}
+
+	/**
+	 * Set the text of the view and update the internal button's text field
+	 * 
+	 * @param text
+	 * @param applyToButton
+	 */
+	public void setText(CharSequence text, boolean applyToButton) {
+		setText(text);
+		mButton.text = (String) text;
+	}
+
+	private boolean mPressLock;
+
+	@Override
+	public void setPressed(boolean pressed) {
+		if (!mPressLock) {
+			super.setPressed(pressed);
+		}
+	}
+
+	/**
+	 * Lock or unlock pressed state<br>
+	 * When press is locked you can only change the pressed value unlocking it
+	 * first (this is useful to prevent background changes handled by the system
+	 * on clicks)
+	 * 
+	 */
+	public void setPressLock(boolean lock) {
+		mPressLock = lock;
+	}
+
+	public void setPressedIgnoringLock(boolean pressed) {
+		Log.d("TAG", "Setting Pressed Ingnoring: " + pressed);
+		super.setPressed(pressed);
+	}
+
+	public boolean getPressLock() {
+		return mPressLock;
+	}
+
 }

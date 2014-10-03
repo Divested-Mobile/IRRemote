@@ -6,7 +6,6 @@ import org.twinone.irremote.ir.SignalCorrector;
 import android.content.Context;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
-import android.os.Handler;
 import android.util.Log;
 
 public class KitKatTransmitter extends Transmitter {
@@ -14,6 +13,10 @@ public class KitKatTransmitter extends Transmitter {
 	private static final String TAG = "KitKatTransmitter";
 	private ConsumerIrManager mIrManager;
 	private SignalCorrector mSignalCorrector;
+
+	private volatile boolean mWaitingForTransmission;
+	private volatile Signal mSignal;
+	private volatile boolean mHasTransmittedOnce;
 
 	public KitKatTransmitter(Context context) {
 		super(context);
@@ -24,7 +27,6 @@ public class KitKatTransmitter extends Transmitter {
 					"Transmitter not available on this device");
 		}
 
-		mHandler = new Handler();
 		mSignalCorrector = new SignalCorrector(context);
 	}
 
@@ -46,17 +48,20 @@ public class KitKatTransmitter extends Transmitter {
 	public void startTransmitting() {
 		if (!isFrequencySupported(mSignal.frequency))
 			return;
-		if (mTransmitting)
+		if (mWaitingForTransmission)
 			stopTransmitting(false);
 
-//		mHasTransmittedOnce = false;
-		mTransmitting = true;
-//		Log.d(TAG, "Setting hasTransmitted to false");
-		mRunnable = new TransmitterRunnable();
-		mHandler.post(mRunnable);
+		// Could happen that startTransmitting is called twice with the same
+		// signal
+		mHasTransmittedOnce = false;
+
+		mWaitingForTransmission = true;
+		// Log.d(TAG, "Setting hasTransmitted to false");
+		// mRunnable = new TransmitterRunnable();
+		mHandler.post(mTransmitRunnable);
 	}
 
-	private Runnable mRunnable;
+	private Runnable mTransmitRunnable = new TransmitterRunnable();
 
 	/**
 	 * Time between the end of a transmission and the start of the next one
@@ -76,18 +81,15 @@ public class KitKatTransmitter extends Transmitter {
 		mPeriodMillis = millis;
 	}
 
-	private Handler mHandler;
-	private volatile boolean mTransmitting;
-	private Signal mSignal;
-	private volatile boolean mHasTransmittedOnce;
-
 	private class TransmitterRunnable implements Runnable {
 		@Override
 		public void run() {
 			transmitImpl(mSignal);
 			if (!mHasTransmittedOnce)
 				mHasTransmittedOnce = true;
-			if (mTransmitting) {
+
+			if (mWaitingForTransmission) {
+				Log.d(TAG, "Posting new runnable");
 				mHandler.postDelayed(this, mPeriodMillis);
 			}
 		}
@@ -96,12 +98,14 @@ public class KitKatTransmitter extends Transmitter {
 	private synchronized void transmitImpl(Signal signal) {
 		if (signal == null)
 			return;
-//		Log.d("EMER", "Transmitting!!! :D");
+		// Log.d("EMER", "Transmitting!!! :D");
 		Signal realSignal = signal.clone().fix(mSignalCorrector);
 		if (getListener() != null) {
 			getListener().onBeforeTransmit();
 		}
+		setTransmitting(true);
 		mIrManager.transmit(realSignal.frequency, realSignal.pattern);
+		setTransmitting(false);
 		if (getListener() != null) {
 			getListener().onAfterTransmit();
 		}
@@ -114,16 +118,28 @@ public class KitKatTransmitter extends Transmitter {
 	 *            once
 	 */
 	public void stopTransmitting(boolean transmitAtLeastOnce) {
-		mHandler.removeCallbacks(mRunnable);
+		if (mHandler == null)
+			Log.d(TAG, "Null handler");
+		if (mTransmitRunnable == null)
+			Log.d(TAG, "Null Runnable");
+
+		mHandler.removeCallbacks(mTransmitRunnable);
 		if (transmitAtLeastOnce && !mHasTransmittedOnce) {
 			mHandler.post(new Runnable() {
 				@Override
 				public void run() {
 					transmitImpl(mSignal);
-					mTransmitting = false;
 				}
 			});
+		} else {
+			Log.d(TAG, "mTransmitting = false");
+			mWaitingForTransmission = false;
 		}
+	}
+
+	@Override
+	public boolean hasTransmittedOnce() {
+		return mHasTransmittedOnce;
 	}
 
 	private boolean isFrequencySupported(int frequency) {
@@ -138,7 +154,7 @@ public class KitKatTransmitter extends Transmitter {
 
 	@Override
 	public void pause() {
-		mHandler.removeCallbacks(mRunnable);
+		mHandler.removeCallbacks(mTransmitRunnable);
 	}
 
 	@Override

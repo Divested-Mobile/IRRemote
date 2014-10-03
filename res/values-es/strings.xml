@@ -209,19 +209,66 @@
     <string name="edit_helpdlg_msg">Clic largo en un botón para moverlo.\n\nClic corto en un botón para editarlo.\n\nCuando terminas, pulsa el botón de guardado de arriba.\n\nSi no te gustan los cambios que has hecho, pulsa atrás para deshacerlos.</string>
     <string name="save_button_dlgtit">Guardar botón</string>
     <string name="save_button_dlgmsg">Prueba el botón y pulsa aceptar si funciona</string>
-    <string name="edit_button_code_updated">Código de \"%s\" cambiado</string>
+    <string name="edit_button_code_updated">Código cambiado</string>
     <!--  -->
 
 
     <!-- %s is the name of the button -->
-    <string name="edit_button_title">Editar - \"%s\"</string>
+    <string name="edit_button_title">Editar</string>
     <string name="edit_option_text">Texto</string>
     <string name="edit_option_size">Tamaño</string>
     <string name="edit_option_remove">Eliminar botón</string>
     <string name="edit_option_icon">Icono</string>
-    <string name="edit_option_color">Fondo</string>
+    <string name="edit_option_color">Color</string>
+    <string name="edit_option_corners">Esquinas</string>
     <string name="edit_option_code">Código infrarrojo</string>
     <string name="sizepicker_width">Anchura</string>
     <string name="sizepicker_height">Altura</string>
+
+    <!-- BEGIN 1420 -->
+    <string name="color_dlgtit">Cambiar color</string>
+    <string name="icon_dlgtit">Cambiar icono</string>
+    <string name="icon_remove">Quitar icono</string>
+    <!--  -->
+    <string name="color_solid">Opaco</string>
+    <string name="color_transparent">Transparente</string>
+    <string name="color_red">Rojo</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_purple">Morado</string>
+    <string name="color_deep_purple">Morado oscuro</string>
+    <string name="color_indigo">Añil</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_light_blue">Azul Claro</string>
+    <string name="color_cyan">Cian</string>
+    <string name="color_teal">Verde azulado</string>
+    <string name="color_green">Verde</string>
+    <string name="color_light_green">Verde claro</string>
+    <string name="color_lime">Lima</string>
+    <string name="color_yellow">Amarillo</string>
+    <string name="color_amber">Ambar</string>
+    <string name="color_orange">Naranja</string>
+    <string name="color_deep_orange">Naranja Oscuro</string>
+    <string name="color_brown">Marrón</string>
+    <string name="color_grey">Gris</string>
+    <string name="color_blue_grey">Gris Azulado</string>
+
+    <!--  -->
+    <string name="menu_edit_multi">Editar varios</string>
+    <string name="menu_edit_cab_edit">Editar</string>
+    <string name="menu_edit_cab_sel_all">TODO</string>
+    <string name="menu_edit_cab_sel_none">NADA</string>
+    <!--  -->
+    <plurals name="selected">
+        <item quantity="one">1 seleccionado</item>
+        <item quantity="other">%d seleccionados</item>
+    </plurals>
+
+    <string name="edit_corners_c">Radio</string>
+    <string name="edit_corners_tl">Arriba Izquierda</string>
+    <string name="edit_corners_tr">Arriba Derecha</string>
+    <string name="edit_corners_bl">Abajo Izquierda</string>
+    <string name="edit_corners_br">Abajo Derecha</string>
+    <string name="edit_corners_advanced">Avanzado</string>
+    <string name="edit_corners_dlgtit">Radio Esquinas</string>
 
 </resources>
