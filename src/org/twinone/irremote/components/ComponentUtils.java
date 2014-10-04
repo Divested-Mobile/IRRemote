@@ -12,11 +12,10 @@ public class ComponentUtils {
 	public static final int[] ICON_IDS = new int[] { Button.ID_POWER,
 			Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_MUTE,
 			Button.ID_MENU, Button.ID_NAV_DOWN, Button.ID_NAV_UP,
-			Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT, Button.ID_CH_UP,
-			Button.ID_CH_DOWN, Button.ID_INPUT, Button.ID_BACK, Button.ID_PLAY,
-			Button.ID_PAUSE, Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV,
-			Button.ID_NEXT, Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
-			Button.ID_FAN_UP };
+			Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT, Button.ID_INPUT,
+			Button.ID_BACK, Button.ID_PLAY, Button.ID_PAUSE, Button.ID_RWD,
+			Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT, Button.ID_REC,
+			Button.ID_STOP, Button.ID_FAN_DOWN, Button.ID_FAN_UP };
 
 	public static Drawable getIconDrawable(Context c, int iconId) {
 		return c.getResources().getDrawable(getIconResId(iconId));
@@ -69,15 +68,17 @@ public class ComponentUtils {
 			return R.drawable.b_fan_up;
 		case Button.ID_FAN_DOWN:
 			return R.drawable.b_fan_down;
+
+		case Button.ID_BACK:
+			return R.drawable.b_back;
 		case 0:
 			return 0;
-
 		}
 		return R.drawable.ic_launcher;
 	}
 
 	// recycle button ids...
-	public static int getCommonButtonIconFromId(int id) {
+	public static int getIconIdForCommonButton(int id) {
 		for (int i : ICON_IDS)
 			if (id == i)
 				return i;

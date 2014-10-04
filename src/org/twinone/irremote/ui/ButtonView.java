@@ -31,6 +31,13 @@ public class ButtonView extends CenterImageButton {
 		setId(mButton.uid);
 		updateIcon();
 		updateBackground();
+
+		setX(mButton.x);
+		setY(mButton.y);
+		// getLayoutParams().width = (int) mButton.w;
+		// getLayoutParams().height = (int) mButton.h;
+		// requestLayout();
+
 	}
 
 	/**

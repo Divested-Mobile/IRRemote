@@ -34,7 +34,7 @@ public abstract class BaseRemoteFragment extends Fragment {
 
 	protected Handler mHandler = new Handler();
 
-	private Remote mRemote;
+	protected Remote mRemote;
 	private Transmitter mTransmitter;
 	protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
 	// protected ComponentUtils mComponentUtils;
@@ -126,15 +126,12 @@ public abstract class BaseRemoteFragment extends Fragment {
 		mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
 		for (org.twinone.irremote.components.Button b : mRemote.buttons) {
 			ButtonView bv = new ButtonView(getActivity());
-			// // lp.topMargin = (int) b.y;
-			// // lp.leftMargin = (int) b.x;
-			// bv.setLayoutParams(lp);
 			bv.setButton(b);
 
 			mButtons.add(bv);
 			mRemoteView.addView(bv);
-			bv.setX(b.x);
-			bv.setY(b.y);
+			// bv.setX(b.x);
+			// bv.setY(b.y);
 			bv.getLayoutParams().width = (int) b.w;
 			bv.getLayoutParams().height = (int) b.h;
 			bv.requestLayout();

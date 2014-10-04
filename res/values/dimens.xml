@@ -23,7 +23,10 @@
     <dimen name="grid_size_x">16dp</dimen>
     <dimen name="grid_size_y">16dp</dimen>
     <!-- Space between two buttons -->
-    <dimen name="grid_margin_x">8dp</dimen>
-    <dimen name="grid_margin_y">8dp</dimen>
+    <dimen name="grid_spacing_x">8dp</dimen>
+    <dimen name="grid_spacing_y">8dp</dimen>
+    <!-- Minimum allowed margin in dp -->
+    <dimen name="grid_min_margin_x">@dimen/activity_horizontal_margin</dimen>
+    <dimen name="grid_min_margin_y">@dimen/activity_vertical_margin</dimen>
 
 </resources>

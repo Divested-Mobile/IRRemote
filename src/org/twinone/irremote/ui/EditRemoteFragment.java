@@ -9,10 +9,10 @@ import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.ui.dialogs.EditColorDialog;
-import org.twinone.irremote.ui.dialogs.EditCornersDialog;
-import org.twinone.irremote.ui.dialogs.EditIconDialog;
 import org.twinone.irremote.ui.dialogs.EditColorDialog.OnColorSelectedListener;
+import org.twinone.irremote.ui.dialogs.EditCornersDialog;
 import org.twinone.irremote.ui.dialogs.EditCornersDialog.OnCornersEditedListener;
+import org.twinone.irremote.ui.dialogs.EditIconDialog;
 import org.twinone.irremote.ui.dialogs.EditIconDialog.OnIconSelectedListener;
 
 import android.app.Activity;
@@ -85,8 +85,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		return mIsEdited;
 	}
 
-	private float mActivityMarginH;
-	private float mActivityMarginV;
+	private int mMarginX;
+	private int mMarginY;
 
 	private boolean mScrolling;
 	private Runnable mScrollRunnable;
@@ -165,7 +165,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 				mScroll.scrollBy(0, pixels);
 				mHandler.postDelayed(mScrollRunnable, SCROLL_DELAY);
 				if (pixels > 0) {
-					mRemoteView.getRemote().options.h += pixels;
+					mRemote.options.h += pixels;
 					mRemoteView.requestLayout();
 				}
 			}
@@ -456,15 +456,13 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	/** Add a new button to the remote without saving */
 	private void addNewButton(Button b) {
 		RemoteOrganizer ro = new RemoteOrganizer(getActivity());
-		b.id = Button.ID_NONE;
-		b.w = ro.getButtonWidth();
-		b.h = ro.getButtonHeight();
+		ro.setupNewButton(b);
 		getRemote().addButton(b);
 		refreshButtonsLayout();
 	}
 
 	private void editRemove() {
-		boolean action = isInActionMode();
+		// boolean action = isInActionMode();
 		for (ButtonView v : getTargets()) {
 			getRemote().removeButton(v.getButton());
 			removeTarget(v);
@@ -534,8 +532,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		y += mScroll.getScrollY();
 
 		if (mSnapToGrid) {
-			view.setX(round(x, mGridSizeX));
-			view.setY(round(y, mGridSizeY));
+			view.setX(round(x, mGridSizeX, mMarginX));
+			view.setY(round(y, mGridSizeY, mMarginY));
 		} else {
 			view.setX(x);
 			view.setY(y);
@@ -590,7 +588,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		// + bottomView.getY() + " translationY: "
 		// + bottomView.getTranslationY() + ", bottom: "
 		// + bottomView.getBottom());
-		int h = (int) (max + mActivityMarginV);
+		int h = (int) (max + mMarginY);
 		int w = mRemoteView.getWidth();
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
 		mRemoteView.setLayoutParams(lp);
@@ -601,17 +599,16 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mActivityMarginH = getResources().getDimensionPixelOffset(
-				R.dimen.activity_horizontal_margin);
-		mActivityMarginV = getResources().getDimensionPixelOffset(
-				R.dimen.activity_vertical_margin);
+		mMarginX = mRemote.options.marginLeft;
+		mMarginY = mRemote.options.marginTop;
+		Log.d(TAG, "Created margins: " + mMarginX + " " + mMarginY);
 
 		mGridSizeX = getResources().getDimensionPixelSize(R.dimen.grid_size_x);
 		mGridSizeY = getResources().getDimensionPixelSize(R.dimen.grid_size_y);
 		mGridMarginX = getResources().getDimensionPixelSize(
-				R.dimen.grid_margin_x);
+				R.dimen.grid_spacing_x);
 		mGridMarginY = getResources().getDimensionPixelSize(
-				R.dimen.grid_margin_y);
+				R.dimen.grid_spacing_y);
 
 		mScrollPixels = (int) dpToPx(SCROLL_DP);
 
@@ -696,15 +693,10 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		}
 	}
 
-	private int round(float what, int to) {
-		what = Math.round(what);
-		final int mod = (int) what % to;
-		if (mod >= to / 2) {
-			what += to - mod;
-		} else {
-			what -= mod;
-		}
-		return (int) what;
+	private int round(float what, int to, int offset) {
+		// http://stackoverflow.com/questions/16338162/round-to-nearest-multiple-with-offset-in-js
+		offset %= to;
+		return (Math.round((what - offset) / to) * to) + offset;
 	}
 
 	private float dpToPx(float dp) {

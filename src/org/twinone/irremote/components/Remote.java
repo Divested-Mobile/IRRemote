@@ -61,6 +61,11 @@ public class Remote implements Serializable {
 		public int w;
 
 		public int flags;
+
+		/** Top margin */
+		public int marginTop;
+		/** Left margin */
+		public int marginLeft;
 	}
 
 	/**
@@ -221,11 +226,11 @@ public class Remote implements Serializable {
 	}
 
 	/**
-	 * @return The matching button or null if no such button found
+	 * @return The matching button (by uid) or null if no such button found
 	 */
-	public Button getButton(int id) {
+	public Button getButton(int uid) {
 		for (int i = 0; i < buttons.size(); i++) {
-			if (buttons.get(i).uid == id) {
+			if (buttons.get(i).uid == uid) {
 				return buttons.get(i);
 			}
 		}
@@ -233,7 +238,7 @@ public class Remote implements Serializable {
 	}
 
 	/**
-	 * Add a button
+	 * Add a button and automatically generate it's uid
 	 * 
 	 * @param b
 	 */
