@@ -8,9 +8,12 @@ import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.ui.EditCornersDialog.OnCornersEditedListener;
-import org.twinone.irremote.ui.SelectColorDialog.OnColorSelectedListener;
-import org.twinone.irremote.ui.SelectIconDialog.OnIconSelectedListener;
+import org.twinone.irremote.ui.dialogs.EditColorDialog;
+import org.twinone.irremote.ui.dialogs.EditCornersDialog;
+import org.twinone.irremote.ui.dialogs.EditIconDialog;
+import org.twinone.irremote.ui.dialogs.EditColorDialog.OnColorSelectedListener;
+import org.twinone.irremote.ui.dialogs.EditCornersDialog.OnCornersEditedListener;
+import org.twinone.irremote.ui.dialogs.EditIconDialog.OnIconSelectedListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -287,7 +290,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
 		ab.setTitle(R.string.edit_button_title);
 		LayoutInflater li = LayoutInflater.from(getActivity());
-		View sizeView = li.inflate(R.layout.dialog_size_picker, null);
+		View sizeView = li.inflate(R.layout.edit_size_dialog, null);
 		float totalW = 0;
 		float totalH = 0;
 		for (ButtonView v : getTargets()) {
@@ -342,7 +345,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	}
 
 	private void editIcon() {
-		SelectIconDialog d = SelectIconDialog.newInstance(0);
+		EditIconDialog d = EditIconDialog.newInstance(0);
 
 		d.setListener(new OnIconSelectedListener() {
 
@@ -362,7 +365,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	}
 
 	private void editColor() {
-		SelectColorDialog d = SelectColorDialog.newInstance(0);
+		EditColorDialog d = EditColorDialog.newInstance(0);
 
 		d.setListener(new OnColorSelectedListener() {
 

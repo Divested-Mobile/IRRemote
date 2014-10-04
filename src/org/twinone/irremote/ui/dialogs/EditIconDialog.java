@@ -1,7 +1,6 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.ui.dialogs;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.ComponentUtils;
 
 import android.app.Activity;
@@ -20,13 +19,13 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-public class SelectIconDialog extends DialogFragment implements
+public class EditIconDialog extends DialogFragment implements
 		DialogInterface.OnClickListener {
 
 	private static final String ARG_ICON = "org.twinone.irremote.ui.SelectIconDialog.icon";
 
 	public static void showFor(Activity a, int color) {
-		SelectIconDialog.newInstance(color).show(a.getFragmentManager(),
+		EditIconDialog.newInstance(color).show(a.getFragmentManager(),
 				"select_color_dialog");
 	}
 
@@ -34,8 +33,8 @@ public class SelectIconDialog extends DialogFragment implements
 		show(a.getFragmentManager(), "save_remote_dialog");
 	}
 
-	public static SelectIconDialog newInstance(int color) {
-		SelectIconDialog f = new SelectIconDialog();
+	public static EditIconDialog newInstance(int color) {
+		EditIconDialog f = new EditIconDialog();
 		Bundle b = new Bundle();
 		b.putInt(ARG_ICON, color);
 		f.setArguments(b);
@@ -137,6 +136,7 @@ public class SelectIconDialog extends DialogFragment implements
 				}
 			}
 		});
+		ab.setNegativeButton(android.R.string.cancel, null);
 		ab.setTitle(R.string.icon_dlgtit);
 		return ab.create();
 		// return AnimHelper.addAnimations(ab.create());

@@ -56,7 +56,11 @@ public class ButtonView extends CenterImageButton {
 			size *= 0.6;
 			d.setBounds(new Rect(0, 0, size, size));
 			if (mButton.hasText()) {
-				setCompoundDrawables(d, null, null, null);
+				// Text adapts to size of button
+				if (mButton.w >= mButton.h)
+					setCompoundDrawables(d, null, null, null);
+				else
+					setCompoundDrawables(null, d, null, null);
 			} else {
 				setCompoundDrawableCenter(d);
 			}

@@ -1,4 +1,4 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.ui.dialogs;
 
 import java.util.ArrayList;
 
@@ -75,7 +75,7 @@ public class EditCornersDialog extends DialogFragment {
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		ViewGroup content = (ViewGroup) inflater.inflate(
-				R.layout.dialog_corners, null);
+				R.layout.edit_corners_dialog, null);
 
 		mBottomContainer = content
 				.findViewById(R.id.edit_corners_container_bottom);

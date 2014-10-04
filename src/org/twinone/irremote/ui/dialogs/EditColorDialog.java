@@ -1,4 +1,4 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.ui.dialogs;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
@@ -20,13 +20,13 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class SelectColorDialog extends DialogFragment implements
+public class EditColorDialog extends DialogFragment implements
 		DialogInterface.OnClickListener {
 
 	private static final String ARG_COLOR = "org.twinone.irremote.ui.SelectColorDialog.color";
 
 	public static void showFor(Activity a, int color) {
-		SelectColorDialog.newInstance(color).show(a.getFragmentManager(),
+		EditColorDialog.newInstance(color).show(a.getFragmentManager(),
 				"select_color_dialog");
 	}
 
@@ -34,8 +34,8 @@ public class SelectColorDialog extends DialogFragment implements
 		show(a.getFragmentManager(), "save_remote_dialog");
 	}
 
-	public static SelectColorDialog newInstance(int color) {
-		SelectColorDialog f = new SelectColorDialog();
+	public static EditColorDialog newInstance(int color) {
+		EditColorDialog f = new EditColorDialog();
 		Bundle b = new Bundle();
 		b.putInt(ARG_COLOR, color);
 		f.setArguments(b);

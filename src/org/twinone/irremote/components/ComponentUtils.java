@@ -15,7 +15,8 @@ public class ComponentUtils {
 			Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT, Button.ID_CH_UP,
 			Button.ID_CH_DOWN, Button.ID_INPUT, Button.ID_BACK, Button.ID_PLAY,
 			Button.ID_PAUSE, Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV,
-			Button.ID_NEXT, Button.ID_REC, Button.ID_STOP };
+			Button.ID_NEXT, Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
+			Button.ID_FAN_UP };
 
 	public static Drawable getIconDrawable(Context c, int iconId) {
 		return c.getResources().getDrawable(getIconResId(iconId));
@@ -63,6 +64,11 @@ public class ComponentUtils {
 			return R.drawable.b_vol_up;
 		case Button.ID_MUTE:
 			return R.drawable.b_mute;
+
+		case Button.ID_FAN_UP:
+			return R.drawable.b_fan_up;
+		case Button.ID_FAN_DOWN:
+			return R.drawable.b_fan_down;
 		case 0:
 			return 0;
 
