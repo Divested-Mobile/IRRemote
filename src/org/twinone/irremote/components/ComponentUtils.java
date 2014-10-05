@@ -10,9 +10,17 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 public class ComponentUtils {
 
 	public static final int[] ICON_IDS = new int[] { Button.ID_POWER,
-			Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_MUTE,
-			Button.ID_MENU, Button.ID_NAV_DOWN, Button.ID_NAV_UP,
-			Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT, Button.ID_INPUT,
+			Button.ID_VOL_UP,
+			Button.ID_VOL_DOWN,
+			Button.ID_MUTE,
+			Button.ID_MENU,
+			Button.ID_NAV_DOWN,
+			Button.ID_NAV_UP,
+			Button.ID_NAV_LEFT,
+			Button.ID_NAV_RIGHT,
+			// FIXME
+			// Input not supported until Iván sends the icon
+			// Button.ID_INPUT,
 			Button.ID_BACK, Button.ID_PLAY, Button.ID_PAUSE, Button.ID_RWD,
 			Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT, Button.ID_REC,
 			Button.ID_STOP, Button.ID_FAN_DOWN, Button.ID_FAN_UP };
@@ -79,6 +87,11 @@ public class ComponentUtils {
 
 	// recycle button ids...
 	public static int getIconIdForCommonButton(int id) {
+		if (id == Button.ID_CH_UP)
+			return Button.ID_NAV_UP;
+		else if (id == Button.ID_CH_DOWN)
+			return Button.ID_NAV_DOWN;
+
 		for (int i : ICON_IDS)
 			if (id == i)
 				return i;

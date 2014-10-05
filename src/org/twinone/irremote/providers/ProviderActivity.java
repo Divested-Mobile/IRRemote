@@ -12,8 +12,8 @@ import org.twinone.irremote.providers.common.CommonProviderFragment.CommonProvid
 import org.twinone.irremote.providers.globalcache.GCProviderFragment;
 import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
 import org.twinone.irremote.ui.ButtonView;
-import org.twinone.irremote.ui.SaveRemoteDialog;
-import org.twinone.irremote.ui.SaveRemoteDialog.OnRemoteSavedListener;
+import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
+import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -43,7 +43,7 @@
     <!-- gradient_indigo -->
     <array name="gradient_indigo">
         <item>@color/material_indigo_500</item>
-        <item>@color/material_indigo_700</item>
+        <item>@color/material_indigo_800</item>
     </array>
     <!-- gradient_indigo_pressed -->
     <array name="gradient_indigo_pressed">

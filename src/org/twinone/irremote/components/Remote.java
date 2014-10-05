@@ -215,8 +215,8 @@ public class Remote implements Serializable {
 	 * @return
 	 */
 	public Button getButtonById(int id) {
-		if (id == Button.ID_NONE)
-			return null;
+		// if (id == Button.ID_NONE)
+		// return null;
 		for (int i = 0; i < buttons.size(); i++) {
 			if (buttons.get(i).id == id) {
 				return buttons.get(i);

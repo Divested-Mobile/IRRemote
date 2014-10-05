@@ -1,4 +1,4 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.ui.dialogs;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
@@ -56,7 +56,7 @@ public class RenameRemoteDialog extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(
-				R.layout.dialog_edittext, null, false);
+				R.layout.edit_text_dialog, null, false);
 		mNewRemoteName = (EditText) view
 				.findViewById(R.id.dialog_edittext_input);
 		mNewRemoteName.setText(mOriginalRemoteName);

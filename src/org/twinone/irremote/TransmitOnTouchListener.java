@@ -104,8 +104,20 @@ public class TransmitOnTouchListener implements OnTouchListener {
 		return true;
 	}
 
+	private boolean mHapticFeedbackEnabled;
+
+	public void setHapticFeedbackEnabled(boolean enabled) {
+		mHapticFeedbackEnabled = enabled;
+	}
+
+	public boolean isHapticFeedbackEnabled() {
+		return mHapticFeedbackEnabled;
+	}
+
 	private void vibrateShort(View v) {
-		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		if (mHapticFeedbackEnabled) {
+			v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		}
 	}
 
 	private Runnable mDelayedRunnable = new MyDelayedRunnable();

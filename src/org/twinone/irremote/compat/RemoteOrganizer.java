@@ -8,7 +8,7 @@ import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 
 import android.content.Context;
-import android.graphics.Point;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -16,8 +16,6 @@ public class RemoteOrganizer {
 
 	private final Context mContext;
 
-	private static final int DEFAULT_BUTTON_WIDTH = 5; // blocks
-	private static final int DEFAULT_BUTTON_HEIGHT = 5; // blocks
 	private static final int DEFAULT_CORNER_RADIUS = 16; // dp
 
 	// all in px
@@ -36,6 +34,7 @@ public class RemoteOrganizer {
 	private int mBlocksPerButtonY;
 
 	private int mCols;
+	private boolean mIsTablet;
 
 	private Remote mRemote;
 	/** List of buttons that are already organized */
@@ -60,9 +59,13 @@ public class RemoteOrganizer {
 
 		WindowManager wm = (WindowManager) mContext
 				.getSystemService(Context.WINDOW_SERVICE);
-		Point p = new Point();
-		wm.getDefaultDisplay().getSize(p);
-		mDeviceWidth = p.x;
+		DisplayMetrics metrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(metrics);
+		// Point p = new Point();
+		// wm.getDefaultDisplay().getSize(p);
+		// mDeviceWidth = p.x;
+		mDeviceWidth = metrics.widthPixels;
+
 		mMarginLeft = c.getResources().getDimensionPixelSize(
 				R.dimen.grid_min_margin_x);
 		mMarginTop = c.getResources().getDimensionPixelSize(
@@ -77,8 +80,12 @@ public class RemoteOrganizer {
 		mGridSpacingY = c.getResources().getDimensionPixelSize(
 				R.dimen.grid_spacing_y);
 
-		mBlocksPerButtonX = DEFAULT_BUTTON_WIDTH;
-		mBlocksPerButtonY = DEFAULT_BUTTON_HEIGHT;
+		mBlocksPerButtonX = c.getResources().getInteger(
+				R.integer.blocks_per_button_x);
+		mBlocksPerButtonY = c.getResources().getInteger(
+				R.integer.blocks_per_button_y);
+
+		mIsTablet = c.getResources().getBoolean(R.bool.is_tablet);
 
 		int mAvailableScreenWidth = mDeviceWidth - mMarginLeft * 2
 				+ mGridSpacingX;
@@ -93,9 +100,10 @@ public class RemoteOrganizer {
 	/**
 	 * Set the margins according to how much block we're going to use
 	 */
-	private void adjustMarginToBlocks(int numBlocks) {
-		mMarginLeft = (mDeviceWidth - (mGridSizeX * numBlocks - mGridSpacingX)) / 2;
-		mAvailableBlocksX = numBlocks;
+	private void useCols(int cols) {
+		mMarginLeft = (mDeviceWidth - (mGridSizeX * cols * mBlocksPerButtonX - mGridSpacingX)) / 2;
+		mAvailableBlocksX = cols * mBlocksPerButtonX;
+		mCols = cols;
 	}
 
 	/**
@@ -196,18 +204,20 @@ public class RemoteOrganizer {
 		setupColors();
 
 		mCols = mAvailableBlocksX / mBlocksPerButtonX;
-		mCols = 4;
-		adjustMarginToBlocks(mCols * mBlocksPerButtonX);
+		// mCols = 4;
+		// Log.w("RemoteOrganizer", "Custom columns set");
 
-		Log.w("RemoteOrganizer", "Custom columns set");
 		Log.d("RemoteOrganizer", "Available: " + mCols + " cols");
 
-		if (mCols >= 5) {
+		if (mCols >= 9) {
+			useCols(9);
+			setupLayout9Cols();
+		} else if (mCols >= 5) {
+			useCols(5);
 			setupLayout5Cols();
 		} else if (mCols >= 4) {
+			useCols(4);
 			setupLayout4Cols();
-		} else if (mCols >= 3) {
-			setupLayout3Cols();
 		}
 
 		mRemote.buttons.addAll(mOrganizedButtons);
@@ -218,14 +228,6 @@ public class RemoteOrganizer {
 		mRemote.options.marginTop = mMarginTop;
 	}
 
-	private void setupLayout3Cols() {
-
-		addPowerButton(0, 0, 0, 0);
-		int navHeight = addNavWidget(0, 0, 0, 0);
-		addNumbersWidget(0, 1, 0, navHeight);
-
-	}
-
 	private void setupLayout4Cols() {
 
 		int left = 0;
@@ -234,7 +236,7 @@ public class RemoteOrganizer {
 		right += addNavWidget(0, 0, 1, 0);
 		right += addNumbersWidget(0, right, 1, 0);
 
-		left += addColumns(0, 1 + left, 0, 0, 1, Button.ID_VOL_UP,
+		left += addColumns(0, 1 + left, 0, 0, 1, false, Button.ID_VOL_UP,
 				Button.ID_VOL_DOWN, Button.ID_MUTE, Button.ID_CH_UP,
 				Button.ID_CH_DOWN, Button.ID_MENU);
 
@@ -251,13 +253,47 @@ public class RemoteOrganizer {
 		int right = 0;
 		left += addPowerButton(-(mBlocksPerButtonX / 2 + grow / 2), 0 / 2, 1, 0);
 		right += addNavWidget(0, 0, 2, 0);
-		right += addNumbersWidget(0, 1 + right, 2, 0);
+		if (mRemote.options.type == Remote.TYPE_CABLE) {
+			right += -mBlocksPerButtonX
+					+ addColumns(0, right, 2, -1, 3, false, Button.ID_REC, 0,
+							Button.ID_STOP, Button.ID_RWD, Button.ID_PLAY,
+							Button.ID_FFWD, Button.ID_PREV, Button.ID_PAUSE,
+							Button.ID_NEXT);
+		}
+		right += addNumbersWidget(0, right, 2, 0);
 
-		left += addColumns(mBlocksPerButtonX / 2, 2 + left, 0, 0, 1,
+		left += addColumns(mBlocksPerButtonX / 2, 2 + left, 0, 0, 1, false,
 				Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_MUTE,
 				Button.ID_CH_UP, Button.ID_CH_DOWN, Button.ID_MENU);
 
-		addRemaining(0, Math.max(left + 3, right + 2), 0, 0, mCols);
+		addRemaining(0, Math.max(left + 3, right + 1), 0, 0, mCols);
+	}
+
+	private void setupLayout9Cols() {
+		// Tablets
+		int grow = 2;
+		enlargePower(grow);
+
+		int left = 0;
+		int center = 0;
+		int right = 0;
+		left += addPowerButton(-(mBlocksPerButtonX / 2 + grow / 2), 0 / 2, 1, 0);
+		left += addColumns(0, 2 + left, 0, 0, 2, false, Button.ID_VOL_UP,
+				Button.ID_CH_UP, Button.ID_VOL_DOWN, Button.ID_CH_DOWN,
+				Button.ID_MUTE, Button.ID_MENU);
+
+		center += addNavWidget(mBlocksPerButtonX / 2, 0, 2, 0);
+		// Media controls
+		if (mRemote.options.type == Remote.TYPE_CABLE) {
+			center += addColumns(mBlocksPerButtonX / 2, center, 2, 0, 4, false,
+					Button.ID_RWD, Button.ID_PLAY, Button.ID_FFWD,
+					Button.ID_STOP, Button.ID_PREV, Button.ID_PAUSE,
+					Button.ID_NEXT, Button.ID_REC);
+		}
+		right += addNumbersWidget(0, 0, 6, 0);
+
+		addRemaining(0, Math.max(right + 1, Math.max(left + 3, center + 1)), 0,
+				0, mCols);
 
 	}
 
@@ -290,6 +326,17 @@ public class RemoteOrganizer {
 			setButtonCornerDp(b, 16);
 		}
 		setButtonCornerDp(findId(Button.ID_POWER), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_0), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_1), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_2), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_3), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_4), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_5), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_6), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_7), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_8), 400);
+		setButtonCornerDp(findId(Button.ID_DIGIT_9), 400);
+
 	}
 
 	private void setupColors() {
@@ -299,6 +346,7 @@ public class RemoteOrganizer {
 		}
 
 		int vols = Button.BG_ORANGE;
+		int media = Button.BG_GREY;
 		int power = Button.BG_RED;
 		int nav = Button.BG_BLUE_GREY;
 		int numbers = Button.BG_TEAL;
@@ -324,6 +372,15 @@ public class RemoteOrganizer {
 		setColor(Button.ID_DIGIT_8, numbers);
 		setColor(Button.ID_DIGIT_9, numbers);
 
+		setColor(Button.ID_REC, media);
+		setColor(Button.ID_STOP, media);
+		setColor(Button.ID_PREV, media);
+		setColor(Button.ID_NEXT, media);
+		setColor(Button.ID_FFWD, media);
+		setColor(Button.ID_RWD, media);
+		setColor(Button.ID_PLAY, media);
+		setColor(Button.ID_PAUSE, media);
+
 	}
 
 	private Button findId(int id) {
@@ -343,9 +400,12 @@ public class RemoteOrganizer {
 		x = buttonX * mBlocksPerButtonX + x;
 		y = buttonY * mBlocksPerButtonY + y;
 		final Button power = findId(Button.ID_POWER);
-		setButtonPosition(power, x, y);
-		markAsOrganized(power);
-		return (int) power.h / mGridSizeY;
+		if (power != null) {
+			setButtonPosition(power, x, y);
+			markAsOrganized(power);
+			return (int) power.h / mGridSizeY;
+		}
+		return 0;
 	}
 
 	/**
@@ -354,13 +414,13 @@ public class RemoteOrganizer {
 	 * @return The height occupied by this widget
 	 */
 	private int addNavWidget(int x, int y, int buttonX, int buttonY) {
-		return addColumns(x, y, buttonX, buttonY, 3, 0, Button.ID_NAV_UP, 0,
-				Button.ID_NAV_LEFT, Button.ID_NAV_OK, Button.ID_NAV_RIGHT, 0,
-				Button.ID_NAV_DOWN, 0);
+		return addColumns(x, y, buttonX, buttonY, 3, false, 0,
+				Button.ID_NAV_UP, 0, Button.ID_NAV_LEFT, Button.ID_NAV_OK,
+				Button.ID_NAV_RIGHT, 0, Button.ID_NAV_DOWN, 0);
 	}
 
 	private int addRemaining(int x, int y, int buttonX, int buttonY, int cols) {
-		return addColumns(x, y, buttonX, buttonY, cols, getRemainingIds());
+		return addColumns(x, y, buttonX, buttonY, cols, true, getRemainingIds());
 	}
 
 	private int[] getRemainingIds() {
@@ -372,52 +432,54 @@ public class RemoteOrganizer {
 	}
 
 	private int addNumbersWidget(int x, int y, int buttonX, int buttonY) {
-		return addColumns(x, y, buttonX, buttonY, 3, Button.ID_DIGIT_1,
+		return addColumns(x, y, buttonX, buttonY, 3, false, Button.ID_DIGIT_1,
 				Button.ID_DIGIT_2, Button.ID_DIGIT_3, Button.ID_DIGIT_4,
 				Button.ID_DIGIT_5, Button.ID_DIGIT_6, Button.ID_DIGIT_7,
 				Button.ID_DIGIT_8, Button.ID_DIGIT_9, 0, Button.ID_DIGIT_0, 0);
 	}
 
 	private int addColumns(int x, int y, int buttonX, int buttonY, int cols,
-			int... ids) {
+			boolean includeUncommon, int... ids) {
 		x = buttonX * mBlocksPerButtonX + x;
 		y = buttonY * mBlocksPerButtonY + y;
 		for (int i = 0; i < ids.length; i++) {
-			final Button b = findId(ids[i]);
-			if (b != null) {
-				setButtonPosition(b, x, y, i % cols, i / cols);
-				markAsOrganized(b);
+			if (includeUncommon || ids[i] != 0) {
+				final Button b = findId(ids[i]);
+				if (b != null) {
+					setButtonPosition(b, x, y, i % cols, i / cols);
+					markAsOrganized(b);
+				}
 			}
 		}
 		return (ids.length / cols + ids.length % cols) * mBlocksPerButtonY;
 	}
 
 	public void setupNewButton(Button b) {
-		b.w = getButtonWidth();
-		b.h = getButtonHeight();
+		b.w = getButtonWidthPixels();
+		b.h = getButtonHeightPixels();
 		b.setCornerRadius(dpToPx(DEFAULT_CORNER_RADIUS));
 		b.bg = Button.BG_GREY;
 	}
 
-	public int getButtonWidth() {
-		return getButtonWidth(DEFAULT_BUTTON_WIDTH);
+	public int getButtonWidthPixels() {
+		return getButtonWidthPixels(mBlocksPerButtonX);
 	}
 
-	public int getButtonHeight() {
-		return getButtonHeight(DEFAULT_BUTTON_HEIGHT);
+	public int getButtonHeightPixels() {
+		return getButtonHeightPixels(mBlocksPerButtonY);
 	}
 
 	/**
 	 * Get the width for the specified amount of blocks
 	 */
-	private int getButtonWidth(int blocks) {
+	private int getButtonWidthPixels(int blocks) {
 		return blocks * mGridSizeX - mGridSpacingX;
 	}
 
 	/**
 	 * Get the height for the specified amount of blocks
 	 */
-	private int getButtonHeight(int blocks) {
+	private int getButtonHeightPixels(int blocks) {
 		return blocks * mGridSizeY - mGridSpacingY;
 	}
 

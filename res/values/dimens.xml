@@ -18,7 +18,9 @@
     <dimen name="learn_button_size">200dp</dimen>
     <dimen name="learn_progress_size">208dp</dimen>
 
-    <!-- With the following values we can calculate a button's real size -->
+    <!-- Size of a button in blocks -->
+	<integer name="blocks_per_button_x">4</integer>
+	<integer name="blocks_per_button_y">4</integer>
     <!-- Size of a block in dp -->
     <dimen name="grid_size_x">16dp</dimen>
     <dimen name="grid_size_y">16dp</dimen>
@@ -26,7 +28,7 @@
     <dimen name="grid_spacing_x">8dp</dimen>
     <dimen name="grid_spacing_y">8dp</dimen>
     <!-- Minimum allowed margin in dp -->
-    <dimen name="grid_min_margin_x">@dimen/activity_horizontal_margin</dimen>
-    <dimen name="grid_min_margin_y">@dimen/activity_vertical_margin</dimen>
+    <dimen name="grid_min_margin_x">16dp</dimen>
+    <dimen name="grid_min_margin_y">16dp</dimen>
 
 </resources>

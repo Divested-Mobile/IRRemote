@@ -16,8 +16,9 @@ import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.learn.LearnProviderActivity;
-import org.twinone.irremote.ui.RenameRemoteDialog.OnRemoteRenamedListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
+import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
+import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
 import android.app.AlertDialog;
 import android.content.Context;

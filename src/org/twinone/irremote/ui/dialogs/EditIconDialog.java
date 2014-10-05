@@ -136,7 +136,7 @@ public class EditIconDialog extends DialogFragment implements
 				}
 			}
 		});
-		ab.setNegativeButton(android.R.string.cancel, null);
+		ab.setNeutralButton(android.R.string.cancel, null);
 		ab.setTitle(R.string.icon_dlgtit);
 		return ab.create();
 		// return AnimHelper.addAnimations(ab.create());

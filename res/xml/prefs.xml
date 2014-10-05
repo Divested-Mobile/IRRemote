@@ -23,11 +23,23 @@
         android:entryValues="@array/bg_values"
         android:key="@string/pref_key_bg"
         android:title="@string/pref_tit_bg" />
+    <!--
     <ListPreference
         android:defaultValue="@string/pref_def_theme"
         android:entries="@array/theme_names"
         android:entryValues="@array/theme_values"
         android:key="@string/pref_key_theme"
         android:title="@string/pref_tit_theme" />
+    -->
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_def_vibrate"
+        android:key="@string/pref_key_vibrate"
+        android:summary="@string/pref_desc_vibrate"
+        android:title="@string/pref_tit_vibrate" />
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_def_light"
+        android:key="@string/pref_key_light"
+        android:summary="@string/pref_desc_light"
+        android:title="@string/pref_tit_light" />
 
 </PreferenceScreen>

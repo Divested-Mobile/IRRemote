@@ -1,4 +1,4 @@
-package org.twinone.irremote.ui;
+package org.twinone.irremote.ui.dialogs;
 
 import java.util.Iterator;
 
@@ -55,7 +55,7 @@ public class SaveRemoteDialog extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(
-				R.layout.dialog_edittext, null, false);
+				R.layout.edit_text_dialog, null, false);
 		mRemoteName = (EditText) view.findViewById(R.id.dialog_edittext_input);
 		mRemoteName.setSelectAllOnFocus(true);
 		if (mRemote != null) {

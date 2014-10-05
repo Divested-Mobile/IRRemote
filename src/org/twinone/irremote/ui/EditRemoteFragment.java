@@ -14,6 +14,10 @@ import org.twinone.irremote.ui.dialogs.EditCornersDialog;
 import org.twinone.irremote.ui.dialogs.EditCornersDialog.OnCornersEditedListener;
 import org.twinone.irremote.ui.dialogs.EditIconDialog;
 import org.twinone.irremote.ui.dialogs.EditIconDialog.OnIconSelectedListener;
+import org.twinone.irremote.ui.dialogs.EditSizeDialog;
+import org.twinone.irremote.ui.dialogs.EditSizeDialog.OnSizeChangedListener;
+import org.twinone.irremote.ui.dialogs.EditTextDialog;
+import org.twinone.irremote.ui.dialogs.EditTextDialog.OnTextChangedListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,7 +25,6 @@ import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 import android.view.DragEvent;
@@ -35,9 +38,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
 /**
@@ -85,8 +86,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		return mIsEdited;
 	}
 
-	private int mMarginX;
-	private int mMarginY;
+	private int mMarginLeft;
+	private int mMarginTop;
 
 	private boolean mScrolling;
 	private Runnable mScrollRunnable;
@@ -261,36 +262,28 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	}
 
 	private void editText() {
-		final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setTitle(R.string.edit_button_title);
-		final EditText et = new EditText(getActivity());
+		String initialText = null;
 		if (mTargetInts.size() == 1) {
-			et.setText(getTarget(0).getButton().text);
+			initialText = getTarget(0).getButton().text;
 		}
-		et.setSelectAllOnFocus(true);
-		ab.setView(et);
-		ab.setNegativeButton(android.R.string.cancel, null);
-		ab.setPositiveButton(android.R.string.ok,
-				new DialogInterface.OnClickListener() {
+		EditTextDialog d = EditTextDialog.newInstance(initialText);
+		d.setListener(new OnTextChangedListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						final String text = (String) et.getText().toString();
-						for (ButtonView v : getTargets()) {
-							v.setText(text, true);
-						}
-						refreshButtonsLayout();
-						onEditFinished();
-					}
-				});
-		AnimHelper.showDialog(ab);
+			@Override
+			public void onTextChanged(String newText) {
+				for (ButtonView v : getTargets()) {
+					v.setText(newText, true);
+				}
+				refreshButtonsLayout();
+				onEditFinished();
+
+			}
+		});
+		d.show(getActivity());
 	}
 
 	private void editSize() {
-		final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setTitle(R.string.edit_button_title);
-		LayoutInflater li = LayoutInflater.from(getActivity());
-		View sizeView = li.inflate(R.layout.edit_size_dialog, null);
+
 		float totalW = 0;
 		float totalH = 0;
 		for (ButtonView v : getTargets()) {
@@ -301,46 +294,24 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		totalH /= mTargetInts.size();
 		final int w = (int) (totalW / mGridSizeX) + 1;
 		final int h = (int) (totalH / mGridSizeY) + 1;
+		EditSizeDialog d = EditSizeDialog.newInstance(w, h);
+		d.setListener(new OnSizeChangedListener() {
 
-		final NumberPicker npw = (NumberPicker) sizeView
-				.findViewById(R.id.sizepicker_width);
-		npw.setMaxValue(40);
-		npw.setMinValue(1);
-		npw.setValue(w);
-		final NumberPicker nph = (NumberPicker) sizeView
-				.findViewById(R.id.sizepicker_height);
-		nph.setMaxValue(40);
-		nph.setMinValue(1);
-		nph.setValue(h);
-
-		ab.setView(sizeView);
-
-		ab.setNegativeButton(android.R.string.cancel, null);
-		ab.setPositiveButton(android.R.string.ok,
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// int width = (int) v.getButton().w
-						// + (npw.getValue() - w) * mGridSizeX;
-						// int height = (int) v.getButton().h
-						// + (nph.getValue() - h) * mGridSizeY;
-
-						int width = (npw.getValue()) * mGridSizeX
-								- mGridMarginX;
-						int height = (nph.getValue()) * mGridSizeY
-								- mGridMarginY;
-						for (ButtonView v : getTargets()) {
-							v.setWidth(width);
-							v.setHeight(height);
-							v.requestLayout();
-						}
-						refreshButtonsLayout();
-						adjustRemoteLayoutHeightToButtons();
-						onEditFinished();
-					}
-				});
-		AnimHelper.showDialog(ab);
+			@Override
+			public void onSizeChanged(int blocksW, int blocksH) {
+				int width = blocksW * mGridSizeX - mGridMarginX;
+				int height = blocksH * mGridSizeY - mGridMarginY;
+				for (ButtonView v : getTargets()) {
+					v.setWidth(width);
+					v.setHeight(height);
+					v.requestLayout();
+				}
+				refreshButtonsLayout();
+				adjustRemoteLayoutHeightToButtons();
+				onEditFinished();
+			}
+		});
+		d.show(getActivity());
 
 	}
 
@@ -532,8 +503,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		y += mScroll.getScrollY();
 
 		if (mSnapToGrid) {
-			view.setX(round(x, mGridSizeX, mMarginX));
-			view.setY(round(y, mGridSizeY, mMarginY));
+			view.setX(round(x, mGridSizeX, mMarginLeft));
+			view.setY(round(y, mGridSizeY, mMarginTop));
 		} else {
 			view.setX(x);
 			view.setY(y);
@@ -542,8 +513,15 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	private void organizeButtons() {
 		new RemoteOrganizer(getActivity()).updateWithoutSaving(getRemote());
+		// We'll have to adjust the margin for the snap-to grid feature
+		setupMargins();
 		refreshButtonsLayout();
 		adjustRemoteLayoutHeightToButtons();
+	}
+
+	private void setupMargins() {
+		mMarginLeft = mRemote.options.marginLeft;
+		mMarginTop = mRemote.options.marginTop;
 	}
 
 	/**
@@ -588,7 +566,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		// + bottomView.getY() + " translationY: "
 		// + bottomView.getTranslationY() + ", bottom: "
 		// + bottomView.getBottom());
-		int h = (int) (max + mMarginY);
+		int h = (int) (max + mMarginTop);
 		int w = mRemoteView.getWidth();
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
 		mRemoteView.setLayoutParams(lp);
@@ -599,9 +577,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mMarginX = mRemote.options.marginLeft;
-		mMarginY = mRemote.options.marginTop;
-		Log.d(TAG, "Created margins: " + mMarginX + " " + mMarginY);
+		setupMargins();
 
 		mGridSizeX = getResources().getDimensionPixelSize(R.dimen.grid_size_x);
 		mGridSizeY = getResources().getDimensionPixelSize(R.dimen.grid_size_y);

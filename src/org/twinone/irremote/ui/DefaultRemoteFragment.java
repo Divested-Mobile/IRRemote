@@ -4,6 +4,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +14,12 @@ public class DefaultRemoteFragment extends BaseRemoteFragment implements
 		Transmitter.OnTransmitListener {
 
 	private TransmitOnTouchListener mOnTouchListener;
+	private MenuItem mMenuIcon;
+	private static final int MINIMUM_SHOW_TIME = 85; // ms
+	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
+	private Runnable mShowFeedbackRunnable = new ShowFeedbackRunnable();
+
+	private boolean mVisualFeedback;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,7 +27,15 @@ public class DefaultRemoteFragment extends BaseRemoteFragment implements
 		if (getTransmitter() == null) {
 			return;
 		}
+
+		SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
+		boolean vibrate = sp.getBoolean(getString(R.string.pref_key_vibrate),
+				getResources().getBoolean(R.bool.pref_def_vibrate));
+		mVisualFeedback = sp.getBoolean(getString(R.string.pref_key_light),
+				getResources().getBoolean(R.bool.pref_def_light));
+
 		mOnTouchListener = new TransmitOnTouchListener(getTransmitter());
+		mOnTouchListener.setHapticFeedbackEnabled(vibrate);
 
 		if (getTransmitter() != null) {
 			getTransmitter().setListener(this);
@@ -43,11 +58,6 @@ public class DefaultRemoteFragment extends BaseRemoteFragment implements
 
 	}
 
-	private MenuItem mMenuIcon;
-	private static final int MINIMUM_SHOW_TIME = 85; // ms
-	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
-	private Runnable mShowFeedbackRunnable = new ShowFeedbackRunnable();
-
 	private class ShowFeedbackRunnable implements Runnable {
 		@Override
 		public void run() {
@@ -66,16 +76,20 @@ public class DefaultRemoteFragment extends BaseRemoteFragment implements
 
 	@Override
 	public void onBeforeTransmit() {
-		if (!getTransmitter().isTransmitting()) {
-			mHandler.removeCallbacks(mHideFeedbackRunnable);
-			mHandler.removeCallbacks(mShowFeedbackRunnable);
-			mHandler.post(mShowFeedbackRunnable);
+		if (mVisualFeedback) {
+			if (!getTransmitter().isTransmitting()) {
+				mHandler.removeCallbacks(mHideFeedbackRunnable);
+				mHandler.removeCallbacks(mShowFeedbackRunnable);
+				mHandler.post(mShowFeedbackRunnable);
+			}
 		}
 	}
 
 	@Override
 	public void onAfterTransmit() {
-		mHandler.postDelayed(mHideFeedbackRunnable, MINIMUM_SHOW_TIME);
+		if (mVisualFeedback) {
+			mHandler.postDelayed(mHideFeedbackRunnable, MINIMUM_SHOW_TIME);
+		}
 	}
 
 }

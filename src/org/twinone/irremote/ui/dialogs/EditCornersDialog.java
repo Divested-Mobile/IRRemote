@@ -44,19 +44,10 @@ public class EditCornersDialog extends DialogFragment {
 
 	private float[] mInitialCorners;
 
-	// private int mGridSizeX;
-	// private int mGridSizeY;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mInitialCorners = getArguments().getFloatArray(ARG_CORNERS);
-
-		// mGridSizeX =
-		// getResources().getDimensionPixelSize(R.dimen.grid_size_x);
-		// mGridSizeY =
-		// getResources().getDimensionPixelSize(R.dimen.grid_size_y);
-
 	}
 
 	private ArrayList<NumberPicker> mCorners;

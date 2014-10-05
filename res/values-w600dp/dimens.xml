@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Tablets in portrait -->
+
+    <!--
+         Size of a button in blocks
+    <integer name="blocks_per_button_x">6</integer>
+    <integer name="blocks_per_button_y">6</integer>
+    Size of a block in dp
+    <dimen name="grid_size_x">16dp</dimen>
+    <dimen name="grid_size_y">16dp</dimen>
+    Space between two buttons
+    <dimen name="grid_spacing_x">10dp</dimen>
+    <dimen name="grid_spacing_y">10dp</dimen>
+    Minimum allowed margin in dp
+    <dimen name="grid_min_margin_x">16dp</dimen>
+    <dimen name="grid_min_margin_y">16dp</dimen>
+    -->
+
+
+</resources>
