@@ -35,7 +35,7 @@ public class KitKatTransmitter extends Transmitter {
 	}
 
 	public void transmit() {
-		if (!isFrequencySupported(mSignal.frequency))
+		if (!isFrequencySupported(mSignal.getFrequency()))
 			return;
 		transmitImpl(mSignal);
 	}
@@ -46,7 +46,7 @@ public class KitKatTransmitter extends Transmitter {
 	}
 
 	public void startTransmitting() {
-		if (!isFrequencySupported(mSignal.frequency))
+		if (!isFrequencySupported(mSignal.getFrequency()))
 			return;
 		if (mWaitingForTransmission)
 			stopTransmitting(false);
@@ -98,13 +98,13 @@ public class KitKatTransmitter extends Transmitter {
 	private synchronized void transmitImpl(Signal signal) {
 		if (signal == null)
 			return;
-		// Log.d("EMER", "Transmitting!!! :D");
 		Signal realSignal = signal.clone().fix(mSignalCorrector);
+
 		if (getListener() != null) {
 			getListener().onBeforeTransmit();
 		}
 		setTransmitting(true);
-		mIrManager.transmit(realSignal.frequency, realSignal.pattern);
+		mIrManager.transmit(realSignal.getFrequency(), realSignal.getPattern());
 		setTransmitting(false);
 		if (getListener() != null) {
 			getListener().onAfterTransmit();

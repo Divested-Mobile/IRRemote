@@ -71,15 +71,15 @@
     <string name="button_text_digit_9">9</string>
 
     <!--  -->
-    <string name="button_text_input">Input</string>
-    <string name="button_text_guide">Guide</string>
-    <string name="button_text_smart">Smart</string>
-    <string name="button_text_last">Last</string>
-    <string name="button_text_clear">Clear</string>
-    <string name="button_text_exit">Exit</string>
-    <string name="button_text_cc">CC</string>
-    <string name="button_text_info">Info</string>
-    <string name="button_text_sleep">Sleep</string>
+    <string name="button_text_input">src</string>
+    <string name="button_text_guide">guide</string>
+    <string name="button_text_smart">smart</string>
+    <string name="button_text_last">last</string>
+    <string name="button_text_clear">clr</string>
+    <string name="button_text_exit">exit</string>
+    <string name="button_text_cc">cc</string>
+    <string name="button_text_info">info</string>
+    <string name="button_text_sleep">slp</string>
 
     <!--  -->
     <string name="button_text_play">Play</string>
@@ -206,7 +206,7 @@
     <string name="menu_edit_help">Help</string>
     <string name="menu_edit_add_button">Add button</string>
     <string name="edit_helpdlg_tit">Help</string>
-    <string name="edit_helpdlg_msg">Long press on a button to drag and drop.\n\nShort press on a button to see more options.\n\nWhen you\'re done, click the save button at the top.\n\nIf you don\'t like your changes, just click back to discard them.</string>
+    <string name="edit_helpdlg_msg">Long press on a button to drag and drop.\n\nTap on buttons to select them, then click the edit button at the top.\n\nWhen you\'re done, click the save button at the top.\n\nIf you don\'t like your changes, just click back to discard them.</string>
     <string name="save_button_dlgtit">Save button</string>
     <string name="save_button_dlgmsg">Test your button and touch OK if it works</string>
     <string name="edit_button_code_updated">Code changed</string>

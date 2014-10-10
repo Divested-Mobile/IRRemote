@@ -117,6 +117,7 @@ public class EditColorDialog extends DialogFragment implements
 
 		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
 		ab.setView(view);
+		ab.setNegativeButton(android.R.string.cancel, null);
 
 		ab.setTitle(R.string.color_dlgtit);
 		return AnimHelper.addAnimations(ab.create());

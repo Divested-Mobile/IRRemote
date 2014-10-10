@@ -105,16 +105,16 @@ public class SignalFactory {
 		ArrayList<Long> pronto = new ArrayList<Long>();
 		pronto.add(0L);
 
-		int frequency = (int) (1000000 / (s.frequency * 0.241246));
+		int frequency = (int) (1000000 / (s.getFrequency() * 0.241246));
 		pronto.add(Long.valueOf(frequency));
 
 		// Add bps
-		int bps = s.pattern.length / 2;
+		int bps = s.getPattern().length / 2;
 		pronto.add(Long.valueOf(bps));
 		// 2nd bps = 0
 		pronto.add(0L);
 
-		for (int i : s.pattern) {
+		for (int i : s.getPattern()) {
 			pronto.add(Long.valueOf(i));
 		}
 

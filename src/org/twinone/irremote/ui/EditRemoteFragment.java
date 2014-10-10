@@ -22,8 +22,10 @@ import org.twinone.irremote.ui.dialogs.EditTextDialog.OnTextChangedListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
@@ -594,6 +596,17 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 					.getIntegerArrayList(SAVE_TARGETS);
 		}
 
+		autoHelpDialogIfNeeded();
+	}
+
+	private void autoHelpDialogIfNeeded() {
+		SharedPreferences sp = getActivity().getSharedPreferences("edit",
+				Context.MODE_PRIVATE);
+		if (!sp.contains("hide_help_at_startup")) {
+			showHelpDialog();
+			sp.edit().putBoolean("hide_help_at_startup", true).apply();
+		}
+		
 	}
 
 	@Override

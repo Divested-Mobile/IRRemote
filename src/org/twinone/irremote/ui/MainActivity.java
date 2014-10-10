@@ -7,7 +7,6 @@ import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.BuildConfig;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
@@ -43,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	private static final String TAG = "MainActivity";
 
-	public static final boolean SHOW_ADS = false;
+	public static final boolean SHOW_ADS = true;
 	public static boolean DEBUG = BuildConfig.DEBUG && true;
 
 	public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
@@ -321,8 +320,5 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onUpdate(Context c, UpdateInfo ui) {
-		if (ui.isUpdated()) {
-			new RemoteOrganizer(c).updateAndSaveAll();
-		}
 	}
 }

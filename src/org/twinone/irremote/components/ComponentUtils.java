@@ -10,20 +10,13 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 public class ComponentUtils {
 
 	public static final int[] ICON_IDS = new int[] { Button.ID_POWER,
-			Button.ID_VOL_UP,
-			Button.ID_VOL_DOWN,
-			Button.ID_MUTE,
-			Button.ID_MENU,
-			Button.ID_NAV_DOWN,
-			Button.ID_NAV_UP,
-			Button.ID_NAV_LEFT,
-			Button.ID_NAV_RIGHT,
-			// FIXME
-			// Input not supported until Iván sends the icon
-			// Button.ID_INPUT,
+			Button.ID_MUTE, Button.ID_VOL_DOWN, Button.ID_VOL_UP,
+			Button.ID_MENU, Button.ID_NAV_DOWN, Button.ID_NAV_UP,
+			Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT, Button.ID_SRC,
 			Button.ID_BACK, Button.ID_PLAY, Button.ID_PAUSE, Button.ID_RWD,
 			Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT, Button.ID_REC,
-			Button.ID_STOP, Button.ID_FAN_DOWN, Button.ID_FAN_UP };
+			Button.ID_STOP, Button.ID_FAN_DOWN, Button.ID_FAN_UP,
+			Button.ID_TEMP_DOWN, Button.ID_TEMP_UP };
 
 	public static Drawable getIconDrawable(Context c, int iconId) {
 		return c.getResources().getDrawable(getIconResId(iconId));
@@ -76,9 +69,15 @@ public class ComponentUtils {
 			return R.drawable.b_fan_up;
 		case Button.ID_FAN_DOWN:
 			return R.drawable.b_fan_down;
+		case Button.ID_TEMP_UP:
+			return R.drawable.b_temp_up;
+		case Button.ID_TEMP_DOWN:
+			return R.drawable.b_temp_down;
 
 		case Button.ID_BACK:
 			return R.drawable.b_back;
+		case Button.ID_SRC:
+			return R.drawable.b_src;
 		case 0:
 			return 0;
 		}
@@ -272,7 +271,7 @@ public class ComponentUtils {
 			return c.getString(R.string.button_text_digit_8);
 		case Button.ID_DIGIT_9:
 			return c.getString(R.string.button_text_digit_9);
-		case Button.ID_INPUT:
+		case Button.ID_SRC:
 			return c.getString(R.string.button_text_input);
 		case Button.ID_GUIDE:
 			return c.getString(R.string.button_text_guide);

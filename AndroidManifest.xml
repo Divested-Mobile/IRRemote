@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.twinone.irremote"
-    android:versionCode="1410"
-    android:versionName="1.4.1" >
+    android:versionCode="1501"
+    android:versionName="1.5.0" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -49,17 +49,19 @@
 
         <service android:name="org.twinone.irremote.TransmitterService" >
         </service>
-
+        <!--
         <receiver android:name="WidgetProviderName" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
-<!--             <meta-data
+            
+                 <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/example_appwidget_info" />
- -->        </receiver>
-
+           
+        </receiver>
+        -->
         <!-- Admob -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
