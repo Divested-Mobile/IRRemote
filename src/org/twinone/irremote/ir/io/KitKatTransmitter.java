@@ -63,24 +63,6 @@ public class KitKatTransmitter extends Transmitter {
 
 	private Runnable mTransmitRunnable = new TransmitterRunnable();
 
-	/**
-	 * Time between the end of a transmission and the start of the next one
-	 */
-	private int mPeriodMillis = 200;
-
-	/**
-	 * If the user doesn't cancel in this time, we'll start transmitting
-	 */
-
-	/**
-	 * Set how much each transmission should be away from another
-	 * 
-	 * @param millis
-	 */
-	public void setPeriodMillis(int millis) {
-		mPeriodMillis = millis;
-	}
-
 	private class TransmitterRunnable implements Runnable {
 		@Override
 		public void run() {
@@ -90,7 +72,7 @@ public class KitKatTransmitter extends Transmitter {
 
 			if (mWaitingForTransmission) {
 				Log.d(TAG, "Posting new runnable");
-				mHandler.postDelayed(this, mPeriodMillis);
+				mHandler.postDelayed(this, getPeriodMillis());
 			}
 		}
 	}

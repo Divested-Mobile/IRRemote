@@ -26,11 +26,11 @@ public class EditIconDialog extends DialogFragment implements
 
 	public static void showFor(Activity a, int color) {
 		EditIconDialog.newInstance(color).show(a.getFragmentManager(),
-				"select_color_dialog");
+				"edit_icon_dialog");
 	}
 
 	public void show(Activity a) {
-		show(a.getFragmentManager(), "save_remote_dialog");
+		show(a.getFragmentManager(), "edit_icon_dialog");
 	}
 
 	public static EditIconDialog newInstance(int color) {

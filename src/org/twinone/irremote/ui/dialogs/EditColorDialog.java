@@ -31,7 +31,7 @@ public class EditColorDialog extends DialogFragment implements
 	}
 
 	public void show(Activity a) {
-		show(a.getFragmentManager(), "save_remote_dialog");
+		show(a.getFragmentManager(), "select_color_dialog");
 	}
 
 	public static EditColorDialog newInstance(int color) {

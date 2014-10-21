@@ -24,7 +24,7 @@ public class RenameRemoteDialog extends DialogFragment implements
 
 	public static void showFor(Activity a, String remoteName) {
 		RenameRemoteDialog.newInstance(remoteName).show(a.getFragmentManager(),
-				"save_remote_dialog");
+				"rename_remote_dialog");
 	}
 
 	@Override

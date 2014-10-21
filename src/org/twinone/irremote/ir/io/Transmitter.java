@@ -1,6 +1,8 @@
 package org.twinone.irremote.ir.io;
 
+import org.twinone.irremote.R;
 import org.twinone.irremote.ir.Signal;
+import org.twinone.irremote.ui.SettingsActivity;
 
 import android.content.Context;
 import android.os.Handler;
@@ -40,6 +42,7 @@ public abstract class Transmitter {
 
 		mThread = new LooperThread();
 		mThread.start();
+		setPeriodMillisFromPrefs();
 	}
 
 	/**
@@ -110,6 +113,39 @@ public abstract class Transmitter {
 
 	protected OnTransmitListener getListener() {
 		return mListener;
+	}
+
+	/**
+	 * Time between the end of a transmission and the start of the next one
+	 */
+	private int mPeriodMillis = 200;
+
+	/**
+	 * If the user doesn't cancel in this time, we'll start transmitting
+	 */
+
+	/**
+	 * Set how much each transmission should be away from another
+	 * 
+	 * @param millis
+	 */
+	public void setPeriodMillis(int millis) {
+		mPeriodMillis = millis;
+	}
+
+	protected int getPeriodMillis() {
+		return mPeriodMillis;
+	}
+
+	/**
+	 * @return The milliseconds to wait between transmissions that the user has
+	 *         saved
+	 */
+	public void setPeriodMillisFromPrefs() {
+		int def = mContext.getResources().getInteger(R.integer.pref_def_delay);
+		int millis = SettingsActivity.getPreferences(mContext).getInt(
+				mContext.getString(R.string.pref_key_delay), def);
+		setPeriodMillis(millis);
 	}
 
 	private OnTransmitListener mListener;

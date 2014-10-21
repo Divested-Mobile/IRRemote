@@ -27,11 +27,11 @@ public class EditCornersDialog extends DialogFragment {
 
 	public static void showFor(Activity a, float[] initialCorners) {
 		EditCornersDialog.newInstance(initialCorners).show(
-				a.getFragmentManager(), "select_color_dialog");
+				a.getFragmentManager(), "edit_corners_dialog");
 	}
 
 	public void show(Activity a) {
-		show(a.getFragmentManager(), "save_remote_dialog");
+		show(a.getFragmentManager(), "edit_corners_dialog");
 	}
 
 	public static EditCornersDialog newInstance(float[] initialCorners) {

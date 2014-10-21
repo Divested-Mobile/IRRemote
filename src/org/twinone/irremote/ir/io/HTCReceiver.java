@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.htc.circontrol.CIRControl;
 import com.htc.htcircontrol.HtcIrData;
@@ -62,6 +63,8 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 
 	@Override
 	public void onReceiveComplete(HtcIrData code) {
+		Toast.makeText(mContext, "Reps: " + code.getRepeatCount(),
+				Toast.LENGTH_LONG).show();
 		Signal s = new Signal(code.getFrequency(), code.getFrame());
 		getListener().onLearn(s);
 	}

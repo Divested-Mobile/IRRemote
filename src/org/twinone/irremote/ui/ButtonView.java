@@ -11,6 +11,8 @@ import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 
 public class ButtonView extends CenterImageButton {
 
@@ -34,9 +36,8 @@ public class ButtonView extends CenterImageButton {
 
 		setX(mButton.x);
 		setY(mButton.y);
-		// getLayoutParams().width = (int) mButton.w;
-		// getLayoutParams().height = (int) mButton.h;
-		// requestLayout();
+
+		setTextSize(TypedValue.COMPLEX_UNIT_DIP, mButton.getTextSize());
 
 	}
 

@@ -23,7 +23,7 @@ public class EditSizeDialog extends DialogFragment {
 
 	public static void showFor(Activity a, int width, int height) {
 		EditSizeDialog.newInstance(width, height).show(a.getFragmentManager(),
-				"edit_text_dialog");
+				"edit_size_dialog");
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class EditSizeDialog extends DialogFragment {
 	}
 
 	public void show(Activity a) {
-		show(a.getFragmentManager(), "save_remote_dialog");
+		show(a.getFragmentManager(), "edit_size_dialog");
 	}
 
 	public static EditSizeDialog newInstance(int w, int h) {

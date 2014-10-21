@@ -144,6 +144,24 @@ public class Button implements Serializable {
 
 	public int bg;
 
+	/** Text size in dp of this button */
+	private int ts;
+
+	/**
+	 * Text size (in dp)
+	 * 
+	 * @return
+	 */
+	public int getTextSize() {
+		// default is 14
+		return ts == 0 ? 26 : ts;
+	}
+
+	/** Set the text size of this button in dp */
+	public void setTextSize(int textSize) {
+		ts = textSize;
+	}
+
 	// x, y, width, height in px
 	public float x;
 	public float y;

@@ -38,6 +38,7 @@
     </string-array>
     <string-array name="edit_button_options">
         <item>@string/edit_option_text</item>
+        <item>@string/edit_option_text_size</item>
         <item>@string/edit_option_size</item>
         <item>@string/edit_option_icon</item>
         <item>@string/edit_option_color</item>
@@ -45,29 +46,6 @@
         <item>@string/edit_option_code</item>
         <item>@string/edit_option_remove</item>
     </string-array>
-
-    <string name="color_solid">Solid</string>
-    <string name="color_transparent">Transparent</string>
-    <string name="color_red">Red</string>
-    <string name="color_pink">Pink</string>
-    <string name="color_purple">Purple</string>
-    <string name="color_deep_purple">Deep Purple</string>
-    <string name="color_indigo">Indigo</string>
-    <string name="color_blue">Blue</string>
-    <string name="color_light_blue">Light Blue</string>
-    <string name="color_cyan">Cyan</string>
-    <string name="color_teal">Teal</string>
-    <string name="color_green">Green</string>
-    <string name="color_light_green">Light Green</string>
-    <string name="color_lime">Lime</string>
-    <string name="color_yellow">Yellow</string>
-    <string name="color_amber">Amber</string>
-    <string name="color_orange">Orange</string>
-    <string name="color_deep_orange">Deep Orange</string>
-    <string name="color_brown">Brown</string>
-    <string name="color_grey">Grey</string>
-    <string name="color_blue_grey">Blue Grey</string>
-
     <string-array name="colors">
         <item>@string/color_solid</item>
         <item>@string/color_transparent</item>

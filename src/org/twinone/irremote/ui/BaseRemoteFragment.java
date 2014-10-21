@@ -75,6 +75,7 @@ public abstract class BaseRemoteFragment extends Fragment {
 					.getSerializable(ARG_REMOTE_NAME));
 		}
 		mTransmitter = Transmitter.getInstance(getActivity());
+
 		// mComponentUtils = new ComponentUtils(getActivity());
 
 	}

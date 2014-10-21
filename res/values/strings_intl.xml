@@ -10,6 +10,7 @@
     <string name="pref_key_vibrate">org.twinone.irremote.pref.vibrate</string>
     <string name="pref_key_light">org.twinone.irremote.pref.light</string>
     <string name="pref_key_theme">org.twinone.irremote.pref.theme</string>
+    <string name="pref_key_delay">org.twinone.irremote.pref.delay</string>
 
     <!-- Defaults -->
     <item name="pref_def_fix" type="bool">false</item>
@@ -18,7 +19,14 @@
     <item name="pref_def_theme" type="string">@string/pref_val_theme_sl</item>
     <item name="pref_def_vibrate" type="bool">true</item>
     <item name="pref_def_light" type="bool">true</item>
-    
+    <item name="pref_def_delay" type="integer">200</item>
+    <item name="pref_def_delay_max" type="integer">2000</item>
+    <item name="pref_def_delay_min" type="integer">45</item>
+    <!--  -->
+    <item name="def_text_size" type="integer">16</item>
+    <item name="def_max_text_size" type="integer">32</item>
+    <item name="def_min_text_size" type="integer">4</item>
+
     <!-- Values -->
     <string name="pref_val_ori_system">system</string>
     <string name="pref_val_ori_auto">auto</string>

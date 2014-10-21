@@ -216,7 +216,7 @@
     <!-- %s is the name of the button -->
     <string name="edit_button_title">Edit Button</string>
     <string name="edit_option_text">Text</string>
-    <string name="edit_option_size">Size</string>
+    <string name="edit_option_size">Button Size</string>
     <string name="edit_option_remove">Remove</string>
     <string name="edit_option_icon">Icon</string>
     <string name="edit_option_color">Background Color</string>
@@ -273,5 +273,10 @@
     <string name="pref_desc_vibrate">Vibrate when a button is pressed</string>
     <string name="pref_tit_light">Visual Indicator</string>
     <string name="pref_desc_light">Show a red visual indicator when transmitting a signal</string>
+    <string name="pref_tit_delay">Signal repeat delay</string>
+    <string name="pref_desc_delay">Time in milliseconds that the app will wait before repeating a singal when you long-press a button</string>
+    <string name="ms">%d ms</string>
+    <string name="delay_reset_default">Default</string>
+    <string name="edit_option_text_size">Text size</string>
 
 </resources>

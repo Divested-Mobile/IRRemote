@@ -2,6 +2,7 @@ package org.twinone.irremote.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.RemoteOrganizer;
@@ -18,6 +19,8 @@ import org.twinone.irremote.ui.dialogs.EditSizeDialog;
 import org.twinone.irremote.ui.dialogs.EditSizeDialog.OnSizeChangedListener;
 import org.twinone.irremote.ui.dialogs.EditTextDialog;
 import org.twinone.irremote.ui.dialogs.EditTextDialog.OnTextChangedListener;
+import org.twinone.irremote.ui.dialogs.EditTextSizeDialog;
+import org.twinone.irremote.ui.dialogs.EditTextSizeDialog.OnTextSizeChangedListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -62,12 +65,13 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	private static final int REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON = 1;
 
 	private static final int OPTION_TEXT = 0;
-	private static final int OPTION_SIZE = 1;
-	private static final int OPTION_ICON = 2;
-	private static final int OPTION_COLOR = 3;
-	private static final int OPTION_CORNERS = 4;
-	private static final int OPTION_CODE = 5;
-	private static final int OPTION_REMOVE = 6;
+	private static final int OPTION_TEXT_SIZE = 1;
+	private static final int OPTION_SIZE = 2;
+	private static final int OPTION_ICON = 3;
+	private static final int OPTION_COLOR = 4;
+	private static final int OPTION_CORNERS = 5;
+	private static final int OPTION_CODE = 6;
+	private static final int OPTION_REMOVE = 7;
 
 	private boolean mIsEdited;
 
@@ -233,6 +237,9 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			case OPTION_TEXT:
 				editText();
 				break;
+			case OPTION_TEXT_SIZE:
+				editTextSize();
+				break;
 			case OPTION_SIZE:
 				editSize();
 				break;
@@ -275,6 +282,30 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			public void onTextChanged(String newText) {
 				for (ButtonView v : getTargets()) {
 					v.setText(newText, true);
+				}
+				refreshButtonsLayout();
+				onEditFinished();
+
+			}
+		});
+		d.show(getActivity());
+	}
+
+	private void editTextSize() {
+		int size = 0;
+		final List<ButtonView> targets = getTargets();
+		for (ButtonView bv : targets) {
+			size += bv.getButton().getTextSize();
+		}
+		size /= targets.size();
+
+		EditTextSizeDialog d = EditTextSizeDialog.newInstance(size);
+		d.setListener(new OnTextSizeChangedListener() {
+
+			@Override
+			public void onTextSizeChanged(int newSize) {
+				for (ButtonView v : getTargets()) {
+					v.getButton().setTextSize(newSize);
 				}
 				refreshButtonsLayout();
 				onEditFinished();
@@ -606,7 +637,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			showHelpDialog();
 			sp.edit().putBoolean("hide_help_at_startup", true).apply();
 		}
-		
+
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class EditTextDialog extends DialogFragment {
 	}
 
 	public void show(Activity a) {
-		show(a.getFragmentManager(), "save_remote_dialog");
+		show(a.getFragmentManager(), "edit_text_dialog");
 	}
 
 	public static EditTextDialog newInstance(String buttonText) {

@@ -42,4 +42,10 @@
         android:summary="@string/pref_desc_light"
         android:title="@string/pref_tit_light" />
 
+    <org.twinone.irremote.ui.DelaySliderDialog
+        android:defaultValue="@integer/pref_def_delay"
+        android:key="@string/pref_key_delay"
+        android:summary="@string/pref_desc_delay"
+        android:title="@string/pref_tit_delay" />
+
 </PreferenceScreen>
