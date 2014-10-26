@@ -1,4 +1,4 @@
-package org.twinone.irremote;
+package org.twinone.irremote.util;
 
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;

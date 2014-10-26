@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="lib_rate_dlg_tit">Rate our app</string>
+    <string name="lib_rate_dlg_msg">Please help us improve and add new features by leaving a positive review on Google Play</string>
+    <!--  -->
+    <string name="lib_share_dlg_tit">Share this app</string>
+    <string name="lib_share_dlg_msg">If you like this app, consider helping improve it by sharing it with your friends.</string>
+    <!--  -->
+    <string name="lib_share_never">No thanks</string>
+    <string name="lib_share_later">Later</string>
+
+</resources>

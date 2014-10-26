@@ -1,7 +1,6 @@
 package org.twinone.irremote.providers;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.TransmitOnTouchListener;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
@@ -14,6 +13,7 @@ import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
 import org.twinone.irremote.ui.ButtonView;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
+import org.twinone.irremote.util.TransmitOnTouchListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,8 +1,8 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
+import org.twinone.irremote.util.TransmitOnTouchListener;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
