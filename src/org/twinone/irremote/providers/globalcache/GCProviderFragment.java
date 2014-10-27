@@ -58,7 +58,7 @@ public class GCProviderFragment extends ProviderFragment implements
 
 		setHasOptionsMenu(true);
 
-		setCurrentType(mUriData.targetType);
+		setCurrentState(mUriData.targetType);
 
 		View rootView = inflater.inflate(R.layout.fragment_listable, container,
 				false);

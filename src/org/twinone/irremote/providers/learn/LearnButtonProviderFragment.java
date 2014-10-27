@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import de.passsy.holocircularprogressbar.HoloCircularProgressBar;
 
-public class LearnButtonFragment extends BaseLearnFragment implements
+public class LearnButtonProviderFragment extends BaseLearnProviderFragment implements
 		View.OnClickListener {
 
 	private Button mLearn;

@@ -154,7 +154,7 @@ public class Button implements Serializable {
 	 */
 	public int getTextSize() {
 		// default is 14
-		return ts == 0 ? 26 : ts;
+		return ts == 0 ? 16 : ts;
 	}
 
 	/** Set the text size of this button in dp */

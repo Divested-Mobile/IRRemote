@@ -10,8 +10,8 @@ import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.ListableAdapter;
+import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.ProviderFragment;
-import org.twinone.irremote.providers.ProviderActivity.Provider;
 import org.twinone.irremote.util.FileUtils;
 
 import android.os.Bundle;
@@ -105,7 +105,7 @@ public class CommonProviderFragment extends ProviderFragment implements
 		setHasOptionsMenu(true);
 
 		// For navigation
-		setCurrentType(mTarget.targetType);
+		setCurrentState(mTarget.targetType);
 
 		ViewGroup rootView = (ViewGroup) inflater.inflate(
 				R.layout.fragment_listable, container, false);
@@ -195,8 +195,8 @@ public class CommonProviderFragment extends ProviderFragment implements
 			saveRemote();
 			break;
 		case R.id.menu_more:
-			getProvider().switchTo(Provider.GLOBALCACHE);
-
+			// TODO when Twinone DB is ready, switch to it?
+			getProvider().switchTo(ProviderActivity.PROVIDER_GLOBALCACHE);
 		}
 		return false;
 	}

@@ -14,7 +14,6 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.learn.LearnProviderActivity;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
@@ -273,7 +272,9 @@ public class MainActivity extends ActionBarActivity implements
 			// i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
 			// startActivity(i);
 
-			Intent learn = new Intent(this, LearnProviderActivity.class);
+			Intent learn = new Intent(this, ProviderActivity.class);
+			learn.putExtra(ProviderActivity.EXTRA_PROVIDER,
+					ProviderActivity.PROVIDER_LEARN);
 			learn.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
 			AnimHelper.startActivity(this, learn);
 			break;

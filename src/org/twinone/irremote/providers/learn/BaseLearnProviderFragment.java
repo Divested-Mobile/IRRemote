@@ -17,8 +17,8 @@ import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import de.passsy.holocircularprogressbar.HoloCircularProgressBar;
 
-public abstract class BaseLearnFragment extends ProviderFragment implements
-		OnLearnListener, AnimatorListener {
+public abstract class BaseLearnProviderFragment extends ProviderFragment
+		implements OnLearnListener, AnimatorListener {
 
 	private static final String TAG = "LearnFragment";
 	private static final int TIMEOUT_SECONDS = 10;
@@ -31,12 +31,28 @@ public abstract class BaseLearnFragment extends ProviderFragment implements
 
 	private State mCurrentState = State.READY;
 
+	protected void setState(State state) {
+		mCurrentState = state;
+	}
+
 	protected State getState() {
 		return mCurrentState;
 	}
 
 	protected enum State {
-		READY, LEARNING, LEARNED
+		/** Ready to start learning */
+		READY,
+		/** Currently learning, user can abort */
+		LEARNING,
+		/**
+		 * Code correctly learned, currently waiting for the user to try the
+		 * button out
+		 */
+		LEARNED,
+		/** User has tried the code out, and must now decide if it works */
+		LEARNED_TRIED,
+		/** User navigated to a button that was already saved */
+		SAVED
 	}
 
 	@Override
@@ -76,10 +92,6 @@ public abstract class BaseLearnFragment extends ProviderFragment implements
 
 	}
 
-	protected HoloCircularProgressBar getProgressBar() {
-		return mProgress;
-	}
-
 	@Override
 	public void onLearnStart() {
 	}
@@ -112,14 +124,14 @@ public abstract class BaseLearnFragment extends ProviderFragment implements
 
 		mReceiver.learn(TIMEOUT_SECONDS);
 
-		mProgress.setThumbEnabled(true);
-		mProgress.setProgress(0.0F);
-		mProgress.setProgressColor(getResources().getColor(R.color.main_red));
+		updateProgress();
+		// mProgress.setThumbEnabled(true);
+		// mProgress.setProgress(0.0F);
+		// mProgress.setProgressColor(getResources().getColor(R.color.main_red));
 		if (mAnimator.isRunning()) {
 			mAnimator.cancel();
 		}
 		mAnimator.addListener(this);
-		Log.d("", "LEarn start");
 		mAnimator.start();
 
 	}
@@ -131,9 +143,44 @@ public abstract class BaseLearnFragment extends ProviderFragment implements
 
 		mAnimator.removeAllListeners();
 		mAnimator.cancel();
-		mProgress.setThumbEnabled(false);
-		mProgress.setProgress(0.0F);
-		mProgress.setProgressColor(getResources().getColor(R.color.main_red));
+
+		updateProgress();
+		// mProgress.setThumbEnabled(false);
+		// mProgress.setProgress(0.0F);
+		// mProgress.setProgressColor(getResources().getColor(R.color.main_red));
+	}
+
+	/**
+	 * Updates the progress indicator to the current state
+	 */
+	protected void updateProgress() {
+		updateProgress(mCurrentState);
+	}
+
+	private void updateProgress(State state) {
+		switch (state) {
+		case READY:
+			mProgress.setThumbEnabled(false);
+			mProgress.setProgress(0.0F);
+			mProgress.setProgressColor(getResources()
+					.getColor(R.color.main_red));
+			break;
+		case SAVED:
+		case LEARNED_TRIED:
+		case LEARNED:
+			mProgress.setThumbEnabled(false);
+			mProgress.setProgress(1.0F);
+			mProgress.setProgressColor(getResources().getColor(
+					R.color.green_learned));
+
+			break;
+		case LEARNING:
+			mProgress.setThumbEnabled(true);
+			mProgress.setProgress(0.0F);
+			mProgress.setProgressColor(getResources()
+					.getColor(R.color.main_red));
+			break;
+		}
 	}
 
 	protected void learnConfirm(Signal s) {
@@ -142,10 +189,12 @@ public abstract class BaseLearnFragment extends ProviderFragment implements
 		mAnimator.removeAllListeners();
 		mAnimator.cancel();
 		mReceiver.cancel();
-		mProgress.setThumbEnabled(false);
-		mProgress.setProgress(1.0F);
-		mProgress.setProgressColor(getResources().getColor(
-				R.color.green_learned));
+
+		updateProgress();
+		// mProgress.setThumbEnabled(false);
+		// mProgress.setProgress(1.0F);
+		// mProgress.setProgressColor(getResources().getColor(
+		// R.color.green_learned));
 	}
 
 	@Override

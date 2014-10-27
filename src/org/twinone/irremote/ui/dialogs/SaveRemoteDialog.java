@@ -14,6 +14,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -36,6 +37,7 @@ public class SaveRemoteDialog extends DialogFragment implements
 	public static SaveRemoteDialog newInstance(Remote remote) {
 		if (remote == null)
 			throw new NullPointerException("Remote cannot be null");
+		Log.d("", "SaveDialog Name: " + remote.name);
 		SaveRemoteDialog f = new SaveRemoteDialog();
 		Bundle b = new Bundle();
 		b.putSerializable(ARG_REMOTE, remote);

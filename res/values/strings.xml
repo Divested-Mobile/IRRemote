@@ -278,5 +278,9 @@
     <string name="ms">%d ms</string>
     <string name="delay_reset_default">Default</string>
     <string name="edit_option_text_size">Text size</string>
+    <string name="learn_tit_saved">%s Saved</string>
+    <string name="learn_desc_saved">Good job! You already learned this button. To check if it works, tap the button. If it doesn\'t \"Try again\" at the bottom to learn it again.</string>
+    <string name="learn_button_forget">Forget</string>
+    <string name="learn_button_next">Next</string>
 
 </resources>

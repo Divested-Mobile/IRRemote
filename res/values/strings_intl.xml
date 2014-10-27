@@ -23,7 +23,7 @@
     <item name="pref_def_delay_max" type="integer">2000</item>
     <item name="pref_def_delay_min" type="integer">45</item>
     <!--  -->
-    <item name="def_text_size" type="integer">16</item>
+    <item name="def_text_size" type="integer">14</item>
     <item name="def_max_text_size" type="integer">32</item>
     <item name="def_min_text_size" type="integer">4</item>
 

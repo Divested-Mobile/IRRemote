@@ -32,9 +32,9 @@ public class DBConnector {
 
 	// private UriData mUriData = new UriData();
 
-	public void query(UriData data) {
+	public void query(LircProviderData data) {
 		if (data == null)
-			data = new UriData();
+			data = new LircProviderData();
 		queryServer(data);
 	}
 
@@ -49,7 +49,7 @@ public class DBConnector {
 		this.mContext = c;
 	}
 
-	private void queryServer(UriData data) {
+	private void queryServer(LircProviderData data) {
 		cancelQuery();
 		mDBTask = new DBTask(data);
 		mDBTask.execute();
@@ -62,7 +62,7 @@ public class DBConnector {
 		private String mCacheName;
 		private int mTarget;
 
-		public DBTask(UriData data) {
+		public DBTask(LircProviderData data) {
 			mUrl = data.getUrl();
 			mCacheName = data.getCacheName();
 			mTarget = data.targetType;
@@ -122,13 +122,13 @@ public class DBConnector {
 		LircListable[] data = null;
 		if (result != null) {
 			switch (target) {
-			case UriData.TYPE_MANUFACTURER:
+			case LircProviderData.TYPE_MANUFACTURER:
 				data = parseList(result);
 				break;
-			case UriData.TYPE_CODESET:
+			case LircProviderData.TYPE_CODESET:
 				data = parseList(result);
 				break;
-			case UriData.TYPE_IR_CODE:
+			case LircProviderData.TYPE_IR_CODE:
 				data = new LircParser(result.split("\n")).parse();
 				break;
 			}

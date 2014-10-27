@@ -3,6 +3,7 @@ package org.twinone.irremote.providers.lirc;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ListableAdapter;
+import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.ProviderFragment;
 
 import android.app.AlertDialog;
@@ -35,7 +36,7 @@ public class LircProviderFragment extends ProviderFragment implements
 	private boolean mCreated;
 	private AlertDialog mDialog;
 
-	private UriData mUriData;
+	private LircProviderData mUriData;
 
 	public LircProviderFragment() {
 	}
@@ -45,9 +46,9 @@ public class LircProviderFragment extends ProviderFragment implements
 		super.onCreate(savedInstanceState);
 
 		if (getArguments() != null && getArguments().containsKey(ARG_URI_DATA)) {
-			mUriData = (UriData) getArguments().getSerializable(ARG_URI_DATA);
+			mUriData = (LircProviderData) getArguments().getSerializable(ARG_URI_DATA);
 		} else {
-			mUriData = new UriData();
+			mUriData = new LircProviderData();
 		}
 	}
 
@@ -57,7 +58,7 @@ public class LircProviderFragment extends ProviderFragment implements
 
 		setHasOptionsMenu(true);
 
-		setCurrentType(mUriData.targetType);
+		setCurrentState(mUriData.targetType);
 
 		View rootView = inflater.inflate(R.layout.fragment_listable, container,
 				false);
@@ -132,15 +133,15 @@ public class LircProviderFragment extends ProviderFragment implements
 		prepareSearch(menu, inflater);
 		mSearchView.setQueryHint(getSearchHint(mUriData));
 
-		if (mUriData.targetType == UriData.TYPE_IR_CODE) {
+		if (mUriData.targetType == LircProviderData.TYPE_IR_CODE) {
 			menu.findItem(R.id.menu_db_save).setVisible(true);
 		}
 	}
 
-	private String getSearchHint(UriData data) {
-		if (data.targetType == UriData.TYPE_MANUFACTURER) {
+	private String getSearchHint(LircProviderData data) {
+		if (data.targetType == LircProviderData.TYPE_MANUFACTURER) {
 			return getString(R.string.db_search_hint_manufacturers);
-		} else if (data.targetType == UriData.TYPE_IR_CODE) {
+		} else if (data.targetType == LircProviderData.TYPE_IR_CODE) {
 			return getString(R.string.db_search_hint_buttons);
 		} else {
 			return getString(R.string.db_search_hint_custom,
@@ -208,12 +209,12 @@ public class LircProviderFragment extends ProviderFragment implements
 			long id) {
 		LircListable item = (LircListable) mListView.getAdapter().getItem(
 				position);
-		if (item.type == UriData.TYPE_IR_CODE) {
+		if (item.type == LircProviderData.TYPE_IR_CODE) {
 			getProvider().transmit(((IrCode) item).getSignal());
 		} else {
-			UriData clone = mUriData.clone();
+			LircProviderData clone = mUriData.clone();
 			select(clone, item);
-			((LircProviderActivity) getActivity()).addFragment(clone);
+			((ProviderActivity) getActivity()).addLircProviderFragment(clone);
 		}
 	}
 
@@ -230,16 +231,16 @@ public class LircProviderFragment extends ProviderFragment implements
 		return false;
 	}
 
-	private void select(UriData data, LircListable listable) {
-		data.targetType = UriData.TYPE_MANUFACTURER;
+	private void select(LircProviderData data, LircListable listable) {
+		data.targetType = LircProviderData.TYPE_MANUFACTURER;
 		if (listable != null) {
-			if (listable.type == UriData.TYPE_MANUFACTURER) {
+			if (listable.type == LircProviderData.TYPE_MANUFACTURER) {
 				data.manufacturer = listable.getDisplayName();
-				data.targetType = UriData.TYPE_CODESET;
+				data.targetType = LircProviderData.TYPE_CODESET;
 				Log.d("", "appending manufacturer: " + data.getUrl());
-			} else if (listable.type == UriData.TYPE_CODESET) {
+			} else if (listable.type == LircProviderData.TYPE_CODESET) {
 				data.codeset = listable.getDisplayName();
-				data.targetType = UriData.TYPE_IR_CODE;
+				data.targetType = LircProviderData.TYPE_IR_CODE;
 				Log.d("", "appending codeset: " + data.getUrl());
 			}
 		}

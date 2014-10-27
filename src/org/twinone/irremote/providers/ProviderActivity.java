@@ -10,6 +10,9 @@ import org.twinone.irremote.providers.common.CommonProviderFragment;
 import org.twinone.irremote.providers.common.CommonProviderFragment.CommonProviderData;
 import org.twinone.irremote.providers.globalcache.GCProviderFragment;
 import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
+import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
+import org.twinone.irremote.providers.lirc.LircProviderData;
+import org.twinone.irremote.providers.lirc.LircProviderFragment;
 import org.twinone.irremote.ui.ButtonView;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
@@ -17,11 +20,11 @@ import org.twinone.irremote.util.TransmitOnTouchListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -29,10 +32,6 @@ import android.widget.Toast;
 public class ProviderActivity extends Activity {
 
 	private String mAction;
-
-	public enum Provider {
-		GLOBALCACHE, COMMON
-	}
 
 	public String getAction() {
 		return mAction;
@@ -57,17 +56,33 @@ public class ProviderActivity extends Activity {
 	 */
 	public static final String EXTRA_RESULT_BUTTON = "org.twinone.irremote.intent.extra.result_buttons";
 
+	/**
+	 * Integer extra, specified in the launching intent. When specified, it
+	 * opens the associated fragment instead of the default
+	 * {@link CommonProviderFragment}<br>
+	 * Must be one of PROVIDER_ in this class
+	 */
+	public static final String EXTRA_PROVIDER = "org.twinone.irremote.intent.extra.provider_name";
+
+	public static final int PROVIDER_COMMON = 1;
+	public static final int PROVIDER_LIRC = 2;
+	public static final int PROVIDER_GLOBALCACHE = 3;
+	public static final int PROVIDER_TWINONE = 4;
+	public static final int PROVIDER_LEARN = 5;
+
 	private Transmitter mTransmitter;
 
-	protected int mCurrentType;
-	private int mExitType;
+	private int mInnerFragmentCurrentState;
+	private int mInnerFragmentExitState;
 
-	public void setCurrentType(int currentType) {
-		mCurrentType = currentType;
+	private int mCurrentProvider;
+
+	public void setCurrentState(int state) {
+		mInnerFragmentCurrentState = state;
 	}
 
-	public void setExitType(int exitType) {
-		mExitType = exitType;
+	public void setExitState(int state) {
+		mInnerFragmentExitState = state;
 	}
 
 	@Override
@@ -80,6 +95,9 @@ public class ProviderActivity extends Activity {
 		}
 
 		mAction = getIntent().getAction();
+		mCurrentProvider = getIntent().getIntExtra(EXTRA_PROVIDER,
+				PROVIDER_COMMON);
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		setContentView(R.layout.activity_empty);
@@ -88,11 +106,9 @@ public class ProviderActivity extends Activity {
 			if (savedInstanceState.containsKey(SAVE_TITLE)) {
 				setTitle(savedInstanceState.getString(SAVE_TITLE));
 			}
+		} else {
+			switchTo(mCurrentProvider);
 		}
-
-		// TODO: If provider is LearnProvider, we should NOT add a common
-		// fragment
-		addFragment(new CommonProviderFragment());
 	}
 
 	/**
@@ -135,6 +151,7 @@ public class ProviderActivity extends Activity {
 	 * @param r
 	 */
 	public void saveRemote(Remote remote) {
+		Log.d("", "Provider Name: " + remote.name);
 		SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
 		dialog.setListener(new OnRemoteSavedListener() {
 
@@ -152,7 +169,7 @@ public class ProviderActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		if (mCurrentType == mExitType) {
+		if (mInnerFragmentCurrentState == mInnerFragmentExitState) {
 			finish();
 		} else {
 			getFragmentManager().popBackStack();
@@ -161,7 +178,7 @@ public class ProviderActivity extends Activity {
 
 	@Override
 	public boolean onNavigateUp() {
-		if (mCurrentType == mExitType) {
+		if (mInnerFragmentCurrentState == mInnerFragmentExitState) {
 			finish();
 		} else {
 			getFragmentManager().popBackStack();
@@ -189,7 +206,8 @@ public class ProviderActivity extends Activity {
 		getTransmitter().transmit(signal);
 	}
 
-	public void addFragment(Fragment fragment) {
+	public void addFragment(ProviderFragment fragment) {
+		Log.w("ProviderActivity", "Adding fragment!");
 		getFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).addToBackStack("default")
 				.commit();
@@ -210,29 +228,35 @@ public class ProviderActivity extends Activity {
 	}
 
 	public void addCommonProviderFragment(CommonProviderData data) {
-		setExitType(CommonProviderData.TARGET_DEVICE_TYPE);
+		setExitState(CommonProviderData.TARGET_DEVICE_TYPE);
 
-		mCurrentType = data.targetType;
+		mInnerFragmentCurrentState = data.targetType;
 		CommonProviderFragment frag = new CommonProviderFragment();
 		Bundle args = new Bundle();
 		args.putSerializable(CommonProviderFragment.ARG_DATA, data);
 		frag.setArguments(args);
-		getFragmentManager().beginTransaction().replace(R.id.container, frag)
-				.addToBackStack("default").commit();
-		// Update action bar back button:
+		addFragment(frag);
 	}
 
 	public void addGCProviderFragment(GlobalCacheProviderData data) {
-		setExitType(CommonProviderData.TARGET_DEVICE_TYPE);
+		setExitState(CommonProviderData.TARGET_DEVICE_TYPE);
 
-		mCurrentType = data.targetType;
+		mInnerFragmentCurrentState = data.targetType;
 		GCProviderFragment frag = new GCProviderFragment();
 		Bundle args = new Bundle();
 		args.putSerializable(GCProviderFragment.ARG_URI_DATA, data);
 		frag.setArguments(args);
-		getFragmentManager().beginTransaction().replace(R.id.container, frag)
-				.addToBackStack("default").commit();
-		// Update action bar back button:
+		addFragment(frag);
+	}
+
+
+	public void addLircProviderFragment(LircProviderData data) {
+		mInnerFragmentCurrentState = data.targetType;
+		LircProviderFragment frag = new LircProviderFragment();
+		Bundle args = new Bundle();
+		args.putSerializable(LircProviderFragment.ARG_URI_DATA, data);
+		frag.setArguments(args);
+		addFragment(frag);
 	}
 
 	public void popAllFragments() {
@@ -244,16 +268,18 @@ public class ProviderActivity extends Activity {
 		getFragmentManager().popBackStack();
 	}
 
-	public void switchTo(Provider provider) {
+	public void switchTo(int provider) {
 		popAllFragments();
 		switch (provider) {
-		case COMMON:
-			addFragment(new CommonProviderFragment());
-			break;
-		case GLOBALCACHE:
+		case PROVIDER_GLOBALCACHE:
 			addFragment(new GCProviderFragment());
+			break;
+		case PROVIDER_LEARN:
+			addFragment(new LearnRemoteProviderFragment());
+			break;
+		default:
+			addFragment(new CommonProviderFragment());
 			break;
 		}
 	}
-
 }

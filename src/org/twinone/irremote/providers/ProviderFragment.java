@@ -28,8 +28,11 @@ public abstract class ProviderFragment extends Fragment {
 		}
 	}
 
-	protected void setCurrentType(int type) {
-		getProvider().mCurrentType = type;
+	protected void setCurrentState(int state) {
+		getProvider().setCurrentState(state);
+	}
+	protected void setExitState(int state){
+		getProvider().setExitState(state);
 	}
 
 	protected ProviderActivity getProvider() {
