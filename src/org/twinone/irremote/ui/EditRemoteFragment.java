@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 import android.view.DragEvent;
@@ -64,18 +65,18 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 	private static final int REQ_GET_NEW_BUTTON = 0;
 	private static final int REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON = 1;
 
-	private static final int OPTION_TEXT = 0;
-	private static final int OPTION_TEXT_SIZE = 1;
-	private static final int OPTION_SIZE = 2;
-	private static final int OPTION_ICON = 3;
-	private static final int OPTION_COLOR = 4;
-	private static final int OPTION_CORNERS = 5;
-	private static final int OPTION_CODE = 6;
-	private static final int OPTION_REMOVE = 7;
+	// private static final int OPTION_TEXT = 0;
+	private static final int OPTION_TEXT_SIZE = 0;
+	// private static final int OPTION_SIZE = 2;
+	private static final int OPTION_ICON = 1;
+	private static final int OPTION_COLOR = 2;
+	private static final int OPTION_CORNERS = 3;
+	private static final int OPTION_CODE = 4;
+	private static final int OPTION_REMOVE = 5;
 
 	private boolean mIsEdited;
 
-	private boolean mSnapToGrid;
+	private final boolean mSnapToGrid = true;
 
 	private static int AUTOSCROLL_PERCENTAGE = 15;
 	private static int SCROLL_DP = 3; // converts to mScrollPixels
@@ -234,14 +235,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			switch (which) {
-			case OPTION_TEXT:
-				editText();
-				break;
+			// case OPTION_TEXT:
+			// editText();
+			// break;
+			// case OPTION_SIZE:
+			// editSize();
+			// break;
 			case OPTION_TEXT_SIZE:
 				editTextSize();
-				break;
-			case OPTION_SIZE:
-				editSize();
 				break;
 			case OPTION_ICON:
 				editIcon();
@@ -358,7 +359,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 				for (ButtonView v : getTargets()) {
 					v.setIcon(iconId);
-					v.setText(null, true);
+					// v.setText(null, true);
 				}
 				refreshButtonsLayout();
 				onEditFinished();
@@ -418,7 +419,6 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			}
 		});
 		d.show(getActivity());
-
 	}
 
 	private void editCode() {
@@ -653,7 +653,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		inflater.inflate(R.menu.edit, menu);
 		mMenuSave = menu.findItem(R.id.menu_edit_save);
 		mMenuSave.setVisible(mIsEdited);
-		mSnapToGrid = menu.findItem(R.id.menu_edit_snap).isChecked();
+		// mSnapToGrid = menu.findItem(R.id.menu_edit_snap).isChecked();
 	}
 
 	private MenuItem mMenuSave;
@@ -672,10 +672,10 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		case R.id.menu_edit_organize:
 			organizeButtons();
 			break;
-		case R.id.menu_edit_snap:
-			item.setChecked(!item.isChecked());
-			mSnapToGrid = item.isChecked();
-			break;
+		// case R.id.menu_edit_snap:
+		// item.setChecked(!item.isChecked());
+		// mSnapToGrid = item.isChecked();
+		// break;
 		case R.id.menu_edit_save:
 			saveRemote();
 			break;
@@ -782,14 +782,20 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		getSupportActionBar().setVisibility(View.INVISIBLE);
 		mActionMode = mode;
 		MenuInflater inflater = mode.getMenuInflater();
 		inflater.inflate(R.menu.edit_cab, menu);
 		return true;
 	}
 
+	private Toolbar getSupportActionBar() {
+		return ((EditRemoteActivity) getActivity()).getToolbar();
+	}
+
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
+		getSupportActionBar().setVisibility(View.VISIBLE);
 		for (ButtonView bv : getTargets()) {
 			bv.setPressLock(false);
 			bv.setPressed(false);

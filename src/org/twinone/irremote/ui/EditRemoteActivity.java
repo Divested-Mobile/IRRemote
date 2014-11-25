@@ -8,8 +8,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
-public class EditRemoteActivity extends Activity {
+public class EditRemoteActivity extends ActionBarActivity {
 
 	private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.intent.extra.remote";
 
@@ -21,6 +23,11 @@ public class EditRemoteActivity extends Activity {
 
 	private EditRemoteFragment mEditFragment;
 	private String mRemoteName;
+	Toolbar mToolbar;
+
+	protected Toolbar getToolbar() {
+		return mToolbar;
+	}
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -30,10 +37,12 @@ public class EditRemoteActivity extends Activity {
 
 		setContentView(R.layout.activity_empty);
 
+		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(mToolbar);
+
 		mRemoteName = getIntent().getStringExtra(EXTRA_REMOTE_NAME);
 		setTitle(getString(R.string.edit_activity_title, mRemoteName));
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState == null) {
 			mEditFragment = new EditRemoteFragment();
@@ -42,15 +51,12 @@ public class EditRemoteActivity extends Activity {
 			mEditFragment = (EditRemoteFragment) getFragmentManager()
 					.findFragmentByTag("edit_remote");
 		}
-		// mEditFragment.showFor(this,
-		// getIntent().getStringExtra(EXTRA_REMOTE_NAME));
-
 	}
 
 	@Override
 	public void setTitle(CharSequence title) {
 		super.setTitle(title);
-		getActionBar().setTitle(title);
+		getSupportActionBar().setTitle(title);
 	}
 
 	@Override
@@ -69,6 +75,11 @@ public class EditRemoteActivity extends Activity {
 			finish();
 			return true;
 		}
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		return onNavigateUp();
 	}
 
 	@Override

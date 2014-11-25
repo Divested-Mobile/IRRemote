@@ -153,7 +153,7 @@ public class Button implements Serializable {
 	 * @return
 	 */
 	public int getTextSize() {
-		// default is 14
+		// default is 16
 		return ts == 0 ? 16 : ts;
 	}
 

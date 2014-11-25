@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.twinone.irremote"
-    android:versionCode="1501"
-    android:versionName="1.5.0" >
+    android:versionCode="1520"
+    android:versionName="1.5.2" >
 
     <uses-sdk
         android:minSdkVersion="19"
-        android:targetSdkVersion="20" />
+        android:targetSdkVersion="21" />
 
     <!-- Don't list in Google Play to people that don't have IR Blaster -->
     <uses-feature
@@ -44,6 +44,18 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="org.twinone.irremote.LaunchActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="launch"
+                    android:scheme="org.twinone.irremote" />
             </intent-filter>
         </activity>
 

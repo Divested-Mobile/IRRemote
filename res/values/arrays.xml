@@ -37,9 +37,12 @@
         <item>@string/pref_val_theme_sl</item>
     </string-array>
     <string-array name="edit_button_options">
+
+        <!--
         <item>@string/edit_option_text</item>
-        <item>@string/edit_option_text_size</item>
         <item>@string/edit_option_size</item>
+        -->
+        <item>@string/edit_option_text_size</item>
         <item>@string/edit_option_icon</item>
         <item>@string/edit_option_color</item>
         <item>@string/edit_option_corners</item>

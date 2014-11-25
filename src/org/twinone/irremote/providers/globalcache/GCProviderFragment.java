@@ -130,7 +130,7 @@ public class GCProviderFragment extends ProviderFragment implements
 		inflater.inflate(R.menu.db_menu, menu);
 
 		prepareSearch(menu, inflater);
-		mSearchView.setQueryHint(getSearchHint(mUriData));
+//		mSearchView.setQueryHint(getSearchHint(mUriData));
 
 		boolean show = mUriData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
 				&& ACTION_SAVE_REMOTE.equals(getProvider().getAction());
@@ -195,10 +195,11 @@ public class GCProviderFragment extends ProviderFragment implements
 		// SearchView is so crappy that invalidateOptionsMenu will
 		// not remove the keyboard, we have to use this "hack"
 		// The null check is because the user could presses back very quickly
-		if (mSearchView != null) {
-			mSearchView.setQuery("", false);
-			mSearchView.clearFocus();
-		}
+		
+//		if (mSearchView != null) {
+//			mSearchView.setQuery("", false);
+//			mSearchView.clearFocus();
+//		}
 
 		super.onPause();
 	}

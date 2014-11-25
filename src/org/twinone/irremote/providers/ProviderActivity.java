@@ -24,12 +24,14 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-public class ProviderActivity extends Activity {
+public class ProviderActivity extends ActionBarActivity {
 
 	private String mAction;
 
@@ -76,6 +78,11 @@ public class ProviderActivity extends Activity {
 	private int mInnerFragmentExitState;
 
 	private int mCurrentProvider;
+	private Toolbar mToolbar;
+
+	public Toolbar getToolbar() {
+		return mToolbar;
+	}
 
 	public void setCurrentState(int state) {
 		mInnerFragmentCurrentState = state;
@@ -98,9 +105,12 @@ public class ProviderActivity extends Activity {
 		mCurrentProvider = getIntent().getIntExtra(EXTRA_PROVIDER,
 				PROVIDER_COMMON);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		setContentView(R.layout.activity_empty);
+		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(mToolbar);
+		mToolbar.inflateMenu(R.menu.db_menu);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(SAVE_TITLE)) {
@@ -177,7 +187,14 @@ public class ProviderActivity extends Activity {
 	}
 
 	@Override
+	public boolean onSupportNavigateUp() {
+		return onNavigateUp();
+	}
+
+	@Override
 	public boolean onNavigateUp() {
+		Log.d("TAG", "onnavigateup");
+
 		if (mInnerFragmentCurrentState == mInnerFragmentExitState) {
 			finish();
 		} else {
@@ -192,7 +209,7 @@ public class ProviderActivity extends Activity {
 	@Override
 	public void setTitle(CharSequence title) {
 		super.setTitle(title);
-		getActionBar().setTitle(title);
+		getSupportActionBar().setTitle(title);
 		mTitle = (String) title;
 	}
 
@@ -248,7 +265,6 @@ public class ProviderActivity extends Activity {
 		frag.setArguments(args);
 		addFragment(frag);
 	}
-
 
 	public void addLircProviderFragment(LircProviderData data) {
 		mInnerFragmentCurrentState = data.targetType;

@@ -2,34 +2,28 @@
 <resources>
 
     <!-- Same as used in icon -->
-    <color name="main_red">#ff4444</color>
-    <color name="green_learned">#44ff44</color>
-    <!-- Transparent button -->
+    <item name="main_red" type="color">@color/material_red_500</item>
+    <item name="green_learned" type="color">@color/material_green_500</item>
+
     <color name="remote_button_bg_tr_default_start">#8333</color>
     <color name="remote_button_bg_tr_default_end">#8333</color>
-    <color name="remote_button_stroke_tr">#fff</color>
-    <!-- Disabled button -->
+    <color name="remote_button_stroke_tr">#fff</color> <!-- Disabled button -->
     <color name="remote_button_bg_tr_disabled_start">#333</color>
     <color name="remote_button_bg_tr_disabled_center">#333</color>
-    <color name="remote_button_bg_tr_disabled_end">#333</color>
-    <!-- Pressed button -->
+    <color name="remote_button_bg_tr_disabled_end">#333</color> <!-- Pressed button -->
     <color name="remote_button_bg_tr_pressed_start">#333</color>
     <color name="remote_button_bg_tr_pressed_center">#333</color>
     <color name="remote_button_bg_tr_pressed_end">#333</color>
-
     <!-- Solid -->
     <color name="remote_button_bg_sl_default_start">#494f52</color>
     <color name="remote_button_bg_sl_default_end">#313639</color>
-    <color name="remote_button_stroke_sl">#cc70797d</color>
-    <!-- Disabled button -->
+    <color name="remote_button_stroke_sl">#cc70797d</color> <!-- Disabled button -->
     <color name="remote_button_bg_sl_disabled_start">#333</color>
     <color name="remote_button_bg_sl_disabled_center">#333</color>
-    <color name="remote_button_bg_sl_disabled_end">#333</color>
-    <!-- Pressed button -->
+    <color name="remote_button_bg_sl_disabled_end">#333</color> <!-- Pressed button -->
     <color name="remote_button_bg_sl_pressed_start">#333</color>
     <color name="remote_button_bg_sl_pressed_center">#333</color>
     <color name="remote_button_bg_sl_pressed_end">#333</color>
-
     <!-- Background of the remote itself -->
     <color name="remote_bg_start">#222426</color>
     <color name="remote_bg_center">#222426</color>

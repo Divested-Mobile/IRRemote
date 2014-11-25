@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
 import android.util.TypedValue;
-import android.view.Gravity;
 
 public class ButtonView extends CenterImageButton {
 
@@ -29,16 +28,17 @@ public class ButtonView extends CenterImageButton {
 	public void setButton(org.twinone.irremote.components.Button button) {
 		setHapticFeedbackEnabled(true);
 		mButton = button;
-		setText(mButton.text);
-		setId(mButton.uid);
+		if (mButton.ic == 0)
+			setText(mButton.text);
+		setPadding(0, 0, 0, 0);
 		updateIcon();
+		setId(mButton.uid);
 		updateBackground();
 
 		setX(mButton.x);
 		setY(mButton.y);
 
 		setTextSize(TypedValue.COMPLEX_UNIT_DIP, mButton.getTextSize());
-
 	}
 
 	/**
@@ -63,15 +63,15 @@ public class ButtonView extends CenterImageButton {
 			int size = (int) Math.min(mButton.w, mButton.h);
 			size *= 0.6;
 			d.setBounds(new Rect(0, 0, size, size));
-			if (mButton.hasText()) {
-				// Text adapts to size of button
-				if (mButton.w >= mButton.h)
-					setCompoundDrawables(d, null, null, null);
-				else
-					setCompoundDrawables(null, d, null, null);
-			} else {
-				setCompoundDrawableCenter(d);
-			}
+			// if (mButton.hasText()) {
+			// // Text adapts to size of button
+			// if (mButton.w >= mButton.h)
+			// setCompoundDrawables(d, null, null, null);
+			// else
+			// setCompoundDrawables(null, d, null, null);
+			// } else {
+			setCompoundDrawableCenter(d);
+			// }
 
 		} catch (Exception e) {
 			Log.w("ButtonView", "Exception loading drawable: ", e);
@@ -137,7 +137,9 @@ public class ButtonView extends CenterImageButton {
 	 */
 	public void setText(CharSequence text, boolean applyToButton) {
 		setText(text);
-		mButton.text = (String) text;
+		if (applyToButton)
+			mButton.text = (String) text;
+
 	}
 
 	private boolean mPressLock;

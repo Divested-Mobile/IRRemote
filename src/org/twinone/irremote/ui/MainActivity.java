@@ -28,6 +28,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,13 +52,15 @@ public class MainActivity extends ActionBarActivity implements
 	private ImageView mBackground;
 	private ViewGroup mAdViewContainer;
 
+	Toolbar mToolbar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
 		if (!checkTransmitterAvailable() && !DEBUG) {
-			showNotAvailableDialog();
+//			showNotAvailableDialog();
 		}
 
 		new VersionManager(this, this).callFromEntryPoint();
@@ -71,10 +74,12 @@ public class MainActivity extends ActionBarActivity implements
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
-		// Orientation
 		setRequestedOrientation(getRequestedOrientation());
 
 		setContentView(R.layout.activity_main);
+		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(mToolbar);
+
 		setupNavigation();
 		setupShowAds();
 
@@ -209,7 +214,7 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public void setTitle(CharSequence title) {
 		super.setTitle(title);
-		getActionBar().setTitle(title);
+		getSupportActionBar().setTitle(title);
 	}
 
 	@Override
@@ -236,7 +241,9 @@ public class MainActivity extends ActionBarActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.remote, menu);
 		boolean hasRemote = getRemoteName() != null;
-		boolean canReceive = Receiver.isAvailable(this);
+		Log.d(TAG, "Before check");
+		boolean canReceive = Receiver.performAvailableCheck(this);
+		Log.d(TAG, "After check");
 		if (!hasRemote) {
 			setTitle(R.string.app_name);
 		}
@@ -267,10 +274,6 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case R.id.menu_action_learn:
-
-			// Intent i = new Intent(this, EditRemoteActivity.class);
-			// i.putExtra(EditRemoteActivity.EXTRA_REMOTE, getRemoteName());
-			// startActivity(i);
 
 			Intent learn = new Intent(this, ProviderActivity.class);
 			learn.putExtra(ProviderActivity.EXTRA_PROVIDER,
@@ -321,5 +324,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onUpdate(Context c, UpdateInfo ui) {
+		if (ui.isUpdated()) {
+		}
 	}
 }

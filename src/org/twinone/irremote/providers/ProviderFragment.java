@@ -4,12 +4,13 @@ import org.twinone.irremote.R;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnCloseListener;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SearchView;
-import android.widget.SearchView.OnCloseListener;
-import android.widget.SearchView.OnQueryTextListener;
 
 public abstract class ProviderFragment extends Fragment {
 
@@ -31,7 +32,8 @@ public abstract class ProviderFragment extends Fragment {
 	protected void setCurrentState(int state) {
 		getProvider().setCurrentState(state);
 	}
-	protected void setExitState(int state){
+
+	protected void setExitState(int state) {
 		getProvider().setExitState(state);
 	}
 
@@ -41,15 +43,15 @@ public abstract class ProviderFragment extends Fragment {
 
 	protected MySearchViewListener mSearchViewListener;
 	protected MenuItem mSearchMenuItem;
-	protected SearchView mSearchView;
+//	protected SearchView mSearchView;
 
 	public void prepareSearch(Menu menu, MenuInflater inflater) {
-		mSearchMenuItem = (MenuItem) menu.findItem(R.id.menu_db_search);
-		mSearchView = (SearchView) mSearchMenuItem.getActionView();
-		mSearchViewListener = new MySearchViewListener();
-		mSearchView.setOnQueryTextListener(mSearchViewListener);
-		mSearchView.setOnCloseListener(mSearchViewListener);
-
+//		mSearchMenuItem = (MenuItem) menu.findItem(R.id.menu_db_search);
+//		mSearchView = (SearchView) MenuItemCompat
+//				.getActionView(mSearchMenuItem);
+//		mSearchViewListener = new MySearchViewListener();
+//		mSearchView.setOnQueryTextListener(mSearchViewListener);
+//		mSearchView.setOnCloseListener(mSearchViewListener);
 	}
 
 	protected class MySearchViewListener implements OnQueryTextListener,

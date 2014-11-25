@@ -3,12 +3,13 @@ package org.twinone.irremote.ui;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends ActionBarActivity {
 
 	public static final String PREF_FILE_DEFAULT = "default";
 
@@ -16,15 +17,24 @@ public class SettingsActivity extends Activity {
 		return c.getSharedPreferences(PREF_FILE_DEFAULT, Context.MODE_PRIVATE);
 	}
 
+	private Toolbar mToolbar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		setContentView(R.layout.activity_empty);
+		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		getFragmentManager().beginTransaction()
 				.replace(R.id.container, new SettingsFragment()).commit();
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		return onNavigateUp();
 	}
 
 	@Override

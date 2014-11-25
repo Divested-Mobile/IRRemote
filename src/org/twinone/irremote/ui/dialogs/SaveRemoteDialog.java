@@ -87,13 +87,14 @@ public class SaveRemoteDialog extends DialogFragment implements
 			Iterator<Button> it = mRemote.buttons.iterator();
 			while (it.hasNext()) {
 				final Button b = it.next();
+				Log.d("SaveRemoteDialog", "Saving button: " + b.text);
 				if (b.code == null || b.code.isEmpty()) {
 					it.remove();
 				}
 			}
 			RemoteOrganizer ro = new RemoteOrganizer(getActivity());
 			ro.updateWithoutSaving(mRemote);
-			RemoteOrganizer.addIcons(mRemote, true);
+			RemoteOrganizer.addIcons(mRemote, false);
 
 			mRemote.save(getActivity());
 			if (mListener != null)

@@ -212,9 +212,9 @@ public class RemoteOrganizer {
 		if (mCols >= 9) {
 			useCols(9);
 			setupLayout9Cols();
-		} else if (mCols >= 5) {
-			useCols(5);
-			setupLayout5Cols();
+			// } else if (mCols >= 5) {
+			// useCols(5);
+			// setupLayout5Cols();
 		} else if (mCols >= 4) {
 			useCols(4);
 			setupLayout4Cols();
@@ -247,7 +247,7 @@ public class RemoteOrganizer {
 	private void setupLayout5Cols() {
 
 		int grow = 2;
-		enlargePower(grow);
+		// enlargePower(grow);
 
 		int left = 0;
 		int right = 0;
@@ -272,7 +272,7 @@ public class RemoteOrganizer {
 	private void setupLayout9Cols() {
 		// Tablets
 		int grow = 2;
-		enlargePower(grow);
+		// enlargePower(grow);
 
 		int left = 0;
 		int center = 0;
@@ -297,14 +297,14 @@ public class RemoteOrganizer {
 
 	}
 
-	private void enlargePower(int size) {
-		final Button power = findId(Button.ID_POWER);
-		if (power != null) {
-			Log.d("RemoteOr", "Power != null");
-			power.w += mGridSizeX * size;
-			power.h += mGridSizeY * size;
-		}
-	}
+	// private void enlargePower(int size) {
+	// final Button power = findId(Button.ID_POWER);
+	// if (power != null) {
+	// Log.d("RemoteOr", "Power != null");
+	// power.w += mGridSizeX * size;
+	// power.h += mGridSizeY * size;
+	// }
+	// }
 
 	/**
 	 * Set color by ID (NOT UID)
@@ -316,8 +316,12 @@ public class RemoteOrganizer {
 	}
 
 	private void setupSizes() {
+		int def = mContext.getResources().getDimensionPixelSize(
+				R.dimen.default_text_size);
+		def = (int) pxToDp(def);
 		for (Button b : mRemote.buttons) {
 			setButtonSize(b, mBlocksPerButtonX, mBlocksPerButtonY);
+			b.setTextSize(def);
 		}
 	}
 

@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.twinone.irremote.MainActivity" >
 
-    <item
+<!--     <item
         android:id="@+id/menu_db_search"
-        android:actionViewClass="android.widget.SearchView"
+        android:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@drawable/ic_action_search"
         android:showAsAction="always"
         android:title="@string/db_menu_search_tit"/>
-    <item
+ -->    <item
         android:id="@+id/menu_db_save"
         android:icon="@drawable/ic_action_save"
         android:showAsAction="always"

@@ -44,21 +44,21 @@
     <string name="remote_saved_toast">Remote saved</string>
 
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
-    <string name="button_text_power">Power</string>
-    <string name="button_text_power_on">On</string>
-    <string name="button_text_power_off">Off</string>
-    <string name="button_text_vol_up">Vol +</string>
-    <string name="button_text_vol_down">Vol -</string>
-    <string name="button_text_ch_up">Ch +</string>
-    <string name="button_text_ch_down">Ch -</string>
+    <string name="button_text_power">pwr</string>
+    <string name="button_text_power_on">on</string>
+    <string name="button_text_power_off">off</string>
+    <string name="button_text_vol_up">Vol+</string>
+    <string name="button_text_vol_down">Vol-</string>
+    <string name="button_text_ch_up">Ch+</string>
+    <string name="button_text_ch_down">Ch-</string>
     <string name="button_text_nav_up">U</string>
     <string name="button_text_nav_down">D</string>
     <string name="button_text_nav_left">L</string>
     <string name="button_text_nav_right">R</string>
     <string name="button_text_nav_ok">OK</string>
-    <string name="button_text_back">Back</string>
-    <string name="button_text_mute">Mute</string>
-    <string name="button_text_menu">Menu</string>
+    <string name="button_text_back">back</string>
+    <string name="button_text_mute">mute</string>
+    <string name="button_text_menu">menu</string>
     <string name="button_text_digit_0">0</string>
     <string name="button_text_digit_1">1</string>
     <string name="button_text_digit_2">2</string>
@@ -72,8 +72,8 @@
 
     <!--  -->
     <string name="button_text_input">src</string>
-    <string name="button_text_guide">guide</string>
-    <string name="button_text_smart">smart</string>
+    <string name="button_text_guide">epg</string>
+    <string name="button_text_smart">smrt</string>
     <string name="button_text_last">last</string>
     <string name="button_text_clear">clr</string>
     <string name="button_text_exit">exit</string>
@@ -82,33 +82,33 @@
     <string name="button_text_sleep">slp</string>
 
     <!--  -->
-    <string name="button_text_play">Play</string>
-    <string name="button_text_pause">Pause</string>
-    <string name="button_text_stop">Stop</string>
-    <string name="button_text_fast_forward">Fwd</string>
-    <string name="button_text_rewind">Rwd</string>
-    <string name="button_text_next">Next</string>
-    <string name="button_text_prev">Prev</string>
-    <string name="button_text_rec">Rec</string>
-    <string name="button_text_disp">Disp</string>
+    <string name="button_text_play">play</string>
+    <string name="button_text_pause">pause</string>
+    <string name="button_text_stop">stop</string>
+    <string name="button_text_fast_forward">fwd</string>
+    <string name="button_text_rewind">rwd</string>
+    <string name="button_text_next">next</string>
+    <string name="button_text_prev">prev</string>
+    <string name="button_text_rec">rec</string>
+    <string name="button_text_disp">disp</string>
     <!--  -->
-    <string name="button_text_src_cd">CD</string>
-    <string name="button_text_src_aux">AUX</string>
-    <string name="button_text_src_tape">Tape</string>
-    <string name="button_text_src_tuner">Tuner</string>
-    <string name="button_text_red">Red</string>
-    <string name="button_text_green">Green</string>
-    <string name="button_text_blue">Blue</string>
-    <string name="button_text_yellow">Yellow</string>
-    <string name="button_text_input_1">Src 1</string>
-    <string name="button_text_input_2">Src 2</string>
-    <string name="button_text_input_3">Src 3</string>
-    <string name="button_text_input_4">Src 4</string>
-    <string name="button_text_input_5">Src 5</string>
-    <string name="button_text_fan_up">Fan +</string>
-    <string name="button_text_fan_down">Fan -</string>
-    <string name="button_text_temp_up">Tmp +</string>
-    <string name="button_text_temp_down">Tmp -</string>
+    <string name="button_text_src_cd">cd</string>
+    <string name="button_text_src_aux">aux</string>
+    <string name="button_text_src_tape">tape</string>
+    <string name="button_text_src_tuner">tuner</string>
+    <string name="button_text_red">red</string>
+    <string name="button_text_green">green</string>
+    <string name="button_text_blue">blue</string>
+    <string name="button_text_yellow">yellow</string>
+    <string name="button_text_input_1">src 1</string>
+    <string name="button_text_input_2">src 2</string>
+    <string name="button_text_input_3">src 3</string>
+    <string name="button_text_input_4">src 4</string>
+    <string name="button_text_input_5">src 5</string>
+    <string name="button_text_fan_up">fan +</string>
+    <string name="button_text_fan_down">fan -</string>
+    <string name="button_text_temp_up">tmp +</string>
+    <string name="button_text_temp_down">tmp -</string>
 
     <!-- Digits allowed to save a remote name -->
     <!-- Don't put spaces at the end or beginning -->
@@ -219,7 +219,7 @@
     <string name="edit_option_size">Button Size</string>
     <string name="edit_option_remove">Remove</string>
     <string name="edit_option_icon">Icon</string>
-    <string name="edit_option_color">Background Color</string>
+    <string name="edit_option_color">Color</string>
     <string name="edit_option_corners">Corners</string>
     <string name="edit_option_code">IR Code</string>
     <string name="sizepicker_width">Width</string>
@@ -282,5 +282,12 @@
     <string name="learn_desc_saved">Good job! You already learned this button. To check if it works, tap the button. If it doesn\'t \"Try again\" at the bottom to learn it again.</string>
     <string name="learn_button_forget">Forget</string>
     <string name="learn_button_next">Next</string>
+    <string name="edit_removed">Dear IR Remote user,\nAnother developer has contacted me about this app, apparently editing buttons to create your own custom Remote experience was his trademark, so to avoid infringing it, this feature is no longer available in this app.\n
+        \nWe know this is a very important feature for a lot of users,
+and we\'re working to get to a non-infringing solution so you don\'t have to stick to the default style.
+\n
+\nPlease stay tuned to the updates.
+\nSorry for the inconvenience,
+\nTwinone</string>
 
 </resources>

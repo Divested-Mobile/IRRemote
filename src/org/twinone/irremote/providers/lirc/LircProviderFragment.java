@@ -131,7 +131,7 @@ public class LircProviderFragment extends ProviderFragment implements
 		inflater.inflate(R.menu.db_menu, menu);
 
 		prepareSearch(menu, inflater);
-		mSearchView.setQueryHint(getSearchHint(mUriData));
+//		mSearchView.setQueryHint(getSearchHint(mUriData));
 
 		if (mUriData.targetType == LircProviderData.TYPE_IR_CODE) {
 			menu.findItem(R.id.menu_db_save).setVisible(true);
@@ -193,13 +193,10 @@ public class LircProviderFragment extends ProviderFragment implements
 	public void onPause() {
 		cancelDialog();
 
-		// SearchView is so crappy that invalidateOptionsMenu will
-		// not remove the keyboard, we have to use this "hack"
-		// The null check is because the user could presses back very quickly
-		if (mSearchView != null) {
-			mSearchView.setQuery("", false);
-			mSearchView.clearFocus();
-		}
+//		if (mSearchView != null) {
+//			mSearchView.setQuery("", false);
+//			mSearchView.clearFocus();
+//		}
 
 		super.onPause();
 	}
