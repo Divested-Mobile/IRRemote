@@ -1,52 +1,24 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar">
-
-        <!-- Remove UGLY blue line from actionbar -->
-        <item name="android:actionBarStyle">@style/Widget.AppCompat.ActionBar.Solid</item>
-        <item name="android:windowBackground">@drawable/remote_bg</item>
-
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-        <!-- Set AppCompat’s actionBarStyle -->
-        <!-- <item name="actionBarStyle">@style/App.ActionBarTheme</item> -->
-        <!-- Set AppCompat’s color theming attrs -->
-        <!--
-        -->    
-        <!--  <item name="colorPrimary">@color/material_teal_500</item>
-        <item name="colorPrimaryDark">@color/material_teal_700</item>
-         -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-<!--         <item name="colorAccent">@color/material_amber_500</item>
- -->     </style>
+        <item name="colorAccent">@color/material_amber_500</item>
+        <!--
+             <item name="colorPrimary">@color/material_indigo_500</item>
+        <item name="colorPrimaryDark">@color/material_indigo_700</item>
+        -->
+        <item name="colorPrimary">@color/material_blue_grey_800</item>
+        <item name="colorPrimaryDark">@color/material_blue_grey_900</item>
+    </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
-
-    <style name="theme_transparent" parent="AppBaseTheme">
-        <item name="android:buttonStyle">@style/transparent_button</item>
-    </style>
-
-    <style name="theme_solid" parent="AppBaseTheme"></style>
-
-    <style name="transparent_button" parent="@android:style/Widget.Holo.Button">
-        <item name="android:minHeight">60dp</item>
-    </style>
-
-    <style name="solid_button" parent="@android:style/Widget.Holo.Button">
-        <item name="android:minHeight">60dp</item>
-    </style>
-
-    <style name="Common.Small" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">#ccc</item>
     </style>
 
     <style name="DialogAnims" parent="AppBaseTheme">

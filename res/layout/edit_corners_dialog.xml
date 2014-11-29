@@ -134,13 +134,16 @@
             </LinearLayout>
         </LinearLayout>
 
-        <CheckBox
+        <!--
+             <CheckBox
             android:id="@+id/edit_corners_advanced"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/element_vertical_margin"
             android:text="@string/edit_corners_advanced" />
+        -->
+
     </LinearLayout>
 
 </ScrollView>

@@ -9,7 +9,6 @@ import org.twinone.irremote.ir.io.Transmitter;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -77,25 +76,12 @@ public abstract class BaseRemoteFragment extends Fragment {
 
 	}
 
-	private int getThemeIdFromPrefs() {
-		SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
-		String theme = sp.getString(getString(R.string.pref_key_theme),
-				getString(R.string.pref_def_theme));
-		if (theme.equals(getString(R.string.pref_val_theme_sl))) {
-			return R.style.theme_solid;
-		}
-		return R.style.theme_transparent;
-
-	}
-
 	/**
 	 * Call super.onCreateView for theming and optionsMenu
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		getActivity().setTheme(getThemeIdFromPrefs());
 
 		setHasOptionsMenu(true);
 

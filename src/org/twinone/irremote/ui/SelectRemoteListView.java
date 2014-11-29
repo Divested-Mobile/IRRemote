@@ -6,17 +6,19 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class SelectRemoteListView extends ListView implements OnClickListener {
+public class SelectRemoteListView extends ListView implements
+		android.widget.AdapterView.OnItemClickListener {
 
 	private static final String TAG = "SelectRemoteListView";
 	private boolean mShowAddRemote = true;
@@ -41,6 +43,9 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 		setChoiceMode(CHOICE_MODE_SINGLE);
 		mInflater = LayoutInflater.from(getContext());
 		updateRemotesList();
+		setOnItemClickListener(this);
+		// setSelector(new ColorDrawable(getResources().getColor(
+		// R.color.material_red_500)));
 	}
 
 	/**
@@ -77,7 +82,7 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 				view = (TextView) mInflater.inflate(
 						R.layout.select_remote_item, parent, false);
 			view.setText(mItems.get(position));
-			view.setOnClickListener(SelectRemoteListView.this);
+			// view.setOnClickListener(SelectRemoteListView.this);
 			view.setId(position);
 			return view;
 		}
@@ -143,8 +148,8 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View view) {
-		int position = view.getId();
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
 		if (position == mItems.size() - 1) {
 			if (mListener != null) {
 				mListener.onAddRemoteSelected();
@@ -152,7 +157,20 @@ public class SelectRemoteListView extends ListView implements OnClickListener {
 		} else {
 			selectRemote(position, true);
 		}
+
 	}
+
+	// @Override
+	// public void onClick(View view) {
+	// int position = view.getId();
+	// if (position == mItems.size() - 1) {
+	// if (mListener != null) {
+	// mListener.onAddRemoteSelected();
+	// }
+	// } else {
+	// selectRemote(position, true);
+	// }
+	// }
 
 	private OnRemoteSelectedListener mListener;
 

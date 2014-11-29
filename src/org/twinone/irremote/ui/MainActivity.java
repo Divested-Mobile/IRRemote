@@ -78,8 +78,9 @@ public class MainActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_main);
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		
 		setSupportActionBar(mToolbar);
-
+		
 		setupNavigation();
 		setupShowAds();
 

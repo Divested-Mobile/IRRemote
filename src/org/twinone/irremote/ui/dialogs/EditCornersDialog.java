@@ -12,13 +12,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.NumberPicker;
 
 public class EditCornersDialog extends DialogFragment {
@@ -78,15 +75,16 @@ public class EditCornersDialog extends DialogFragment {
 		mBL = (NumberPicker) content.findViewById(R.id.edit_corners_bl);
 		mBR = (NumberPicker) content.findViewById(R.id.edit_corners_br);
 		mC = (NumberPicker) content.findViewById(R.id.edit_corners_c);
-		mAdvanced = (CheckBox) content.findViewById(R.id.edit_corners_advanced);
-		mAdvanced.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				setAdvanced(isChecked);
-			}
-		});
+		// mAdvanced = (CheckBox)
+		// content.findViewById(R.id.edit_corners_advanced);
+		// mAdvanced.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		//
+		// @Override
+		// public void onCheckedChanged(CompoundButton buttonView,
+		// boolean isChecked) {
+		// setAdvanced(isChecked);
+		// }
+		// });
 
 		mCorners = new ArrayList<NumberPicker>(4);
 		mCorners.add(mTL);

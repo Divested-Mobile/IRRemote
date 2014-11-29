@@ -1,17 +1,26 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.androidlib.view.CenterImageButton;
+import org.twinone.irremote.R;
 import org.twinone.irremote.components.ComponentUtils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 
 public class ButtonView extends CenterImageButton {
 
@@ -83,9 +92,10 @@ public class ButtonView extends CenterImageButton {
 		updateBackground();
 	}
 
+	@SuppressLint("NewApi")
 	private void updateBackground() {
-		// if (mButton.bg == 0)
-		// return;
+		if (mButton.bg == 0)
+			return;
 		final StateListDrawable dd = new StateListDrawable();
 		final GradientDrawable pressed = (GradientDrawable) ComponentUtils
 				.getGradientDrawable(getContext(), mButton.bg, true).mutate();
@@ -96,7 +106,32 @@ public class ButtonView extends CenterImageButton {
 				.getGradientDrawable(getContext(), mButton.bg, false).mutate();
 		def.setCornerRadii(mButton.getCornerRadii());
 		dd.addState(StateSet.WILD_CARD, def);
-		setBackground(dd);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			ColorStateList cls = new ColorStateList(
+					new int[][] { new int[] { android.R.attr.state_pressed } // pressed
+					}, new int[] { getResources().getColor(
+							R.color.ripple_material_dark) });
+			RippleDrawable rd = new RippleDrawable(cls, def, null);
+			setOutlineProvider(new ViewOutlineProvider() {
+
+				@Override
+				public void getOutline(View view, Outline outline) {
+					outline.setRoundRect(0, 0, (int) mButton.w,
+							(int) mButton.h,
+							mButton.rtl > mButton.h / 2 ? mButton.h / 2
+									: mButton.rtl);
+				}
+			});
+			setClipToOutline(true);
+			setBackground(rd);
+		} else {
+			setBackground(dd);
+		}
+	}
+
+	private float dpToPx(float dp) {
+		return dp * getContext().getResources().getDisplayMetrics().density;
 	}
 
 	public org.twinone.irremote.components.Button getButton() {
