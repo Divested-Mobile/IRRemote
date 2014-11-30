@@ -194,6 +194,7 @@ public abstract class NavigationFragment extends Fragment {
 	public void lockOpen(boolean alsoLockHomeButton) {
 		setSlidingLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
 		setHomeButtonLocked(alsoLockHomeButton);
+		onOpen();
 	}
 
 	/**
@@ -204,6 +205,7 @@ public abstract class NavigationFragment extends Fragment {
 	public void lockClose(boolean alsoLockHomeButton) {
 		setSlidingLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		setHomeButtonLocked(alsoLockHomeButton);
+		onClose();
 	}
 
 	/**

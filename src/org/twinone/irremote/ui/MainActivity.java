@@ -37,13 +37,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 public class MainActivity extends ActionBarActivity implements
-		OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener {
+		OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener,
+		android.view.View.OnClickListener {
 
 	private static final String TAG = "MainActivity";
 
-	public static final boolean SHOW_ADS = true;
-	public static boolean DEBUG = BuildConfig.DEBUG && true;
+	public static final boolean SHOW_ADS = !BuildConfig.DEBUG;
+	public static boolean DEBUG = BuildConfig.DEBUG;
 
 	public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
 
@@ -60,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 
 		if (!checkTransmitterAvailable() && !DEBUG) {
-//			showNotAvailableDialog();
+			// showNotAvailableDialog();
 		}
 
 		new VersionManager(this, this).callFromEntryPoint();
@@ -78,9 +81,12 @@ public class MainActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_main);
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
-		
+		mAddRemoteButton = (FloatingActionButton) findViewById(R.id.add_remote);
+		mAddRemoteButton.hide(false);
+		mAddRemoteButton.setOnClickListener(this);
+
 		setSupportActionBar(mToolbar);
-		
+
 		setupNavigation();
 		setupShowAds();
 
@@ -232,6 +238,15 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.add_remote:
+			onAddRemoteSelected();
+			break;
+		}
+	}
+
+	@Override
 	public void onAddRemoteSelected() {
 		Intent i = new Intent(this, ProviderActivity.class);
 		i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
@@ -321,6 +336,16 @@ public class MainActivity extends ActionBarActivity implements
 		} else {
 			mNavFragment.unlock();
 		}
+	}
+
+	private FloatingActionButton mAddRemoteButton;
+
+	public void showAddRemoteButton() {
+		mAddRemoteButton.show();
+	}
+
+	public void hideAddRemoteButton() {
+		mAddRemoteButton.hide();
 	}
 
 	@Override

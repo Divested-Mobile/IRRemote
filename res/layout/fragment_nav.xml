@@ -12,6 +12,18 @@
     android:choiceMode="singleChoice" />
     -->
 
+    <TextView
+        android:id="@+id/select_remote_empty_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="96dp"
+        android:gravity="center_horizontal"
+        android:text="@string/no_remotes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#66ffffff" />
+
     <org.twinone.irremote.ui.SelectRemoteListView
         android:id="@+id/select_remote_listview"
         android:layout_width="match_parent"

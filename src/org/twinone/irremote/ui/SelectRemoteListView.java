@@ -6,7 +6,6 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +61,7 @@ public class SelectRemoteListView extends ListView implements
 	}
 
 	public void setShowAddRemote(boolean showAddRemote) {
-		if (mShowAddRemote != showAddRemote)
+		if (mShowAddRemote == showAddRemote)
 			return;
 		if (showAddRemote) {
 			mItems.add(getContext().getString(R.string.add_remote));
@@ -139,18 +138,23 @@ public class SelectRemoteListView extends ListView implements
 	}
 
 	public boolean isRemoteSelected() {
-		return mSelectedItemPosition >= 0
-				&& mSelectedItemPosition < mItems.size() - 1;
+		if (mSelectedItemPosition < 0)
+			return false;
+		if (mSelectedItemPosition >= mItems.size())
+			return false;
+		if (mShowAddRemote && mSelectedItemPosition >= mItems.size() - 1)
+			return false;
+		return true;
 	}
 
 	public boolean isAddRemoteSelected() {
-		return mSelectedItemPosition == mItems.size();
+		return mShowAddRemote && mSelectedItemPosition == mItems.size() - 1;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if (position == mItems.size() - 1) {
+		if (isAddRemoteSelected()) {
 			if (mListener != null) {
 				mListener.onAddRemoteSelected();
 			}

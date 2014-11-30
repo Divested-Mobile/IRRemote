@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class NavFragment extends NavigationFragment implements
 		OnRemoteSelectedListener {
@@ -26,6 +27,7 @@ public class NavFragment extends NavigationFragment implements
 	private DrawerLayout mDrawerLayout;
 	private SelectRemoteListView mRemotesListView;
 	private View mFragmentContainerView;
+	private TextView mInfoTextView;
 
 	public NavFragment() {
 	}
@@ -51,6 +53,15 @@ public class NavFragment extends NavigationFragment implements
 			mRemotesListView.selectRemote(-1, false);
 		}
 		updateTitle();
+		updateInfoTextView();
+	}
+
+	private void updateInfoTextView() {
+		if (mRemotesListView.getCount() == 0) {
+			mInfoTextView.setVisibility(View.VISIBLE);
+		} else {
+			mInfoTextView.setVisibility(View.GONE);
+		}
 	}
 
 	public void updateTitle() {
@@ -93,8 +104,11 @@ public class NavFragment extends NavigationFragment implements
 				.findViewById(R.id.select_remote_listview);
 		// new SelectRemoteListView(getActivity());
 
-		mRemotesListView.setShowAddRemote(true);
+		mRemotesListView.setShowAddRemote(false);
 		mRemotesListView.setOnSelectListener(this);
+		mInfoTextView = (TextView) root
+				.findViewById(R.id.select_remote_empty_info);
+		updateInfoTextView();
 		// root.addView(mRemotesListView);
 		return root;
 	}
@@ -144,6 +158,7 @@ public class NavFragment extends NavigationFragment implements
 	@Override
 	protected void onOpen() {
 		updateTitle();
+		((MainActivity) getActivity()).showAddRemoteButton();
 	}
 
 	@Override
@@ -161,6 +176,8 @@ public class NavFragment extends NavigationFragment implements
 		}
 
 		updateTitle();
+		((MainActivity) getActivity()).hideAddRemoteButton();
+
 	}
 
 }
