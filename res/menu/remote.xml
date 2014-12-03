@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/menu_transmit_feedback"
-        android:icon="@drawable/transmit_feedback"
-        android:title="@null"
-        android:visible="false"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/menu_action_rename"
         android:title="@string/menu_action_rename"
         app:showAsAction="never"/>
@@ -28,5 +22,10 @@
         android:id="@+id/menu_action_learn"
         android:title="@string/menu_action_learn"
         app:showAsAction="never"/>
+
+    <!-- DEBUG -->
+    <item
+        android:id="@+id/menu_debug"
+        android:title="Debug"/>
 
 </menu>

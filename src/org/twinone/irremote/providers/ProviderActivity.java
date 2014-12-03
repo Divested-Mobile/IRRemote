@@ -161,20 +161,36 @@ public class ProviderActivity extends ActionBarActivity {
 	 * @param r
 	 */
 	public void saveRemote(Remote remote) {
-		Log.d("", "Provider Name: " + remote.name);
+		// SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
+		// dialog.setListener(new OnRemoteSavedListener() {
+		//
+		// @Override
+		// public void onRemoteSaved(String name) {
+		// // Finish the activity, we've saved the remote
+		// Remote.setLastUsedRemoteName(ProviderActivity.this, name);
+		// Toast.makeText(ProviderActivity.this,
+		// R.string.remote_saved_toast, Toast.LENGTH_SHORT).show();
+		// finish();
+		// }
+		// });
+		// dialog.show(this);
+		saveRemote(this, remote);
+	}
+
+	public static void saveRemote(final Activity activity, Remote remote) {
 		SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
 		dialog.setListener(new OnRemoteSavedListener() {
 
 			@Override
 			public void onRemoteSaved(String name) {
 				// Finish the activity, we've saved the remote
-				Remote.setLastUsedRemoteName(ProviderActivity.this, name);
-				Toast.makeText(ProviderActivity.this,
-						R.string.remote_saved_toast, Toast.LENGTH_SHORT).show();
-				finish();
+				Remote.setLastUsedRemoteName(activity, name);
+				Toast.makeText(activity, R.string.remote_saved_toast,
+						Toast.LENGTH_SHORT).show();
+				activity.finish();
 			}
 		});
-		dialog.show(this);
+		dialog.show(activity);
 	}
 
 	@Override

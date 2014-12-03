@@ -7,7 +7,6 @@ import org.twinone.irremote.components.ComponentUtils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -15,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
@@ -125,6 +125,7 @@ public class ButtonView extends CenterImageButton {
 			});
 			setClipToOutline(true);
 			setBackground(rd);
+			ViewCompat.setElevation(this, dpToPx(8));
 		} else {
 			setBackground(dd);
 		}

@@ -34,7 +34,6 @@ public class RemoteOrganizer {
 	private int mBlocksPerButtonY;
 
 	private int mCols;
-	private boolean mIsTablet;
 
 	private Remote mRemote;
 	/** List of buttons that are already organized */
@@ -85,8 +84,6 @@ public class RemoteOrganizer {
 		mBlocksPerButtonY = c.getResources().getInteger(
 				R.integer.blocks_per_button_y);
 
-		mIsTablet = c.getResources().getBoolean(R.bool.is_tablet);
-
 		int mAvailableScreenWidth = mDeviceWidth - mMarginLeft * 2
 				+ mGridSpacingX;
 		Log.d("RemoteOrganizer", "mAvailableScreenWidth: "
@@ -127,13 +124,6 @@ public class RemoteOrganizer {
 					+ (buttonX * mGridSizeX * mBlocksPerButtonX);
 			b.y = mMarginTop + y * mGridSizeY
 					+ (buttonY * mGridSizeY * mBlocksPerButtonY);
-		}
-	}
-
-	private void setButtonPosition(Button b, int x, int y) {
-		if (b != null) {
-			b.x = mMarginLeft + x * mGridSizeX;
-			b.y = mMarginTop + y * mGridSizeY;
 		}
 	}
 
@@ -203,22 +193,8 @@ public class RemoteOrganizer {
 		setupCorners();
 		setupColors();
 
-		mCols = mAvailableBlocksX / mBlocksPerButtonX;
-		// mCols = 4;
-		// Log.w("RemoteOrganizer", "Custom columns set");
-
-		Log.d("RemoteOrganizer", "Available: " + mCols + " cols");
-
-		if (mCols >= 9) {
-			useCols(9);
-			setupLayout9Cols();
-			// } else if (mCols >= 5) {
-			// useCols(5);
-			// setupLayout5Cols();
-		} else if (mCols >= 4) {
-			useCols(4);
-			setupLayout4Cols();
-		}
+		useCols(4);
+		setupLayout4ColsNew();
 
 		mRemote.buttons.addAll(mOrganizedButtons);
 
@@ -228,83 +204,30 @@ public class RemoteOrganizer {
 		mRemote.options.marginTop = mMarginTop;
 	}
 
-	private void setupLayout4Cols() {
+	int mCurrentRowCount;
 
-		int left = 0;
-		int right = 0;
-		left += addPowerButton(0, 0, 0, 0);
-		right += addNavWidget(0, 0, 1, 0);
-		right += addNumbersWidget(0, right, 1, 0);
+	private void setupLayout4ColsNew() {
+		addRow(Button.ID_POWER, 0, Button.ID_NAV_UP, 0);
+		addRow(Button.ID_VOL_UP, Button.ID_NAV_LEFT, Button.ID_NAV_OK,
+				Button.ID_NAV_RIGHT);
+		addRow(Button.ID_VOL_DOWN, 0, Button.ID_NAV_DOWN, 0);
+		addRow(Button.ID_MUTE, Button.ID_DIGIT_1, Button.ID_DIGIT_2,
+				Button.ID_DIGIT_3);
+		addRow(Button.ID_CH_UP, Button.ID_DIGIT_4, Button.ID_DIGIT_5,
+				Button.ID_DIGIT_6);
+		addRow(Button.ID_CH_DOWN, Button.ID_DIGIT_7, Button.ID_DIGIT_8,
+				Button.ID_DIGIT_9);
+		addRow(Button.ID_MENU, 0, Button.ID_DIGIT_0, 0);
 
-		left += addColumns(0, 1 + left, 0, 0, 1, false, Button.ID_VOL_UP,
-				Button.ID_VOL_DOWN, Button.ID_MUTE, Button.ID_CH_UP,
-				Button.ID_CH_DOWN, Button.ID_MENU);
-
-		addRemaining(0, 2 + Math.max(left, right), 0, 0, mCols);
-
-	}
-
-	private void setupLayout5Cols() {
-
-		int grow = 2;
-		// enlargePower(grow);
-
-		int left = 0;
-		int right = 0;
-		left += addPowerButton(-(mBlocksPerButtonX / 2 + grow / 2), 0 / 2, 1, 0);
-		right += addNavWidget(0, 0, 2, 0);
-		if (mRemote.options.type == Remote.TYPE_CABLE) {
-			right += -mBlocksPerButtonX
-					+ addColumns(0, right, 2, -1, 3, false, Button.ID_REC, 0,
-							Button.ID_STOP, Button.ID_RWD, Button.ID_PLAY,
-							Button.ID_FFWD, Button.ID_PREV, Button.ID_PAUSE,
-							Button.ID_NEXT);
+		int type = mRemote.options.type;
+		if (type == Remote.TYPE_CABLE || type == Remote.TYPE_BLURAY) {
+			addRow(Button.ID_RWD, Button.ID_PLAY, Button.ID_FFWD, Button.ID_REC);
+			addRow(Button.ID_PREV, Button.ID_PAUSE, Button.ID_NEXT,
+					Button.ID_STOP);
 		}
-		right += addNumbersWidget(0, right, 2, 0);
 
-		left += addColumns(mBlocksPerButtonX / 2, 2 + left, 0, 0, 1, false,
-				Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_MUTE,
-				Button.ID_CH_UP, Button.ID_CH_DOWN, Button.ID_MENU);
-
-		addRemaining(0, Math.max(left + 3, right + 1), 0, 0, mCols);
+		addUncommonRows();
 	}
-
-	private void setupLayout9Cols() {
-		// Tablets
-		int grow = 2;
-		// enlargePower(grow);
-
-		int left = 0;
-		int center = 0;
-		int right = 0;
-		left += addPowerButton(-(mBlocksPerButtonX / 2 + grow / 2), 0 / 2, 1, 0);
-		left += addColumns(0, 2 + left, 0, 0, 2, false, Button.ID_VOL_UP,
-				Button.ID_CH_UP, Button.ID_VOL_DOWN, Button.ID_CH_DOWN,
-				Button.ID_MUTE, Button.ID_MENU);
-
-		center += addNavWidget(mBlocksPerButtonX / 2, 0, 2, 0);
-		// Media controls
-		if (mRemote.options.type == Remote.TYPE_CABLE) {
-			center += addColumns(mBlocksPerButtonX / 2, center, 2, 0, 4, false,
-					Button.ID_RWD, Button.ID_PLAY, Button.ID_FFWD,
-					Button.ID_STOP, Button.ID_PREV, Button.ID_PAUSE,
-					Button.ID_NEXT, Button.ID_REC);
-		}
-		right += addNumbersWidget(0, 0, 6, 0);
-
-		addRemaining(0, Math.max(right + 1, Math.max(left + 3, center + 1)), 0,
-				0, mCols);
-
-	}
-
-	// private void enlargePower(int size) {
-	// final Button power = findId(Button.ID_POWER);
-	// if (power != null) {
-	// Log.d("RemoteOr", "Power != null");
-	// power.w += mGridSizeX * size;
-	// power.h += mGridSizeY * size;
-	// }
-	// }
 
 	/**
 	 * Set color by ID (NOT UID)
@@ -344,7 +267,7 @@ public class RemoteOrganizer {
 	}
 
 	private void setupColors() {
-		int def = Button.BG_GREY;
+		int def = Button.BG_TRANSPARENT;
 		for (Button b : mRemote.buttons) {
 			b.bg = def;
 		}
@@ -354,17 +277,24 @@ public class RemoteOrganizer {
 		int power = Button.BG_RED;
 		int nav = Button.BG_BLUE_GREY;
 		int numbers = Button.BG_TEAL;
+		int channels = Button.BG_GREY;
 
 		setColor(Button.ID_VOL_UP, vols);
 		setColor(Button.ID_VOL_DOWN, vols);
 		setColor(Button.ID_MUTE, vols);
 
+		setColor(Button.ID_CH_UP, channels);
+		setColor(Button.ID_CH_DOWN, channels);
+		setColor(Button.ID_MENU, channels);
+
 		setColor(Button.ID_POWER, power);
+
 		setColor(Button.ID_NAV_DOWN, nav);
 		setColor(Button.ID_NAV_UP, nav);
 		setColor(Button.ID_NAV_LEFT, nav);
 		setColor(Button.ID_NAV_RIGHT, nav);
 		setColor(Button.ID_NAV_OK, nav);
+
 		setColor(Button.ID_DIGIT_0, numbers);
 		setColor(Button.ID_DIGIT_1, numbers);
 		setColor(Button.ID_DIGIT_2, numbers);
@@ -400,33 +330,6 @@ public class RemoteOrganizer {
 		return max + mMarginTop;
 	}
 
-	private int addPowerButton(int x, int y, int buttonX, int buttonY) {
-		x = buttonX * mBlocksPerButtonX + x;
-		y = buttonY * mBlocksPerButtonY + y;
-		final Button power = findId(Button.ID_POWER);
-		if (power != null) {
-			setButtonPosition(power, x, y);
-			markAsOrganized(power);
-			return (int) power.h / mGridSizeY;
-		}
-		return 0;
-	}
-
-	/**
-	 * Adds a nav widget at the specified position
-	 * 
-	 * @return The height occupied by this widget
-	 */
-	private int addNavWidget(int x, int y, int buttonX, int buttonY) {
-		return addColumns(x, y, buttonX, buttonY, 3, false, 0,
-				Button.ID_NAV_UP, 0, Button.ID_NAV_LEFT, Button.ID_NAV_OK,
-				Button.ID_NAV_RIGHT, 0, Button.ID_NAV_DOWN, 0);
-	}
-
-	private int addRemaining(int x, int y, int buttonX, int buttonY, int cols) {
-		return addColumns(x, y, buttonX, buttonY, cols, true, getRemainingIds());
-	}
-
 	private int[] getRemainingIds() {
 		int[] ids = new int[mRemote.buttons.size()];
 		for (int i = 0; i < mRemote.buttons.size(); i++) {
@@ -435,27 +338,47 @@ public class RemoteOrganizer {
 		return ids;
 	}
 
-	private int addNumbersWidget(int x, int y, int buttonX, int buttonY) {
-		return addColumns(x, y, buttonX, buttonY, 3, false, Button.ID_DIGIT_1,
-				Button.ID_DIGIT_2, Button.ID_DIGIT_3, Button.ID_DIGIT_4,
-				Button.ID_DIGIT_5, Button.ID_DIGIT_6, Button.ID_DIGIT_7,
-				Button.ID_DIGIT_8, Button.ID_DIGIT_9, 0, Button.ID_DIGIT_0, 0);
+	private void addUncommonRows() {
+		int[] ids = getRemainingIds();
+		for (int i = 0; i < ids.length; i += mCols) {
+			int[] row = new int[mCols];
+			for (int j = 0; j < mCols; j++) {
+				if (i + j < ids.length)
+					row[j] = ids[i + j];
+			}
+			addRow(false, row);
+		}
 	}
 
-	private int addColumns(int x, int y, int buttonX, int buttonY, int cols,
-			boolean includeUncommon, int... ids) {
-		x = buttonX * mBlocksPerButtonX + x;
-		y = buttonY * mBlocksPerButtonY + y;
-		for (int i = 0; i < ids.length; i++) {
+	/**
+	 * Adds a row without uncommon buttons
+	 */
+	private void addRow(int... ids) {
+		addRow(false, ids);
+	}
+
+	/**
+	 * Adds a row of 4 buttons
+	 * 
+	 * @param buttonX
+	 * @param buttonY
+	 * @param includeUncommon
+	 *            If set to true, this will also add buttons with uid 0, which
+	 *            means that you cannot add gaps with zeros
+	 * @param ids
+	 */
+	private void addRow(boolean includeUncommon, int... ids) {
+		int y = mCurrentRowCount * mBlocksPerButtonY;
+		for (int i = 0; i < Math.min(ids.length, mCols); i++) {
 			if (includeUncommon || ids[i] != 0) {
 				final Button b = findId(ids[i]);
 				if (b != null) {
-					setButtonPosition(b, x, y, i % cols, i / cols);
+					setButtonPosition(b, 0, y, i, 0);
 					markAsOrganized(b);
 				}
 			}
 		}
-		return (ids.length / cols + ids.length % cols) * mBlocksPerButtonY;
+		mCurrentRowCount++;
 	}
 
 	public void setupNewButton(Button b) {

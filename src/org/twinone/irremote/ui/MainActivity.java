@@ -5,7 +5,7 @@ import org.twinone.androidlib.RateManager;
 import org.twinone.androidlib.versionmanager.VersionManager;
 import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
-import org.twinone.irremote.BuildConfig;
+import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
@@ -14,10 +14,13 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.twinone.RemoteUploader;
+import org.twinone.irremote.providers.twinone.RemoteUploader.UploadListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -44,9 +48,6 @@ public class MainActivity extends ActionBarActivity implements
 		android.view.View.OnClickListener {
 
 	private static final String TAG = "MainActivity";
-
-	public static final boolean SHOW_ADS = !BuildConfig.DEBUG;
-	public static boolean DEBUG = BuildConfig.DEBUG;
 
 	public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
 
@@ -57,13 +58,14 @@ public class MainActivity extends ActionBarActivity implements
 
 	Toolbar mToolbar;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
-		if (!checkTransmitterAvailable() && !DEBUG) {
-			// showNotAvailableDialog();
+		if (!checkTransmitterAvailable() && !Constants.ALLOW_NO_TRANSMITTER) {
+			showNotAvailableDialog();
 		}
 
 		new VersionManager(this, this).callFromEntryPoint();
@@ -108,7 +110,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	private void setupShowAds() {
 		mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
-		if (SHOW_ADS) {
+		if (Constants.SHOW_ADS) {
 			AdMobBannerBuilder builder = new AdMobBannerBuilder();
 			builder.setParent(mAdViewContainer);
 			builder.addTestDevice("285ACA7E7666862031AA5111058518DB");
@@ -269,6 +271,7 @@ public class MainActivity extends ActionBarActivity implements
 
 		menu.findItem(R.id.menu_action_learn).setVisible(canReceive);
 
+		menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG);
 		return true;
 	}
 
@@ -298,14 +301,52 @@ public class MainActivity extends ActionBarActivity implements
 			AnimHelper.startActivity(this, learn);
 			break;
 		case R.id.menu_action_settings:
-			// Uploader u = new Uploader(this);
-			// u.upload(Remote.getNames(this).get(0));
+
 			Intent i = new Intent(this, SettingsActivity.class);
 			AnimHelper.startActivity(this, i);
-
+			break;
+		case R.id.menu_debug:
+			showDebugDialog();
 			break;
 		}
+
 		return false;
+	}
+
+	private void showDebugDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		ab.setTitle("Debug");
+		CharSequence[] titles = new CharSequence[] {
+
+		"UploadTest",
+
+		"DownloadTest"
+
+		};
+		ab.setItems(titles, new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case 0:
+					RemoteUploader up = new RemoteUploader(MainActivity.this);
+					String name = getRemoteName();
+					Remote r = Remote.load(MainActivity.this, name);
+					up.setListener(new UploadListener() {
+
+						@Override
+						public void onUpload(int statusCode, String message) {
+							Toast.makeText(MainActivity.this,
+									"Status: " + statusCode, Toast.LENGTH_SHORT)
+									.show();
+						}
+					});
+					up.upload(r);
+					break;
+				}
+			}
+		});
+		ab.show();
 	}
 
 	private void showDeleteRemoteDialog() {

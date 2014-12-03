@@ -297,6 +297,7 @@ public class FloatingActionButton extends ImageButton {
 	}
 
 	public void show(boolean animate) {
+		// setVisibility(View.VISIBLE);
 		toggle(true, animate, false);
 	}
 
@@ -333,6 +334,7 @@ public class FloatingActionButton extends ImageButton {
 						.translationY(translationY);
 			} else {
 				setTranslationY(translationY);
+//				setVisibility(visible ? View.VISIBLE : View.GONE);
 				// ViewHelper.setTranslationY(this, translationY);
 			}
 		}

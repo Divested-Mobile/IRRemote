@@ -1,11 +1,18 @@
 package org.twinone.irremote;
 
+import org.twinone.irremote.providers.twinone.DownloadActivity;
+
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 public class LaunchActivity extends Activity {
+
+	private static final String PARAM_ACTION = "a";
+	private static final String ACTION_DOWNLOAD = "download";
+	private static final String ACTION_UPLOAD = "upload";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -14,21 +21,27 @@ public class LaunchActivity extends Activity {
 			finish();
 			return;
 		}
-		showMessage();
-	}
-
-	private void showMessage() {
-		Uri data = getIntent().getData();
-		String msg = data.getQueryParameter("message");
-		if (msg == null || msg.isEmpty()) {
-			return;
+		Uri uri = getIntent().getData();
+		String action = uri.getQueryParameter(PARAM_ACTION);
+		Class<?> c = null;
+		switch (action) {
+		case ACTION_UPLOAD:
+			c = LaunchActivity.class;
+			break;
+		case ACTION_DOWNLOAD:
+			c = DownloadActivity.class;
+			break;
 		}
-		AlertDialog.Builder ab = new AlertDialog.Builder(this);
-		ab.setTitle("Message from developer");
-		ab.setMessage(msg);
-		ab.setPositiveButton(android.R.string.ok, null);
-		ab.show();
+		Log.i("LaunchActivity", "Received "
+				+ " for intent " + uri.toString());
 
+		if (c != null) {
+			Intent i = new Intent(this, c);
+			i.setData(getIntent().getData());
+			Log.i("LaunchActivity", "Starting " + c.getSimpleName()
+					+ " for intent " + uri.toString());
+			startActivity(i);
+		}
 	}
 
 	private boolean validateIntent() {

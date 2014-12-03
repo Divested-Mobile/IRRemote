@@ -1,4 +1,4 @@
-package org.twinone.irremote.providers.twinone.upload;
+package org.twinone.irremote.providers.twinone;
 
 import java.util.Locale;
 
@@ -11,9 +11,9 @@ import android.provider.Settings.Secure;
 
 import com.google.gson.Gson;
 
-public class UploadDetails {
+public class TransferableRemoteDetails {
 
-	public UploadDetails(Context c) {
+	public TransferableRemoteDetails(Context c) {
 		androidId = Secure.getString(c.getContentResolver(), Secure.ANDROID_ID);
 		language = Locale.getDefault().getLanguage();
 		androidVersion = Build.VERSION.SDK_INT;
@@ -28,22 +28,30 @@ public class UploadDetails {
 
 	public Remote remote;
 
-	// Uploader details
-	/** Android manufacturer */
+	// Device info
 	public String manufacturer;
 	public String device;
-	public String nick;
-	public String language;
 	public int androidVersion;
 	public int appVersion;
 	public String androidId;
 
+	// Info about user
+	public String language;
+
+	// TODO
+	// country?
+	// use email as id?
+
 	@Override
 	public String toString() {
-		return toJson();
+		return serialize();
 	}
 
-	public String toJson() {
+	public String serialize() {
 		return new Gson().toJson(this);
+	}
+
+	public static TransferableRemoteDetails deserialize(String s) {
+		return new Gson().fromJson(s, TransferableRemoteDetails.class);
 	}
 }

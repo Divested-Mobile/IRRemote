@@ -284,4 +284,8 @@
     <string name="learn_button_next">Next</string>
     <string name="no_remotes">You have no remotes\n\nTouch the + button to add your first remote</string>
 
+    <string name="download_dlgtit">Download remote</string>
+    <string name="download_dlgmsg">Enter the id of the remote you want to download</string>
+    <string name="download_ok">Download</string>
+    
 </resources>

@@ -55,7 +55,7 @@ public class EditTextDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = LayoutInflater.from(getActivity()).inflate(
-				R.layout.edit_text_dialog, null, false);
+				R.layout.dialog_edit_text, null, false);
 		mEditText = (EditText) view.findViewById(R.id.dialog_edittext_input);
 		mEditText.setText(mOriginalText);
 

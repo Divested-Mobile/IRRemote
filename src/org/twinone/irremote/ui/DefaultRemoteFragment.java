@@ -1,29 +1,21 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.util.TransmitOnTouchListener;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 
-public class DefaultRemoteFragment extends BaseRemoteFragment implements
-		Transmitter.OnTransmitListener {
+public class DefaultRemoteFragment extends BaseRemoteFragment {
 
-	private TransmitOnTouchListener mOnTouchListener;
-	private MenuItem mMenuIcon;
-	private static final int MINIMUM_SHOW_TIME = 85; // ms
-	private Runnable mHideFeedbackRunnable = new HideFeedbackRunnable();
-	private Runnable mShowFeedbackRunnable = new ShowFeedbackRunnable();
-
-	private boolean mVisualFeedback;
+	private TransmitOnTouchListener mTransmitOnTouchListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		if (getTransmitter() == null) {
 			return;
 		}
@@ -31,15 +23,9 @@ public class DefaultRemoteFragment extends BaseRemoteFragment implements
 		SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
 		boolean vibrate = sp.getBoolean(getString(R.string.pref_key_vibrate),
 				getResources().getBoolean(R.bool.pref_def_vibrate));
-		mVisualFeedback = sp.getBoolean(getString(R.string.pref_key_light),
-				getResources().getBoolean(R.bool.pref_def_light));
 
-		mOnTouchListener = new TransmitOnTouchListener(getTransmitter());
-		mOnTouchListener.setHapticFeedbackEnabled(vibrate);
-
-		if (getTransmitter() != null) {
-			getTransmitter().setListener(this);
-		}
+		mTransmitOnTouchListener = new TransmitOnTouchListener(getTransmitter());
+		mTransmitOnTouchListener.setHapticFeedbackEnabled(vibrate);
 
 	}
 
@@ -47,49 +33,13 @@ public class DefaultRemoteFragment extends BaseRemoteFragment implements
 	protected void setupButtons() {
 		super.setupButtons();
 		for (ButtonView bv : mButtons) {
-			bv.setOnTouchListener(mOnTouchListener);
+			bv.setOnTouchListener(mTransmitOnTouchListener);
 		}
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		mMenuIcon = menu.findItem(R.id.menu_transmit_feedback);
-
-	}
-
-	private class ShowFeedbackRunnable implements Runnable {
-		@Override
-		public void run() {
-			if (mMenuIcon != null)
-				mMenuIcon.setVisible(true);
-		}
-	}
-
-	private class HideFeedbackRunnable implements Runnable {
-		@Override
-		public void run() {
-			if (mMenuIcon != null)
-				mMenuIcon.setVisible(false);
-		}
-	}
-
-	@Override
-	public void onBeforeTransmit() {
-		if (mVisualFeedback) {
-			if (!getTransmitter().isTransmitting()) {
-				mHandler.removeCallbacks(mHideFeedbackRunnable);
-				mHandler.removeCallbacks(mShowFeedbackRunnable);
-				mHandler.post(mShowFeedbackRunnable);
-			}
-		}
-	}
-
-	@Override
-	public void onAfterTransmit() {
-		if (mVisualFeedback) {
-			mHandler.postDelayed(mHideFeedbackRunnable, MINIMUM_SHOW_TIME);
-		}
 	}
 
 }

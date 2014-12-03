@@ -303,6 +303,11 @@ public class Remote implements Serializable {
 		r.save(c);
 	}
 
+	@Override
+	public String toString() {
+		return serialize();
+	}
+
 	public String serialize() {
 		return serialize(this);
 	}
