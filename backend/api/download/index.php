@@ -1,7 +1,7 @@
 <?php
 
 $DEBUG = false;
-require_once('./remotes.inc.php');
+require_once(dirname(__DIR__).'/inc/remotes.inc.php');
 
 if (isset($_GET['id'])) {
 	$id = $_GET['id'];

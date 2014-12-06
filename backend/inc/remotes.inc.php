@@ -12,6 +12,4 @@ function clean_remote(array &$remote) {
 }
 
 
-
-
 ?>

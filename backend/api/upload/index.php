@@ -1,6 +1,7 @@
 <?php
 
-require_once('./remotes.inc.php');
+require_once(dirname(dirname(__DIR__)).'/inc/remotes.inc.php');
+
 
 
 $details_obj = json_decode(file_get_contents('php://input'), true);
