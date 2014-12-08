@@ -15,9 +15,9 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 
 public class SettingsFragment extends PreferenceFragment implements
@@ -30,6 +30,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+
 		getPreferenceManager().getSharedPreferences()
 				.registerOnSharedPreferenceChangeListener(this);
 
@@ -40,13 +41,19 @@ public class SettingsFragment extends PreferenceFragment implements
 		super.onPause();
 		getPreferenceManager().getSharedPreferences()
 				.unregisterOnSharedPreferenceChangeListener(this);
+		if (mBackground.getValue().equals("")) {
+			String key = getString(R.string.pref_key_bg);
+			String value = getString(R.string.pref_val_bg_gallery);
+			getPreferenceManager().getSharedPreferences().edit()
+					.putString(key, value).apply();
+		}
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		PreferenceManager pm = getPreferenceManager();
-		pm.setSharedPreferencesName(SettingsActivity.PREF_FILE_DEFAULT);
+		pm.setSharedPreferencesName("default");
 		pm.setSharedPreferencesMode(Context.MODE_PRIVATE);
 		addPreferencesFromResource(R.xml.prefs);
 
@@ -59,7 +66,6 @@ public class SettingsFragment extends PreferenceFragment implements
 		if (preference.getKey().equals(getString(R.string.pref_key_bg))) {
 			((ListPreference) preference).setValue("");
 		}
-
 		return false;
 	}
 
