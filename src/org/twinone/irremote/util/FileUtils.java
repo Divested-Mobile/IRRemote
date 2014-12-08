@@ -6,10 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.util.Log;
 
 public class FileUtils {
@@ -30,6 +33,46 @@ public class FileUtils {
 
 	public static void rename(File oldFile, File newFile) {
 		oldFile.renameTo(newFile);
+	}
+
+	public static void save(Context c, Uri imgUri, File file) {
+		try {
+			InputStream in = c.getContentResolver().openInputStream(imgUri);
+			OutputStream out = new FileOutputStream(file);
+
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public static boolean copy(File src, File dst) {
+		try {
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dst);
+			try { // Transfer bytes from in to out
+				byte[] buf = new byte[2048];
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				in.close();
+				out.close();
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

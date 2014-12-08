@@ -127,8 +127,6 @@
     <!-- Preferences and all that awesome stuff -->
     <string name="pref_tit_fix">Fix buttons</string>
     <string name="pref_desc_fix">On some devices Android doesn\'t send the codes correctly. Enable or disable this to fix it.</string>
-    <string name="pref_dlg_tit_fix">Warning</string>
-    <string name="pref_dlg_msg_fix">You may need to reboot your device for the changes to take effect</string>
     <string name="dlg_na_tit">Oops!</string>
     <string name="dlg_na_msg">It looks like your device does not have an IR Transmitter\nWe\'re sorry, but you will not be able to use this app on this device</string>
 
@@ -318,5 +316,7 @@
     <string name="vfy_failed">Verification failed</string>
     <string name="vfy_try_again">Try again</string>
     <string name="vfy_already_done">Your account (%s) is already verified</string>
-    
+    <string name="pref_dlg_tit_fix">Warning</string>
+    <string name="pref_dlg_msg_fix">If you have ANY remote button working, don\'t touch this setting.\nOnly change it if NOTHING works for you.\n\nAfter changing this setting, reboot your device.\n\nAre you sure you want to change this setting?</string>
+
 </resources>

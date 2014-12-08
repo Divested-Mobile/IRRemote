@@ -1,31 +1,40 @@
 package org.twinone.irremote.ui;
 
+import java.io.File;
 import java.util.List;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.util.FileUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class SettingsFragment extends PreferenceFragment implements
-		OnSharedPreferenceChangeListener, OnPreferenceClickListener {
+		OnSharedPreferenceChangeListener, OnPreferenceClickListener,
+		OnPreferenceChangeListener {
 
 	private static final int BG_REQUEST_CODE = 1337;
 
 	private ListPreference mBackground;
+	private Preference mFixButtons;
 
 	@Override
 	public void onResume() {
@@ -59,6 +68,10 @@ public class SettingsFragment extends PreferenceFragment implements
 
 		mBackground = (ListPreference) findPreference(getString(R.string.pref_key_bg));
 		mBackground.setOnPreferenceClickListener(this);
+
+		mFixButtons = findPreference(getString(R.string.pref_key_fix));
+		mFixButtons.setOnPreferenceChangeListener(this);
+
 	}
 
 	@Override
@@ -70,10 +83,41 @@ public class SettingsFragment extends PreferenceFragment implements
 	}
 
 	@Override
+	public boolean onPreferenceChange(Preference preference, Object newValue) {
+		if (preference.getKey().equals(getString(R.string.pref_key_fix))) {
+			mNewFixButtonsVal = (Boolean) newValue;
+			showConfirmFixButtonsDialog();
+			return false;
+		}
+		return true;
+	}
+
+	private boolean mNewFixButtonsVal;
+
+	private void showConfirmFixButtonsDialog() {
+		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+		ab.setTitle(R.string.pref_dlg_tit_fix);
+		ab.setTitle(R.string.pref_dlg_msg_fix);
+		ab.setNegativeButton(android.R.string.cancel, null);
+		ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				saveFixButtons();
+			}
+		});
+		ab.show();
+	}
+
+	private void saveFixButtons() {
+		Editor e = getPreferenceManager().getSharedPreferences().edit();
+		String key = getString(R.string.pref_key_fix);
+		e.putBoolean(key, mNewFixButtonsVal).apply();
+	}
+
+	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
-		if (key.equals(getString(R.string.pref_key_fix))) {
-			showFixDialog();
-		} else if (key.equals(getString(R.string.pref_key_bg))) {
+		if (key.equals(getString(R.string.pref_key_bg))) {
 			final String value = sp.getString(getString(R.string.pref_key_bg),
 					getString(R.string.pref_val_bg_none));
 			if (value.equals(getString(R.string.pref_val_bg_gallery))) {
@@ -108,24 +152,22 @@ public class SettingsFragment extends PreferenceFragment implements
 
 			switch (req) {
 			case BG_REQUEST_CODE:
-				String path = data.getData().toString();
-				getPreferenceManager().getSharedPreferences().edit()
-						.putString(getString(R.string.pref_key_bg_uri), path)
-						.apply();
+				File out = new File(getActivity().getFilesDir(), "/background");
+				FileUtils.save(getActivity(), data.getData(), out);
+
+				// String path = data.getData().toString();
+				//
+				Uri uri = Uri.fromFile(out);
+				getPreferenceManager()
+						.getSharedPreferences()
+						.edit()
+						.putString(getString(R.string.pref_key_bg_uri),
+								uri.toString()).apply();
 
 				Toast.makeText(getActivity(), R.string.bg_changed_ok,
 						Toast.LENGTH_LONG).show();
 			}
 		}
-	}
-
-	private void showFixDialog() {
-		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setTitle(R.string.pref_dlg_tit_fix);
-		ab.setMessage(R.string.pref_dlg_msg_fix);
-		ab.setPositiveButton(android.R.string.ok, null);
-		ab.setCancelable(false);
-		ab.show();
 	}
 
 }

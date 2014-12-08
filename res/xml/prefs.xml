@@ -2,11 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <CheckBoxPreference
-        android:defaultValue="@bool/pref_def_fix"
-        android:key="@string/pref_key_fix"
-        android:summary="@string/pref_desc_fix"
-        android:title="@string/pref_tit_fix" />
-    <CheckBoxPreference
         android:defaultValue="@bool/pref_def_fullscreen"
         android:key="@string/pref_key_fullscreen"
         android:summary="@string/pref_desc_fullscreen"
@@ -47,5 +42,11 @@
         android:key="@string/pref_key_delay"
         android:summary="@string/pref_desc_delay"
         android:title="@string/pref_tit_delay" />
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_def_fix"
+        android:key="@string/pref_key_fix"
+        android:summary="@string/pref_desc_fix"
+        android:title="@string/pref_tit_fix" />
 
 </PreferenceScreen>
