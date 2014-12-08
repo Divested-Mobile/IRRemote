@@ -32,6 +32,7 @@ public abstract class NavigationFragment extends Fragment {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	protected DrawerLayout mDrawerLayout;
+	
 	protected View mFragmentContainerView;
 
 	private boolean mFromSavedInstanceState;

@@ -177,7 +177,7 @@ public class ProviderActivity extends ActionBarActivity {
 		saveRemote(this, remote);
 	}
 
-	public static void saveRemote(final Activity activity, Remote remote) {
+	private static void saveRemote(final Activity activity, Remote remote) {
 		SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
 		dialog.setListener(new OnRemoteSavedListener() {
 

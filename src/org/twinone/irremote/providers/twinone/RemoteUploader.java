@@ -66,7 +66,7 @@ public class RemoteUploader {
 			final Remote remote = Remote.load(mContext, remoteName);
 			ud.setRemote(remote);
 
-			final URL url = new URL(Constants.UPLOAD_URL);
+			final URL url = new URL(Constants.URL_UPLOAD);
 			final HttpURLConnection conn = (HttpURLConnection) url
 					.openConnection();
 			conn.setRequestMethod("POST");

@@ -4,19 +4,17 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.twinone.RemoteDownloader.DownloadListener;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-public class DownloadActivity extends Activity implements DownloadListener {
+public class DownloadActivity extends ProviderActivity implements
+		DownloadListener {
 
 	private static final String PARAM_ID = "id";
 
@@ -45,7 +43,6 @@ public class DownloadActivity extends Activity implements DownloadListener {
 		if (id == null || id.isEmpty())
 			return false;
 		mRemoteId = id;
-		Log.i("", "id extracted: " + id);
 		return true;
 	}
 
@@ -78,23 +75,17 @@ public class DownloadActivity extends Activity implements DownloadListener {
 	}
 
 	private void onIdAvailable() {
-		Toast.makeText(this, "Starting download... ", Toast.LENGTH_SHORT)
-				.show();
-
 		mDownloader = new RemoteDownloader();
 		mDownloader.download(mRemoteId, this);
 	}
 
 	@Override
 	public void onDownload(TransferableRemoteDetails details, int statusCode) {
-		Toast.makeText(this, "Downloaded!, status: " + statusCode,
-				Toast.LENGTH_SHORT).show();
-		ProviderActivity.saveRemote(this, details.remote);
+		// TODO show results or inform error
+		saveRemote(details.remote);
 	}
 
 	private boolean validateIntent() {
-		Log.i("RemoteDownloader", "Received intent: "
-				+ getIntent().getData().toString());
 		Uri data = getIntent().getData();
 		if (data == null)
 			return false;

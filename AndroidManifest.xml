@@ -31,6 +31,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name="org.twinone.irremote.ui.SettingsActivity" />
+        <activity android:name="org.twinone.irremote.providers.twinone.RegisterActivity" />
         <activity android:name="org.twinone.irremote.providers.twinone.DownloadActivity" />
         <activity android:name="org.twinone.irremote.ui.EditRemoteActivity" />
         <activity android:name="org.twinone.irremote.providers.ProviderActivity" />

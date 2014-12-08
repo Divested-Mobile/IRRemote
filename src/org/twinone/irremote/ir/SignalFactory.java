@@ -74,7 +74,7 @@ public class SignalFactory {
 			pronto[i] = Long.parseLong(split[i], 16);
 		}
 
-		if (pronto[0] != 0x0000)
+		if (pronto[0] != 0)
 			throw new IllegalArgumentException("Invalid pronto code");
 
 		int freq = (int) (1000000 / (pronto[1] * 0.241246));

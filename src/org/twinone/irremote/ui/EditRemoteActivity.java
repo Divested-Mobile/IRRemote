@@ -1,6 +1,7 @@
 package org.twinone.irremote.ui;
 
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 
 import android.app.Activity;
@@ -8,10 +9,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
-public class EditRemoteActivity extends ActionBarActivity {
+public class EditRemoteActivity extends ToolbarActivity {
 
 	private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.intent.extra.remote";
 
@@ -23,11 +23,6 @@ public class EditRemoteActivity extends ActionBarActivity {
 
 	private EditRemoteFragment mEditFragment;
 	private String mRemoteName;
-	Toolbar mToolbar;
-
-	protected Toolbar getToolbar() {
-		return mToolbar;
-	}
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -36,10 +31,7 @@ public class EditRemoteActivity extends ActionBarActivity {
 		setRequestedOrientation(MainActivity.getRequestedOrientation(this));
 
 		setContentView(R.layout.activity_empty);
-
-		mToolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(mToolbar);
-
+		
 		mRemoteName = getIntent().getStringExtra(EXTRA_REMOTE_NAME);
 		setTitle(getString(R.string.edit_activity_title, mRemoteName));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);

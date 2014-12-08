@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 
 public abstract class AnimHelper {
 	public static void startActivity(Activity from, Intent to) {
@@ -38,6 +39,8 @@ public abstract class AnimHelper {
 	}
 
 	public static Dialog addAnimations(Dialog d) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			return d;
 		d.getWindow().getAttributes().windowAnimations = R.style.DialogAnims;
 		return d;
 	}

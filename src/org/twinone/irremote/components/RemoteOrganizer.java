@@ -1,11 +1,8 @@
-package org.twinone.irremote.compat;
+package org.twinone.irremote.components;
 
 import java.util.ArrayList;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.Button;
-import org.twinone.irremote.components.ComponentUtils;
-import org.twinone.irremote.components.Remote;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -15,6 +12,29 @@ import android.view.WindowManager;
 public class RemoteOrganizer {
 
 	private final Context mContext;
+
+	public void addFlag(int flag) {
+		mFlags |= flag;
+	}
+
+	public void clearFlag(int flag) {
+		mFlags &= ~flag;
+	}
+
+	public void setFlags(int flags) {
+		mFlags = flags;
+	}
+
+	public static final int FLAG_TEXT = 1 << 0;
+	public static final int FLAG_ICON = 1 << 1;
+	public static final int FLAG_COLOR = 1 << 2;
+	public static final int FLAG_POSITION = 1 << 3;
+	public static final int FLAG_TEXT_SIZE = 1 << 4;
+	public static final int FLAG_CORNERS = 1 << 5;
+	private static final int DEFAULT_FLAGS = FLAG_ICON | FLAG_POSITION
+			| FLAG_COLOR | FLAG_CORNERS;
+
+	private int mFlags = DEFAULT_FLAGS;
 
 	private static final int DEFAULT_CORNER_RADIUS = 16; // dp
 
@@ -43,7 +63,7 @@ public class RemoteOrganizer {
 	 * Removes a button from the remote and adds it to the organized buttons
 	 * list
 	 */
-	private void markAsOrganized(Button... buttons) {
+	private void moveToOrganizedList(Button... buttons) {
 		for (Button b : buttons) {
 			// b can be null but we don't want it in the remote
 			if (b != null) {
@@ -148,16 +168,6 @@ public class RemoteOrganizer {
 		return px / mContext.getResources().getDisplayMetrics().density;
 	}
 
-	// Base method
-	public void updateWithoutSaving(Remote remote) {
-		if (remote == null) {
-			return;
-		}
-
-		mRemote = remote;
-		setupButtons();
-	}
-
 	/** Add default icons to this remote's buttons based on their ID's */
 	public static void addIcons(Remote remote, boolean removeTextIfIconFound) {
 		for (Button b : remote.buttons) {
@@ -165,6 +175,12 @@ public class RemoteOrganizer {
 			b.ic = icon;
 			if (icon != 0 && removeTextIfIconFound)
 				b.text = null;
+		}
+	}
+
+	public void updateAndSaveAll() {
+		for (String name : Remote.getNames(mContext)) {
+			updateAndSave(name);
 		}
 	}
 
@@ -177,31 +193,38 @@ public class RemoteOrganizer {
 		mRemote.save(mContext);
 	}
 
-	public void updateAndSaveAll() {
-		for (String name : Remote.getNames(mContext)) {
-			updateAndSave(name);
+	public void updateWithoutSaving(Remote remote) {
+		if (remote == null) {
+			return;
 		}
+
+		mRemote = remote;
+		organize();
 	}
 
 	/** Number of pixels we're away from the top */
 	int mTrackHeight;
 
-	private void setupButtons() {
+	private void organize() {
 
 		mTrackHeight = mMarginTop;
 		setupSizes();
-		setupCorners();
-		setupColors();
+		if ((mFlags & FLAG_COLOR) != 0)
+			setupColor();
 
-		useCols(4);
-		setupLayout4ColsNew();
+		if ((mFlags & FLAG_CORNERS) != 0)
+			setupCorners();
 
-		mRemote.buttons.addAll(mOrganizedButtons);
+		if ((mFlags & FLAG_ICON) != 0)
+			setupIcon();
+		if ((mFlags & FLAG_TEXT) != 0)
+			setupText();
 
-		mRemote.options.w = mDeviceWidth;
-		mRemote.options.h = calculateHeightPx();
-		mRemote.options.marginLeft = mMarginLeft;
-		mRemote.options.marginTop = mMarginTop;
+		if ((mFlags & FLAG_TEXT_SIZE) != 0)
+			setupTextSize();
+
+		if ((mFlags & FLAG_POSITION) != 0)
+			setupPosition();
 	}
 
 	int mCurrentRowCount;
@@ -248,6 +271,39 @@ public class RemoteOrganizer {
 		}
 	}
 
+	private void setupPosition() {
+		useCols(4);
+		setupLayout4ColsNew();
+
+		mRemote.buttons.addAll(mOrganizedButtons);
+
+		mRemote.options.w = mDeviceWidth;
+		mRemote.options.h = calculateHeightPx();
+		mRemote.options.marginLeft = mMarginLeft;
+		mRemote.options.marginTop = mMarginTop;
+	}
+
+	private void setupIcon() {
+		for (Button b : mRemote.buttons) {
+			b.ic = ComponentUtils.getIconIdForCommonButton(b.id);
+		}
+	}
+
+	private void setupText() {
+		for (Button b : mRemote.buttons) {
+			b.text = ComponentUtils.getCommonButtonDisplyaName(b.id, mContext);
+		}
+	}
+
+	private void setupTextSize() {
+		int size = mContext.getResources().getDimensionPixelSize(
+				R.dimen.default_text_size);
+		size = (int) pxToDp(size);
+		for (Button b : mRemote.buttons) {
+			b.setTextSize(size);
+		}
+	}
+
 	private void setupCorners() {
 		for (Button b : mRemote.buttons) {
 			setButtonCornerDp(b, 16);
@@ -266,7 +322,7 @@ public class RemoteOrganizer {
 
 	}
 
-	private void setupColors() {
+	private void setupColor() {
 		int def = Button.BG_TRANSPARENT;
 		for (Button b : mRemote.buttons) {
 			b.bg = def;
@@ -374,7 +430,7 @@ public class RemoteOrganizer {
 				final Button b = findId(ids[i]);
 				if (b != null) {
 					setButtonPosition(b, 0, y, i, 0);
-					markAsOrganized(b);
+					moveToOrganizedList(b);
 				}
 			}
 		}

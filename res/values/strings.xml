@@ -283,9 +283,40 @@
     <string name="learn_button_forget">Forget</string>
     <string name="learn_button_next">Next</string>
     <string name="no_remotes">You have no remotes\n\nTouch the + button to add your first remote</string>
-
     <string name="download_dlgtit">Download remote</string>
     <string name="download_dlgmsg">Enter the id of the remote you want to download</string>
     <string name="download_ok">Download</string>
+    <string name="reg_header">This message will be displayed to the user</string>
+    <string name="reg_email_hint">Email address</string>
+    <string name="reg_pwd_hint">Password</string>
+    <string name="reg_pwd_confirm_hint">Confirm password</string>
+    <string name="reg_user_hint">Username</string>
+    <string name="reg_submit">Register</string>
+    <string name="title_create_account">Create Account</string>
+    <string name="title_verify_account">Verify Account</string>
+    <string name="reg_err_pwd_match">Password don\'t match</string>
+    <string name="reg_err_user_short">Username too short</string>
+    <string name="reg_err_pwd_short">Password too short. Choose a password of at least 8 characters</string>
+    <string name="reg_err_all_fields">Please fill in all fields</string>
+    <string name="reg_dlgtit_loading">Registering</string>
+    <string name="reg_err_user_taken">The username %s has already been taken</string>
+    <string name="reg_err_invalid_email">Invalid email address</string>
+    <string name="reg_err_email_taken">This email address is already registered</string>
+    <string name="reg_dlgtit_ok">Registered</string>
+    <string name="reg_dlgmsg_ok">You are now registered!\n\nAn email has been sent to you. Please click on the link in it to confirm your account.\n\nPlease check your spam folder too, as it may end up there.</string>
+    <string name="reg_msg_srv_err">An error happened while registering:</string>
+    <!--  -->
+    <string name="reg_err_pass_short">Password too short</string>
+    <string name="reg_err_email_invalid">Invalid email address</string>
+    <string name="reg_err_user_long">Username too long</string>
+    <string name="reg_err_user_invalid">Invalid username</string>
+    <string name="reg_err_unknown">Unknown error</string>
+    <string name="network_error">There was an error connecting to the internet. Please try again later.</string>
+    <string name="title_account_verified">Verified</string>
+    <string name="vfy_ok">Your account has been verified. You are now logged in and ready to upload and download remotes from the Twinone IR Remote database</string>
+    <string name="vfy_err_noreg">There is no account to verify on this device. Please register first.</string>
+    <string name="vfy_failed">Verification failed</string>
+    <string name="vfy_try_again">Try again</string>
+    <string name="vfy_already_done">Your account (%s) is already verified</string>
     
 </resources>

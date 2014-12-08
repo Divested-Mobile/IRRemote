@@ -23,7 +23,7 @@ public class RemoteDownloader {
 	private URL getRemoteURL(String id) throws MalformedURLException {
 		if (id == null)
 			throw new NullPointerException("Remote id cannot be null");
-		return new URL(Constants.DOWNLOAD_URL + "?id=" + id);
+		return new URL(Constants.URL_DOWNLOAD + "?id=" + id);
 	}
 
 	public void setListener(DownloadListener listener) {
@@ -96,7 +96,7 @@ public class RemoteDownloader {
 			Log.d("Downloader", "Download result: " + conn.getResponseCode());
 			return remote;
 		} catch (Exception e) {
-			Log.w("Uploader", "Error downloading remote " + remoteId + ":", e);
+			Log.w("Downloader", "Error downloading remote " + remoteId + ":", e);
 			return null;
 		}
 	}

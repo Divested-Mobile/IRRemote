@@ -5,9 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.RemoteOrganizer;
+import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.ui.dialogs.EditColorDialog;
 import org.twinone.irremote.ui.dialogs.EditColorDialog.OnColorSelectedListener;
@@ -782,20 +783,20 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-		getSupportActionBar().setVisibility(View.INVISIBLE);
+		getToolbar().setVisibility(View.INVISIBLE);
 		mActionMode = mode;
 		MenuInflater inflater = mode.getMenuInflater();
 		inflater.inflate(R.menu.edit_cab, menu);
 		return true;
 	}
 
-	private Toolbar getSupportActionBar() {
-		return ((EditRemoteActivity) getActivity()).getToolbar();
+	private Toolbar getToolbar() {
+		return ((ToolbarActivity) getActivity()).getToolbar();
 	}
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
-		getSupportActionBar().setVisibility(View.VISIBLE);
+		getToolbar().setVisibility(View.VISIBLE);
 		for (ButtonView bv : getTargets()) {
 			bv.setPressLock(false);
 			bv.setPressed(false);

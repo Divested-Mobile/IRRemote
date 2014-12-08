@@ -57,6 +57,7 @@ public abstract class BaseRemoteFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("BaseRemoteFragment", "OnCreate");
 		if (getArguments() == null
 				|| !getArguments().containsKey(ARG_REMOTE_NAME)) {
 			throw new RuntimeException(
@@ -82,6 +83,7 @@ public abstract class BaseRemoteFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i("BaseRemoteFragment", "OnCreateView");
 
 		setHasOptionsMenu(true);
 

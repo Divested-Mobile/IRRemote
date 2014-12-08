@@ -1,6 +1,9 @@
 <?php
 require_once(__DIR__.'/db.inc.php');
 
+// Set to true to activate web create/drop
+$allow_db_creation = false;
+
 $db;
 
 function query_check($q) {
@@ -14,7 +17,7 @@ function query_check($q) {
 function drop_database() {
 	global $db;
 	$db = open_db();
-	if ($db->connnect_error) die("Connection failed");
+	if ($db->connect_error) die("Connection failed");
 	query_check('DROP DATABASE irremote;');
 }
 function create_database() {
@@ -33,6 +36,7 @@ function create_database() {
 		.'username VARCHAR(32) NOT NULL,'
 		.'password VARCHAR(128) NOT NULL,'
 		.'reg_date TIMESTAMP NOT NULL DEFAULT NOW(),'
+		.'access_token VARCHAR(32),'
 		.'PRIMARY KEY (id)'
 		.');');
 	query_check('ALTER TABLE users AUTO_INCREMENT=10000;');
@@ -54,6 +58,7 @@ function create_database() {
 		.'PRIMARY KEY (id),'
 		.'FOREIGN KEY (user_id) REFERENCES users(id)'
 		.');');
+	query_check('ALTER TABLE remotes AUTO_INCREMENT=10000;');
 
 	query_check('CREATE TABLE IF NOT EXISTS buttons ('
 		.'remote_id int,'
@@ -68,8 +73,6 @@ function create_database() {
 	echo '<br><br>All OK';
 }
 
-// Set to true to activate web create/drop
-$allow_db_creation = true;
 
 if ($allow_db_creation) {
 	if (isset($_GET['drop_db'])) {
@@ -84,7 +87,7 @@ if ($allow_db_creation) {
 	.'	<form mehtod="get" action="create-db.php">'
 	.'		<input hidden name="create_db" value="true">'
 	.'		<button type="submit">Create db</button>'
-	.'	</form>'
+	.'	</form><br>'
 	.'	<form mehtod="get" action="create-db.php">'
 	.'		<input hidden name="drop_db" value="true">'
 	.'		<button type="submit">Drop db</button>'

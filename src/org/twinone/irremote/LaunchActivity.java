@@ -1,6 +1,7 @@
 package org.twinone.irremote;
 
 import org.twinone.irremote.providers.twinone.DownloadActivity;
+import org.twinone.irremote.providers.twinone.RegisterActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +14,7 @@ public class LaunchActivity extends Activity {
 	private static final String PARAM_ACTION = "a";
 	private static final String ACTION_DOWNLOAD = "download";
 	private static final String ACTION_UPLOAD = "upload";
+	private static final String ACTION_VERIFY = "verify";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +33,10 @@ public class LaunchActivity extends Activity {
 		case ACTION_DOWNLOAD:
 			c = DownloadActivity.class;
 			break;
+		case ACTION_VERIFY:
+			c = RegisterActivity.class;
 		}
-		Log.i("LaunchActivity", "Received "
-				+ " for intent " + uri.toString());
+		Log.i("LaunchActivity", "Received " + " for intent " + uri.toString());
 
 		if (c != null) {
 			Intent i = new Intent(this, c);

@@ -66,14 +66,19 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
 	@Override
 	public void onPause() {
 		super.onPause();
-		mReceiver.stop();
+		if (mReceiver != null) {
+			mReceiver.stop();
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mReceiver.setListener(this);
-		mReceiver.start();
+		// if in debug mode, we can work without a receiver
+		if (mReceiver != null) {
+			mReceiver.setListener(this);
+			mReceiver.start();
+		}
 	}
 
 	protected void setProgressBar(HoloCircularProgressBar bar) {

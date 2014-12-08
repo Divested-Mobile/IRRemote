@@ -1,5 +1,7 @@
 package org.twinone.irremote.ir.io;
 
+import org.twinone.irremote.Constants;
+import org.twinone.irremote.debug.DebugReceiver;
 import org.twinone.irremote.ir.Signal;
 
 import android.content.Context;
@@ -27,8 +29,10 @@ public abstract class Receiver {
 			return new HTCReceiver(context);
 		} catch (ComponentNotAvailableException e) {
 		}
-
 		Log.w("Receiver", "Could not instantiate HTCReceiver");
+		if (Constants.USE_DEBUG_RECEIVER) {
+			return new DebugReceiver(context);
+		}
 		return null;
 	}
 

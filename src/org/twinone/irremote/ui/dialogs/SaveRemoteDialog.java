@@ -3,10 +3,10 @@ package org.twinone.irremote.ui.dialogs;
 import java.util.Iterator;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.RemoteOrganizer;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
+import org.twinone.irremote.components.RemoteOrganizer;
 
 import android.app.Activity;
 import android.app.AlertDialog;

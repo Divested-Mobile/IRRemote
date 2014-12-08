@@ -22,4 +22,12 @@
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
     </style>
 
+    <style name="AccentTint_Button_Base" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="AccentTint_Button" parent="@style/AccentTint_Button_Base">
+        <item name="android:background">@drawable/compat_accent_button</item>
+    </style>
+
 </resources>

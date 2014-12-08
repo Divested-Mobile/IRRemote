@@ -1,6 +1,8 @@
 package org.twinone.irremote.ir.io;
 
+import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
+import org.twinone.irremote.debug.DebugTransmitter;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ui.SettingsActivity;
 
@@ -8,6 +10,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 public abstract class Transmitter {
 	private final Context mContext;
@@ -55,6 +58,12 @@ public abstract class Transmitter {
 			return new KitKatTransmitter(c);
 		} catch (ComponentNotAvailableException e) {
 		}
+		Log.w("Receiver", "Could not instantiate KitKatTransmitter");
+		
+		if (Constants.USE_DEBUG_TRANSMITTER) {
+			return new DebugTransmitter(c);
+		}
+
 		return null;
 	}
 

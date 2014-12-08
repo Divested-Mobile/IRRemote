@@ -7,6 +7,7 @@ import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
@@ -14,6 +15,8 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.twinone.DownloadActivity;
+import org.twinone.irremote.providers.twinone.RegisterActivity;
 import org.twinone.irremote.providers.twinone.RemoteUploader;
 import org.twinone.irremote.providers.twinone.RemoteUploader.UploadListener;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
@@ -28,10 +31,9 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +45,7 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends ToolbarActivity implements
 		OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener,
 		android.view.View.OnClickListener {
 
@@ -56,15 +58,12 @@ public class MainActivity extends ActionBarActivity implements
 	private ImageView mBackground;
 	private ViewGroup mAdViewContainer;
 
-	Toolbar mToolbar;
-
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 
-		if (!checkTransmitterAvailable() && !Constants.ALLOW_NO_TRANSMITTER) {
+		if (!checkTransmitterAvailable() && !Constants.USE_DEBUG_TRANSMITTER) {
 			showNotAvailableDialog();
 		}
 
@@ -82,12 +81,10 @@ public class MainActivity extends ActionBarActivity implements
 		setRequestedOrientation(getRequestedOrientation());
 
 		setContentView(R.layout.activity_main);
-		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
 		mAddRemoteButton = (FloatingActionButton) findViewById(R.id.add_remote);
 		mAddRemoteButton.hide(false);
 		mAddRemoteButton.setOnClickListener(this);
-
-		setSupportActionBar(mToolbar);
 
 		setupNavigation();
 		setupShowAds();
@@ -269,7 +266,8 @@ public class MainActivity extends ActionBarActivity implements
 		menu.findItem(R.id.menu_action_rename).setVisible(hasRemote);
 		menu.findItem(R.id.menu_action_edit).setVisible(hasRemote);
 
-		menu.findItem(R.id.menu_action_learn).setVisible(canReceive);
+		boolean showLearn = canReceive || Constants.USE_DEBUG_RECEIVER;
+		menu.findItem(R.id.menu_action_learn).setVisible(showLearn);
 
 		menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG);
 		return true;
@@ -306,21 +304,25 @@ public class MainActivity extends ActionBarActivity implements
 			AnimHelper.startActivity(this, i);
 			break;
 		case R.id.menu_debug:
-			showDebugDialog();
+			debugDialog();
 			break;
 		}
 
 		return false;
 	}
 
-	private void showDebugDialog() {
+	private void debugDialog() {
 		AlertDialog.Builder ab = new AlertDialog.Builder(this);
 		ab.setTitle("Debug");
 		CharSequence[] titles = new CharSequence[] {
 
 		"UploadTest",
 
-		"DownloadTest"
+		"DownloadTest",
+
+		"Register",
+
+		"Verify"
 
 		};
 		ab.setItems(titles, new OnClickListener() {
@@ -343,10 +345,32 @@ public class MainActivity extends ActionBarActivity implements
 					});
 					up.upload(r);
 					break;
+				case 1:
+					Intent dl = new Intent(MainActivity.this,
+							DownloadActivity.class);
+					startActivity(dl);
+					break;
+				case 2:
+					Intent reg = new Intent(MainActivity.this,
+							RegisterActivity.class);
+					startActivity(reg);
+					break;
+				case 3:
+					Intent vfy = new Intent(MainActivity.this,
+							RegisterActivity.class);
+					Uri uri = Uri.parse("org.twinone.irremote/launch?a=verify");
+					vfy.setData(uri);
+					startActivity(vfy);
+					break;
 				}
 			}
 		});
 		ab.show();
+	}
+
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
 	}
 
 	private void showDeleteRemoteDialog() {

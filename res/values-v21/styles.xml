@@ -1,0 +1,7 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AccentTint_Button" parent="@style/AccentTint_Button_Base">
+        <item name="android:backgroundTint">@color/accent</item>
+    </style>
+
+</resources>
