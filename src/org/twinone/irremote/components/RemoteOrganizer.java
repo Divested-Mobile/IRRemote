@@ -242,7 +242,7 @@ public class RemoteOrganizer {
 				Button.ID_DIGIT_9);
 		addRow(Button.ID_MENU, 0, Button.ID_DIGIT_0, 0);
 
-		int type = mRemote.options.type;
+		int type = mRemote.details.type;
 		if (type == Remote.TYPE_CABLE || type == Remote.TYPE_BLURAY) {
 			addRow(Button.ID_RWD, Button.ID_PLAY, Button.ID_FFWD, Button.ID_REC);
 			addRow(Button.ID_PREV, Button.ID_PAUSE, Button.ID_NEXT,
@@ -277,10 +277,10 @@ public class RemoteOrganizer {
 
 		mRemote.buttons.addAll(mOrganizedButtons);
 
-		mRemote.options.w = mDeviceWidth;
-		mRemote.options.h = calculateHeightPx();
-		mRemote.options.marginLeft = mMarginLeft;
-		mRemote.options.marginTop = mMarginTop;
+		mRemote.details.w = mDeviceWidth;
+		mRemote.details.h = calculateHeightPx();
+		mRemote.details.marginLeft = mMarginLeft;
+		mRemote.details.marginTop = mMarginTop;
 	}
 
 	private void setupIcon() {

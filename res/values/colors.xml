@@ -9,6 +9,7 @@
     <item name="accent_dark" type="color">@color/material_orange_600</item>
     <item name="main_red" type="color">@color/material_red_500</item>
     <item name="green_learned" type="color">@color/material_green_500</item>
+    <item name="navigation_background" type="color">#ff222222</item>
 
     <color name="remote_button_bg_tr_default_start">#8333</color>
     <color name="remote_button_bg_tr_default_end">#8333</color>

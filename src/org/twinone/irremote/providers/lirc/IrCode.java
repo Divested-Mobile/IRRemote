@@ -27,7 +27,7 @@ public class IrCode extends LircListable {
 	public static Remote toRemote(Context c, String name, IrCode[] irCodes) {
 		Remote r = new Remote();
 		r.name = name;
-		r.options.type = Remote.TYPE_UNKNOWN;
+		r.details.type = Remote.TYPE_UNKNOWN;
 		int i = 0;
 		for (IrCode code : irCodes) {
 			int id = i++;

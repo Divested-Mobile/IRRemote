@@ -1,6 +1,5 @@
 package org.twinone.irremote;
 
-import org.twinone.irremote.providers.twinone.DownloadActivity;
 import org.twinone.irremote.providers.twinone.RegisterActivity;
 
 import android.app.Activity;
@@ -29,9 +28,6 @@ public class LaunchActivity extends Activity {
 		switch (action) {
 		case ACTION_UPLOAD:
 			c = LaunchActivity.class;
-			break;
-		case ACTION_DOWNLOAD:
-			c = DownloadActivity.class;
 			break;
 		case ACTION_VERIFY:
 			c = RegisterActivity.class;

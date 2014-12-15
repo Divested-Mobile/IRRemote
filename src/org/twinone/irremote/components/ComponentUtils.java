@@ -400,7 +400,7 @@ public class ComponentUtils {
 
 	public static Remote createEmptyRemote(Context c, int type) {
 		Remote r = new Remote();
-		r.options.type = type;
+		r.details.type = type;
 
 		int[] bb = getButtonsForType(type);
 		for (int i = 0; i < bb.length; i++) {

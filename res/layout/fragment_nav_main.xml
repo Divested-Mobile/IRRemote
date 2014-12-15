@@ -1,16 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff222222" >
-
-    <!--
-    <org.twinone.irremote.ui.SelectRemoteListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ff333333"
-    android:choiceMode="singleChoice" />
-    -->
+    android:background="@color/navigation_background" >
 
     <TextView
         android:id="@+id/select_remote_empty_info"

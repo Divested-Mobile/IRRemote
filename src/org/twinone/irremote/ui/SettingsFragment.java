@@ -152,11 +152,9 @@ public class SettingsFragment extends PreferenceFragment implements
 
 			switch (req) {
 			case BG_REQUEST_CODE:
-				File out = new File(getActivity().getFilesDir(), "/background");
-				FileUtils.save(getActivity(), data.getData(), out);
+				File out = new File(getActivity().getFilesDir(), "background");
+				FileUtils.saveImage(getActivity(), data.getData(), out);
 
-				// String path = data.getData().toString();
-				//
 				Uri uri = Uri.fromFile(out);
 				getPreferenceManager()
 						.getSharedPreferences()

@@ -28,7 +28,6 @@ public class GCProviderFragment extends ProviderFragment implements
 
 	public static final String ARG_URI_DATA = "com.twinone.irremote.arg.uri_data";
 
-	private ListView mListView;
 
 	private DBConnector mConnector;
 
@@ -128,9 +127,8 @@ public class GCProviderFragment extends ProviderFragment implements
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.db_menu, menu);
-
-		prepareSearch(menu, inflater);
-//		mSearchView.setQueryHint(getSearchHint(mUriData));
+		setupSearchView(menu, inflater);
+		mSearchView.setQueryHint(getSearchHint(mUriData));
 
 		boolean show = mUriData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
 				&& ACTION_SAVE_REMOTE.equals(getProvider().getAction());
@@ -195,11 +193,11 @@ public class GCProviderFragment extends ProviderFragment implements
 		// SearchView is so crappy that invalidateOptionsMenu will
 		// not remove the keyboard, we have to use this "hack"
 		// The null check is because the user could presses back very quickly
-		
-//		if (mSearchView != null) {
-//			mSearchView.setQuery("", false);
-//			mSearchView.clearFocus();
-//		}
+
+		// if (mSearchView != null) {
+		// mSearchView.setQuery("", false);
+		// mSearchView.clearFocus();
+		// }
 
 		super.onPause();
 	}

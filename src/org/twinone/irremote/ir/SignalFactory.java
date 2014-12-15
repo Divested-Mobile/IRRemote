@@ -44,9 +44,17 @@ public class SignalFactory {
 		}
 	}
 
+	public static final String toGlobalCache(Signal s) {
+		int[] pattern = s.getPattern();
+		StringBuilder sb = new StringBuilder(pattern[0]);
+		for (int i = 1; i < pattern.length; i++)
+			sb.append(',').append(pattern[i]);
+		return sb.toString();
+	}
+
 	private static final Signal fromGlobalCache(String in) {
 		// GlobalCache format is as follows:
-		// Frequency,Repeat,Offset,On1,Off1, ... ,OnN,OffN
+		// Frequency[,Repeat,Offset],On1,Off1, ... ,OnN,OffN
 		// We ignore Repeat and Offset
 		in = in.trim();
 		final String[] split = in.split(",");
@@ -61,6 +69,8 @@ public class SignalFactory {
 		final int[] pattern = new int[values.length - offset];
 		for (int i = 0; i < pattern.length; i++) {
 			pattern[i] = (int) values[offset + i];
+			if (pattern[i] <= 0)
+				pattern[i] = 1;
 		}
 
 		return new Signal(freq, pattern);
@@ -85,8 +95,9 @@ public class SignalFactory {
 
 		final int[] pattern = new int[bps1 + bps2];
 		for (int i = 0; i < pattern.length; i++) {
-			pattern[i] = (int) pronto[offset + i] <= 0 ? 1
-					: (int) pronto[offset + i];
+			pattern[i] = (int) pronto[offset + i];
+			if (pattern[i] <= 0)
+				pattern[i] = 1;
 		}
 
 		return new Signal(freq, pattern);
@@ -124,8 +135,8 @@ public class SignalFactory {
 		for (long l : pronto) {
 			if (append) {
 				out.append(' ');
-			}
-			append = true;
+			} else
+				append = true;
 			String hex = Long.toHexString(l);
 			// TODO should we use leading zeroes? The parser doesn't care...
 			while (hex.length() < 4) {

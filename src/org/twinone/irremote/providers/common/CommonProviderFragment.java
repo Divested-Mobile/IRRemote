@@ -35,8 +35,6 @@ public class CommonProviderFragment extends ProviderFragment implements
 	private static final String COMMON_CABLE_NAME = "Cable";
 	private static final String COMMON_AUDIO_AMPLIFIER = "Audio";
 
-	private ListView mListView;
-	private ListableAdapter mAdapter;
 
 	public static final String ARG_DATA = "arg.data";
 	private CommonProviderData mTarget;
@@ -239,7 +237,7 @@ public class CommonProviderFragment extends ProviderFragment implements
 			r.addButton(b);
 			Log.d("TEST", "Adding button " + b.text + " to remote");
 		}
-		r.options.type = getDeviceTypeInt(mTarget.deviceType);
+		r.details.type = getDeviceTypeInt(mTarget.deviceType);
 		return r;
 	}
 
@@ -259,11 +257,14 @@ public class CommonProviderFragment extends ProviderFragment implements
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.common_menu, menu);
+		setupSearchView(menu, inflater);
+
 		MenuItem save = menu.findItem(R.id.menu_save);
 		MenuItem more = menu.findItem(R.id.menu_more);
 		boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
 		boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
 		save.setVisible(ircode && remote);
 		more.setVisible(!ircode);
+
 	}
 }

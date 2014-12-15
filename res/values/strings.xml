@@ -304,6 +304,8 @@
     <string name="reg_dlgmsg_ok">You are now registered!\n\nAn email has been sent to you. Please click on the link in it to confirm your account.\n\nPlease check your spam folder too, as it may end up there.</string>
     <string name="reg_msg_srv_err">An error happened while registering:</string>
     <!--  -->
+    <string name="reg_err_already_registered_novfy">You\'ve already registered an account (%s), please click the link sent to you by email to verify it</string>
+    <string name="reg_err_already_registered">You\'re already logged in as %s - no need to register again</string>
     <string name="reg_err_pass_short">Password too short</string>
     <string name="reg_err_email_invalid">Invalid email address</string>
     <string name="reg_err_user_long">Username too long</string>
@@ -318,5 +320,32 @@
     <string name="vfy_already_done">Your account (%s) is already verified</string>
     <string name="pref_dlg_tit_fix">Warning</string>
     <string name="pref_dlg_msg_fix">If you have ANY remote button working, don\'t touch this setting.\nOnly change it if NOTHING works for you.\n\nAfter changing this setting, reboot your device.\n\nAre you sure you want to change this setting?</string>
-
+    <string name="title_upload">Upload %s</string>
+    <string name="upl_hint_name">Remote name</string>
+    <string name="upl_hint_device_type">Device type</string>
+    <string name="upl_hint_manufacturer">Manufactuter</string>
+    <string name="upl_hint_model">Model</string>
+    <string name="dev_type_tv">TV</string>
+    <string name="dev_type_cable">Set-top</string>
+    <string name="dev_type_cd">CD Player</string>
+    <string name="dev_type_dvd">DVD Player</string>
+    <string name="dev_type_blu_ray">Blu-ray Player</string>
+    <string name="dev_type_audio">Blu-ray Player</string>
+    <string name="dev_type_camera">Camera</string>
+    <string name="dev_type_air_con">Air conditioning</string>
+    <string name="dev_type_other">Other</string>
+    <!--  -->
+    <string name="organize_icons">Icons</string>
+    <string name="organize_colors">Colors</string>
+    <string name="organize_corners">Corners</string>
+    <string name="organize_positions">Positions</string>
+    <string name="organize_dlgtit">Organize Buttons</string>
+    <!--  -->
+    <string name="provider_common">Common Remotes</string>
+    <string name="provider_twinone">Online Database</string>
+    <string name="provider_local">My Remotes</string>
+    <string name="provider_learn">Learn Remote</string>
+    <string name="title_provider_add_button">Add button</string>
+    <string name="title_provider_add_remote">Add remote</string>
+    
 </resources>

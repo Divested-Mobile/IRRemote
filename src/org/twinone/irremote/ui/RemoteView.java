@@ -25,7 +25,7 @@ public class RemoteView extends RelativeLayout {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(widthMeasureSpec, mRemote.options.h);
+		setMeasuredDimension(widthMeasureSpec, mRemote.details.h);
 	}
 
 	public RemoteView(Context context, AttributeSet attrs) {

@@ -1,18 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:paddingBottom="@dimen/element_vertical_margin"
     android:paddingLeft="@dimen/element_horizontal_margin"
     android:paddingRight="@dimen/element_horizontal_margin"
-    android:paddingTop="@dimen/element_vertical_margin" >
+    android:paddingTop="@dimen/element_vertical_margin"
+    android:textSize="20sp" >
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="20sp" >
-    </TextView>
-
-</LinearLayout>
+</TextView>

@@ -38,4 +38,10 @@ public class ToolbarActivity extends ActionBarActivity {
 		return mToolbar;
 	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		super.setTitle(title);
+		getToolbar().setTitle(title);
+	}
+
 }

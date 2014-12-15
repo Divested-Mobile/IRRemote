@@ -1,7 +1,8 @@
 package org.twinone.irremote.providers.twinone;
 
 import org.twinone.androidlib.net.HttpJson;
-import org.twinone.androidlib.net.HttpJson.Listener;
+import org.twinone.androidlib.net.HttpJson.ExceptionListener;
+import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
@@ -11,9 +12,7 @@ import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterResp;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,11 +27,13 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class RegisterFragment extends Fragment implements
 		OnFocusChangeListener, OnClickListener, TextWatcher,
-		Listener<RegisterReq, RegisterResp> {
+		ResponseListener<RegisterReq, RegisterResp>,
+		ExceptionListener<RegisterReq, RegisterResp> {
 
 	private static final int GET_ACCOUNT = 0xCACA;
 
@@ -53,6 +54,7 @@ public class RegisterFragment extends Fragment implements
 	private EditText mPwdConfirm;
 	private EditText mEmail;
 	private Button mSubmit;
+	private LinearLayout mForm;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,18 @@ public class RegisterFragment extends Fragment implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getActivity().setTitle(R.string.title_create_account);
 
+		mForm = (LinearLayout) root.findViewById(R.id.reg_form);
 		mMessage = (TextView) root.findViewById(R.id.reg_message);
+		UserInfo ui = UserInfo.load(getActivity());
+		if (ui != null && ui.username != null) {
+			if (ui.access_token == null)
+				mMessage.setText(getString(R.string.reg_err_already_registered_novfy, ui.username));
+			else
+				mMessage.setText(getString(R.string.reg_err_already_registered, ui.username));
+			mForm.setVisibility(View.GONE);
+			return root;
+		}
+
 		mUsername = (EditText) root.findViewById(R.id.reg_username);
 		mPwd = (EditText) root.findViewById(R.id.reg_pwd);
 		mPwdConfirm = (EditText) root.findViewById(R.id.reg_pwd_confirm);
@@ -191,7 +204,7 @@ public class RegisterFragment extends Fragment implements
 
 		HttpJson<RegisterReq, RegisterResp> hj = new HttpJson<>(
 				RegisterResp.class, Constants.URL_REGISTER);
-		hj.execute(req, this);
+		hj.execute(req, this, this);
 
 	}
 
@@ -199,11 +212,11 @@ public class RegisterFragment extends Fragment implements
 	public void onServerResponse(int statusCode, RegisterReq req,
 			RegisterResp resp) {
 		if (resp.status == STATUS_OK) {
-			Editor editor = getActivity().getSharedPreferences("default",
-					Context.MODE_PRIVATE).edit();
-			editor.putString(RegisterActivity.PREF_KEY_EMAIL, req.email);
-			editor.putString(RegisterActivity.PREF_KEY_USERNAME, req.username);
-			editor.apply();
+			UserInfo ui = new UserInfo();
+			ui.username = req.username;
+			ui.email = req.email;
+			ui.save(getActivity());
+
 			mDialog.setTitle(R.string.reg_dlgtit_ok);
 			mDialog.setMessage(getString(R.string.reg_dlgmsg_ok));
 		} else {

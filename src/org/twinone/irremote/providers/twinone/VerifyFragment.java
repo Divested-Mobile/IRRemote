@@ -1,16 +1,15 @@
 package org.twinone.irremote.providers.twinone;
 
 import org.twinone.androidlib.net.HttpJson;
-import org.twinone.androidlib.net.HttpJson.Listener;
+import org.twinone.androidlib.net.HttpJson.ExceptionListener;
+import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.providers.twinone.VerifyFragment.VerifyReq;
 import org.twinone.irremote.providers.twinone.VerifyFragment.VerifyResp;
 import org.twinone.irremote.ui.SettingsActivity;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,15 +22,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class VerifyFragment extends Fragment implements OnClickListener,
-		Listener<VerifyReq, VerifyResp> {
+		ResponseListener<VerifyReq, VerifyResp>,
+		ExceptionListener<VerifyReq, VerifyResp> {
 
 	private TextView mMessage;
 	private Button mTryAgain;
+
+	private UserInfo mUserInfo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActivity().setTitle(R.string.title_verify_account);
+		mUserInfo = UserInfo.load(getActivity());
 	}
 
 	@Override
@@ -52,10 +55,11 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 
 	public static class VerifyResp {
 		public int status;
+		public int id;
 		public String access_token;
 	}
 
-	private String getToken() {
+	private String getRegistrationToken() {
 		Uri uri = getActivity().getIntent().getData();
 		if (uri == null)
 			return null;
@@ -68,7 +72,7 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 			int color = getResources().getColor(
 					R.color.abc_primary_text_material_dark);
 			mMessage.setTextColor(color);
-			String username = RegisterActivity.getUsername(getActivity());
+			String username = mUserInfo.username;
 			mMessage.setText(getString(R.string.vfy_already_done, username));
 			mTryAgain.setVisibility(View.GONE);
 			return;
@@ -76,8 +80,9 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 
 		VerifyReq req = new VerifyReq();
 		SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
-		req.username = sp.getString(RegisterActivity.PREF_KEY_USERNAME, null);
-		req.token = getToken();
+
+		req.username = mUserInfo.username;
+		req.token = getRegistrationToken();
 
 		if (req.username == null) {
 			showError(R.string.vfy_err_noreg, false);
@@ -85,6 +90,7 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 		}
 
 		HttpJson<VerifyReq, VerifyResp> hj = new HttpJson<>(VerifyResp.class);
+		hj.setExceptionListener(this);
 		hj.setUrl(Constants.URL_VERIFY);
 		hj.execute(req, this);
 	}
@@ -92,13 +98,12 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onServerResponse(int statusCode, VerifyReq req, VerifyResp resp) {
 		if (resp.status == 0) {
+			mUserInfo.access_token = resp.access_token;
+			mUserInfo.id = resp.id;
+			
+			mUserInfo.save(getActivity());
+
 			showOkMessage();
-			Editor ed = getActivity().getSharedPreferences("default",
-					Context.MODE_PRIVATE).edit();
-			ed.putString(RegisterActivity.PREF_KEY_ACCESS_TOKEN,
-					resp.access_token);
-			ed.putBoolean(RegisterActivity.PREF_KEY_REGISTERED, true);
-			ed.apply();
 		} else {
 			showError(R.string.vfy_failed, false);
 		}

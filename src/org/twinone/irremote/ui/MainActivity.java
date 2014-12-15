@@ -1,5 +1,8 @@
 package org.twinone.irremote.ui;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.RateManager;
 import org.twinone.androidlib.versionmanager.VersionManager;
@@ -15,10 +18,8 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.twinone.DownloadActivity;
 import org.twinone.irremote.providers.twinone.RegisterActivity;
-import org.twinone.irremote.providers.twinone.RemoteUploader;
-import org.twinone.irremote.providers.twinone.RemoteUploader.UploadListener;
+import org.twinone.irremote.providers.twinone.UploadActivity;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
@@ -32,6 +33,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -41,7 +43,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -53,7 +54,7 @@ public class MainActivity extends ToolbarActivity implements
 
 	public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
 
-	private NavFragment mNavFragment;
+	private MainNavFragment mNavFragment;
 
 	private ImageView mBackground;
 	private ViewGroup mAdViewContainer;
@@ -95,9 +96,10 @@ public class MainActivity extends ToolbarActivity implements
 		RateManager.show(this, getString(R.string.share_promo));
 	}
 
+
 	private void setupNavigation() {
 
-		mNavFragment = (NavFragment) getSupportFragmentManager()
+		mNavFragment = (MainNavFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mNavFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
@@ -256,9 +258,7 @@ public class MainActivity extends ToolbarActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.remote, menu);
 		boolean hasRemote = getRemoteName() != null;
-		Log.d(TAG, "Before check");
-		boolean canReceive = Receiver.performAvailableCheck(this);
-		Log.d(TAG, "After check");
+		boolean canReceive = Receiver.isAvailable(this);
 		if (!hasRemote) {
 			setTitle(R.string.app_name);
 		}
@@ -316,9 +316,7 @@ public class MainActivity extends ToolbarActivity implements
 		ab.setTitle("Debug");
 		CharSequence[] titles = new CharSequence[] {
 
-		"UploadTest",
-
-		"DownloadTest",
+		"Upload",
 
 		"Register",
 
@@ -331,31 +329,14 @@ public class MainActivity extends ToolbarActivity implements
 			public void onClick(DialogInterface dialog, int which) {
 				switch (which) {
 				case 0:
-					RemoteUploader up = new RemoteUploader(MainActivity.this);
-					String name = getRemoteName();
-					Remote r = Remote.load(MainActivity.this, name);
-					up.setListener(new UploadListener() {
-
-						@Override
-						public void onUpload(int statusCode, String message) {
-							Toast.makeText(MainActivity.this,
-									"Status: " + statusCode, Toast.LENGTH_SHORT)
-									.show();
-						}
-					});
-					up.upload(r);
+					UploadActivity.startFor(getRemoteName(), MainActivity.this);
 					break;
 				case 1:
-					Intent dl = new Intent(MainActivity.this,
-							DownloadActivity.class);
-					startActivity(dl);
-					break;
-				case 2:
 					Intent reg = new Intent(MainActivity.this,
 							RegisterActivity.class);
 					startActivity(reg);
 					break;
-				case 3:
+				case 2:
 					Intent vfy = new Intent(MainActivity.this,
 							RegisterActivity.class);
 					Uri uri = Uri.parse("org.twinone.irremote/launch?a=verify");

@@ -1,5 +1,6 @@
 package org.twinone.irremote.providers;
 
+import org.twinone.androidlib.NavigationFragment.NavigationListener;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
@@ -13,25 +14,24 @@ import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
 import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
 import org.twinone.irremote.providers.lirc.LircProviderData;
 import org.twinone.irremote.providers.lirc.LircProviderFragment;
-import org.twinone.irremote.ui.ButtonView;
+import org.twinone.irremote.ui.ProviderNavFragment;
+import org.twinone.irremote.ui.dialogs.SaveButtonDialog;
+import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
-import org.twinone.irremote.util.TransmitOnTouchListener;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Toast;
 
-public class ProviderActivity extends ActionBarActivity {
+public class ProviderActivity extends ActionBarActivity implements
+		NavigationListener {
 
 	private String mAction;
 
@@ -40,15 +40,13 @@ public class ProviderActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * This triggers the standalone mode, a remote will be saved within the
-	 * ProviderActivity
+	 * The user will select a remote which will be saved directly
 	 */
 	public static final String ACTION_SAVE_REMOTE = "org.twinone.irremote.intent.action.save_remote";
 
 	/**
-	 * This triggers the callback mode.<br>
-	 * When a button has been selected by the user it's details are sent back as
-	 * intent extras to the calling activity via onActivityResult
+	 * The user will select a button that will be returned to the calling
+	 * activity
 	 */
 	public static final String ACTION_GET_BUTTON = "org.twinone.irremote.intent.action.get_button";
 
@@ -59,23 +57,33 @@ public class ProviderActivity extends ActionBarActivity {
 	public static final String EXTRA_RESULT_BUTTON = "org.twinone.irremote.intent.extra.result_buttons";
 
 	/**
-	 * Integer extra, specified in the launching intent. When specified, it
-	 * opens the associated fragment instead of the default
-	 * {@link CommonProviderFragment}<br>
-	 * Must be one of PROVIDER_ in this class
+	 * If specified, {@link ProviderActivity} will open this provider instead of
+	 * the default
 	 */
 	public static final String EXTRA_PROVIDER = "org.twinone.irremote.intent.extra.provider_name";
 
+	/** Common remotes (assets db) */
 	public static final int PROVIDER_COMMON = 1;
+	/** Lirc online database */
 	public static final int PROVIDER_LIRC = 2;
+	/** GlobalCaché online database */
 	public static final int PROVIDER_GLOBALCACHE = 3;
+	/** Twinone online database */
 	public static final int PROVIDER_TWINONE = 4;
+	/** On HTC Devices, learn a remote (or button) */
 	public static final int PROVIDER_LEARN = 5;
+	/** My remotes */
+	public static final int PROVIDER_LOCAL = 6;
+
+	/** Provides an empty remote (no buttons) or button (no code, color or text) */
+	public static final int PROVIDER_EMPTY = 7;
 
 	private Transmitter mTransmitter;
 
 	private int mInnerFragmentCurrentState;
 	private int mInnerFragmentExitState;
+
+	private ProviderNavFragment mNavFragment;
 
 	private int mCurrentProvider;
 	private Toolbar mToolbar;
@@ -102,57 +110,82 @@ public class ProviderActivity extends ActionBarActivity {
 		}
 
 		mAction = getIntent().getAction();
-		mCurrentProvider = getIntent().getIntExtra(EXTRA_PROVIDER,
-				PROVIDER_COMMON);
 
-		setContentView(R.layout.activity_empty);
+		setContentView(R.layout.activity_provider);
+
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(mToolbar);
 		mToolbar.inflateMenu(R.menu.db_menu);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setupNavigation();
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(SAVE_TITLE)) {
 				setTitle(savedInstanceState.getString(SAVE_TITLE));
 			}
 		} else {
-			switchTo(mCurrentProvider);
+			int provider = getIntent().getIntExtra(EXTRA_PROVIDER,
+					PROVIDER_COMMON);
+			switchTo(provider);
 		}
+
+		setTitle(R.string.app_name);
+		mNavFragment.open(true);
+	}
+
+	private void setupNavigation() {
+		mNavFragment = (ProviderNavFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.navigation_drawer);
+		mNavFragment.setUp(R.id.navigation_drawer,
+				(DrawerLayout) findViewById(R.id.drawer_layout));
+		mNavFragment.setEdgeSizeDp(30);
+		mNavFragment.setNavigationListener(this);
+
 	}
 
 	/**
 	 * Use this method to send the selected button back to the calling activity
 	 */
 
-	public void saveButton(final Button result) {
+	public void saveButton(final Button button) {
 
-		LayoutInflater li = LayoutInflater.from(this);
-		View v = li.inflate(R.layout.dialog_save_button, null);
-		final ButtonView bv = (ButtonView) v
-				.findViewById(R.id.dialog_save_button_button);
-		bv.setButton(result);
-		if (getTransmitter() != null)
-			bv.setOnTouchListener(new TransmitOnTouchListener(getTransmitter()));
+		// LayoutInflater li = LayoutInflater.from(this);
+		// View v = li.inflate(R.layout.dialog_save_button, null);
+		// final ButtonView bv = (ButtonView) v
+		// .findViewById(R.id.dialog_save_button_button);
+		// bv.setButton(button);
+		// if (getTransmitter() != null)
+		// bv.setOnTouchListener(new TransmitOnTouchListener(getTransmitter()));
+		//
+		// final AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		// ab.setTitle(R.string.save_button_dlgtit);
+		// ab.setMessage(R.string.save_button_dlgmsg);
+		// ab.setView(v);
+		// ab.setNegativeButton(android.R.string.cancel, null);
+		// ab.setPositiveButton(android.R.string.ok,
+		// new DialogInterface.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// Intent i = new Intent();
+		// i.putExtra(EXTRA_RESULT_BUTTON, button);
+		// setResult(Activity.RESULT_OK, i);
+		// finish();
+		// }
+		// });
+		// AnimHelper.showDialog(ab);
+		SaveButtonDialog d = SaveButtonDialog.newInstance(button);
+		d.setListener(new OnSaveButton() {
 
-		final AlertDialog.Builder ab = new AlertDialog.Builder(this);
-		ab.setTitle(R.string.save_button_dlgtit);
-		ab.setMessage(R.string.save_button_dlgmsg);
-		ab.setView(v);
-		ab.setNegativeButton(android.R.string.cancel, null);
-		ab.setPositiveButton(android.R.string.ok,
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Intent i = new Intent();
-						i.putExtra(EXTRA_RESULT_BUTTON, result);
-						setResult(Activity.RESULT_OK, i);
-						finish();
-					}
-				});
-		AnimHelper.showDialog(ab);
-
+			@Override
+			public void onSaveButton(Button result) {
+				Intent i = new Intent();
+				i.putExtra(EXTRA_RESULT_BUTTON, result);
+				setResult(Activity.RESULT_OK, i);
+				finish();
+			}
+		});
+		d.show(this);
 	}
 
 	/**
@@ -225,8 +258,12 @@ public class ProviderActivity extends ActionBarActivity {
 	@Override
 	public void setTitle(CharSequence title) {
 		super.setTitle(title);
-		getSupportActionBar().setTitle(title);
-		mTitle = (String) title;
+		if (mNavFragment.isOpen()) {
+			mSavedTitle = title.toString();
+		} else {
+			getSupportActionBar().setTitle(title);
+			mTitle = (String) title;
+		}
 	}
 
 	@Override
@@ -300,7 +337,21 @@ public class ProviderActivity extends ActionBarActivity {
 		getFragmentManager().popBackStack();
 	}
 
+	int mPendingSwitch = -1;
+
 	public void switchTo(int provider) {
+		if (provider == mCurrentProvider)
+			return;
+		if (mNavFragment.isOpen()) {
+			mPendingSwitch = provider;
+			mNavFragment.close();
+		} else {
+			switchToImpl(provider);
+		}
+	}
+
+	private void switchToImpl(int provider) {
+		Log.d("", "SwitchToImpl");
 		popAllFragments();
 		switch (provider) {
 		case PROVIDER_GLOBALCACHE:
@@ -313,5 +364,32 @@ public class ProviderActivity extends ActionBarActivity {
 			addFragment(new CommonProviderFragment());
 			break;
 		}
+
+		mCurrentProvider = provider;
 	}
+
+	private String mSavedTitle;
+
+	@Override
+	public void onNavigationOpened() {
+		Log.i("", "OnNavigationOpened");
+		mSavedTitle = getTitle().toString();
+		if (ACTION_GET_BUTTON.equals(mAction)) {
+			getSupportActionBar().setTitle(R.string.title_provider_add_button);
+		} else {
+			getSupportActionBar().setTitle(R.string.title_provider_add_remote);
+		}
+	}
+
+	@Override
+	public void onNavigationClosed() {
+		Log.i("", "OnNavigationCLosed");
+		getSupportActionBar().setTitle(mSavedTitle);
+
+		if (mPendingSwitch != -1) {
+			switchToImpl(mPendingSwitch);
+			mPendingSwitch = -1;
+		}
+	}
+
 }

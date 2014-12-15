@@ -36,7 +36,7 @@ public abstract class Receiver {
 		return null;
 	}
 
-	public static boolean performAvailableCheck(Context c) {
+	public static boolean isAvailable(Context c) {
 		return getInstance(c) != null;
 	}
 

@@ -14,7 +14,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/reg_message"
+            android:id="@+id/upl_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -24,46 +24,46 @@
             android:textColor="#aaffffff" />
 
         <LinearLayout
-            android:id="@+id/reg_form"
+            android:id="@+id/upl_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/reg_username"
+                android:id="@+id/upl_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/reg_user_hint"
+                android:hint="@string/upl_hint_name"
                 android:inputType="text"
-                android:maxLength="32" />
+                android:maxLength="64" />
 
-            <EditText
-                android:id="@+id/reg_email"
+            <Spinner
+                android:id="@+id/upl_device_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:cursorVisible="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="@string/reg_email_hint"
-                android:inputType="textEmailAddress" />
+                android:title="@string/upl_hint_device_type"
+                android:inputType="text"
+                android:maxLength="64" />
 
-            <EditText
-                android:id="@+id/reg_pwd"
+            <AutoCompleteTextView
+                android:id="@+id/upl_manufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/reg_pwd_hint"
-                android:inputType="textPassword" />
+                android:hint="@string/upl_hint_manufacturer"
+                android:inputType="text"
+                android:maxLength="64" />
 
-            <EditText
-                android:id="@+id/reg_pwd_confirm"
+            <AutoCompleteTextView
+                android:id="@+id/upl_model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/reg_pwd_confirm_hint"
-                android:inputType="textPassword" />
+                android:hint="@string/upl_hint_model"
+                android:inputType="text"
+                android:maxLength="64" />
 
             <Button
                 android:id="@+id/reg_submit"

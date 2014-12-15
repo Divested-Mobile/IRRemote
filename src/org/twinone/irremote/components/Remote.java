@@ -7,13 +7,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.twinone.irremote.ui.NavFragment;
+import org.twinone.irremote.ui.MainNavFragment;
 import org.twinone.irremote.util.FileUtils;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class Remote implements Serializable {
 
@@ -24,7 +25,7 @@ public class Remote implements Serializable {
 
 	public Remote() {
 		buttons = new ArrayList<Button>();
-		options = new Options();
+		details = new Details();
 	}
 
 	public String name;
@@ -40,18 +41,29 @@ public class Remote implements Serializable {
 	// Unknown remotes will be displayed as a list
 	public static final int TYPE_UNKNOWN = -1;
 
-	public Options options;
+	public Details details;
 
-	public static class Options implements Serializable {
+	public static class Details implements Serializable {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = -6674520681482052007L;
 
+		// Remote details
+		long id;
+		/** If this remote was forked from another, this is the parent's id */
+		// Original owner can be retrieved on server
+		@SerializedName("parent_id")
+		long parentId;
+
+		
 		// Receiving device details
 		public int type;
-		// if type == null, indicate unknownType
-		public String unknownType;
+		/**
+		 * Used if the user indicates the remote is for some strange device type
+		 */
+		@SerializedName("type_string")
+		public String typeString;
 		public String manufacturer;
 		public String model;
 
@@ -74,7 +86,7 @@ public class Remote implements Serializable {
 	 * @param flags
 	 */
 	public void addFlags(int flags) {
-		options.flags |= flags;
+		details.flags |= flags;
 	}
 
 	/**
@@ -83,7 +95,7 @@ public class Remote implements Serializable {
 	 * @param flags
 	 */
 	public void removeFlags(int flags) {
-		options.flags &= ~flags;
+		details.flags &= ~flags;
 	}
 
 	public static final int FLAG_LEARNED = 1 << 0;
@@ -136,7 +148,6 @@ public class Remote implements Serializable {
 
 	private static final String OPTIONS_FILE = "remote.options";
 
-	// Constructor from a file
 	private Remote(Context c, String remoteName) {
 		this();
 		if (remoteName == null)
@@ -144,7 +155,7 @@ public class Remote implements Serializable {
 		this.name = remoteName;
 		final Gson gson = new Gson();
 		File optfile = new File(getRemoteDir(c), OPTIONS_FILE);
-		options = gson.fromJson(FileUtils.read(optfile), Options.class);
+		details = gson.fromJson(FileUtils.read(optfile), Details.class);
 		for (final File f : getRemoteDir(c, remoteName).listFiles()) {
 			if (f.getName().endsWith(BUTTON_EXTENSION)) {
 				Button b = gson.fromJson(FileUtils.read(f), Button.class);
@@ -178,13 +189,12 @@ public class Remote implements Serializable {
 		FileUtils.clear(dir);
 		for (Button b : buttons) {
 			if (b != null) {
-				// File f = getNextFile(dir, BUTTON_PREFIX, BUTTON_EXTENSION);
 				File f = new File(dir, BUTTON_PREFIX + b.uid + BUTTON_EXTENSION);
 				FileUtils.write(f, gson.toJson(b));
 			}
 		}
 		File f = new File(dir, OPTIONS_FILE);
-		FileUtils.write(f, gson.toJson(options));
+		FileUtils.write(f, gson.toJson(details));
 	}
 
 	public static List<String> getNames(Context c) {
@@ -272,7 +282,7 @@ public class Remote implements Serializable {
 	 */
 	public static String getPersistedRemoteName(Context c) {
 		return c.getSharedPreferences("remote", Context.MODE_PRIVATE)
-				.getString(NavFragment.PREF_KEY_LAST_REMOTE, null);
+				.getString(MainNavFragment.PREF_KEY_LAST_REMOTE, null);
 	}
 
 	/**
@@ -282,7 +292,7 @@ public class Remote implements Serializable {
 	 */
 	public static void setLastUsedRemoteName(Context c, String remoteName) {
 		c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
-				.putString(NavFragment.PREF_KEY_LAST_REMOTE, remoteName)
+				.putString(MainNavFragment.PREF_KEY_LAST_REMOTE, remoteName)
 				.apply();
 	}
 

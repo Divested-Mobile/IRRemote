@@ -17,9 +17,6 @@ public class RegisterActivity extends ToolbarActivity {
 	 * verified
 	 */
 	public static final String PREF_KEY_REGISTERED = "org.twinone.irremote.registered_user";
-	public static final String PREF_KEY_USERNAME = "org.twinone.irremote.username";
-	public static final String PREF_KEY_EMAIL = "org.twinone.irremote.email";
-	public static final String PREF_KEY_ACCESS_TOKEN = "org.twinone.irremote.access_token";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +32,12 @@ public class RegisterActivity extends ToolbarActivity {
 		}
 	}
 
+	/**
+	 * Returns true if this user is registered and verified
+	 */
 	public static boolean isRegistered(Context c) {
-		return SettingsActivity.getPreferences(c).getBoolean(PREF_KEY_REGISTERED, false);
-	}
-
-	public static String getUsername(Context c) {
-		return SettingsActivity.getPreferences(c).getString(PREF_KEY_USERNAME, "");
-	}
-
-	public static String getEmail(Context c) {
-		return SettingsActivity.getPreferences(c).getString(PREF_KEY_EMAIL, "");
-	}
-
-	@Override
-	public void setTitle(CharSequence title) {
-		super.setTitle(title);
-		getToolbar().setTitle(title);
+		return SettingsActivity.getPreferences(c).getBoolean(
+				PREF_KEY_REGISTERED, false);
 	}
 
 	private boolean isVerifyIntent() {
@@ -67,13 +54,11 @@ public class RegisterActivity extends ToolbarActivity {
 
 	@Override
 	public boolean onNavigateUp() {
-		Log.d("RegisterActivity", "onNavigateUp");
 		return onSupportNavigateUp();
 	}
 
 	@Override
 	public boolean onSupportNavigateUp() {
-		Log.d("RegisterActivity", "onSupportNavigateUp");
 		finish();
 		return true;
 	}

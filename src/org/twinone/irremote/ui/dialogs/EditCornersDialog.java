@@ -22,11 +22,6 @@ public class EditCornersDialog extends DialogFragment {
 
 	private static final String ARG_CORNERS = "org.twinone.irremote.ui.EditCornersDialog.corners";
 
-	public static void showFor(Activity a, float[] initialCorners) {
-		EditCornersDialog.newInstance(initialCorners).show(
-				a.getFragmentManager(), "edit_corners_dialog");
-	}
-
 	public void show(Activity a) {
 		show(a.getFragmentManager(), "edit_corners_dialog");
 	}
@@ -63,7 +58,7 @@ public class EditCornersDialog extends DialogFragment {
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		ViewGroup content = (ViewGroup) inflater.inflate(
-				R.layout.edit_corners_dialog, null);
+				R.layout.dialog_edit_corners, null);
 
 		mBottomContainer = content
 				.findViewById(R.id.edit_corners_container_bottom);
@@ -147,7 +142,7 @@ public class EditCornersDialog extends DialogFragment {
 	}
 
 	private boolean isAdvanced() {
-		return mAdvanced.isChecked();
+		return false;
 	}
 
 	protected float[] getCurrentCorners() {

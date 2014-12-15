@@ -32,7 +32,7 @@ public abstract class NavigationFragment extends Fragment {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	protected DrawerLayout mDrawerLayout;
-	
+
 	protected View mFragmentContainerView;
 
 	private boolean mFromSavedInstanceState;
@@ -74,7 +74,7 @@ public abstract class NavigationFragment extends Fragment {
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
 
-		final ActionBar actionBar = getActionBar();
+		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
 
@@ -130,6 +130,18 @@ public abstract class NavigationFragment extends Fragment {
 		return mDrawerLayout.isDrawerOpen(mFragmentContainerView);
 	}
 
+	public void open(boolean callListener) {
+		open();
+		if (callListener && mListener != null)
+			mListener.onNavigationOpened();
+	}
+
+	public void close(boolean callListener) {
+		close();
+		if (callListener && mListener != null)
+			mListener.onNavigationClosed();
+	}
+
 	public void open() {
 		mDrawerLayout.openDrawer(mFragmentContainerView);
 	}
@@ -161,7 +173,7 @@ public abstract class NavigationFragment extends Fragment {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected ActionBar getActionBar() {
+	protected ActionBar getSupportActionBar() {
 		return ((ActionBarActivity) getActivity()).getSupportActionBar();
 	}
 
@@ -171,12 +183,28 @@ public abstract class NavigationFragment extends Fragment {
 	 * Called when the navigation is opened
 	 */
 	protected void onOpen() {
+		if (mListener != null)
+			mListener.onNavigationOpened();
 	}
 
 	/**
 	 * Called when the navigation is closed
 	 */
 	protected void onClose() {
+		if (mListener != null)
+			mListener.onNavigationClosed();
+	}
+
+	private NavigationListener mListener;
+
+	public void setNavigationListener(NavigationListener listener) {
+		mListener = listener;
+	}
+
+	public interface NavigationListener {
+		public void onNavigationOpened();
+
+		public void onNavigationClosed();
 	}
 
 	private void setSlidingLockMode(int mode) {
@@ -227,7 +255,7 @@ public abstract class NavigationFragment extends Fragment {
 	 */
 	public void setHomeButtonLocked(boolean locked) {
 		mHomeButtonLocked = locked;
-		getActionBar().setHomeButtonEnabled(!locked);
+		getSupportActionBar().setHomeButtonEnabled(!locked);
 	}
 
 	/**

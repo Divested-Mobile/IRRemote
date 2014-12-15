@@ -60,7 +60,7 @@ public class EditSizeDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View sizeView = LayoutInflater.from(getActivity()).inflate(
-				R.layout.edit_size_dialog, null);
+				R.layout.dialog_edit_size, null);
 
 		final NumberPicker npw = (NumberPicker) sizeView
 				.findViewById(R.id.sizepicker_width);

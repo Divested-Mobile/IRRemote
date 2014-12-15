@@ -19,6 +19,7 @@ public abstract class Constants {
 	public static String URL_VERIFY = "https://www.twinone.org/apps/irremote/verify/";
 	public static String URL_UPLOAD = "https://www.twinone.org/apps/irremote/api/upload/";
 	public static String URL_DOWNLOAD = "https://www.twinone.org/apps/irremote/api/download/";
+	public static String URL_MANUFACTURERS = "https://www.twinone.org/apps/irremote/api/manufacturers/";
 
 	static {
 		boolean dbg = false;

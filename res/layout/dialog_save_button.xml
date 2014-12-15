@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="10dp" >
 
     <org.twinone.irremote.ui.ButtonView
         android:id="@+id/dialog_save_button_button"
         android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal" />
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/dialog_save_button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@null"
+        android:inputType="text"
+        android:selectAllOnFocus="true" />
+
+</LinearLayout>

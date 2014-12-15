@@ -50,6 +50,13 @@ public class ButtonView extends CenterImageButton {
 		setTextSize(TypedValue.COMPLEX_UNIT_DIP, mButton.getTextSize());
 	}
 
+//	@Override
+//	public void requestLayout() {
+//		if (mButton != null)
+//			setButton(mButton);
+//		super.requestLayout();
+//	}
+
 	/**
 	 * Set the icon drawable for this button<br>
 	 * If the button has text, it will snap to the left, if not it will show in

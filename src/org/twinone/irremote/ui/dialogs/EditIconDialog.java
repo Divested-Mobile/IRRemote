@@ -24,11 +24,6 @@ public class EditIconDialog extends DialogFragment implements
 
 	private static final String ARG_ICON = "org.twinone.irremote.ui.SelectIconDialog.icon";
 
-	public static void showFor(Activity a, int color) {
-		EditIconDialog.newInstance(color).show(a.getFragmentManager(),
-				"edit_icon_dialog");
-	}
-
 	public void show(Activity a) {
 		show(a.getFragmentManager(), "edit_icon_dialog");
 	}

@@ -118,10 +118,10 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 			ViewGroup parent) {
 		BaseListable item = mCurrentItems.get(position);
 
-		View view = mInflater.inflate(R.layout.listable_element, parent, false);
-		TextView tv = (TextView) view.findViewById(R.id.tvTitle);
+		TextView tv = (TextView) mInflater.inflate(R.layout.listable_element,
+				parent, false);
 		tv.setText(item.getDisplayName());
-		return view;
+		return tv;
 	}
 
 	private Filter mFilter;

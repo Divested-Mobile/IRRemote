@@ -50,7 +50,7 @@
 
             <fragment
                 android:id="@+id/navigation_drawer"
-                android:name="org.twinone.irremote.ui.NavFragment"
+                android:name="org.twinone.irremote.ui.MainNavFragment"
                 android:layout_width="@dimen/navigation_drawer_width"
                 android:layout_height="match_parent"
                 android:layout_gravity="start" />

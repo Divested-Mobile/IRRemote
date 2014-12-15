@@ -4,15 +4,18 @@ import org.twinone.irremote.R;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 public abstract class ProviderFragment extends Fragment {
+
+	protected ListView mListView;
 
 	protected ListableAdapter mAdapter;
 
@@ -43,15 +46,17 @@ public abstract class ProviderFragment extends Fragment {
 
 	protected MySearchViewListener mSearchViewListener;
 	protected MenuItem mSearchMenuItem;
-//	protected SearchView mSearchView;
 
-	public void prepareSearch(Menu menu, MenuInflater inflater) {
-//		mSearchMenuItem = (MenuItem) menu.findItem(R.id.menu_db_search);
-//		mSearchView = (SearchView) MenuItemCompat
-//				.getActionView(mSearchMenuItem);
-//		mSearchViewListener = new MySearchViewListener();
-//		mSearchView.setOnQueryTextListener(mSearchViewListener);
-//		mSearchView.setOnCloseListener(mSearchViewListener);
+	protected SearchView mSearchView;
+
+	public void setupSearchView(Menu menu, MenuInflater inflater) {
+		mSearchMenuItem = (MenuItem) menu.findItem(R.id.menu_db_search);
+		mSearchView = (SearchView) mSearchMenuItem.getActionView();
+		// mSearchView = (SearchView) MenuItemCompat
+		// .getActionView(mSearchMenuItem);
+		mSearchViewListener = new MySearchViewListener();
+		mSearchView.setOnQueryTextListener(mSearchViewListener);
+		mSearchView.setOnCloseListener(mSearchViewListener);
 	}
 
 	protected class MySearchViewListener implements OnQueryTextListener,
@@ -61,6 +66,7 @@ public abstract class ProviderFragment extends Fragment {
 		public boolean onQueryTextChange(String text) {
 			// Android calls this when navigating to a new fragment, adapter =
 			// null
+			Log.d("", "test");
 			if (mAdapter != null)
 				mAdapter.getFilter().filter(text);
 			return true;
@@ -70,6 +76,8 @@ public abstract class ProviderFragment extends Fragment {
 		public boolean onQueryTextSubmit(String query) {
 			// Android calls this when navigating to a new fragment, adapter =
 			// null
+			Log.d("", "test");
+
 			if (mAdapter != null)
 				mAdapter.getFilter().filter(query);
 			return true;

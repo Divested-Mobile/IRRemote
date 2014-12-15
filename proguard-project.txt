@@ -36,4 +36,6 @@
 #	private int mEdgeSize;
 # }
  
+ -keep class android.support.** { *; }
+ -keep interface android.support.** { *; }
 

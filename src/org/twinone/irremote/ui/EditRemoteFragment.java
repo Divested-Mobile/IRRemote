@@ -22,6 +22,8 @@ import org.twinone.irremote.ui.dialogs.EditTextDialog;
 import org.twinone.irremote.ui.dialogs.EditTextDialog.OnTextChangedListener;
 import org.twinone.irremote.ui.dialogs.EditTextSizeDialog;
 import org.twinone.irremote.ui.dialogs.EditTextSizeDialog.OnTextSizeChangedListener;
+import org.twinone.irremote.ui.dialogs.OrganizeDialog;
+import org.twinone.irremote.ui.dialogs.OrganizeDialog.OrganizeListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -174,7 +176,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 				mScroll.scrollBy(0, pixels);
 				mHandler.postDelayed(mScrollRunnable, SCROLL_DELAY);
 				if (pixels > 0) {
-					mRemote.options.h += pixels;
+					mRemote.details.h += pixels;
 					mRemoteView.requestLayout();
 				}
 			}
@@ -545,17 +547,31 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		}
 	}
 
-	private void organizeButtons() {
-		new RemoteOrganizer(getActivity()).updateWithoutSaving(getRemote());
-		// We'll have to adjust the margin for the snap-to grid feature
+	private void showOrganizeDialog() {
+		OrganizeDialog od = new OrganizeDialog();
+		od.setListener(new OrganizeListener() {
+
+			@Override
+			public void onOrganize(int flags) {
+				organizeButtons(flags);
+			}
+		});
+		od.show(getActivity());
+	}
+
+	private void organizeButtons(int flags) {
+		RemoteOrganizer ro = new RemoteOrganizer(getActivity());
+		ro.setFlags(flags);
+		ro.updateWithoutSaving(getRemote());
+
 		setupMargins();
 		refreshButtonsLayout();
 		adjustRemoteLayoutHeightToButtons();
 	}
 
 	private void setupMargins() {
-		mMarginLeft = mRemote.options.marginLeft;
-		mMarginTop = mRemote.options.marginTop;
+		mMarginLeft = mRemote.details.marginLeft;
+		mMarginTop = mRemote.details.marginTop;
 	}
 
 	/**
@@ -604,7 +620,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 		int w = mRemoteView.getWidth();
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
 		mRemoteView.setLayoutParams(lp);
-		getRemote().options.h = h;
+		getRemote().details.h = h;
 	}
 
 	@Override
@@ -671,7 +687,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 			requestNewButton();
 			break;
 		case R.id.menu_edit_organize:
-			organizeButtons();
+			showOrganizeDialog();
 			break;
 		// case R.id.menu_edit_snap:
 		// item.setChecked(!item.isChecked());

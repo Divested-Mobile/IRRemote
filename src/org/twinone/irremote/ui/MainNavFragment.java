@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class NavFragment extends NavigationFragment implements
+public class MainNavFragment extends NavigationFragment implements
 		OnRemoteSelectedListener {
 
 	// private static final String PREF_FILENAME = "nav";
@@ -29,7 +29,7 @@ public class NavFragment extends NavigationFragment implements
 	private View mFragmentContainerView;
 	private TextView mInfoTextView;
 
-	public NavFragment() {
+	public MainNavFragment() {
 	}
 
 	@Override
@@ -67,9 +67,9 @@ public class NavFragment extends NavigationFragment implements
 	public void updateTitle() {
 		Log.d("", "isOpen: " + isOpen());
 		if (!isOpen()) {
-			getActionBar().setTitle(getSelectedRemoteName());
+			getSupportActionBar().setTitle(getSelectedRemoteName());
 		} else {
-			getActionBar().setTitle(R.string.my_remotes);
+			getSupportActionBar().setTitle(R.string.my_remotes);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class NavFragment extends NavigationFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		RelativeLayout root = (RelativeLayout) inflater.inflate(
-				R.layout.fragment_nav, container, false);
+				R.layout.fragment_nav_main, container, false);
 
 		mRemotesListView = (SelectRemoteListView) root
 				.findViewById(R.id.select_remote_listview);

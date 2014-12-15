@@ -130,7 +130,7 @@ public class LircProviderFragment extends ProviderFragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.db_menu, menu);
 
-		prepareSearch(menu, inflater);
+		setupSearchView(menu, inflater);
 //		mSearchView.setQueryHint(getSearchHint(mUriData));
 
 		if (mUriData.targetType == LircProviderData.TYPE_IR_CODE) {

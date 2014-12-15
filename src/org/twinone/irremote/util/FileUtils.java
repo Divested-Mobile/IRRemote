@@ -35,7 +35,7 @@ public class FileUtils {
 		oldFile.renameTo(newFile);
 	}
 
-	public static void save(Context c, Uri imgUri, File file) {
+	public static void saveImage(Context c, Uri imgUri, File file) {
 		try {
 			InputStream in = c.getContentResolver().openInputStream(imgUri);
 			OutputStream out = new FileOutputStream(file);
