@@ -8,6 +8,8 @@ $_hj_response = array();
 function hj_return($status) {
 	global $_hj_response;
 	$_hj_response['status'] = $status;
+	// Log
+	file_put_contents("/var/www/apps/irremote/log.txt", json_encode($_hj_response, JSON_PRETTY_PRINT));
 	die(json_encode($_hj_response));
 }
 

@@ -20,6 +20,7 @@ function drop_database() {
 	if ($db->connect_error) die("Connection failed");
 	query_check('DROP DATABASE irremote;');
 }
+
 function create_database() {
 	global $db;
 	$db = new mysqli(DB_SERVER, DB_USER, DB_PASS);
@@ -51,23 +52,25 @@ function create_database() {
 
 	query_check('CREATE TABLE IF NOT EXISTS remotes ('
 		.'id int NOT NULL AUTO_INCREMENT,'
+		.'parent_id int,' // Parent remote id if remote was forked
 		.'user_id int,' // User that uploaded the remote
 		.'manufacturer VARCHAR(64),'
+		.'model VARCHAR(64),'
 		.'country VARCHAR(64),'
-		.'device_type int,' // Device type (see Remote.java)
+		.'device_type VARCHAR(64),' // (see Remote.java)
 		.'PRIMARY KEY (id),'
+		.'FOREIGN KEY (parent_id) REFERENCES remotes(id),'
 		.'FOREIGN KEY (user_id) REFERENCES users(id)'
 		.');');
 	query_check('ALTER TABLE remotes AUTO_INCREMENT=10000;');
 
 	query_check('CREATE TABLE IF NOT EXISTS buttons ('
 		.'remote_id int,'
-		.'uid int,' // Button uid (unique inside remote)
-		.'id int,' // Button id (function)
+		.'function VARCHAR(64),'
 		.'frequency int,'
-		.'pattern TEXT,'
+		.'pattern VARCHAR(4096),'
 		.'FOREIGN KEY (remote_id) REFERENCES remotes(id),'
-		.'PRIMARY KEY (remote_id, uid)'
+		.'PRIMARY KEY (remote_id)'
 		.');');
 
 	echo '<br><br>All OK';

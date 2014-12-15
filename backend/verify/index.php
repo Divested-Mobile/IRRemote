@@ -31,6 +31,7 @@ $st = $db->prepare('INSERT INTO users (username, email, password) '
 $st->bind_param("ss", $username, $tok);
 $st->execute();
 $ar = $st->affected_rows;
+$id = $st->insert_id;
 $st->close();
 if ($ar !== 1) hj_return(VERIF_FAILED);
 
@@ -41,8 +42,10 @@ $st = $db->prepare('UPDATE users SET access_token=? WHERE username=?');
 $access_tok = md5(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
 $st->bind_param('ss', $access_tok, $username);
 $st->execute();
+$st->close();
 $db->close();
 
+hj_resp('id', $id);
 hj_resp('access_token', $access_tok);
 hj_return(OK);
 ?>

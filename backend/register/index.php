@@ -100,10 +100,10 @@ $msg="Dear $req->username.\r\n\r\n"
 ."Best Regards,\r\n"
 ."Twinone\r\n";
 
-$return = "irremote@twinone.org";
-$from = "irremote@twinone.org";
-$headers="From: $from (Twinone IR Remote)";
-$msg = wordwrap($msg, 80);
+$return = "apps@twinone.org";
+$from = "apps@twinone.org";
+$headers='From: "Twinone IR Remote" <'.$from.'>';
+// $msg = wordwrap($msg, 80);
 mail($req->email, $sub, $msg, $headers, "-f $from -r $return");
 
 hj_return(0);
