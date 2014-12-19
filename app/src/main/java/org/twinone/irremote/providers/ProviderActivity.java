@@ -124,13 +124,16 @@ public class ProviderActivity extends ActionBarActivity implements
 				setTitle(savedInstanceState.getString(SAVE_TITLE));
 			}
 		} else {
-			int provider = getIntent().getIntExtra(EXTRA_PROVIDER,
-					PROVIDER_COMMON);
-			switchTo(provider);
+			int provider = getIntent().getIntExtra(EXTRA_PROVIDER, -1);
+			if (provider != -1) {
+				switchTo(provider);
+			} else {
+				setTitle(R.string.app_name);
+				mNavFragment.lockOpen(true);
+				onNavigationOpened();
+			}
 		}
 
-		setTitle(R.string.app_name);
-		mNavFragment.open(true);
 	}
 
 	private void setupNavigation() {
@@ -148,32 +151,6 @@ public class ProviderActivity extends ActionBarActivity implements
 	 */
 
 	public void saveButton(final Button button) {
-
-		// LayoutInflater li = LayoutInflater.from(this);
-		// View v = li.inflate(R.layout.dialog_save_button, null);
-		// final ButtonView bv = (ButtonView) v
-		// .findViewById(R.id.dialog_save_button_button);
-		// bv.setButton(button);
-		// if (getTransmitter() != null)
-		// bv.setOnTouchListener(new TransmitOnTouchListener(getTransmitter()));
-		//
-		// final AlertDialog.Builder ab = new AlertDialog.Builder(this);
-		// ab.setTitle(R.string.save_button_dlgtit);
-		// ab.setMessage(R.string.save_button_dlgmsg);
-		// ab.setView(v);
-		// ab.setNegativeButton(android.R.string.cancel, null);
-		// ab.setPositiveButton(android.R.string.ok,
-		// new DialogInterface.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(DialogInterface dialog, int which) {
-		// Intent i = new Intent();
-		// i.putExtra(EXTRA_RESULT_BUTTON, button);
-		// setResult(Activity.RESULT_OK, i);
-		// finish();
-		// }
-		// });
-		// AnimHelper.showDialog(ab);
 		SaveButtonDialog d = SaveButtonDialog.newInstance(button);
 		d.setListener(new OnSaveButton() {
 
@@ -364,7 +341,8 @@ public class ProviderActivity extends ActionBarActivity implements
 			addFragment(new CommonProviderFragment());
 			break;
 		}
-
+		mNavFragment.unlock();
+		mNavFragment.close();
 		mCurrentProvider = provider;
 	}
 

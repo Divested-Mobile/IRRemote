@@ -449,10 +449,11 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 					.getSerializableExtra(ProviderActivity.EXTRA_RESULT_BUTTON);
 			for (ButtonView v : getTargets()) {
 				v.getButton().code = result.code;
+				v.getButton().text = result.text;
+				refreshButtonsLayout();
 			}
 			Toast.makeText(getActivity(), R.string.edit_button_code_updated,
 					Toast.LENGTH_SHORT).show();
-			setEdited(true);
 		} else if (requestCode == REQ_GET_NEW_BUTTON) {
 			Button result = (Button) data
 					.getSerializableExtra(ProviderActivity.EXTRA_RESULT_BUTTON);

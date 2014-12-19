@@ -121,7 +121,6 @@ public abstract class BaseRemoteFragment extends Fragment {
 			bv.getLayoutParams().width = (int) b.w;
 			bv.getLayoutParams().height = (int) b.h;
 			bv.requestLayout();
-
 		}
 	}
 
