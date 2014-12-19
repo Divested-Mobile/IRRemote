@@ -1,102 +1,103 @@
 package org.twinone.irremote.providers.learn;
 
-import org.twinone.irremote.R;
-import org.twinone.irremote.ir.Signal;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.twinone.irremote.R;
+import org.twinone.irremote.ir.Signal;
+
 import de.passsy.holocircularprogressbar.HoloCircularProgressBar;
 
 public class LearnButtonProviderFragment extends BaseLearnProviderFragment implements
-		View.OnClickListener {
+        View.OnClickListener {
 
-	private Button mLearn;
-	private Button mCancel;
-	private Button mTest;
-	private TextView mStatus;
+    private Button mLearn;
+    private Button mCancel;
+    private Button mTest;
+    private TextView mStatus;
 
-	private Signal mLearnedSignal;
+    private Signal mLearnedSignal;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_learn_button, container, false);
-		mLearn = (Button) view.findViewById(R.id.learn_start);
-		mCancel = (Button) view.findViewById(R.id.learn_cancel);
-		mTest = (Button) view.findViewById(R.id.learn_test);
-		mStatus = (TextView) view.findViewById(R.id.learn_status);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_learn_button, container, false);
+        mLearn = (Button) view.findViewById(R.id.learn_start);
+        mCancel = (Button) view.findViewById(R.id.learn_cancel);
+        mTest = (Button) view.findViewById(R.id.learn_test);
+        mStatus = (TextView) view.findViewById(R.id.learn_status);
 
-		mLearn.setOnClickListener(this);
-		mCancel.setOnClickListener(this);
-		mTest.setOnClickListener(this);
+        mLearn.setOnClickListener(this);
+        mCancel.setOnClickListener(this);
+        mTest.setOnClickListener(this);
 
-		HoloCircularProgressBar bar = (HoloCircularProgressBar) view
-				.findViewById(R.id.learn_progress);
-		setProgressBar(bar);
+        HoloCircularProgressBar bar = (HoloCircularProgressBar) view
+                .findViewById(R.id.learn_progress);
+        setProgressBar(bar);
 
-		return view;
+        return view;
 
-	}
+    }
 
-	@Override
-	protected void learnConfirm(Signal s) {
-		super.learnConfirm(s);
-		mStatus.setText(R.string.learn_learned);
+    @Override
+    protected void learnConfirm(Signal s) {
+        super.learnConfirm(s);
+        mStatus.setText(R.string.learn_learned);
 
-		mLearn.setEnabled(true);
-		mCancel.setEnabled(false);
-		mTest.setEnabled(true);
+        mLearn.setEnabled(true);
+        mCancel.setEnabled(false);
+        mTest.setEnabled(true);
 
-		mLearnedSignal = s;
+        mLearnedSignal = s;
 
-	}
+    }
 
-	@Override
-	protected void onLearnTimeout() {
-		mStatus.setText("Timed out\nTouch Learn to try again");
-	}
+    @Override
+    protected void onLearnTimeout() {
+        mStatus.setText("Timed out\nTouch Learn to try again");
+    }
 
-	@Override
-	protected void learnStop() {
-		super.learnStop();
-		mStatus.setText(R.string.learn_tit_ready);
+    @Override
+    protected void learnStop() {
+        super.learnStop();
+        mStatus.setText(R.string.learn_tit_ready);
 
-		mLearn.setEnabled(true);
-		mCancel.setEnabled(false);
-		mTest.setEnabled(false);
+        mLearn.setEnabled(true);
+        mCancel.setEnabled(false);
+        mTest.setEnabled(false);
 
-	}
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.learn_start:
-			learnStart();
-			break;
-		case R.id.learn_cancel:
-			learnStop();
-			break;
-		case R.id.learn_test:
-			if (mLearnedSignal != null) {
-				getTransmitter().transmit(mLearnedSignal);
-			}
-			break;
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.learn_start:
+                learnStart();
+                break;
+            case R.id.learn_cancel:
+                learnStop();
+                break;
+            case R.id.learn_test:
+                if (mLearnedSignal != null) {
+                    getTransmitter().transmit(mLearnedSignal);
+                }
+                break;
+        }
+    }
 
-	@Override
-	protected void learnStart() {
-		super.learnStart();
-		mStatus.setText(R.string.learn_learning);
+    @Override
+    protected void learnStart() {
+        super.learnStart();
+        mStatus.setText(R.string.learn_learning);
 
-		mLearn.setEnabled(false);
-		mCancel.setEnabled(true);
-		mTest.setEnabled(false);
+        mLearn.setEnabled(false);
+        mCancel.setEnabled(true);
+        mTest.setEnabled(false);
 
-	}
+    }
 
 }

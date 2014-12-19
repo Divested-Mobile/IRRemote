@@ -1,19 +1,5 @@
 package org.twinone.irremote.providers.common;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-
-import org.twinone.irremote.R;
-import org.twinone.irremote.components.Button;
-import org.twinone.irremote.components.ComponentUtils;
-import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.providers.BaseListable;
-import org.twinone.irremote.providers.ListableAdapter;
-import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.ProviderFragment;
-import org.twinone.irremote.util.FileUtils;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,244 +13,251 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+import org.twinone.irremote.R;
+import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.ComponentUtils;
+import org.twinone.irremote.components.Remote;
+import org.twinone.irremote.providers.BaseListable;
+import org.twinone.irremote.providers.ListableAdapter;
+import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.ProviderFragment;
+import org.twinone.irremote.util.FileUtils;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+
 public class CommonProviderFragment extends ProviderFragment implements
-		OnItemClickListener, OnItemLongClickListener {
+        OnItemClickListener, OnItemLongClickListener {
 
-	private static final String COMMON_TV_NAME = "TV";
-	private static final String COMMON_BLURAY_NAME = "BluRay";
-	private static final String COMMON_CABLE_NAME = "Cable";
-	private static final String COMMON_AUDIO_AMPLIFIER = "Audio";
+    public static final String ARG_DATA = "arg.data";
+    private static final String COMMON_TV_NAME = "TV";
+    private static final String COMMON_BLURAY_NAME = "BluRay";
+    private static final String COMMON_CABLE_NAME = "Cable";
+    private static final String COMMON_AUDIO_AMPLIFIER = "Audio";
+    private CommonProviderData mTarget;
+    private Remote mRemote;
 
+    private int getDeviceTypeInt(String deviceType) {
+        if (COMMON_TV_NAME.equals(deviceType)) {
+            return Remote.TYPE_TV;
+        }
+        if (COMMON_CABLE_NAME.equals(deviceType)) {
+            return Remote.TYPE_CABLE;
+        }
+        if (COMMON_BLURAY_NAME.equals(deviceType)) {
+            return Remote.TYPE_BLURAY;
+        }
+        if (COMMON_AUDIO_AMPLIFIER.equals(deviceType)) {
+            return Remote.TYPE_AUDIO_AMPLIFIER;
+        }
+        throw new IllegalArgumentException("WTF, no such type" + deviceType);
+    }
 
-	public static final String ARG_DATA = "arg.data";
-	private CommonProviderData mTarget;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null && getArguments().containsKey(ARG_DATA)) {
+            mTarget = (CommonProviderData) getArguments().getSerializable(
+                    ARG_DATA);
+            Log.d("", "mTarget.deviceType = " + mTarget.deviceType);
+        } else {
+            mTarget = new CommonProviderData();
+        }
+    }
 
-	public static class CommonProviderData implements Serializable {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		public CommonProviderData() {
-			targetType = TARGET_DEVICE_TYPE;
-		}
+        setHasOptionsMenu(true);
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -1889643026103427356L;
+        // For navigation
+        setCurrentState(mTarget.targetType);
 
-		public static final int TARGET_DEVICE_TYPE = 0;
-		public static final int TARGET_DEVICE_NAME = 1;
-		public static final int TARGET_IR_CODE = 2;
+        ViewGroup rootView = (ViewGroup) inflater.inflate(
+                R.layout.fragment_listable, container, false);
 
-		public int targetType;
-		String deviceType;
-		String deviceName;
+        mListView = (ListView) rootView.findViewById(R.id.lvElements);
+        mListView.setOnItemClickListener(this);
+        mListView.setOnItemLongClickListener(this);
 
-		public CommonProviderData clone() {
-			CommonProviderData d = new CommonProviderData();
-			d.targetType = targetType;
-			d.deviceType = deviceType;
-			d.deviceName = deviceName;
-			return d;
-		}
+        mAdapter = new ListableAdapter(getActivity(), getItems());
+        mListView.setAdapter(mAdapter);
 
-	}
+        String name = getDataName(" > ");
+        if (name == null) {
+            getActivity().setTitle(R.string.db_select_device_type);
+        } else {
+            getActivity().setTitle(name);
+        }
+        return rootView;
+    }
 
-	private int getDeviceTypeInt(String deviceType) {
-		if (COMMON_TV_NAME.equals(deviceType)) {
-			return Remote.TYPE_TV;
-		}
-		if (COMMON_CABLE_NAME.equals(deviceType)) {
-			return Remote.TYPE_CABLE;
-		}
-		if (COMMON_BLURAY_NAME.equals(deviceType)) {
-			return Remote.TYPE_BLURAY;
-		}
-		if (COMMON_AUDIO_AMPLIFIER.equals(deviceType)) {
-			return Remote.TYPE_AUDIO_AMPLIFIER;
-		}
-		throw new IllegalArgumentException("WTF, no such type" + deviceType);
-	}
+    private String getDBPath() {
+        final String name = getDataName(File.separator);
+        if (name == null) {
+            return "db";
+        }
+        return "db" + File.separator + name;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (getArguments() != null && getArguments().containsKey(ARG_DATA)) {
-			mTarget = (CommonProviderData) getArguments().getSerializable(
-					ARG_DATA);
-			Log.d("", "mTarget.deviceType = " + mTarget.deviceType);
-		} else {
-			mTarget = new CommonProviderData();
-		}
-	}
+    private String getDataName(String separator) {
+        StringBuilder path = new StringBuilder();
+        if (mTarget.deviceType == null)
+            return null;
+        path.append(mTarget.deviceType);
+        if (mTarget.deviceName == null)
+            return path.toString();
+        path.append(separator).append(mTarget.deviceName);
+        return path.toString();
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    private MyListable[] getItems() {
+        ArrayList<MyListable> items = new ArrayList<MyListable>();
+        if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
+            mRemote = buildRemote();
+            for (Button b : mRemote.buttons) {
+                MyListable l = new MyListable(b.text);
+                l.id = b.uid;
+                items.add(l);
+            }
+        } else {
+            for (String s : listAssets(getDBPath())) {
+                items.add(new MyListable(s));
+            }
+        }
+        return items.toArray(new MyListable[items.size()]);
+    }
 
-		setHasOptionsMenu(true);
+    private String[] listAssets(String path) {
+        try {
+            return getActivity().getAssets().list(path);
+        } catch (Exception e) {
+            return new String[]{};
+        }
+    }
 
-		// For navigation
-		setCurrentState(mTarget.targetType);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_save:
+                saveRemote();
+                break;
+            case R.id.menu_more:
+                // TODO when Twinone DB is ready, switch to it?
+                getProvider().switchTo(ProviderActivity.PROVIDER_GLOBALCACHE);
+        }
+        return false;
+    }
 
-		ViewGroup rootView = (ViewGroup) inflater.inflate(
-				R.layout.fragment_listable, container, false);
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long viewId) {
+        MyListable item = (MyListable) mListView.getAdapter().getItem(position);
+        if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_TYPE) {
+            CommonProviderData clone = mTarget.clone();
+            clone.deviceType = item.getDisplayName();
+            clone.targetType = CommonProviderData.TARGET_DEVICE_NAME;
+            getProvider().addCommonProviderFragment(clone);
+        } else if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_NAME) {
+            mTarget.deviceName = item.getDisplayName();
+            if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
+                mRemote = buildRemote();
+                saveRemote();
+            } else {
+                mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
+                getProvider().addCommonProviderFragment(mTarget.clone());
+            }
+        } else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
+            Button b = mRemote.getButton(item.id);
+            getProvider().saveButton(b);
+        }
+    }
 
-		mListView = (ListView) rootView.findViewById(R.id.lvElements);
-		mListView.setOnItemClickListener(this);
-		mListView.setOnItemLongClickListener(this);
+    private Remote buildRemote() {
+        Remote r = new Remote();
+        r.name = mTarget.deviceName + " " + mTarget.deviceType;
+        final String remotedir = getDBPath();
+        for (String name : listAssets(getDBPath())) {
+            int id = Integer.parseInt(name.substring(2).split("\\.")[0]);
+            Button b = new Button(id);
+            b.code = FileUtils.read(getActivity().getAssets(), remotedir
+                    + File.separator + name);
+            b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
+                    getActivity());
+            r.addButton(b);
+            Log.d("TEST", "Adding button " + b.text + " to remote");
+        }
+        r.details.type = getDeviceTypeInt(mTarget.deviceType);
+        return r;
+    }
 
-		mAdapter = new ListableAdapter(getActivity(), getItems());
-		mListView.setAdapter(mAdapter);
+    private void saveRemote() {
+        getProvider().saveRemote(mRemote);
+    }
 
-		String name = getDataName(" > ");
-		if (name == null) {
-			getActivity().setTitle(R.string.db_select_device_type);
-		} else {
-			getActivity().setTitle(name);
-		}
-		return rootView;
-	}
+    public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                   int position, long id) {
+        mListView.setItemChecked(position, true);
+        return true;
+    }
 
-	private String getDBPath() {
-		final String name = getDataName(File.separator);
-		if (name == null) {
-			return "db";
-		}
-		return "db" + File.separator + name;
-	}
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.common_menu, menu);
+        setupSearchView(menu, inflater);
 
-	private String getDataName(String separator) {
-		StringBuilder path = new StringBuilder();
-		if (mTarget.deviceType == null)
-			return null;
-		path.append(mTarget.deviceType);
-		if (mTarget.deviceName == null)
-			return path.toString();
-		path.append(separator).append(mTarget.deviceName);
-		return path.toString();
-	}
+        MenuItem save = menu.findItem(R.id.menu_save);
+        MenuItem more = menu.findItem(R.id.menu_more);
+        boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
+        boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
+        save.setVisible(ircode && remote);
+        more.setVisible(!ircode);
 
-	@SuppressWarnings("serial")
-	private class MyListable extends BaseListable {
+    }
 
-		public MyListable(String text) {
-			this.text = text;
-		}
+    public static class CommonProviderData implements Serializable {
 
-		private String text;
+        public static final int TARGET_DEVICE_TYPE = 0;
+        public static final int TARGET_DEVICE_NAME = 1;
+        public static final int TARGET_IR_CODE = 2;
+        /**
+         *
+         */
+        private static final long serialVersionUID = -1889643026103427356L;
+        public int targetType;
+        String deviceType;
+        String deviceName;
+        public CommonProviderData() {
+            targetType = TARGET_DEVICE_TYPE;
+        }
 
-		public int id;
+        public CommonProviderData clone() {
+            CommonProviderData d = new CommonProviderData();
+            d.targetType = targetType;
+            d.deviceType = deviceType;
+            d.deviceName = deviceName;
+            return d;
+        }
 
-		@Override
-		public String getDisplayName() {
-			return text;
-		}
+    }
 
-	}
+    @SuppressWarnings("serial")
+    private class MyListable extends BaseListable {
 
-	private MyListable[] getItems() {
-		ArrayList<MyListable> items = new ArrayList<MyListable>();
-		if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
-			mRemote = buildRemote();
-			for (Button b : mRemote.buttons) {
-				MyListable l = new MyListable(b.text);
-				l.id = b.uid;
-				items.add(l);
-			}
-		} else {
-			for (String s : listAssets(getDBPath())) {
-				items.add(new MyListable(s));
-			}
-		}
-		return items.toArray(new MyListable[items.size()]);
-	}
+        public int id;
+        private String text;
 
-	private String[] listAssets(String path) {
-		try {
-			return getActivity().getAssets().list(path);
-		} catch (Exception e) {
-			return new String[] {};
-		}
-	}
+        public MyListable(String text) {
+            this.text = text;
+        }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_save:
-			saveRemote();
-			break;
-		case R.id.menu_more:
-			// TODO when Twinone DB is ready, switch to it?
-			getProvider().switchTo(ProviderActivity.PROVIDER_GLOBALCACHE);
-		}
-		return false;
-	}
+        @Override
+        public String getDisplayName() {
+            return text;
+        }
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long viewId) {
-		MyListable item = (MyListable) mListView.getAdapter().getItem(position);
-		if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_TYPE) {
-			CommonProviderData clone = mTarget.clone();
-			clone.deviceType = item.getDisplayName();
-			clone.targetType = CommonProviderData.TARGET_DEVICE_NAME;
-			getProvider().addCommonProviderFragment(clone);
-		} else if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_NAME) {
-			mTarget.deviceName = item.getDisplayName();
-			if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
-				mRemote = buildRemote();
-				saveRemote();
-			} else {
-				mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
-				getProvider().addCommonProviderFragment(mTarget.clone());
-			}
-		} else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
-			Button b = mRemote.getButton(item.id);
-			getProvider().saveButton(b);
-		}
-	}
-
-	private Remote buildRemote() {
-		Remote r = new Remote();
-		r.name = mTarget.deviceName + " " + mTarget.deviceType;
-		final String remotedir = getDBPath();
-		for (String name : listAssets(getDBPath())) {
-			int id = Integer.parseInt(name.substring(2).split("\\.")[0]);
-			Button b = new Button(id);
-			b.code = FileUtils.read(getActivity().getAssets(), remotedir
-					+ File.separator + name);
-			b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
-					getActivity());
-			r.addButton(b);
-			Log.d("TEST", "Adding button " + b.text + " to remote");
-		}
-		r.details.type = getDeviceTypeInt(mTarget.deviceType);
-		return r;
-	}
-
-	private Remote mRemote;
-
-	private void saveRemote() {
-		getProvider().saveRemote(mRemote);
-	}
-
-	public boolean onItemLongClick(AdapterView<?> parent, View view,
-			int position, long id) {
-		mListView.setItemChecked(position, true);
-		return true;
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.common_menu, menu);
-		setupSearchView(menu, inflater);
-
-		MenuItem save = menu.findItem(R.id.menu_save);
-		MenuItem more = menu.findItem(R.id.menu_more);
-		boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
-		boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
-		save.setVisible(ircode && remote);
-		more.setVisible(!ircode);
-
-	}
+    }
 }

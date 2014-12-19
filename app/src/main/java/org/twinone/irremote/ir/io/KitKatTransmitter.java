@@ -1,150 +1,147 @@
 package org.twinone.irremote.ir.io;
 
-import org.twinone.irremote.ir.Signal;
-import org.twinone.irremote.ir.SignalCorrector;
-
 import android.content.Context;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
 import android.util.Log;
 
+import org.twinone.irremote.ir.Signal;
+import org.twinone.irremote.ir.SignalCorrector;
+
 public class KitKatTransmitter extends Transmitter {
 
-	private static final String TAG = "KitKatTransmitter";
-	private ConsumerIrManager mIrManager;
-	private SignalCorrector mSignalCorrector;
+    private static final String TAG = "KitKatTransmitter";
+    private ConsumerIrManager mIrManager;
+    private SignalCorrector mSignalCorrector;
 
-	private volatile boolean mWaitingForTransmission;
-	private volatile Signal mSignal;
-	private volatile boolean mHasTransmittedOnce;
+    private volatile boolean mWaitingForTransmission;
+    private volatile Signal mSignal;
+    private volatile boolean mHasTransmittedOnce;
+    private Runnable mTransmitRunnable = new TransmitterRunnable();
 
-	public KitKatTransmitter(Context context) {
-		super(context);
-		mIrManager = (ConsumerIrManager) context
-				.getSystemService(Context.CONSUMER_IR_SERVICE);
-		if (!isAvailable()) {
-			throw new ComponentNotAvailableException(
-					"Transmitter not available on this device");
-		}
+    public KitKatTransmitter(Context context) {
+        super(context);
+        mIrManager = (ConsumerIrManager) context
+                .getSystemService(Context.CONSUMER_IR_SERVICE);
+        if (!isAvailable()) {
+            throw new ComponentNotAvailableException(
+                    "Transmitter not available on this device");
+        }
 
-		mSignalCorrector = new SignalCorrector(context);
-	}
+        mSignalCorrector = new SignalCorrector(context);
+    }
 
-	public boolean isAvailable() {
-		return mIrManager.hasIrEmitter();
-	}
+    public boolean isAvailable() {
+        return mIrManager.hasIrEmitter();
+    }
 
-	public void transmit() {
-		if (!isFrequencySupported(mSignal.getFrequency()))
-			return;
-		transmitImpl(mSignal);
-	}
+    public void transmit() {
+        if (!isFrequencySupported(mSignal.getFrequency()))
+            return;
+        transmitImpl(mSignal);
+    }
 
-	public void setSignal(Signal signal) {
-		mHasTransmittedOnce = false;
-		mSignal = signal;
-	}
+    public void setSignal(Signal signal) {
+        mHasTransmittedOnce = false;
+        mSignal = signal;
+    }
 
-	public void startTransmitting() {
-		if (!isFrequencySupported(mSignal.getFrequency()))
-			return;
-		if (mWaitingForTransmission)
-			stopTransmitting(false);
+    public void startTransmitting() {
+        if (!isFrequencySupported(mSignal.getFrequency()))
+            return;
+        if (mWaitingForTransmission)
+            stopTransmitting(false);
 
-		// Could happen that startTransmitting is called twice with the same
-		// signal
-		mHasTransmittedOnce = false;
+        // Could happen that startTransmitting is called twice with the same
+        // signal
+        mHasTransmittedOnce = false;
 
-		mWaitingForTransmission = true;
-		// Log.d(TAG, "Setting hasTransmitted to false");
-		// mRunnable = new TransmitterRunnable();
-		mHandler.post(mTransmitRunnable);
-	}
+        mWaitingForTransmission = true;
+        // Log.d(TAG, "Setting hasTransmitted to false");
+        // mRunnable = new TransmitterRunnable();
+        mHandler.post(mTransmitRunnable);
+    }
 
-	private Runnable mTransmitRunnable = new TransmitterRunnable();
+    private synchronized void transmitImpl(Signal signal) {
+        if (signal == null)
+            return;
+        Signal realSignal = signal.clone().fix(mSignalCorrector);
 
-	private class TransmitterRunnable implements Runnable {
-		@Override
-		public void run() {
-			transmitImpl(mSignal);
-			if (!mHasTransmittedOnce)
-				mHasTransmittedOnce = true;
+        if (getListener() != null) {
+            getListener().onBeforeTransmit();
+        }
+        setTransmitting(true);
+        mIrManager.transmit(realSignal.getFrequency(), realSignal.getPattern());
+        setTransmitting(false);
+        if (getListener() != null) {
+            getListener().onAfterTransmit();
+        }
+    }
 
-			if (mWaitingForTransmission) {
-				Log.d(TAG, "Posting new runnable");
-				mHandler.postDelayed(this, getPeriodMillis());
-			}
-		}
-	}
+    /**
+     * @param transmitAtLeastOnce If this is set to true, the signal is transmitted at least
+     *                            once
+     */
+    public void stopTransmitting(boolean transmitAtLeastOnce) {
+        if (mHandler == null)
+            Log.d(TAG, "Null handler");
+        if (mTransmitRunnable == null)
+            Log.d(TAG, "Null Runnable");
 
-	private synchronized void transmitImpl(Signal signal) {
-		if (signal == null)
-			return;
-		Signal realSignal = signal.clone().fix(mSignalCorrector);
+        mHandler.removeCallbacks(mTransmitRunnable);
+        if (transmitAtLeastOnce && !mHasTransmittedOnce) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    transmitImpl(mSignal);
+                }
+            });
+        } else {
+            Log.d(TAG, "mTransmitting = false");
+            mWaitingForTransmission = false;
+        }
+    }
 
-		if (getListener() != null) {
-			getListener().onBeforeTransmit();
-		}
-		setTransmitting(true);
-		mIrManager.transmit(realSignal.getFrequency(), realSignal.getPattern());
-		setTransmitting(false);
-		if (getListener() != null) {
-			getListener().onAfterTransmit();
-		}
-	}
+    @Override
+    public boolean hasTransmittedOnce() {
+        return mHasTransmittedOnce;
+    }
 
-	/**
-	 * 
-	 * @param transmitAtLeastOnce
-	 *            If this is set to true, the signal is transmitted at least
-	 *            once
-	 */
-	public void stopTransmitting(boolean transmitAtLeastOnce) {
-		if (mHandler == null)
-			Log.d(TAG, "Null handler");
-		if (mTransmitRunnable == null)
-			Log.d(TAG, "Null Runnable");
+    private boolean isFrequencySupported(int frequency) {
+        for (CarrierFrequencyRange cfr : mIrManager.getCarrierFrequencies()) {
+            if (frequency <= cfr.getMaxFrequency()
+                    && frequency >= cfr.getMinFrequency()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-		mHandler.removeCallbacks(mTransmitRunnable);
-		if (transmitAtLeastOnce && !mHasTransmittedOnce) {
-			mHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					transmitImpl(mSignal);
-				}
-			});
-		} else {
-			Log.d(TAG, "mTransmitting = false");
-			mWaitingForTransmission = false;
-		}
-	}
+    @Override
+    public void pause() {
+        mHandler.removeCallbacks(mTransmitRunnable);
+    }
 
-	@Override
-	public boolean hasTransmittedOnce() {
-		return mHasTransmittedOnce;
-	}
+    @Override
+    public void resume() {
+    }
 
-	private boolean isFrequencySupported(int frequency) {
-		for (CarrierFrequencyRange cfr : mIrManager.getCarrierFrequencies()) {
-			if (frequency <= cfr.getMaxFrequency()
-					&& frequency >= cfr.getMinFrequency()) {
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public void cancel() {
+    }
 
-	@Override
-	public void pause() {
-		mHandler.removeCallbacks(mTransmitRunnable);
-	}
+    private class TransmitterRunnable implements Runnable {
+        @Override
+        public void run() {
+            transmitImpl(mSignal);
+            if (!mHasTransmittedOnce)
+                mHasTransmittedOnce = true;
 
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void cancel() {
-	}
+            if (mWaitingForTransmission) {
+                Log.d(TAG, "Posting new runnable");
+                mHandler.postDelayed(this, getPeriodMillis());
+            }
+        }
+    }
 
 }

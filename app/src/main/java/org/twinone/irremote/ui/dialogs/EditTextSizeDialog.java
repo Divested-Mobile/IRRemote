@@ -1,8 +1,5 @@
 package org.twinone.irremote.ui.dialogs;
 
-import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,7 +7,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -20,133 +16,132 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
+
 public class EditTextSizeDialog extends DialogFragment implements
-		DialogInterface.OnClickListener {
+        DialogInterface.OnClickListener {
 
-	private static final String ARG_INITIAL_POSITION = "org.twinone.irremote.ui.ScrollDialog.initial_value";
+    private static final String ARG_INITIAL_POSITION = "org.twinone.irremote.ui.ScrollDialog.initial_value";
+    private int mInitialPosition;
+    private TextView mText;
+    private SeekBar mSlider;
+    private CheckBox mDefault;
+    private int mDefaultValue;
+    private int mMax;
+    private int mMin;
+    private OnTextSizeChangedListener mListener;
 
-	public static void showFor(Activity a, int initialValue) {
-		EditTextSizeDialog.newInstance(initialValue).show(
-				a.getFragmentManager(), "scroll_dialog");
-	}
+    public static void showFor(Activity a, int initialValue) {
+        EditTextSizeDialog.newInstance(initialValue).show(
+                a.getFragmentManager(), "scroll_dialog");
+    }
 
-	public void show(Activity a) {
-		show(a.getFragmentManager(), "scroll_dialog");
-	}
+    public static EditTextSizeDialog newInstance(int initialPosition) {
+        EditTextSizeDialog f = new EditTextSizeDialog();
+        Bundle b = new Bundle();
+        b.putInt(ARG_INITIAL_POSITION, initialPosition);
+        f.setArguments(b);
+        return f;
+    }
 
-	public static EditTextSizeDialog newInstance(int initialPosition) {
-		EditTextSizeDialog f = new EditTextSizeDialog();
-		Bundle b = new Bundle();
-		b.putInt(ARG_INITIAL_POSITION, initialPosition);
-		f.setArguments(b);
-		return f;
-	}
+    public void show(Activity a) {
+        show(a.getFragmentManager(), "scroll_dialog");
+    }
 
-	private int mInitialPosition;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mInitialPosition = getArguments().getInt(ARG_INITIAL_POSITION);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mInitialPosition = getArguments().getInt(ARG_INITIAL_POSITION);
+        mMin = getResources().getInteger(R.integer.def_min_text_size);
+        mMax = getResources().getInteger(R.integer.def_max_text_size);
+        mDefaultValue = getResources().getInteger(R.integer.def_text_size);
 
-		mMin = getResources().getInteger(R.integer.def_min_text_size);
-		mMax = getResources().getInteger(R.integer.def_max_text_size);
-		mDefaultValue = getResources().getInteger(R.integer.def_text_size);
+    }
 
-	}
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View v = LayoutInflater.from(getActivity()).inflate(
+                R.layout.slider_dialog, null);
+        mText = (TextView) v.findViewById(R.id.delay_text);
+        mSlider = (SeekBar) v.findViewById(R.id.delay_slider);
 
-	private TextView mText;
-	private SeekBar mSlider;
-	private CheckBox mDefault;
-	private int mDefaultValue;
-	private int mMax;
-	private int mMin;
+        mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
+        mDefault.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View v = LayoutInflater.from(getActivity()).inflate(
-				R.layout.slider_dialog, null);
-		mText = (TextView) v.findViewById(R.id.delay_text);
-		mSlider = (SeekBar) v.findViewById(R.id.delay_slider);
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    setProgress(mDefaultValue);
+                }
+                mSlider.setEnabled(!isChecked);
+            }
+        });
 
-		mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
-		mDefault.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mSlider.setMax(mMax - mMin);
+        setProgress(mInitialPosition);
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					setProgress(mDefaultValue);
-				}
-				mSlider.setEnabled(!isChecked);
-			}
-		});
+        mSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
-		mSlider.setMax(mMax - mMin);
-		setProgress(mInitialPosition);
+            @Override
+            public void onStopTrackingTouch(SeekBar arg0) {
+            }
 
-		mSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar arg0) {
+            }
 
-			@Override
-			public void onStopTrackingTouch(SeekBar arg0) {
-			}
+            @Override
+            public void onProgressChanged(SeekBar bar, int prog, boolean arg2) {
+                setProgress(getProgress());
+            }
+        });
 
-			@Override
-			public void onStartTrackingTouch(SeekBar arg0) {
-			}
+        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+        ab.setView(v);
+        ab.setNegativeButton(android.R.string.cancel, null);
+        ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
 
-			@Override
-			public void onProgressChanged(SeekBar bar, int prog, boolean arg2) {
-				setProgress(getProgress());
-			}
-		});
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (mListener != null) {
+                    mListener.onTextSizeChanged(getProgress());
+                }
+            }
+        });
 
-		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-		ab.setView(v);
-		ab.setNegativeButton(android.R.string.cancel, null);
-		ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
+        ab.setTitle(R.string.color_dlgtit);
+        return AnimHelper.addAnimations(ab.create());
+    }
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if (mListener != null) {
-					mListener.onTextSizeChanged(getProgress());
-				}
-			}
-		});
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                break;
+        }
+    }
 
-		ab.setTitle(R.string.color_dlgtit);
-		return AnimHelper.addAnimations(ab.create());
-	}
+    private int getProgress() {
+        return mSlider.getProgress() + mMin;
+    }
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		switch (which) {
-		case DialogInterface.BUTTON_POSITIVE:
-			break;
-		}
-	}
+    /**
+     * @param progress The progress as the user would see it
+     */
+    private void setProgress(int progress) {
+        mSlider.setProgress(progress - mMin);
+        mText.setText(String.valueOf(progress));
+    }
 
-	private int getProgress() {
-		return mSlider.getProgress() + mMin;
-	}
+    public void setListener(OnTextSizeChangedListener listener) {
+        mListener = listener;
+    }
 
-	/**
-	 * @param progress
-	 *            The progress as the user would see it
-	 */
-	private void setProgress(int progress) {
-		mSlider.setProgress(progress - mMin);
-		mText.setText(String.valueOf(progress));
-	}
-
-	private OnTextSizeChangedListener mListener;
-
-	public void setListener(OnTextSizeChangedListener listener) {
-		mListener = listener;
-	}
-
-	public interface OnTextSizeChangedListener {
-		public void onTextSizeChanged(int newSize);
-	}
+    public interface OnTextSizeChangedListener {
+        public void onTextSizeChanged(int newSize);
+    }
 
 }

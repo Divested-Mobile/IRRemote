@@ -1,15 +1,7 @@
 package org.twinone.irremote.ui;
 
-import java.util.ArrayList;
-
-import org.twinone.androidlib.NavigationFragment;
-import org.twinone.irremote.R;
-import org.twinone.irremote.ir.io.Receiver;
-import org.twinone.irremote.providers.ProviderActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,72 +11,78 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import org.twinone.androidlib.NavigationFragment;
+import org.twinone.irremote.R;
+import org.twinone.irremote.ir.io.Receiver;
+import org.twinone.irremote.providers.ProviderActivity;
+
+import java.util.ArrayList;
+
 public class ProviderNavFragment extends NavigationFragment implements
-		OnItemClickListener {
+        OnItemClickListener {
 
-	public ProviderNavFragment() {
-	}
+    private ListView mListView;
+    private String[] mStrings;
+    private Integer[] mIds;
+    public ProviderNavFragment() {
+    }
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (!(getActivity() instanceof ProviderActivity)) {
-			throw new ClassCastException(
-					"ProviderNavFragment can only be attached to instances of ProviderActivity");
-		}
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(getActivity() instanceof ProviderActivity)) {
+            throw new ClassCastException(
+                    "ProviderNavFragment can only be attached to instances of ProviderActivity");
+        }
+    }
 
-	private ListView mListView;
-	private String[] mStrings;
-	private Integer[] mIds;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        RelativeLayout root = (RelativeLayout) inflater.inflate(
+                R.layout.fragment_nav_provider, container, false);
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		RelativeLayout root = (RelativeLayout) inflater.inflate(
-				R.layout.fragment_nav_provider, container, false);
+        mListView = (ListView) root.findViewById(R.id.providers_listview);
+        setupListView();
+        mListView.setOnItemClickListener(this);
+        return root;
+    }
 
-		mListView = (ListView) root.findViewById(R.id.providers_listview);
-		setupListView();
-		mListView.setOnItemClickListener(this);
-		return root;
-	}
+    private void setupListView() {
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<Integer> ids = new ArrayList<>();
 
-	private void setupListView() {
-		ArrayList<String> list = new ArrayList<>();
-		ArrayList<Integer> ids = new ArrayList<>();
+        list.add(getString(R.string.provider_common));
+        ids.add(ProviderActivity.PROVIDER_COMMON);
 
-		list.add(getString(R.string.provider_common));
-		ids.add(ProviderActivity.PROVIDER_COMMON);
+        list.add(getString(R.string.provider_twinone));
+        ids.add(ProviderActivity.PROVIDER_TWINONE);
 
-		list.add(getString(R.string.provider_twinone));
-		ids.add(ProviderActivity.PROVIDER_TWINONE);
+        list.add(getString(R.string.provider_local));
+        ids.add(ProviderActivity.PROVIDER_LOCAL);
 
-		list.add(getString(R.string.provider_local));
-		ids.add(ProviderActivity.PROVIDER_LOCAL);
+        if (Receiver.isAvailable(getActivity())) {
+            list.add(getString(R.string.provider_learn));
+            ids.add(ProviderActivity.PROVIDER_LEARN);
+        }
 
-		if (Receiver.isAvailable(getActivity())) {
-			list.add(getString(R.string.provider_learn));
-			ids.add(ProviderActivity.PROVIDER_LEARN);
-		}
+        mStrings = list.toArray(new String[list.size()]);
+        mIds = ids.toArray(new Integer[ids.size()]);
 
-		mStrings = list.toArray(new String[list.size()]);
-		mIds = ids.toArray(new Integer[ids.size()]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.navigation_item, android.R.id.text1,
+                mStrings);
+        mListView.setAdapter(adapter);
+    }
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-				R.layout.navigation_item, android.R.id.text1,
-				mStrings);
-		mListView.setAdapter(adapter);
-	}
+    private ProviderActivity getProvider() {
+        return (ProviderActivity) getActivity();
+    }
 
-	private ProviderActivity getProvider() {
-		return (ProviderActivity) getActivity();
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		getProvider().switchTo(mIds[position]);
-	}
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long id) {
+        getProvider().switchTo(mIds[position]);
+    }
 
 }

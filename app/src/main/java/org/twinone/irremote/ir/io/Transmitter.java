@@ -1,188 +1,184 @@
 package org.twinone.irremote.ir.io;
 
-import org.twinone.irremote.Constants;
-import org.twinone.irremote.R;
-import org.twinone.irremote.debug.DebugTransmitter;
-import org.twinone.irremote.ir.Signal;
-import org.twinone.irremote.ui.SettingsActivity;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import org.twinone.irremote.Constants;
+import org.twinone.irremote.R;
+import org.twinone.irremote.debug.DebugTransmitter;
+import org.twinone.irremote.ir.Signal;
+import org.twinone.irremote.ui.SettingsActivity;
+
 public abstract class Transmitter {
-	private final Context mContext;
+    private final Context mContext;
+    protected Handler mHandler;
+    private LooperThread mThread;
+    /**
+     * Time between the end of a transmission and the start of the next one
+     */
+    private int mPeriodMillis = 200;
+    private OnTransmitListener mListener;
+    private boolean mTransmitting;
 
-	protected Context getContext() {
-		return mContext;
-	}
+    protected Transmitter(Context context) {
+        mContext = context;
 
-	private LooperThread mThread;
-	protected Handler mHandler;
+        mThread = new LooperThread();
+        mThread.start();
+        setPeriodMillisFromPrefs();
+    }
 
-	private class LooperThread extends Thread {
+    /**
+     * Returns the best available ir transmitter
+     *
+     * @return
+     */
+    public static Transmitter getInstance(Context c) {
+        try {
+            return new KitKatTransmitter(c);
+        } catch (ComponentNotAvailableException e) {
+        }
+        Log.w("Receiver", "Could not instantiate KitKatTransmitter");
 
-		public void run() {
-			Looper.prepare();
+        if (Constants.USE_DEBUG_TRANSMITTER) {
+            return new DebugTransmitter(c);
+        }
 
-			mHandler = new Handler(new Handler.Callback() {
+        return null;
+    }
 
-				@Override
-				public boolean handleMessage(Message msg) {
+    public static boolean isTransmitterAvailable(Context c) {
+        return getInstance(c) != null;
+    }
 
-					return false;
-				}
-			});
+    protected Context getContext() {
+        return mContext;
+    }
 
-			Looper.loop();
-		}
-	}
+    /**
+     * Set the signal to be transmitted in the next {@link #transmit()} or
+     * {@link #startTransmitting()} call
+     */
+    public abstract void setSignal(Signal signal);
 
-	protected Transmitter(Context context) {
-		mContext = context;
+    /**
+     * Transmit a {@link Signal} once
+     */
+    public abstract void transmit();
 
-		mThread = new LooperThread();
-		mThread.start();
-		setPeriodMillisFromPrefs();
-	}
+    /**
+     * Start transmitting a signal repeatedly until
+     * {@link #stopTransmitting(boolean)} is called
+     *
+     * @param s
+     */
+    public abstract void startTransmitting();
 
-	/**
-	 * Returns the best available ir transmitter
-	 * 
-	 * @return
-	 */
-	public static Transmitter getInstance(Context c) {
-		try {
-			return new KitKatTransmitter(c);
-		} catch (ComponentNotAvailableException e) {
-		}
-		Log.w("Receiver", "Could not instantiate KitKatTransmitter");
-		
-		if (Constants.USE_DEBUG_TRANSMITTER) {
-			return new DebugTransmitter(c);
-		}
+    /**
+     * Convenience method for {@link #setSignal(Signal)} and
+     * {@link #startTransmitting()}
+     */
+    public void startTransmitting(Signal signal) {
+        setSignal(signal);
+        startTransmitting();
+    }
 
-		return null;
-	}
+    /**
+     * Convenience method for {@link #setSignal(Signal)} and {@link #transmit()}
+     */
+    public void transmit(Signal signal) {
+        setSignal(signal);
+        transmit();
+    }
 
-	public static boolean isTransmitterAvailable(Context c) {
-		return getInstance(c) != null;
-	}
+    /**
+     * Stop transmitting a repeating signal started by
+     * {@link #startTransmitting(Signal)}
+     *
+     * @param atLeastOnce True if a signal has to be sent at least once
+     */
+    public abstract void stopTransmitting(boolean atLeastOnce);
 
-	/**
-	 * Set the signal to be transmitted in the next {@link #transmit()} or
-	 * {@link #startTransmitting()} call
-	 */
-	public abstract void setSignal(Signal signal);
+    public abstract boolean hasTransmittedOnce();
 
-	/**
-	 * Transmit a {@link Signal} once
-	 */
-	public abstract void transmit();
+    protected OnTransmitListener getListener() {
+        return mListener;
+    }
 
-	/**
-	 * Start transmitting a signal repeatedly until
-	 * {@link #stopTransmitting(boolean)} is called
-	 * 
-	 * @param s
-	 */
-	public abstract void startTransmitting();
+    /**
+     * If the user doesn't cancel in this time, we'll start transmitting
+     */
 
-	/**
-	 * Convenience method for {@link #setSignal(Signal)} and
-	 * {@link #startTransmitting()}
-	 */
-	public void startTransmitting(Signal signal) {
-		setSignal(signal);
-		startTransmitting();
-	}
+    public void setListener(OnTransmitListener listener) {
+        mListener = listener;
+    }
 
-	/** Convenience method for {@link #setSignal(Signal)} and {@link #transmit()} */
-	public void transmit(Signal signal) {
-		setSignal(signal);
-		transmit();
-	}
+    protected int getPeriodMillis() {
+        return mPeriodMillis;
+    }
 
-	/**
-	 * Stop transmitting a repeating signal started by
-	 * {@link #startTransmitting(Signal)}
-	 * 
-	 * @param atLeastOnce
-	 *            True if a signal has to be sent at least once
-	 */
-	public abstract void stopTransmitting(boolean atLeastOnce);
+    /**
+     * Set how much each transmission should be away from another
+     *
+     * @param millis
+     */
+    public void setPeriodMillis(int millis) {
+        mPeriodMillis = millis;
+    }
 
-	public abstract boolean hasTransmittedOnce();
+    /**
+     * @return The milliseconds to wait between transmissions that the user has
+     * saved
+     */
+    public void setPeriodMillisFromPrefs() {
+        int def = mContext.getResources().getInteger(R.integer.pref_def_delay);
+        int millis = SettingsActivity.getPreferences(mContext).getInt(
+                mContext.getString(R.string.pref_key_delay), def);
+        setPeriodMillis(millis);
+    }
 
-	public void setListener(OnTransmitListener listener) {
-		mListener = listener;
-	}
+    public abstract void pause();
 
-	protected OnTransmitListener getListener() {
-		return mListener;
-	}
+    public abstract void resume();
 
-	/**
-	 * Time between the end of a transmission and the start of the next one
-	 */
-	private int mPeriodMillis = 200;
+    public abstract void cancel();
 
-	/**
-	 * If the user doesn't cancel in this time, we'll start transmitting
-	 */
+    public boolean isTransmitting() {
+        return mTransmitting;
+    }
 
-	/**
-	 * Set how much each transmission should be away from another
-	 * 
-	 * @param millis
-	 */
-	public void setPeriodMillis(int millis) {
-		mPeriodMillis = millis;
-	}
+    protected void setTransmitting(boolean transmitting) {
+        mTransmitting = transmitting;
+    }
 
-	protected int getPeriodMillis() {
-		return mPeriodMillis;
-	}
+    /**
+     * Interface to implement to know when a IR signal is transmitted
+     */
+    public interface OnTransmitListener {
+        public void onBeforeTransmit();
 
-	/**
-	 * @return The milliseconds to wait between transmissions that the user has
-	 *         saved
-	 */
-	public void setPeriodMillisFromPrefs() {
-		int def = mContext.getResources().getInteger(R.integer.pref_def_delay);
-		int millis = SettingsActivity.getPreferences(mContext).getInt(
-				mContext.getString(R.string.pref_key_delay), def);
-		setPeriodMillis(millis);
-	}
+        public void onAfterTransmit();
+    }
 
-	private OnTransmitListener mListener;
+    private class LooperThread extends Thread {
 
-	/**
-	 * Interface to implement to know when a IR signal is transmitted
-	 * 
-	 */
-	public interface OnTransmitListener {
-		public void onBeforeTransmit();
+        public void run() {
+            Looper.prepare();
 
-		public void onAfterTransmit();
-	}
+            mHandler = new Handler(new Handler.Callback() {
 
-	public abstract void pause();
+                @Override
+                public boolean handleMessage(Message msg) {
 
-	public abstract void resume();
+                    return false;
+                }
+            });
 
-	public abstract void cancel();
-
-	private boolean mTransmitting;
-
-	public boolean isTransmitting() {
-		return mTransmitting;
-	}
-
-	protected void setTransmitting(boolean transmitting) {
-		mTransmitting = transmitting;
-	}
+            Looper.loop();
+        }
+    }
 
 }

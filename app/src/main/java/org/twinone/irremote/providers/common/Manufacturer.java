@@ -4,16 +4,16 @@ import org.twinone.irremote.providers.BaseListable;
 
 public class Manufacturer extends BaseListable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5520846709461834473L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5520846709461834473L;
 
-	public String name;
+    public String name;
 
-	@Override
-	public String getDisplayName() {
-		return null;
-	}
+    @Override
+    public String getDisplayName() {
+        return null;
+    }
 
 }

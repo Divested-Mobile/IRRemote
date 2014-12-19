@@ -1,12 +1,5 @@
 package org.twinone.irremote.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.twinone.irremote.R;
-import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.ir.io.Transmitter;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -17,134 +10,139 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import org.twinone.irremote.R;
+import org.twinone.irremote.components.Remote;
+import org.twinone.irremote.ir.io.Transmitter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Displays the remote.
- * 
+ *
  * @author twinone
- * 
  */
 public abstract class BaseRemoteFragment extends Fragment {
 
-	protected static final String TAG = "RemoteFragment";
-	private static final String SAVE_REMOTE = "save_remote";
+    protected static final String TAG = "RemoteFragment";
+    private static final String SAVE_REMOTE = "save_remote";
+    private static final String ARG_REMOTE_NAME = "arg_remote_name";
+    protected Handler mHandler = new Handler();
+    protected Remote mRemote;
+    protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
+    // protected ComponentUtils mComponentUtils;
 
-	protected Handler mHandler = new Handler();
+    protected RemoteView mRemoteView;
+    protected ScrollView mScroll;
+    private Transmitter mTransmitter;
 
-	protected Remote mRemote;
-	private Transmitter mTransmitter;
-	protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
-	// protected ComponentUtils mComponentUtils;
+    public final void showFor(Activity a, String remoteName) {
+        showFor(a, remoteName, null);
+    }
 
-	protected RemoteView mRemoteView;
-	protected ScrollView mScroll;
+    /**
+     * Use this method just after calling the constructor
+     */
+    public final void showFor(Activity a, String remoteName, String tag) {
 
-	private static final String ARG_REMOTE_NAME = "arg_remote_name";
+        Bundle b = new Bundle();
+        b.putSerializable(ARG_REMOTE_NAME, remoteName);
+        setArguments(b);
+        a.getFragmentManager().beginTransaction()
+                .replace(R.id.container, this, tag).commit();
+    }
 
-	public final void showFor(Activity a, String remoteName) {
-		showFor(a, remoteName, null);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i("BaseRemoteFragment", "OnCreate");
+        if (getArguments() == null
+                || !getArguments().containsKey(ARG_REMOTE_NAME)) {
+            throw new RuntimeException(
+                    "You should create this fragment with the showFor method");
+        }
 
-	/** Use this method just after calling the constructor */
-	public final void showFor(Activity a, String remoteName, String tag) {
+        if (savedInstanceState != null) {
+            Log.d(TAG, "Retrieving remote from savedInstanceState");
+            mRemote = (Remote) savedInstanceState.getSerializable(SAVE_REMOTE);
+        } else {
+            mRemote = Remote.load(getActivity(), (String) getArguments()
+                    .getSerializable(ARG_REMOTE_NAME));
+        }
+        mTransmitter = Transmitter.getInstance(getActivity());
 
-		Bundle b = new Bundle();
-		b.putSerializable(ARG_REMOTE_NAME, remoteName);
-		setArguments(b);
-		a.getFragmentManager().beginTransaction()
-				.replace(R.id.container, this, tag).commit();
-	}
+        // mComponentUtils = new ComponentUtils(getActivity());
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Log.i("BaseRemoteFragment", "OnCreate");
-		if (getArguments() == null
-				|| !getArguments().containsKey(ARG_REMOTE_NAME)) {
-			throw new RuntimeException(
-					"You should create this fragment with the showFor method");
-		}
+    }
 
-		if (savedInstanceState != null) {
-			Log.d(TAG, "Retrieving remote from savedInstanceState");
-			mRemote = (Remote) savedInstanceState.getSerializable(SAVE_REMOTE);
-		} else {
-			mRemote = Remote.load(getActivity(), (String) getArguments()
-					.getSerializable(ARG_REMOTE_NAME));
-		}
-		mTransmitter = Transmitter.getInstance(getActivity());
+    /**
+     * Call super.onCreateView for theming and optionsMenu
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.i("BaseRemoteFragment", "OnCreateView");
 
-		// mComponentUtils = new ComponentUtils(getActivity());
+        setHasOptionsMenu(true);
 
-	}
+        if (mRemote == null) {
+            return new View(getActivity());
+        }
 
-	/**
-	 * Call super.onCreateView for theming and optionsMenu
-	 */
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		Log.i("BaseRemoteFragment", "OnCreateView");
+        mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
+                container, false);
 
-		setHasOptionsMenu(true);
+        mRemoteView = (RemoteView) mScroll.findViewById(R.id.container);
+        mRemoteView.setRemote(mRemote);
+        setupButtons();
 
-		if (mRemote == null) {
-			return new View(getActivity());
-		}
+        return mScroll;
+    }
 
-		mScroll = (ScrollView) inflater.inflate(R.layout.fragment_remote_new,
-				container, false);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(SAVE_REMOTE, mRemote);
+        super.onSaveInstanceState(outState);
+    }
 
-		mRemoteView = (RemoteView) mScroll.findViewById(R.id.container);
-		mRemoteView.setRemote(mRemote);
-		setupButtons();
+    protected void setupButtons() {
+        mRemoteView.removeAllViews();
+        mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
+        for (org.twinone.irremote.components.Button b : mRemote.buttons) {
+            ButtonView bv = new ButtonView(getActivity());
+            bv.setButton(b);
 
-		return mScroll;
-	}
+            mButtons.add(bv);
+            mRemoteView.addView(bv);
+            // bv.setX(b.x);
+            // bv.setY(b.y);
+            bv.getLayoutParams().width = (int) b.w;
+            bv.getLayoutParams().height = (int) b.h;
+            bv.requestLayout();
+        }
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(SAVE_REMOTE, mRemote);
-		super.onSaveInstanceState(outState);
-	}
+    protected Transmitter getTransmitter() {
+        return mTransmitter;
+    }
 
-	protected void setupButtons() {
-		mRemoteView.removeAllViews();
-		mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
-		for (org.twinone.irremote.components.Button b : mRemote.buttons) {
-			ButtonView bv = new ButtonView(getActivity());
-			bv.setButton(b);
+    public Remote getRemote() {
+        return mRemote;
+    }
 
-			mButtons.add(bv);
-			mRemoteView.addView(bv);
-			// bv.setX(b.x);
-			// bv.setY(b.y);
-			bv.getLayoutParams().width = (int) b.w;
-			bv.getLayoutParams().height = (int) b.h;
-			bv.requestLayout();
-		}
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mTransmitter != null)
+            mTransmitter.resume();
 
-	protected Transmitter getTransmitter() {
-		return mTransmitter;
-	}
+    }
 
-	public Remote getRemote() {
-		return mRemote;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (mTransmitter != null)
-			mTransmitter.resume();
-
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (mTransmitter != null)
-			mTransmitter.pause();
-	}
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mTransmitter != null)
+            mTransmitter.pause();
+    }
 
 }

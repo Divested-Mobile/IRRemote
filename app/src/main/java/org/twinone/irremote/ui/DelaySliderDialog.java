@@ -1,8 +1,5 @@
 package org.twinone.irremote.ui;
 
-import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -19,105 +16,105 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import org.twinone.irremote.R;
+import org.twinone.irremote.components.AnimHelper;
+
 public class DelaySliderDialog extends DialogPreference implements
-		DialogInterface.OnClickListener {
+        DialogInterface.OnClickListener {
 
-	public DelaySliderDialog(Context context) {
-		this(context, null);
-	}
+    private TextView mText;
+    private SeekBar mSlider;
+    private CheckBox mDefault;
+    private int mDefaultValue;
+    private int mMax;
+    private int mMin;
+    public DelaySliderDialog(Context context) {
+        this(context, null);
+    }
+    public DelaySliderDialog(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setPersistent(true);
+        mDefaultValue = context.getResources().getInteger(
+                R.integer.pref_def_delay);
+        mMax = context.getResources().getInteger(R.integer.pref_def_delay_max);
+        mMin = context.getResources().getInteger(R.integer.pref_def_delay_min);
+    }
 
-	public DelaySliderDialog(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		setPersistent(true);
-		mDefaultValue = context.getResources().getInteger(
-				R.integer.pref_def_delay);
-		mMax = context.getResources().getInteger(R.integer.pref_def_delay_max);
-		mMin = context.getResources().getInteger(R.integer.pref_def_delay_min);
-	}
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        return mDefaultValue;
+    }
 
-	private TextView mText;
-	private SeekBar mSlider;
-	private CheckBox mDefault;
-	private int mDefaultValue;
-	private int mMax;
-	private int mMin;
+    @Override
+    protected View onCreateDialogView() {
+        View v = LayoutInflater.from(getContext()).inflate(
+                R.layout.slider_dialog, null);
 
-	@Override
-	protected Object onGetDefaultValue(TypedArray a, int index) {
-		return mDefaultValue;
-	}
+        mText = (TextView) v.findViewById(R.id.delay_text);
+        mSlider = (SeekBar) v.findViewById(R.id.delay_slider);
 
-	@Override
-	protected View onCreateDialogView() {
-		View v = LayoutInflater.from(getContext()).inflate(
-				R.layout.slider_dialog, null);
+        mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
+        mDefault.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-		mText = (TextView) v.findViewById(R.id.delay_text);
-		mSlider = (SeekBar) v.findViewById(R.id.delay_slider);
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    setProgress(mDefaultValue);
+                }
+                mSlider.setEnabled(!isChecked);
+            }
+        });
 
-		mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
-		mDefault.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mSlider.setMax(mMax - mMin);
+        setProgress(getPersistedInt(mDefaultValue));
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					setProgress(mDefaultValue);
-				}
-				mSlider.setEnabled(!isChecked);
-			}
-		});
+        mSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
-		mSlider.setMax(mMax - mMin);
-		setProgress(getPersistedInt(mDefaultValue));
+            @Override
+            public void onStopTrackingTouch(SeekBar arg0) {
+            }
 
-		mSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar arg0) {
+            }
 
-			@Override
-			public void onStopTrackingTouch(SeekBar arg0) {
-			}
+            @Override
+            public void onProgressChanged(SeekBar bar, int prog, boolean arg2) {
+                mText.setText(getContext().getString(R.string.ms, prog + mMin));
+            }
+        });
+        return v;
+    }
 
-			@Override
-			public void onStartTrackingTouch(SeekBar arg0) {
-			}
+    @Override
+    public Dialog getDialog() {
 
-			@Override
-			public void onProgressChanged(SeekBar bar, int prog, boolean arg2) {
-				mText.setText(getContext().getString(R.string.ms, prog + mMin));
-			}
-		});
-		return v;
-	}
+        AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+        ab.setTitle(R.string.color_dlgtit);
+        ab.setNegativeButton(android.R.string.cancel, null);
+        ab.setPositiveButton(android.R.string.ok, null);
+        return AnimHelper.addAnimations(ab.create());
+    }
 
-	@Override
-	public Dialog getDialog() {
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+        if (positiveResult && mSlider != null) {
+            persistInt(getProgress());
+        }
+    }
 
-		AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
-		ab.setTitle(R.string.color_dlgtit);
-		ab.setNegativeButton(android.R.string.cancel, null);
-		ab.setPositiveButton(android.R.string.ok, null);
-		return AnimHelper.addAnimations(ab.create());
-	}
+    private int getProgress() {
+        return mSlider.getProgress() + mMin;
+    }
 
-	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		super.onDialogClosed(positiveResult);
-		if (positiveResult && mSlider != null) {
-			persistInt(getProgress());
-		}
-	}
-
-	private int getProgress() {
-		return mSlider.getProgress() + mMin;
-	}
-
-	/**
-	 * @param progress
-	 *            The progress as the user would see it
-	 */
-	private void setProgress(int progress) {
-		mSlider.setProgress(progress - mMin);
-		mText.setText(getContext().getString(R.string.ms, progress));
-	}
+    /**
+     * @param progress The progress as the user would see it
+     */
+    private void setProgress(int progress) {
+        mSlider.setProgress(progress - mMin);
+        mText.setText(getContext().getString(R.string.ms, progress));
+    }
 
 }

@@ -1,49 +1,49 @@
 package org.twinone.irremote.ui;
 
-import org.twinone.irremote.components.Remote;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import org.twinone.irremote.components.Remote;
+
 public class RemoteView extends RelativeLayout {
 
-	private Remote mRemote;
+    private Remote mRemote;
 
-	public void setRemote(Remote remote) {
-		mRemote = remote;
-	}
+    public RemoteView(Context context) {
+        super(context);
+    }
 
-	public Remote getRemote() {
-		return mRemote;
-	}
+    public RemoteView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public RemoteView(Context context) {
-		super(context);
-	}
+    public RemoteView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(widthMeasureSpec, mRemote.details.h);
-	}
+    public Remote getRemote() {
+        return mRemote;
+    }
 
-	public RemoteView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public void setRemote(Remote remote) {
+        mRemote = remote;
+    }
 
-	public RemoteView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(widthMeasureSpec, mRemote.details.h);
+    }
 
-	/**
-	 * Returns the ButtonView for a specific UID
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public ButtonView findButtonViewById(int uid) {
-		return (ButtonView) findViewById(uid);
-	}
+    /**
+     * Returns the ButtonView for a specific UID
+     *
+     * @param id
+     * @return
+     */
+    public ButtonView findButtonViewById(int uid) {
+        return (ButtonView) findViewById(uid);
+    }
 
 }

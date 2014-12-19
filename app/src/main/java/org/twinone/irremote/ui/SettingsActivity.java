@@ -1,55 +1,54 @@
 package org.twinone.irremote.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-
 public class SettingsActivity extends ToolbarActivity {
 
-	public static final SharedPreferences getPreferences(Context c) {
-		return c.getSharedPreferences("default", Context.MODE_PRIVATE);
-	}
+    public static final SharedPreferences getPreferences(Context c) {
+        return c.getSharedPreferences("default", Context.MODE_PRIVATE);
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_empty);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getFragmentManager().beginTransaction()
-				.replace(R.id.container, new SettingsFragment()).commit();
-	}
+        setContentView(R.layout.activity_empty);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, new SettingsFragment()).commit();
+    }
 
-	@Override
-	public boolean onSupportNavigateUp() {
-		return onNavigateUp();
-	}
+    @Override
+    public boolean onSupportNavigateUp() {
+        return onNavigateUp();
+    }
 
-	@Override
-	public boolean onNavigateUp() {
-		exit();
-		return true;
-	}
+    @Override
+    public boolean onNavigateUp() {
+        exit();
+        return true;
+    }
 
-	@Override
-	public void onBackPressed() {
-		exit();
-	}
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
 
-	private void exit() {
-		MainActivity.recreate(this);
-		finish();
-	}
+    private void exit() {
+        MainActivity.recreate(this);
+        finish();
+    }
 
-	@Override
-	public void finish() {
-		super.finish();
-		AnimHelper.onFinish(this);
-	}
+    @Override
+    public void finish() {
+        super.finish();
+        AnimHelper.onFinish(this);
+    }
 
 }

@@ -32,11 +32,9 @@
 
         <activity android:name="org.twinone.irremote.ui.SettingsActivity" />
         <activity android:name="org.twinone.irremote.providers.twinone.RegisterActivity" />
-        <activity android:name="org.twinone.irremote.providers.twinone.DownloadActivity" />
         <activity android:name="org.twinone.irremote.providers.twinone.UploadActivity" />
         <activity android:name="org.twinone.irremote.ui.EditRemoteActivity" />
         <activity android:name="org.twinone.irremote.providers.ProviderActivity" />
-        <activity android:name="org.twinone.irremote.providers.learn.LearnRemoteProviderActivity" />
         <activity
             android:name="org.twinone.irremote.ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -61,8 +59,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name="org.twinone.irremote.TransmitterService" >
-        </service>
         <!--
         <receiver android:name="WidgetProviderName" >
             <intent-filter>
