@@ -32,7 +32,7 @@ public abstract class AnimHelper {
      *
      * @param d
      */
-    public static void showDialog(Dialog d) {
+    private static void showDialog(Dialog d) {
         addAnimations(d);
         d.show();
     }

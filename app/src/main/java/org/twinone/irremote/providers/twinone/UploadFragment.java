@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.providers.twinone.ManufacturersProvider.OnManufacturersReceivedListener;
@@ -16,10 +15,9 @@ import org.twinone.irremote.providers.twinone.ManufacturersProvider.OnManufactur
 public class UploadFragment extends Fragment implements
         OnManufacturersReceivedListener {
 
-    private TextView mName;
     private Spinner mDeviceType;
     private AutoCompleteTextView mManufacturer;
-    private AutoCompleteTextView mModel;
+
     public UploadFragment() {
     }
 
@@ -28,20 +26,12 @@ public class UploadFragment extends Fragment implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_upload, null);
-        mName = (TextView) root.findViewById(R.id.upl_name);
         mDeviceType = (Spinner) root.findViewById(R.id.upl_device_type);
         mManufacturer = (AutoCompleteTextView) root
                 .findViewById(R.id.upl_manufacturer);
-        mModel = (AutoCompleteTextView) root.findViewById(R.id.upl_model);
 
         setupDeviceTypes();
         return root;
@@ -57,7 +47,7 @@ public class UploadFragment extends Fragment implements
     }
 
     private void setupManufacturers(String deviceType) {
-        new ManufacturersProvider().getManufacturers(getActivity(), deviceType,
+        new ManufacturersProvider().getManufacturers(deviceType,
                 this);
     }
 

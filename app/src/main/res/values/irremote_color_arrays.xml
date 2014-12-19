@@ -3,20 +3,20 @@
 
     <!-- gradient_red -->
     <array name="gradient_solid">
-        <item>@color/remote_button_bg_sl_default_start</item>
-        <item>@color/remote_button_bg_sl_default_end</item>
+        <item>#494f52</item>
+        <item>#313639</item>
     </array>
     <array name="gradient_solid_pressed">
-        <item>@color/remote_button_bg_sl_pressed_start</item>
-        <item>@color/remote_button_bg_sl_pressed_end</item>
+        <item>#333</item>
+        <item>#333</item>
     </array>
     <array name="gradient_transparent">
-        <item>@color/remote_button_bg_tr_default_start</item>
-        <item>@color/remote_button_bg_tr_default_end</item>
+        <item>#8333</item>
+        <item>#8333</item>
     </array>
     <array name="gradient_transparent_pressed">
-        <item>@color/remote_button_bg_tr_pressed_start</item>
-        <item>@color/remote_button_bg_tr_pressed_end</item>
+        <item>#333</item>
+        <item>#333</item>
     </array>
 
 </resources>

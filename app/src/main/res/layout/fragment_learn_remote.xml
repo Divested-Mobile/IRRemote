@@ -111,7 +111,6 @@
                     android:layout_margin="0dp"
                     android:padding="0dp"
                     app:progress_background_color="#aaa"
-                    app:progress_color="#ff0000"
                     app:stroke_width="3dp"
                     app:thumb_visible="false" />
             </RelativeLayout>

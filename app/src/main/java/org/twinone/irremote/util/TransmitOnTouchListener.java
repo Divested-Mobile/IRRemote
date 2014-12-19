@@ -13,17 +13,16 @@ import org.twinone.irremote.ui.ButtonView;
 
 public class TransmitOnTouchListener implements OnTouchListener {
 
-    protected static final int DETECT_LONGPRESS_DELAY = 250; // ms
+    private static final int DETECT_LONGPRESS_DELAY = 250; // ms
     private final Transmitter mTransmitter;
-    PointerCoords mCoords = new PointerCoords();
+    private final PointerCoords mCoords = new PointerCoords();
+    private final Runnable mDelayedRunnable = new MyDelayedRunnable();
     private boolean mFingerDown;
-
     private float mFingerDownX;
     private float mFingerDownY;
     private int mFingerDownId;
     private View mView;
     private boolean mHapticFeedbackEnabled;
-    private Runnable mDelayedRunnable = new MyDelayedRunnable();
 
     public TransmitOnTouchListener(Transmitter t) {
         if (t == null)
@@ -32,13 +31,10 @@ public class TransmitOnTouchListener implements OnTouchListener {
     }
 
     public boolean onTouch(final View v, MotionEvent event) {
-        if (v instanceof ButtonView) {
-            return onTouch((ButtonView) v, event);
-        }
-        return false;
+        return v instanceof ButtonView && onTouch((ButtonView) v, event);
     }
 
-    public boolean onTouch(final ButtonView v, MotionEvent event) {
+    boolean onTouch(final ButtonView v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
@@ -48,7 +44,7 @@ public class TransmitOnTouchListener implements OnTouchListener {
                     mFingerDownY = event.getY();
                     mFingerDownId = event.getPointerId(0);
 
-                    final Signal s = ((ButtonView) v).getButton().getSignal();
+                    final Signal s = v.getButton().getSignal();
                     mTransmitter.setSignal(s);
                     mView = v;
                     v.removeCallbacks(mDelayedRunnable);

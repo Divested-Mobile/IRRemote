@@ -10,7 +10,7 @@ import org.twinone.irremote.components.AnimHelper;
 
 public class SettingsActivity extends ToolbarActivity {
 
-    public static final SharedPreferences getPreferences(Context c) {
+    public static SharedPreferences getPreferences(Context c) {
         return c.getSharedPreferences("default", Context.MODE_PRIVATE);
     }
 

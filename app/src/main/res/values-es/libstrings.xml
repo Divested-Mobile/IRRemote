@@ -2,11 +2,5 @@
 
     <string name="lib_rate_dlg_tit">Valora esta app</string>
     <string name="lib_rate_dlg_msg">Por favor, ayúdanos a mejorar y traer nuevas funciones dejando un comentario positivo en Google Play</string>
-    <!--  -->
-    <string name="lib_share_dlg_tit">Comparte esta app</string>
-    <string name="lib_share_dlg_msg">Si te gusta esta app, considera compartirla con tus amigos y familia.</string>
-    <!--  -->
-    <string name="lib_share_never">No</string>
-    <string name="lib_share_later">Más tarde</string>
 
 </resources>

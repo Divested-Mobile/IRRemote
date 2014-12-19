@@ -16,7 +16,6 @@ import java.util.Locale;
 public class AdMobBannerBuilder {
     private static final String TAG = AdMobBannerBuilder.class.getSimpleName();
 
-    private AdView mAdView;
     private AdRequest.Builder mAdRequestBuilder;
     private AdSize mAdSize = AdSize.BANNER;
 
@@ -28,18 +27,16 @@ public class AdMobBannerBuilder {
         mAdUnitId = adUnitId;
     }
 
-    public AdMobBannerBuilder setParent(ViewGroup parent) {
+    public void setParent(ViewGroup parent) {
         mParent = parent;
         mAdRequestBuilder = new AdRequest.Builder();
-        return this;
     }
 
     /**
      * You don't need to add emulator id, it will automatically be added for you
      */
-    public AdMobBannerBuilder addTestDevice(String id) {
+    public void addTestDevice(String id) {
         mAdRequestBuilder.addTestDevice(id);
-        return this;
     }
 
     public AdMobBannerBuilder setAdSize(AdSize adSize) {
@@ -50,7 +47,7 @@ public class AdMobBannerBuilder {
     public void show() {
         mAdRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 
-        mAdView = new AdView(mParent.getContext());
+        AdView mAdView = new AdView(mParent.getContext());
         mAdView.setAdUnitId(mAdUnitId);
         mAdView.setAdSize(mAdSize);
 
@@ -71,9 +68,9 @@ public class AdMobBannerBuilder {
             byte messageDigest[] = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++) {
-                String h = Integer.toHexString(0xFF & messageDigest[i]);
+            StringBuilder hexString = new StringBuilder();
+            for (byte md : messageDigest) {
+                String h = Integer.toHexString(0xFF & md);
                 while (h.length() < 2)
                     h = "0" + h;
                 hexString.append(h);

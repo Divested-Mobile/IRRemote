@@ -35,11 +35,6 @@ public class MainNavFragment extends NavigationFragment implements
     public MainNavFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     public void update() {
         mRemotesListView.updateRemotesList();
@@ -67,7 +62,7 @@ public class MainNavFragment extends NavigationFragment implements
         }
     }
 
-    public void updateTitle() {
+    void updateTitle() {
         Log.d("", "isOpen: " + isOpen());
         if (!isOpen()) {
             getSupportActionBar().setTitle(getSelectedRemoteName());

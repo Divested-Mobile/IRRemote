@@ -17,6 +17,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="ToolbarTheme" parent="AppBaseTheme">
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+    </style>
+
+    <style name="NavTheme" parent="AppBaseTheme">
+        <item name="android:windowBackground">@color/navigation_background</item>
+    </style>
     <style name="DialogAnims" parent="AppBaseTheme">
         <item name="android:windowEnterAnimation">@anim/dialog_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_out</item>

@@ -30,7 +30,7 @@ public class Signal {
         return mPattern;
     }
 
-    public void setPattern(int[] pattern) {
+    void setPattern(int[] pattern) {
         mPattern = absPattern(Arrays.copyOf(pattern, pattern.length));
     }
 

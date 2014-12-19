@@ -11,8 +11,6 @@ public class UploadActivity extends ToolbarActivity {
 
     private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.extra.remote_name";
 
-    private String mRemoteName;
-
     public static void startFor(String remoteName, Context context) {
         Intent i = new Intent(context, UploadActivity.class);
         i.putExtra(EXTRA_REMOTE_NAME, remoteName);
@@ -29,7 +27,7 @@ public class UploadActivity extends ToolbarActivity {
             throw new RuntimeException(
                     "Call UploadActivity with UploadActivity.startFor()");
         }
-        mRemoteName = getIntent().getExtras().getString(EXTRA_REMOTE_NAME);
+        String mRemoteName = getIntent().getExtras().getString(EXTRA_REMOTE_NAME);
 
         setTitle(getString(R.string.title_upload, mRemoteName));
         getSupportFragmentManager().beginTransaction()

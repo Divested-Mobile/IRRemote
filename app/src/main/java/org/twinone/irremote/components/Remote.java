@@ -25,7 +25,7 @@ public class Remote implements Serializable {
     public static final int TYPE_AIR_CONDITIONER = 4;
     // Unknown remotes will be displayed as a list
     public static final int TYPE_UNKNOWN = -1;
-    public static final int FLAG_LEARNED = 1 << 0;
+    public static final int FLAG_LEARNED = 1;
     /**
      *
      */
@@ -36,10 +36,10 @@ public class Remote implements Serializable {
     private static final String BUTTON_PREFIX = "b_";
     private static final String OPTIONS_FILE = "remote.options";
     public String name;
-    public List<Button> buttons;
+    public final List<Button> buttons;
     public Details details;
     public Remote() {
-        buttons = new ArrayList<Button>();
+        buttons = new ArrayList<>();
         details = new Details();
     }
     private Remote(Context c, String remoteName) {
@@ -100,7 +100,7 @@ public class Remote implements Serializable {
     }
 
     public static List<String> getNames(Context c) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         File dir = getRemotesDir(c);
         for (String s : dir.list()) {
             if (s.endsWith(EXTENSION)) {
@@ -120,8 +120,6 @@ public class Remote implements Serializable {
 
     /**
      * Set the remote selected by the user
-     *
-     * @param remoteName
      */
     public static void setLastUsedRemoteName(Context c, String remoteName) {
         c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
@@ -136,9 +134,6 @@ public class Remote implements Serializable {
      * Please note that this is highly inefficient for adding multiple buttons.
      * Load the remote, and add the buttons manually instead of using this.
      *
-     * @param c
-     * @param remote
-     * @param b
      */
     public static void addButton(Context c, String remote, Button b) {
         Remote r = Remote.load(c, remote);
@@ -146,7 +141,7 @@ public class Remote implements Serializable {
         r.save(c);
     }
 
-    public static String serialize(Remote remote) {
+    private static String serialize(Remote remote) {
         return new Gson().toJson(remote);
     }
 
@@ -210,7 +205,7 @@ public class Remote implements Serializable {
     /**
      * True if this remote contains the specified button
      */
-    public boolean contains(int uid) {
+    boolean contains(int uid) {
         for (int i = 0; i < buttons.size(); i++) {
             if (buttons.get(i).uid == uid) {
                 return true;
@@ -282,7 +277,7 @@ public class Remote implements Serializable {
         return serialize();
     }
 
-    public String serialize() {
+    String serialize() {
         return serialize(this);
     }
 

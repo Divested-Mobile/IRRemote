@@ -1,26 +1,24 @@
 package org.twinone.irremote.providers.lirc;
 
-import android.content.Context;
-
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 
-public class IrCode extends LircListable {
+class IrCode extends LircListable {
 
     /**
      *
      */
     private static final long serialVersionUID = 6468863758547559248L;
-    public String pronto;
+    private final String pronto;
 
     public IrCode(String name, String pronto) {
         this.name = name;
         this.pronto = pronto;
     }
 
-    public static Remote toRemote(Context c, String name, IrCode[] irCodes) {
+    public static Remote toRemote(String name, IrCode[] irCodes) {
         Remote r = new Remote();
         r.name = name;
         r.details.type = Remote.TYPE_UNKNOWN;

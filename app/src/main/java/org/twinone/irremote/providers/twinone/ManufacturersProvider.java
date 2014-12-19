@@ -1,7 +1,5 @@
 package org.twinone.irremote.providers.twinone;
 
-import android.content.Context;
-
 import com.google.gson.annotations.SerializedName;
 
 import org.twinone.androidlib.net.HttpJson;
@@ -16,12 +14,12 @@ public class ManufacturersProvider implements
     private OnManufacturersReceivedListener mListener;
 
     @Override
-    public void onServerResponse(int statusCode, ManufacturersReq req,
+    public void onServerResponse(ManufacturersReq req,
                                  ManufacturersResp resp) {
         mListener.onManufacturersReceived(resp.manufacturers);
     }
 
-    public void getManufacturers(Context context, String deviceType,
+    public void getManufacturers(String deviceType,
                                  OnManufacturersReceivedListener listener) {
         if (listener == null)
             throw new NullPointerException("Listener cannot be null");
@@ -38,8 +36,6 @@ public class ManufacturersProvider implements
     public interface OnManufacturersReceivedListener {
         public void onManufacturersReceived(String[] manufacturers);
     }
-
-    ;
 
     public static class ManufacturersReq {
         @SerializedName("device_type")

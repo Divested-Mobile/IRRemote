@@ -16,8 +16,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="8dp"
-        android:text="Test" />
+        android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/learn_cancel"
@@ -29,7 +28,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="8dp"
-        android:text="Cancel" />
+        android:text="@android:string/cancel" />
 
     <Button
         android:id="@+id/learn_start"
@@ -41,7 +40,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="8dp"
-        android:text="Learn" />
+        android:text="@string/learn" />
 
     <TextView
         android:id="@+id/learn_status"
@@ -57,7 +56,6 @@
         android:layout_centerInParent="true"
         app:marker_visible="false"
         app:progress_background_color="#aaa"
-        app:progress_color="#ff0000"
         app:thumb_visible="false" />
 
 </RelativeLayout>

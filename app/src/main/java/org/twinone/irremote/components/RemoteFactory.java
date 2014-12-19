@@ -1,6 +1,6 @@
 package org.twinone.irremote.components;
 
-public abstract class RemoteFactory {
+abstract class RemoteFactory {
 
 
 }

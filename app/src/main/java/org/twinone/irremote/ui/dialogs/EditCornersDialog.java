@@ -22,7 +22,6 @@ public class EditCornersDialog extends DialogFragment {
 
     private static final String ARG_CORNERS = "org.twinone.irremote.ui.EditCornersDialog.corners";
     private float[] mInitialCorners;
-    private ArrayList<NumberPicker> mCorners;
     private NumberPicker mTL;
     private NumberPicker mTR;
     private NumberPicker mBL;
@@ -80,7 +79,7 @@ public class EditCornersDialog extends DialogFragment {
         // }
         // });
 
-        mCorners = new ArrayList<NumberPicker>(4);
+        ArrayList<NumberPicker> mCorners = new ArrayList<>(4);
         mCorners.add(mTL);
         mCorners.add(mTR);
         mCorners.add(mBL);
@@ -104,7 +103,6 @@ public class EditCornersDialog extends DialogFragment {
         mBL.setValue((int) mInitialCorners[6]);
         mC.setValue(getAverage());
 
-        setAdvanced(false);
 
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
         ab.setView(content);
@@ -133,30 +131,11 @@ public class EditCornersDialog extends DialogFragment {
         return (int) total / mInitialCorners.length;
     }
 
-    private boolean isAdvanced() {
-        return false;
-    }
 
-    /**
-     * Updates the UI
-     */
-    private void setAdvanced(boolean advanced) {
-        mBottomContainer.setVisibility(advanced ? View.VISIBLE : View.GONE);
-        mTopContainer.setVisibility(advanced ? View.VISIBLE : View.GONE);
-        mCenterContainer.setVisibility(advanced ? View.GONE : View.VISIBLE);
-    }
-
-    protected float[] getCurrentCorners() {
+    float[] getCurrentCorners() {
         final float[] c = new float[8];
-        if (isAdvanced()) {
-            c[0] = c[1] = mTL.getValue();
-            c[2] = c[3] = mTR.getValue();
-            c[4] = c[5] = mBR.getValue();
-            c[6] = c[7] = mBL.getValue();
-        } else {
-            c[0] = c[2] = c[4] = c[6] = mC.getValue();
-            c[1] = c[3] = c[5] = c[7] = mC.getValue();
-        }
+        c[0] = c[2] = c[4] = c[6] = mC.getValue();
+        c[1] = c[3] = c[5] = c[7] = mC.getValue();
 
         return c;
     }

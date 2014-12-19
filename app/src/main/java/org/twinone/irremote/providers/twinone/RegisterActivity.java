@@ -15,7 +15,7 @@ public class RegisterActivity extends ToolbarActivity {
      * This boolean preference contains true if the user is registered and
      * verified
      */
-    public static final String PREF_KEY_REGISTERED = "org.twinone.irremote.registered_user";
+    private static final String PREF_KEY_REGISTERED = "org.twinone.irremote.registered_user";
 
     /**
      * Returns true if this user is registered and verified
@@ -41,12 +41,10 @@ public class RegisterActivity extends ToolbarActivity {
 
     private boolean isVerifyIntent() {
         Uri data = getIntent().getData();
-        if (data == null)
-            return false;
-        return data.getQueryParameter("a").equals("verify");
+        return data != null && data.getQueryParameter("a").equals("verify");
     }
 
-    public void addFragment(Fragment fragment) {
+    void addFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment).commit();
     }

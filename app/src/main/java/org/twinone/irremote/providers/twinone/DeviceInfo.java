@@ -10,12 +10,12 @@ import java.util.Locale;
 
 public class DeviceInfo {
 
-    public String manufacturer;
-    public String device;
-    public int androidVersion;
-    public int appVersion;
-    public String androidId;
-    public String language;
+    private final String manufacturer;
+    private final String device;
+    private final int androidVersion;
+    private final int appVersion;
+    private final String androidId;
+    private final String language;
     public DeviceInfo(Context c) {
         androidId = Secure.getString(c.getContentResolver(), Secure.ANDROID_ID);
         language = Locale.getDefault().getLanguage();

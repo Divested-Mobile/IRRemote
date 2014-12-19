@@ -1,6 +1,5 @@
 package org.twinone.irremote.providers.twinone;
 
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.providers.twinone.VerifyFragment.VerifyReq;
 import org.twinone.irremote.providers.twinone.VerifyFragment.VerifyResp;
-import org.twinone.irremote.ui.SettingsActivity;
 
 public class VerifyFragment extends Fragment implements OnClickListener,
         ResponseListener<VerifyReq, VerifyResp>,
@@ -68,7 +66,6 @@ public class VerifyFragment extends Fragment implements OnClickListener,
         }
 
         VerifyReq req = new VerifyReq();
-        SharedPreferences sp = SettingsActivity.getPreferences(getActivity());
 
         req.username = mUserInfo.username;
         req.token = getRegistrationToken();
@@ -85,7 +82,7 @@ public class VerifyFragment extends Fragment implements OnClickListener,
     }
 
     @Override
-    public void onServerResponse(int statusCode, VerifyReq req, VerifyResp resp) {
+    public void onServerResponse(VerifyReq req, VerifyResp resp) {
         if (resp.status == 0) {
             mUserInfo.access_token = resp.access_token;
             mUserInfo.id = resp.id;

@@ -24,16 +24,16 @@ import java.util.List;
  */
 public abstract class BaseRemoteFragment extends Fragment {
 
-    protected static final String TAG = "RemoteFragment";
+    private static final String TAG = "RemoteFragment";
     private static final String SAVE_REMOTE = "save_remote";
     private static final String ARG_REMOTE_NAME = "arg_remote_name";
-    protected Handler mHandler = new Handler();
-    protected Remote mRemote;
-    protected List<ButtonView> mButtons = new ArrayList<ButtonView>();
+    final Handler mHandler = new Handler();
+    Remote mRemote;
+    List<ButtonView> mButtons = new ArrayList<>();
     // protected ComponentUtils mComponentUtils;
 
-    protected RemoteView mRemoteView;
-    protected ScrollView mScroll;
+    RemoteView mRemoteView;
+    ScrollView mScroll;
     private Transmitter mTransmitter;
 
     public final void showFor(Activity a, String remoteName) {
@@ -105,9 +105,9 @@ public abstract class BaseRemoteFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    protected void setupButtons() {
+    void setupButtons() {
         mRemoteView.removeAllViews();
-        mButtons = new ArrayList<ButtonView>(mRemote.buttons.size());
+        mButtons = new ArrayList<>(mRemote.buttons.size());
         for (org.twinone.irremote.components.Button b : mRemote.buttons) {
             ButtonView bv = new ButtonView(getActivity());
             bv.setButton(b);
@@ -122,11 +122,11 @@ public abstract class BaseRemoteFragment extends Fragment {
         }
     }
 
-    protected Transmitter getTransmitter() {
+    Transmitter getTransmitter() {
         return mTransmitter;
     }
 
-    public Remote getRemote() {
+    Remote getRemote() {
         return mRemote;
     }
 

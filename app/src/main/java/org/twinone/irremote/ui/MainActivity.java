@@ -46,12 +46,10 @@ public class MainActivity extends ToolbarActivity implements
         OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener,
         android.view.View.OnClickListener {
 
-    public static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
+    private static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
     private static final String TAG = "MainActivity";
     private MainNavFragment mNavFragment;
 
-    private ImageView mBackground;
-    private ViewGroup mAdViewContainer;
     private FloatingActionButton mAddRemoteButton;
 
     /**
@@ -115,10 +113,10 @@ public class MainActivity extends ToolbarActivity implements
         setupNavigation();
         setupShowAds();
 
-        mBackground = (ImageView) findViewById(R.id.background);
+        ImageView mBackground = (ImageView) findViewById(R.id.background);
         new BackgroundManager(this, mBackground).setBackgroundFromPreference();
 
-        RateManager.show(this, getString(R.string.share_promo));
+        RateManager.show(this);
     }
 
     private void setupNavigation() {
@@ -132,7 +130,7 @@ public class MainActivity extends ToolbarActivity implements
     }
 
     private void setupShowAds() {
-        mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
+        ViewGroup mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
         if (Constants.SHOW_ADS) {
             AdMobBannerBuilder builder = new AdMobBannerBuilder();
             builder.setParent(mAdViewContainer);
@@ -158,13 +156,12 @@ public class MainActivity extends ToolbarActivity implements
     private boolean checkTransmitterAvailable() {
         final String key = "_has_ir_emitter";
         SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
-        boolean available = false;
         if (sp.getBoolean(key, false)) {
             return true;
         }
 
-        available = Transmitter.isTransmitterAvailable(this);
-        sp.edit().putBoolean(key, true);
+        boolean available = Transmitter.isTransmitterAvailable(this);
+        sp.edit().putBoolean(key, true).apply();
         return available;
     }
 
@@ -196,11 +193,11 @@ public class MainActivity extends ToolbarActivity implements
         return getRequestedOrientation(this);
     }
 
-    public void setRemote(String name) {
+    void setRemote(String name) {
         new DefaultRemoteFragment().showFor(this, name);
     }
 
-    public String getRemoteName() {
+    String getRemoteName() {
         return mNavFragment.getSelectedRemoteName();
     }
 
@@ -208,7 +205,7 @@ public class MainActivity extends ToolbarActivity implements
      * Updates the navigation fragment after a remote was selected / deleted /
      * renamed
      */
-    public void updateRemoteLayout() {
+    void updateRemoteLayout() {
         mNavFragment.update();
         setRemote(getRemoteName());
     }
@@ -220,7 +217,7 @@ public class MainActivity extends ToolbarActivity implements
     }
 
     @Override
-    public void onRemoteRenamed(String oldName, String newName) {
+    public void onRemoteRenamed(String newName) {
         // As we renamed this remote, it was selected before, so we need to
         // select it again
         Remote.setLastUsedRemoteName(this, newName);
@@ -343,11 +340,6 @@ public class MainActivity extends ToolbarActivity implements
         ab.show();
     }
 
-    @Override
-    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        super.onActivityResult(arg0, arg1, arg2);
-    }
-
     private void showDeleteRemoteDialog() {
         final String remoteName = getRemoteName();
         if (remoteName == null)
@@ -387,7 +379,7 @@ public class MainActivity extends ToolbarActivity implements
     }
 
     @Override
-    public void onUpdate(Context c, UpdateInfo ui) {
+    public void onUpdate(UpdateInfo ui) {
         if (ui.isUpdated()) {
         }
     }

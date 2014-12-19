@@ -131,7 +131,7 @@ public class LircProviderFragment extends ProviderFragment implements
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.db_menu, menu);
 
-        setupSearchView(menu, inflater);
+        setupSearchView(menu);
 //		mSearchView.setQueryHint(getSearchHint(mUriData));
 
         if (mUriData.targetType == LircProviderData.TYPE_IR_CODE) {
@@ -160,7 +160,7 @@ public class LircProviderFragment extends ProviderFragment implements
             case R.id.menu_db_save:
                 if (mData != null) {
                     String name = mUriData.manufacturer + " " + mUriData.codeset;
-                    Remote remote = IrCode.toRemote(getActivity(), name,
+                    Remote remote = IrCode.toRemote(name,
                             (IrCode[]) mData);
                     getProvider().saveRemote(remote);
                 }
@@ -170,7 +170,7 @@ public class LircProviderFragment extends ProviderFragment implements
     }
 
     @Override
-    public void onDataReceived(int type, LircListable[] data) {
+    public void onDataReceived(LircListable[] data) {
         if (!isAdded())
             return;
 

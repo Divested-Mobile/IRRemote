@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class DBConnector {
+class DBConnector {
 
     private static final String TAG = "DBConnector";
     private final Context mContext;
@@ -61,7 +61,7 @@ public class DBConnector {
     }
 
     // Result may be null if connection failed!
-    public void triggerListenerOnReceived(int target, String result) {
+    void triggerListenerOnReceived(int target, String result) {
         if (mListener == null)
             return;
         LircListable[] data = null;
@@ -82,11 +82,11 @@ public class DBConnector {
             for (LircListable ll : data)
                 ll.type = target;
 
-        mListener.onDataReceived(target, data);
+        mListener.onDataReceived(data);
     }
 
     private LircListable[] parseList(String s) {
-        ArrayList<LircListable> result = new ArrayList<LircListable>();
+        ArrayList<LircListable> result = new ArrayList<>();
         final Element table = Jsoup.parse(s).getElementsByTag("table").get(0);
         for (Element td : table.getElementsByTag("td")) {
             if (td.attributes().size() == 0) {
@@ -116,13 +116,13 @@ public class DBConnector {
          *
          * @param data may be null if the connection failed
          */
-        public void onDataReceived(int type, LircListable[] data);
+        public void onDataReceived(LircListable[] data);
     }
 
     private class DBTask extends AsyncTask<String, Void, String> {
-        private String mUrl;
-        private String mCacheName;
-        private int mTarget;
+        private final String mUrl;
+        private final String mCacheName;
+        private final int mTarget;
 
         public DBTask(LircProviderData data) {
             mUrl = data.getUrl();

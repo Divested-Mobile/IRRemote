@@ -34,7 +34,6 @@ public class SettingsFragment extends PreferenceFragment implements
     private static final int BG_REQUEST_CODE = 1337;
 
     private ListPreference mBackground;
-    private Preference mFixButtons;
     private boolean mNewFixButtonsVal;
 
     @Override
@@ -70,7 +69,7 @@ public class SettingsFragment extends PreferenceFragment implements
         mBackground = (ListPreference) findPreference(getString(R.string.pref_key_bg));
         mBackground.setOnPreferenceClickListener(this);
 
-        mFixButtons = findPreference(getString(R.string.pref_key_fix));
+        Preference mFixButtons = findPreference(getString(R.string.pref_key_fix));
         mFixButtons.setOnPreferenceChangeListener(this);
 
     }
@@ -122,7 +121,7 @@ public class SettingsFragment extends PreferenceFragment implements
             if (value.equals(getString(R.string.pref_val_bg_gallery))) {
                 startChooseBackgroundActivity();
             } else {
-                sp.edit().remove(key);
+                sp.edit().remove(key).apply();
             }
         }
 

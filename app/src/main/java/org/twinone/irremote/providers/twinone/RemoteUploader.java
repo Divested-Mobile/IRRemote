@@ -13,7 +13,7 @@ import org.twinone.irremote.providers.twinone.RemoteUploader.UploadResp;
 public class RemoteUploader implements
         HttpJson.ResponseListener<UploadReq, UploadResp> {
 
-    private Context mContext;
+    private final Context mContext;
 
     public RemoteUploader(Context c) {
         mContext = c;
@@ -31,7 +31,7 @@ public class RemoteUploader implements
     }
 
     @Override
-    public void onServerResponse(int statusCode, UploadReq req, UploadResp resp) {
+    public void onServerResponse(UploadReq req, UploadResp resp) {
 
     }
 
@@ -47,7 +47,7 @@ public class RemoteUploader implements
         public Remote remote;
     }
 
-    public static class UploadResp {
+    static class UploadResp {
         int status;
     }
 

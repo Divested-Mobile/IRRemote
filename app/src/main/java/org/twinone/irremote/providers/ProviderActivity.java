@@ -21,6 +21,7 @@ import org.twinone.irremote.providers.common.CommonProviderFragment;
 import org.twinone.irremote.providers.common.CommonProviderFragment.CommonProviderData;
 import org.twinone.irremote.providers.globalcache.GCProviderFragment;
 import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
+import org.twinone.irremote.providers.learn.LearnButtonProviderFragment;
 import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
 import org.twinone.irremote.providers.lirc.LircProviderData;
 import org.twinone.irremote.providers.lirc.LircProviderFragment;
@@ -81,18 +82,17 @@ public class ProviderActivity extends ActionBarActivity implements
      */
     public static final int PROVIDER_EMPTY = 7;
     private static final String SAVE_TITLE = "save_title";
-    int mPendingSwitch = -1;
+    private int mPendingSwitch = -1;
     private String mAction;
     private Transmitter mTransmitter;
     private int mInnerFragmentCurrentState;
     private int mInnerFragmentExitState;
     private ProviderNavFragment mNavFragment;
     private int mCurrentProvider;
-    private Toolbar mToolbar;
     private String mTitle;
     private String mSavedTitle;
 
-    public static void saveRemote(final Activity activity, Remote remote) {
+    private static void saveRemote(final Activity activity, Remote remote) {
         SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
         dialog.setListener(new OnRemoteSavedListener() {
 
@@ -112,9 +112,6 @@ public class ProviderActivity extends ActionBarActivity implements
         return mAction;
     }
 
-    public Toolbar getToolbar() {
-        return mToolbar;
-    }
 
     public void setCurrentState(int state) {
         mInnerFragmentCurrentState = state;
@@ -137,7 +134,7 @@ public class ProviderActivity extends ActionBarActivity implements
 
         setContentView(R.layout.activity_provider);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.db_menu);
 
@@ -243,7 +240,7 @@ public class ProviderActivity extends ActionBarActivity implements
         getTransmitter().transmit(signal);
     }
 
-    public void addFragment(ProviderFragment fragment) {
+    void addFragment(ProviderFragment fragment) {
         Log.w("ProviderActivity", "Adding fragment!");
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment).addToBackStack("default")
@@ -298,10 +295,8 @@ public class ProviderActivity extends ActionBarActivity implements
     public void popAllFragments() {
         getFragmentManager().popBackStack(null,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    }
-
-    public void popFragment() {
-        getFragmentManager().popBackStack();
+        mNavFragment.lockOpen(true);
+        mCurrentProvider = 0;
     }
 
     public void switchTo(int provider) {
@@ -323,7 +318,10 @@ public class ProviderActivity extends ActionBarActivity implements
                 addFragment(new GCProviderFragment());
                 break;
             case PROVIDER_LEARN:
-                addFragment(new LearnRemoteProviderFragment());
+                if (mAction.equals(ACTION_SAVE_REMOTE))
+                    addFragment(new LearnRemoteProviderFragment());
+                else
+                    addFragment(new LearnButtonProviderFragment());
                 break;
             default:
                 addFragment(new CommonProviderFragment());

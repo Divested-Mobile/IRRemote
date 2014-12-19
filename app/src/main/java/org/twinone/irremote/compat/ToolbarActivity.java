@@ -7,7 +7,7 @@ import android.view.ViewGroup.LayoutParams;
 
 import org.twinone.irremote.R;
 
-public class ToolbarActivity extends ActionBarActivity {
+public abstract class ToolbarActivity extends ActionBarActivity {
 
     private Toolbar mToolbar;
 
@@ -29,7 +29,7 @@ public class ToolbarActivity extends ActionBarActivity {
         setupToolbar();
     }
 
-    protected void setupToolbar() {
+    void setupToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
     }

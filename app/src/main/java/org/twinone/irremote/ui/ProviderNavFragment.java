@@ -22,7 +22,6 @@ public class ProviderNavFragment extends NavigationFragment implements
         OnItemClickListener {
 
     private ListView mListView;
-    private String[] mStrings;
     private Integer[] mIds;
     public ProviderNavFragment() {
     }
@@ -66,7 +65,7 @@ public class ProviderNavFragment extends NavigationFragment implements
             ids.add(ProviderActivity.PROVIDER_LEARN);
         }
 
-        mStrings = list.toArray(new String[list.size()]);
+        String[] mStrings = list.toArray(new String[list.size()]);
         mIds = ids.toArray(new Integer[ids.size()]);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),

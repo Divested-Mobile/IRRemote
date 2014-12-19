@@ -86,16 +86,7 @@ public class HoloCircularProgressBar extends View {
 	 */
 	private final RectF mCircleBounds = new RectF();
 
-	/**
-	 * Radius of the circle
-	 * 
-	 * <p>
-	 * Note: (Re)calculated in {@link #onMeasure(int, int)}.
-	 * </p>
-	 */
-	private float mRadius;
-
-	/**
+    /**
 	 * the color of the progress.
 	 */
 	private int mProgressColor;
@@ -125,12 +116,7 @@ public class HoloCircularProgressBar extends View {
 	 */
 	private float mMarkerProgress = 0.0f;
 
-	/**
-	 * The Marker color paint.
-	 */
-	private Paint mMarkerColorPaint;
-
-	/**
+    /**
 	 * flag if the marker should be visible
 	 */
 	private boolean mIsMarkerEnabled = false;
@@ -345,7 +331,14 @@ public class HoloCircularProgressBar extends View {
 		setMeasuredDimension(min, height);
 
 		final float halfWidth = min * 0.5f;
-		mRadius = halfWidth - mThumbRadius;
+		/*
+	  Radius of the circle
+
+	  <p>
+	  Note: (Re)calculated in {@link #onMeasure(int, int)}.
+	  </p>
+	 */
+        float mRadius = halfWidth - mThumbRadius;
 
 		mCircleBounds.set(-mRadius, -mRadius, mRadius, mRadius);
 
@@ -508,7 +501,10 @@ public class HoloCircularProgressBar extends View {
 	 * updates the paint of the marker
 	 */
 	private void updateMarkerColor() {
-		mMarkerColorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		/*
+	  The Marker color paint.
+	 */
+        Paint mMarkerColorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mMarkerColorPaint.setColor(mProgressBackgroundColor);
 		mMarkerColorPaint.setStyle(Paint.Style.STROKE);
 		mMarkerColorPaint.setStrokeWidth(mCircleStrokeWidth / 2);
@@ -574,7 +570,7 @@ public class HoloCircularProgressBar extends View {
 	 * 
 	 * @return true if the marker is visible
 	 */
-	public boolean isThumbEnabled() {
+    boolean isThumbEnabled() {
 		return mIsThumbEnabled;
 	}
 
@@ -594,7 +590,7 @@ public class HoloCircularProgressBar extends View {
 	 * @param progress
 	 *            the new marker progress
 	 */
-	public void setMarkerProgress(final float progress) {
+    void setMarkerProgress(final float progress) {
 		mIsMarkerEnabled = true;
 		mMarkerProgress = progress;
 	}
@@ -635,7 +631,7 @@ public class HoloCircularProgressBar extends View {
 	 * @param color
 	 *            the new progress background color
 	 */
-	public void setProgressBackgroundColor(final int color) {
+    void setProgressBackgroundColor(final int color) {
 		mProgressBackgroundColor = color;
 
 		updateMarkerColor();

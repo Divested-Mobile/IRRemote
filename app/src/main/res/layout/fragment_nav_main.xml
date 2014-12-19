@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/NavTheme"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/navigation_background" >
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/select_remote_empty_info"

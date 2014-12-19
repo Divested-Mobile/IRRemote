@@ -19,15 +19,14 @@ import android.widget.TextView;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
 
-public class DelaySliderDialog extends DialogPreference implements
+class DelaySliderDialog extends DialogPreference implements
         DialogInterface.OnClickListener {
 
+    private final int mDefaultValue;
+    private final int mMax;
+    private final int mMin;
     private TextView mText;
     private SeekBar mSlider;
-    private CheckBox mDefault;
-    private int mDefaultValue;
-    private int mMax;
-    private int mMin;
     public DelaySliderDialog(Context context) {
         this(context, null);
     }
@@ -53,8 +52,8 @@ public class DelaySliderDialog extends DialogPreference implements
         mText = (TextView) v.findViewById(R.id.delay_text);
         mSlider = (SeekBar) v.findViewById(R.id.delay_slider);
 
-        mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
-        mDefault.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        CheckBox def = (CheckBox) v.findViewById(R.id.delay_cb_default);
+        def.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,

@@ -5,9 +5,8 @@
 
     <gradient
         android:angle="270"
-        android:centerColor="@color/remote_button_bg_tr_pressed_center"
-        android:endColor="@color/remote_button_bg_tr_pressed_end"
-        android:startColor="@color/remote_button_bg_tr_pressed_start" />
+        android:endColor="#8333"
+        android:startColor="#8333" />
 
 
 </shape>

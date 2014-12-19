@@ -26,7 +26,6 @@ public class EditTextSizeDialog extends DialogFragment implements
     private int mInitialPosition;
     private TextView mText;
     private SeekBar mSlider;
-    private CheckBox mDefault;
     private int mDefaultValue;
     private int mMax;
     private int mMin;
@@ -67,7 +66,7 @@ public class EditTextSizeDialog extends DialogFragment implements
         mText = (TextView) v.findViewById(R.id.delay_text);
         mSlider = (SeekBar) v.findViewById(R.id.delay_slider);
 
-        mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
+        CheckBox mDefault = (CheckBox) v.findViewById(R.id.delay_cb_default);
         mDefault.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override

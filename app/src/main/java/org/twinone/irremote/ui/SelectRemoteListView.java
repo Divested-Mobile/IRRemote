@@ -109,17 +109,13 @@ public class SelectRemoteListView extends ListView implements
         }
     }
 
-    public boolean isRemoteSelected() {
+    boolean isRemoteSelected() {
         if (mSelectedItemPosition < 0)
             return false;
-        if (mSelectedItemPosition >= mItems.size())
-            return false;
-        if (mShowAddRemote && mSelectedItemPosition >= mItems.size() - 1)
-            return false;
-        return true;
+        return mSelectedItemPosition < mItems.size() && !(mShowAddRemote && mSelectedItemPosition >= mItems.size() - 1);
     }
 
-    public boolean isAddRemoteSelected() {
+    boolean isAddRemoteSelected() {
         return mShowAddRemote && mSelectedItemPosition == mItems.size() - 1;
     }
 

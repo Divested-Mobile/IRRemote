@@ -11,40 +11,41 @@ import java.util.ArrayList;
 
 public class RemoteOrganizer {
 
-    public static final int FLAG_TEXT = 1;
     public static final int FLAG_ICON = 1 << 1;
     public static final int FLAG_COLOR = 1 << 2;
     public static final int FLAG_POSITION = 1 << 3;
-    public static final int FLAG_TEXT_SIZE = 1 << 4;
     public static final int FLAG_CORNERS = 1 << 5;
     private static final int DEFAULT_FLAGS = FLAG_ICON | FLAG_POSITION
             | FLAG_COLOR | FLAG_CORNERS;
     private int mFlags = DEFAULT_FLAGS;
+    private static final int FLAG_TEXT = 1;
+    private static final int FLAG_TEXT_SIZE = 1 << 4;
     private static final int DEFAULT_CORNER_RADIUS = 16; // dp
     private final Context mContext;
-    /**
-     * Number of pixels we're away from the top
-     */
-    int mTrackHeight;
-    int mCurrentRowCount;
-    // all in px
-    private int mMarginLeft; // px
-    private int mMarginTop; // px
-    private int mGridSpacingX;
-    private int mGridSpacingY;
+    private final int mMarginTop; // px
+    private final int mGridSpacingX;
+    private final int mGridSpacingY;
     // We can use width because we'll fill the whole screen's available width
-    private int mDeviceWidth;
-    private int mAvailableBlocksX;
-    private int mGridSizeX;
-    private int mGridSizeY;
-    private int mBlocksPerButtonX;
-    private int mBlocksPerButtonY;
-    private int mCols;
-    private Remote mRemote;
+    private final int mDeviceWidth;
+    private final int mGridSizeX;
+    private final int mGridSizeY;
+    private final int mBlocksPerButtonX;
+    private final int mBlocksPerButtonY;
     /**
      * List of buttons that are already organized
      */
-    private ArrayList<Button> mOrganizedButtons = new ArrayList<>();
+    private final ArrayList<Button> mOrganizedButtons = new ArrayList<>();
+    /**
+     * Number of pixels we're away from the top
+     */
+    private int mTrackHeight;
+    private int mCurrentRowCount;
+    // all in px
+    private int mMarginLeft; // px
+    private int mAvailableBlocksX;
+    private int mCols;
+    private Remote mRemote;
+
     public RemoteOrganizer(Context c) {
         mContext = c;
 
@@ -98,14 +99,6 @@ public class RemoteOrganizer {
         }
     }
 
-    public void addFlag(int flag) {
-        mFlags |= flag;
-    }
-
-    public void clearFlag(int flag) {
-        mFlags &= ~flag;
-    }
-
     public void setFlags(int flags) {
         mFlags = flags;
     }
@@ -137,18 +130,14 @@ public class RemoteOrganizer {
      * Set the offset of the button plus an additional offset in button's size
      *
      * @param b       The button
-     * @param x       Offset in blocks from left
-     * @param y       Offset in blocks from top
      * @param buttonX Offset in button sizes from left
      * @param buttonY Offset in button sizes from right
      */
-    private void setButtonPosition(Button b, int x, int y, int buttonX,
+    private void setButtonPosition(Button b, int buttonX,
                                    int buttonY) {
         if (b != null) {
-            b.x = mMarginLeft + x * mGridSizeX
-                    + (buttonX * mGridSizeX * mBlocksPerButtonX);
-            b.y = mMarginTop + y * mGridSizeY
-                    + (buttonY * mGridSizeY * mBlocksPerButtonY);
+            b.x = mMarginLeft + (buttonX * mGridSizeX * mBlocksPerButtonX);
+            b.y = mMarginTop + (buttonY * mGridSizeY * mBlocksPerButtonY);
         }
     }
 
@@ -177,15 +166,6 @@ public class RemoteOrganizer {
 
     private float pxToDp(float px) {
         return px / mContext.getResources().getDisplayMetrics().density;
-    }
-
-    public void updateAndSave(String remoteName) {
-        updateAndSave(Remote.load(mContext, remoteName));
-    }
-
-    public void updateAndSave(Remote remote) {
-        updateWithoutSaving(remote);
-        mRemote.save(mContext);
     }
 
     public void updateWithoutSaving(Remote remote) {
@@ -392,30 +372,19 @@ public class RemoteOrganizer {
                 if (i + j < ids.length)
                     row[j] = ids[i + j];
             }
-            addRow(false, row);
+            addRow(row);
         }
     }
 
     /**
-     * Adds a row without uncommon buttons
+     * Adds a row of 4 buttons
      */
     private void addRow(int... ids) {
-        addRow(false, ids);
-    }
-
-    /**
-     * Adds a row of 4 buttons
-     *
-     * @param includeUncommon If set to true, this will also add buttons with uid 0, which
-     *                        means that you cannot add gaps with zeros
-     */
-    private void addRow(boolean includeUncommon, int... ids) {
-        int y = mCurrentRowCount * mBlocksPerButtonY;
         for (int i = 0; i < Math.min(ids.length, mCols); i++) {
-            if (includeUncommon || ids[i] != 0) {
+            if (ids[i] != 0) {
                 final Button b = findId(ids[i]);
                 if (b != null) {
-                    setButtonPosition(b, 0, y, i, 0);
+                    setButtonPosition(b, i, mCurrentRowCount);
                     moveToOrganizedList(b);
                 }
             }
@@ -430,11 +399,11 @@ public class RemoteOrganizer {
         b.bg = Button.BG_GREY;
     }
 
-    public int getButtonWidthPixels() {
+    int getButtonWidthPixels() {
         return getButtonWidthPixels(mBlocksPerButtonX);
     }
 
-    public int getButtonHeightPixels() {
+    int getButtonHeightPixels() {
         return getButtonHeightPixels(mBlocksPerButtonY);
     }
 

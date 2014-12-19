@@ -128,7 +128,7 @@ public class GCProviderFragment extends ProviderFragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.db_menu, menu);
-        setupSearchView(menu, inflater);
+        setupSearchView(menu);
         mSearchView.setQueryHint(getSearchHint(mUriData));
 
         boolean show = mUriData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
@@ -168,7 +168,7 @@ public class GCProviderFragment extends ProviderFragment implements
     }
 
     @Override
-    public void onDataReceived(int type, Object[] data) {
+    public void onDataReceived(Object[] data) {
         if (!isAdded())
             return;
 

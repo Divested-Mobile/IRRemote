@@ -23,7 +23,6 @@ public class EditIconDialog extends DialogFragment implements
         DialogInterface.OnClickListener {
 
     private static final String ARG_ICON = "org.twinone.irremote.ui.SelectIconDialog.icon";
-    private int mSelectedIcon;
     private BaseAdapter mAdapter;
     private int[] mIconIds;
     private OnIconSelectedListener mListener;
@@ -40,11 +39,6 @@ public class EditIconDialog extends DialogFragment implements
         show(a.getFragmentManager(), "edit_icon_dialog");
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSelectedIcon = getArguments().getInt(ARG_ICON);
-    }
 
     private float dpToPx(float dp) {
         return dp * getActivity().getResources().getDisplayMetrics().density;
@@ -107,7 +101,7 @@ public class EditIconDialog extends DialogFragment implements
         public void onIconSelected(int iconId);
     }
 
-    class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {

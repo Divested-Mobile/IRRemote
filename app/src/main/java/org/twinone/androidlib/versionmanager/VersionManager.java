@@ -61,17 +61,17 @@ public class VersionManager {
         ui.lastKnownVersion = last;
         Log.d("TEST", "current: " + current + " last: " + last);
         if (current > last) {
-            mListener.onUpdate(mContext, ui);
+            mListener.onUpdate(ui);
             setLastKnownInstalledVersion(current);
         }
     }
 
-    public int getLastKnownInstalledVersion() {
+    int getLastKnownInstalledVersion() {
         return prefs().getInt(KEY_LAST_VERSION, UpdateInfo.VERSION_UNKNOWN);
     }
 
     @SuppressLint("NewApi")
-    public void setLastKnownInstalledVersion(int value) {
+    void setLastKnownInstalledVersion(int value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             prefs().edit().putInt(KEY_LAST_VERSION, value).apply();
         } else {
@@ -86,7 +86,7 @@ public class VersionManager {
      * @param mContext
      * @return
      */
-    public int getManifestVersion() {
+    int getManifestVersion() {
         return getManifestVersion(mContext);
     }
 
@@ -96,7 +96,7 @@ public class VersionManager {
          * Gets called when the user has installed or updated the app<br>
          * If last is 0 the user has just installed the app
          */
-        public void onUpdate(Context c, UpdateInfo info);
+        public void onUpdate(UpdateInfo info);
     }
 
     public interface UpdateInfo {
@@ -117,7 +117,7 @@ public class VersionManager {
         /**
          * @return True if this app has been updated at least once (this method
          * works correctly in the
-         * {@link VersionManager.OnUpdateListener#onUpdate(Context, UpdateInfo)}
+         * {@link VersionManager.OnUpdateListener#onUpdate(org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo)}
          * method, but will report incorrect results if used outside)
          */
         public boolean isUpdated();

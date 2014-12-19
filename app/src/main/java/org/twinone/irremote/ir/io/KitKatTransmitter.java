@@ -11,13 +11,12 @@ import org.twinone.irremote.ir.SignalCorrector;
 public class KitKatTransmitter extends Transmitter {
 
     private static final String TAG = "KitKatTransmitter";
-    private ConsumerIrManager mIrManager;
+    private final ConsumerIrManager mIrManager;
+    private final Runnable mTransmitRunnable = new TransmitterRunnable();
     private SignalCorrector mSignalCorrector;
-
     private volatile boolean mWaitingForTransmission;
     private volatile Signal mSignal;
     private volatile boolean mHasTransmittedOnce;
-    private Runnable mTransmitRunnable = new TransmitterRunnable();
 
     public KitKatTransmitter(Context context) {
         super(context);
@@ -31,12 +30,12 @@ public class KitKatTransmitter extends Transmitter {
         mSignalCorrector = new SignalCorrector(context);
     }
 
-    public boolean isAvailable() {
+    boolean isAvailable() {
         return mIrManager.hasIrEmitter();
     }
 
     public void transmit() {
-        if (!isFrequencySupported(mSignal.getFrequency()))
+        if (isInvalidFrequency(mSignal.getFrequency()))
             return;
         transmitImpl(mSignal);
     }
@@ -47,7 +46,7 @@ public class KitKatTransmitter extends Transmitter {
     }
 
     public void startTransmitting() {
-        if (!isFrequencySupported(mSignal.getFrequency()))
+        if (isInvalidFrequency(mSignal.getFrequency()))
             return;
         if (mWaitingForTransmission)
             stopTransmitting(false);
@@ -107,27 +106,19 @@ public class KitKatTransmitter extends Transmitter {
         return mHasTransmittedOnce;
     }
 
-    private boolean isFrequencySupported(int frequency) {
+    private boolean isInvalidFrequency(int frequency) {
         for (CarrierFrequencyRange cfr : mIrManager.getCarrierFrequencies()) {
             if (frequency <= cfr.getMaxFrequency()
                     && frequency >= cfr.getMinFrequency()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
     public void pause() {
         mHandler.removeCallbacks(mTransmitRunnable);
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void cancel() {
     }
 
     private class TransmitterRunnable implements Runnable {

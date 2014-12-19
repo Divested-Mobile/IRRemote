@@ -1,6 +1,6 @@
 package org.twinone.irremote.ir.io;
 
-public class ComponentNotAvailableException extends RuntimeException {
+class ComponentNotAvailableException extends RuntimeException {
 
     private static final long serialVersionUID = 7203846418677846118L;
 

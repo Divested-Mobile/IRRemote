@@ -112,7 +112,7 @@ public class Button implements Serializable {
     /**
      * Used to identify the purpose of a button
      */
-    public int id;
+    public final int id;
     /**
      * Used to identify this button in this remote (unique inside a remote)
      */
@@ -140,11 +140,11 @@ public class Button implements Serializable {
     public float w;
     public float h;
     public float rtl;
-    public float rbl;
-    public float rtr;
+    private float rbl;
+    private float rtr;
 
     // corner radius in px
-    public float rbr;
+    private float rbr;
     /**
      * Text size in dp of this button
      */
@@ -220,8 +220,7 @@ public class Button implements Serializable {
     public Signal getSignal() {
         // Since v1008 we store everything in pronto
         // BUT USERS CAN STILL HAVE AN OLD FORMAT STORED FROM PRE-v1008!!!
-        Signal s = SignalFactory.parse(Signal.FORMAT_AUTO, code);
-        return s;
+        return SignalFactory.parse(Signal.FORMAT_AUTO, code);
     }
 
     @Override

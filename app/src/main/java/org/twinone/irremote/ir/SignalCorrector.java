@@ -15,7 +15,7 @@ import java.util.Locale;
  */
 public class SignalCorrector {
 
-    private Context mContext;
+    private final Context mContext;
     private Boolean mAffected = null;
 
     public SignalCorrector(Context c) {
@@ -45,20 +45,16 @@ public class SignalCorrector {
         if (System.getProperty("os.version").contains("cyanogenmod"))
             return true;
 
-        if (Build.USER.toLowerCase(Locale.ENGLISH).contains("shade"))
-            return true;
+        return Build.USER.toLowerCase(Locale.ENGLISH).contains("shade");
 
-        return false;
     }
 
-    public static boolean isAffectedSamsung() {
+    private static boolean isAffectedSamsung() {
         if (!getManufacturer().contains("samsung"))
             return false;
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT)
             return false;
-        if (getVersionMR() < 3)
-            return true;
-        return false;
+        return getVersionMR() < 3;
     }
 
     private static String getManufacturer() {
@@ -69,9 +65,8 @@ public class SignalCorrector {
     private static int getVersionMR() {
         try {
             int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-            int versionmr = Integer.valueOf(Build.VERSION.RELEASE
+            return  Integer.valueOf(Build.VERSION.RELEASE
                     .substring(lastIdx + 1));
-            return versionmr;
         } catch (Exception e) {
             return 0;
         }

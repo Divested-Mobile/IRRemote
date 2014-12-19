@@ -34,7 +34,7 @@ public class LircProviderData implements Serializable {
     public String manufacturer;
     public String codeset;
 
-    public static LircProviderData deserialize(String data) {
+    private static LircProviderData deserialize(String data) {
         return new Gson().fromJson(data, LircProviderData.class);
     }
 
@@ -92,7 +92,7 @@ public class LircProviderData implements Serializable {
         return deserialize(serialize());
     }
 
-    public String serialize() {
+    String serialize() {
         return new Gson().toJson(this);
     }
 

@@ -62,7 +62,7 @@ public class LearnButtonProviderFragment extends BaseLearnProviderFragment imple
     }
 
     @Override
-    protected void learnStop() {
+    void learnStop() {
         super.learnStop();
         mStatus.setText(R.string.learn_tit_ready);
 
@@ -90,7 +90,7 @@ public class LearnButtonProviderFragment extends BaseLearnProviderFragment imple
     }
 
     @Override
-    protected void learnStart() {
+    void learnStart() {
         super.learnStart();
         mStatus.setText(R.string.learn_learning);
 

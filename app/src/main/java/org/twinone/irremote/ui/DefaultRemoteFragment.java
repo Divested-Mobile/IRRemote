@@ -2,8 +2,6 @@ package org.twinone.irremote.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.util.TransmitOnTouchListener;
@@ -35,11 +33,6 @@ public class DefaultRemoteFragment extends BaseRemoteFragment {
         for (ButtonView bv : mButtons) {
             bv.setOnTouchListener(mTransmitOnTouchListener);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
 }

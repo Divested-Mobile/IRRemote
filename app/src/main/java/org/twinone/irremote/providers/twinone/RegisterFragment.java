@@ -53,8 +53,6 @@ public class RegisterFragment extends Fragment implements
     private EditText mPwd;
     private EditText mPwdConfirm;
     private EditText mEmail;
-    private Button mSubmit;
-    private LinearLayout mForm;
     private AlertDialog mDialog;
     private boolean mHasErrors = false;
 
@@ -74,7 +72,7 @@ public class RegisterFragment extends Fragment implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getActivity().setTitle(R.string.title_create_account);
 
-        mForm = (LinearLayout) root.findViewById(R.id.reg_form);
+        LinearLayout mForm = (LinearLayout) root.findViewById(R.id.reg_form);
         mMessage = (TextView) root.findViewById(R.id.reg_message);
         UserInfo ui = UserInfo.load(getActivity());
         if (ui != null && ui.username != null) {
@@ -92,7 +90,7 @@ public class RegisterFragment extends Fragment implements
         mEmail = (EditText) root.findViewById(R.id.reg_email);
         mEmail.setOnFocusChangeListener(this);
         mEmail.setOnClickListener(this);
-        mSubmit = (Button) root.findViewById(R.id.reg_submit);
+        Button mSubmit = (Button) root.findViewById(R.id.reg_submit);
         mSubmit.setOnClickListener(this);
 
         mUsername.addTextChangedListener(this);
@@ -209,7 +207,7 @@ public class RegisterFragment extends Fragment implements
     }
 
     @Override
-    public void onServerResponse(int statusCode, RegisterReq req,
+    public void onServerResponse(RegisterReq req,
                                  RegisterResp resp) {
         if (resp.status == STATUS_OK) {
             UserInfo ui = new UserInfo();

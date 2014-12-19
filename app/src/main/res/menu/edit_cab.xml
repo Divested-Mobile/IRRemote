@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_edit_cab_edit"
         android:icon="@drawable/ic_action_edit"
-        android:showAsAction="always|withText"
-        android:title="@string/menu_edit_cab_edit"/>
+        android:title="@string/menu_edit_cab_edit"
+        app:showAsAction="always|withText" />
     <item
         android:id="@+id/menu_edit_cab_sel_all"
-        android:title="@string/menu_edit_cab_sel_all"/>
+        android:title="@string/menu_edit_cab_sel_all" />
     <item
         android:id="@+id/menu_edit_cab_sel_none"
         android:title="@string/menu_edit_cab_sel_none"
-        android:visible="false"/>
+        android:visible="false" />
 
 </menu>

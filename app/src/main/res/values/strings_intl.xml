@@ -9,7 +9,6 @@
     <string name="pref_key_fullscreen">org.twinone.irremote.pref.fullscreen</string>
     <string name="pref_key_vibrate">org.twinone.irremote.pref.vibrate</string>
     <string name="pref_key_light">org.twinone.irremote.pref.light</string>
-    <string name="pref_key_theme">org.twinone.irremote.pref.theme</string>
     <string name="pref_key_delay">org.twinone.irremote.pref.delay</string>
 
     <!-- Defaults -->

@@ -9,6 +9,7 @@
         android:id="@+id/dialog_edittext_input"
         android:layout_width="match_parent"
         android:selectAllOnFocus="true"
+        android:hint="@null"
         android:layout_height="wrap_content"
         android:digits="@string/allowed_digits" />
 

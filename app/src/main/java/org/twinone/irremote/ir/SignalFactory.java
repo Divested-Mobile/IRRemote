@@ -7,7 +7,7 @@ public class SignalFactory {
     /**
      * Auto detect the format, and parse the signal
      */
-    public static final Signal parse(String signal) {
+    public static Signal parse(String signal) {
         final int format = getFormat(signal);
         if (format == Signal.FORMAT_UNKNOWN) {
             throw new RuntimeException("Could not parse signal (" + signal
@@ -20,7 +20,7 @@ public class SignalFactory {
      * Attempt to get an appropriate format for this string, returns the best
      * match
      */
-    public static int getFormat(String signal) {
+    private static int getFormat(String signal) {
         if (signal == null || signal.isEmpty())
             return Signal.FORMAT_UNKNOWN;
         if (signal.startsWith("0000")) {
@@ -33,7 +33,7 @@ public class SignalFactory {
     /**
      * Parse a signal knowing it's format previously
      */
-    public static final Signal parse(int format, String signal) {
+    public static Signal parse(int format, String signal) {
         switch (format) {
             case Signal.FORMAT_AUTO:
                 return parse(signal);
@@ -46,7 +46,7 @@ public class SignalFactory {
         }
     }
 
-    public static final String toGlobalCache(Signal s) {
+    public static String toGlobalCache(Signal s) {
         int[] pattern = s.getPattern();
         StringBuilder sb = new StringBuilder(pattern[0]);
         for (int i = 1; i < pattern.length; i++)
@@ -54,7 +54,7 @@ public class SignalFactory {
         return sb.toString();
     }
 
-    private static final Signal fromGlobalCache(String in) {
+    private static Signal fromGlobalCache(String in) {
         // GlobalCache format is as follows:
         // Frequency[,Repeat,Offset],On1,Off1, ... ,OnN,OffN
         // We ignore Repeat and Offset
@@ -78,7 +78,7 @@ public class SignalFactory {
         return new Signal(freq, pattern);
     }
 
-    private static final Signal fromPronto(String in) {
+    private static Signal fromPronto(String in) {
         in = in.trim();
         final String[] split = in.split(" ");
         final long[] pronto = new long[split.length];
@@ -107,28 +107,25 @@ public class SignalFactory {
 
     /**
      * Converts a NOT FIXED signal to Pronto format
-     *
-     * @param s
-     * @return
      */
     public static String toPronto(Signal s) {
         if (s == null)
             return null;
         // All pronto starts with 0000
-        ArrayList<Long> pronto = new ArrayList<Long>();
+        ArrayList<Long> pronto = new ArrayList<>();
         pronto.add(0L);
 
         int frequency = (int) (1000000 / (s.getFrequency() * 0.241246));
-        pronto.add(Long.valueOf(frequency));
+        pronto.add((long) frequency);
 
         // Add bps
         int bps = s.getPattern().length / 2;
-        pronto.add(Long.valueOf(bps));
+        pronto.add((long) bps);
         // 2nd bps = 0
         pronto.add(0L);
 
         for (int i : s.getPattern()) {
-            pronto.add(Long.valueOf(i));
+            pronto.add((long) i);
         }
 
         // Make the array readable

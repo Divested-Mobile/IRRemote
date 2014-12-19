@@ -20,9 +20,9 @@ public abstract class ProviderFragment extends Fragment {
     protected static final String EXTRA_RESULT_BUTTON = ProviderActivity.EXTRA_RESULT_BUTTON;
     protected ListView mListView;
     protected ListableAdapter mAdapter;
-    protected MySearchViewListener mSearchViewListener;
-    protected MenuItem mSearchMenuItem;
     protected SearchView mSearchView;
+    private MySearchViewListener mSearchViewListener;
+    private MenuItem mSearchMenuItem;
 
     @Override
     public void onAttach(Activity activity) {
@@ -45,8 +45,8 @@ public abstract class ProviderFragment extends Fragment {
         return (ProviderActivity) getActivity();
     }
 
-    public void setupSearchView(Menu menu, MenuInflater inflater) {
-        mSearchMenuItem = (MenuItem) menu.findItem(R.id.menu_db_search);
+    protected void setupSearchView(Menu menu) {
+        mSearchMenuItem = menu.findItem(R.id.menu_db_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
         // mSearchView = (SearchView) MenuItemCompat
         // .getActionView(mSearchMenuItem);
@@ -61,7 +61,7 @@ public abstract class ProviderFragment extends Fragment {
         menu.clear();
     }
 
-    protected class MySearchViewListener implements OnQueryTextListener,
+    private class MySearchViewListener implements OnQueryTextListener,
             OnCloseListener {
 
         @Override

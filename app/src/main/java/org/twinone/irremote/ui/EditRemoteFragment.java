@@ -75,10 +75,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private static final int OPTION_CORNERS = 3;
     private static final int OPTION_CODE = 4;
     private static final int OPTION_REMOVE = 5;
-    private static int AUTOSCROLL_PERCENTAGE = 15;
-    private static int SCROLL_DP = 3; // converts to mScrollPixels
-    private static int SCROLL_DELAY = 15;
-    private final boolean mSnapToGrid = true;
+    private static final int SCROLL_DELAY = 15;
     private boolean mIsEdited;
     private int mScrollPixels;
 
@@ -90,8 +87,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private int mMarginTop;
     private boolean mScrolling;
     private Runnable mScrollRunnable;
-    private ArrayList<Integer> mTargetInts = new ArrayList<Integer>();
-    private MyEditTypeListener mEditTypeListener = new MyEditTypeListener();
+    private ArrayList<Integer> mTargetInts = new ArrayList<>();
+    private final MyEditTypeListener mEditTypeListener = new MyEditTypeListener();
     private MenuItem mMenuSave;
     private ActionMode mActionMode;
     private MenuItem mSelectAll;
@@ -162,7 +159,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     private ArrayList<ButtonView> getTargets() {
-        ArrayList<ButtonView> result = new ArrayList<ButtonView>();
+        ArrayList<ButtonView> result = new ArrayList<>();
         for (int uid : mTargetInts) {
             result.add(mRemoteView.findButtonViewById(uid));
         }
@@ -468,6 +465,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
             case DragEvent.ACTION_DRAG_LOCATION:
                 final int height = mScroll.getHeight();
+                int AUTOSCROLL_PERCENTAGE = 15;
                 final float percent = height * AUTOSCROLL_PERCENTAGE / 100;
                 final float ypos = (int) event.getY();
                 if (ypos < percent) {
@@ -511,13 +509,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         // ScrollView support
         y += mScroll.getScrollY();
 
-        if (mSnapToGrid) {
-            view.setX(round(x, mGridSizeX, mMarginLeft));
-            view.setY(round(y, mGridSizeY, mMarginTop));
-        } else {
-            view.setX(x);
-            view.setY(y);
-        }
+        view.setX(round(x, mGridSizeX, mMarginLeft));
+        view.setY(round(y, mGridSizeY, mMarginTop));
     }
 
     private void showOrganizeDialog() {
@@ -568,11 +561,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         int max = 0;
         // ButtonView bottomView = null;
         for (ButtonView bv : mButtons) {
-            float bottom = bv.getBottom() + bv.getTranslationY();
-            bottom = bv.getButton().y + bv.getButton().h;
-            // if (bottom > max) {
-            // bottomView = bv;
-            // }
+            float bottom = bv.getButton().y + bv.getButton().h;
             max = Math.max(max, (int) bottom);
 
         }
@@ -582,7 +571,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         // + bottomView.getY() + " translationY: "
         // + bottomView.getTranslationY() + ", bottom: "
         // + bottomView.getBottom());
-        int h = (int) (max + mMarginTop);
+        int h = max + mMarginTop;
         int w = mRemoteView.getWidth();
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
         mRemoteView.setLayoutParams(lp);
@@ -602,11 +591,12 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         mGridMarginY = getResources().getDimensionPixelSize(
                 R.dimen.grid_spacing_y);
 
+        int SCROLL_DP = 3;
         mScrollPixels = (int) dpToPx(SCROLL_DP);
 
         if (savedInstanceState != null) {
             mIsEdited = savedInstanceState.getBoolean(SAVE_EDITED);
-            mTargetInts = (ArrayList<Integer>) savedInstanceState
+            mTargetInts = savedInstanceState
                     .getIntegerArrayList(SAVE_TARGETS);
         }
 
@@ -686,7 +676,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     @Override
-    protected void setupButtons() {
+    void setupButtons() {
         super.setupButtons();
         for (ButtonView bv : mButtons) {
             bv.setOnLongClickListener(this);

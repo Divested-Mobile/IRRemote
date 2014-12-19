@@ -14,7 +14,6 @@ public class EditRemoteActivity extends ToolbarActivity {
 
     private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.intent.extra.remote";
     private EditRemoteFragment mEditFragment;
-    private String mRemoteName;
 
     public static void show(Activity a, String remoteName) {
         Intent i = new Intent(a, EditRemoteActivity.class);
@@ -30,7 +29,7 @@ public class EditRemoteActivity extends ToolbarActivity {
 
         setContentView(R.layout.activity_empty);
 
-        mRemoteName = getIntent().getStringExtra(EXTRA_REMOTE_NAME);
+        String mRemoteName = getIntent().getStringExtra(EXTRA_REMOTE_NAME);
         setTitle(getString(R.string.edit_activity_title, mRemoteName));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

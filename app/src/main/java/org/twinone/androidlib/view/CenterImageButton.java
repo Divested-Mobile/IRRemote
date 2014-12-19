@@ -29,7 +29,7 @@ public class CenterImageButton extends Button {
         super(context);
     }
 
-    public void setCompoundDrawableCenter(Drawable d) {
+    protected void setCompoundDrawableCenter(Drawable d) {
         mCenterDrawable = d;
     }
 

@@ -9,7 +9,7 @@ import org.twinone.irremote.ir.Signal;
 
 public abstract class Receiver {
 
-    private Context mContext;
+    private final Context mContext;
     private OnLearnListener mListener;
 
     protected Receiver(Context context) {
@@ -24,7 +24,7 @@ public abstract class Receiver {
     public static Receiver getInstance(Context context) {
         try {
             return new HTCReceiver(context);
-        } catch (ComponentNotAvailableException e) {
+        } catch (ComponentNotAvailableException ignored) {
         }
         Log.w("Receiver", "Could not instantiate HTCReceiver");
         if (Constants.USE_DEBUG_RECEIVER) {
@@ -49,7 +49,7 @@ public abstract class Receiver {
     /**
      * Learn an IR Code. When it's learned, the listener will be called
      *
-     * @param timeout Seconds after which we give up trying to learn
+     * @param timeoutSecs Seconds after which we give up trying to learn
      */
 
     public abstract void learn(int timeoutSecs);

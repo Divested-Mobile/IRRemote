@@ -14,8 +14,7 @@ import org.twinone.irremote.ui.SettingsActivity;
 
 public abstract class Transmitter {
     private final Context mContext;
-    protected Handler mHandler;
-    private LooperThread mThread;
+    Handler mHandler;
     /**
      * Time between the end of a transmission and the start of the next one
      */
@@ -26,7 +25,7 @@ public abstract class Transmitter {
     protected Transmitter(Context context) {
         mContext = context;
 
-        mThread = new LooperThread();
+        LooperThread mThread = new LooperThread();
         mThread.start();
         setPeriodMillisFromPrefs();
     }
@@ -39,7 +38,7 @@ public abstract class Transmitter {
     public static Transmitter getInstance(Context c) {
         try {
             return new KitKatTransmitter(c);
-        } catch (ComponentNotAvailableException e) {
+        } catch (ComponentNotAvailableException ignored) {
         }
         Log.w("Receiver", "Could not instantiate KitKatTransmitter");
 
@@ -67,13 +66,11 @@ public abstract class Transmitter {
     /**
      * Transmit a {@link Signal} once
      */
-    public abstract void transmit();
+    protected abstract void transmit();
 
     /**
      * Start transmitting a signal repeatedly until
      * {@link #stopTransmitting(boolean)} is called
-     *
-     * @param s
      */
     public abstract void startTransmitting();
 
@@ -104,7 +101,7 @@ public abstract class Transmitter {
 
     public abstract boolean hasTransmittedOnce();
 
-    protected OnTransmitListener getListener() {
+    OnTransmitListener getListener() {
         return mListener;
     }
 
@@ -116,7 +113,7 @@ public abstract class Transmitter {
         mListener = listener;
     }
 
-    protected int getPeriodMillis() {
+    int getPeriodMillis() {
         return mPeriodMillis;
     }
 
@@ -125,7 +122,7 @@ public abstract class Transmitter {
      *
      * @param millis
      */
-    public void setPeriodMillis(int millis) {
+    void setPeriodMillis(int millis) {
         mPeriodMillis = millis;
     }
 
@@ -133,7 +130,7 @@ public abstract class Transmitter {
      * @return The milliseconds to wait between transmissions that the user has
      * saved
      */
-    public void setPeriodMillisFromPrefs() {
+    void setPeriodMillisFromPrefs() {
         int def = mContext.getResources().getInteger(R.integer.pref_def_delay);
         int millis = SettingsActivity.getPreferences(mContext).getInt(
                 mContext.getString(R.string.pref_key_delay), def);
@@ -142,15 +139,11 @@ public abstract class Transmitter {
 
     public abstract void pause();
 
-    public abstract void resume();
-
-    public abstract void cancel();
-
     public boolean isTransmitting() {
         return mTransmitting;
     }
 
-    protected void setTransmitting(boolean transmitting) {
+    void setTransmitting(boolean transmitting) {
         mTransmitting = transmitting;
     }
 

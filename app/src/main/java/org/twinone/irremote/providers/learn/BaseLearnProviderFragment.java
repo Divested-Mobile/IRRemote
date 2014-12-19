@@ -32,11 +32,11 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
 
     private State mCurrentState = State.READY;
 
-    protected State getState() {
+    State getState() {
         return mCurrentState;
     }
 
-    protected void setState(State state) {
+    void setState(State state) {
         mCurrentState = state;
     }
 
@@ -66,7 +66,7 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
         }
     }
 
-    protected void setProgressBar(HoloCircularProgressBar bar) {
+    void setProgressBar(HoloCircularProgressBar bar) {
         mProgress = bar;
         mAnimator = ObjectAnimator.ofFloat(mProgress, "float", 1f);
         mAnimator.setDuration(TIMEOUT_SECONDS * 1000);
@@ -108,7 +108,7 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
         learnConfirm(s);
     }
 
-    protected void learnStart() {
+    void learnStart() {
         Log.d(TAG, "LearnStart");
         mCurrentState = State.LEARNING;
 
@@ -126,7 +126,7 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
 
     }
 
-    protected void learnStop() {
+    void learnStop() {
         mCurrentState = State.READY;
 
         mReceiver.cancel();
@@ -143,7 +143,7 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
     /**
      * Updates the progress indicator to the current state
      */
-    protected void updateProgress() {
+    void updateProgress() {
         updateProgress(mCurrentState);
     }
 
@@ -153,7 +153,7 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
                 mProgress.setThumbEnabled(false);
                 mProgress.setProgress(0.0F);
                 mProgress.setProgressColor(getResources()
-                        .getColor(R.color.main_red));
+                        .getColor(R.color.learn_progress_color));
                 break;
             case SAVED:
             case LEARNED_TRIED:
@@ -168,12 +168,12 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
                 mProgress.setThumbEnabled(true);
                 mProgress.setProgress(0.0F);
                 mProgress.setProgressColor(getResources()
-                        .getColor(R.color.main_red));
+                        .getColor(R.color.learn_progress_color));
                 break;
         }
     }
 
-    protected void learnConfirm(Signal s) {
+    void learnConfirm(Signal s) {
         mCurrentState = State.LEARNED;
 
         mAnimator.removeAllListeners();
@@ -212,7 +212,7 @@ public abstract class BaseLearnProviderFragment extends ProviderFragment
     public void onAnimationStart(Animator animation) {
     }
 
-    protected Transmitter getTransmitter() {
+    Transmitter getTransmitter() {
         return mTransmitter;
     }
 

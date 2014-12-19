@@ -33,7 +33,7 @@ import android.widget.ImageButton;
 public class FloatingActionButton extends ImageButton {
 	private static final int TRANSLATE_DURATION_MILLIS = 100;
 
-	public static final int TYPE_NORMAL = 0;
+	private static final int TYPE_NORMAL = 0;
 	public static final int TYPE_MINI = 1;
 
 	private boolean mVisible;
@@ -217,7 +217,7 @@ public class FloatingActionButton extends ImageButton {
 		return marginBottom;
 	}
 
-	public void setColorNormal(int color) {
+	void setColorNormal(int color) {
 		if (color != mColorNormal) {
 			mColorNormal = color;
 			updateBackground();
@@ -232,7 +232,7 @@ public class FloatingActionButton extends ImageButton {
 		return mColorNormal;
 	}
 
-	public void setColorPressed(int color) {
+	void setColorPressed(int color) {
 		if (color != mColorPressed) {
 			mColorPressed = color;
 			updateBackground();
@@ -247,7 +247,7 @@ public class FloatingActionButton extends ImageButton {
 		return mColorPressed;
 	}
 
-	public void setColorRipple(int color) {
+	void setColorRipple(int color) {
 		if (color != mColorRipple) {
 			mColorRipple = color;
 			updateBackground();
@@ -296,7 +296,7 @@ public class FloatingActionButton extends ImageButton {
 		hide(true);
 	}
 
-	public void show(boolean animate) {
+	void show(boolean animate) {
 		// setVisibility(View.VISIBLE);
 		toggle(true, animate, false);
 	}
@@ -352,8 +352,8 @@ public class FloatingActionButton extends ImageButton {
 		attachToScrollView(scrollView, null);
 	}
 
-	public void attachToListView(AbsListView listView,
-			ScrollDirectionListener listener) {
+	void attachToListView(AbsListView listView,
+                          ScrollDirectionListener listener) {
 		AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
 		scrollDetector.setListener(listener);
 		scrollDetector.setListView(listView);
@@ -370,8 +370,8 @@ public class FloatingActionButton extends ImageButton {
 	// recyclerView.setOnScrollListener(scrollDetector);
 	// }
 
-	public void attachToScrollView(ObservableScrollView scrollView,
-			ScrollDirectionListener listener) {
+	void attachToScrollView(ObservableScrollView scrollView,
+                            ScrollDirectionListener listener) {
 		ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
 		scrollDetector.setListener(listener);
 		scrollDetector.setScrollThreshold(mScrollThreshold);

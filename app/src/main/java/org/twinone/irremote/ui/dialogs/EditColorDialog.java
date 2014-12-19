@@ -24,8 +24,6 @@ public class EditColorDialog extends DialogFragment implements
         DialogInterface.OnClickListener {
 
     private static final String ARG_COLOR = "org.twinone.irremote.ui.SelectColorDialog.color";
-    private int mSelectedColor;
-    private BaseAdapter mAdapter;
     private String[] mStrings;
     private OnColorSelectedListener mListener;
 
@@ -46,11 +44,6 @@ public class EditColorDialog extends DialogFragment implements
         show(a.getFragmentManager(), "select_color_dialog");
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSelectedColor = getArguments().getInt(ARG_COLOR);
-    }
 
     private float dpToPx(float dp) {
         return dp * getActivity().getResources().getDisplayMetrics().density;
@@ -61,7 +54,7 @@ public class EditColorDialog extends DialogFragment implements
         mStrings = getResources().getStringArray(R.array.colors);
 
         ListView view = new ListView(getActivity());
-        mAdapter = new MyAdapter();
+        BaseAdapter mAdapter = new MyAdapter();
         view.setDivider(null);
         view.setAdapter(mAdapter);
         view.setOnItemClickListener(new OnItemClickListener() {
@@ -100,7 +93,7 @@ public class EditColorDialog extends DialogFragment implements
         public void onColorSelected(int color);
     }
 
-    class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {

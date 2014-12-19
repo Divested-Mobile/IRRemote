@@ -114,7 +114,7 @@ public class CommonProviderFragment extends ProviderFragment implements
     }
 
     private MyListable[] getItems() {
-        ArrayList<MyListable> items = new ArrayList<MyListable>();
+        ArrayList<MyListable> items = new ArrayList<>();
         if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
             mRemote = buildRemote();
             for (Button b : mRemote.buttons) {
@@ -207,7 +207,7 @@ public class CommonProviderFragment extends ProviderFragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.common_menu, menu);
-        setupSearchView(menu, inflater);
+        setupSearchView(menu);
 
         MenuItem save = menu.findItem(R.id.menu_save);
         MenuItem more = menu.findItem(R.id.menu_more);
@@ -248,7 +248,7 @@ public class CommonProviderFragment extends ProviderFragment implements
     private class MyListable extends BaseListable {
 
         public int id;
-        private String text;
+        private final String text;
 
         public MyListable(String text) {
             this.text = text;

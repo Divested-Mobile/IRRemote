@@ -51,7 +51,7 @@ public class RenameRemoteDialog extends DialogFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mOriginalRemoteName = (String) getArguments().getString(ARG_REMOTE);
+        mOriginalRemoteName = getArguments().getString(ARG_REMOTE);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class RenameRemoteDialog extends DialogFragment implements
                 Remote.rename(getActivity(), mOriginalRemoteName, newName);
 
                 if (mListener != null)
-                    mListener.onRemoteRenamed(mOriginalRemoteName, newName);
+                    mListener.onRemoteRenamed(newName);
                 break;
         }
     }
@@ -93,7 +93,7 @@ public class RenameRemoteDialog extends DialogFragment implements
     }
 
     public interface OnRemoteRenamedListener {
-        public void onRemoteRenamed(String oldName, String newName);
+        public void onRemoteRenamed(String newName);
     }
 
 }

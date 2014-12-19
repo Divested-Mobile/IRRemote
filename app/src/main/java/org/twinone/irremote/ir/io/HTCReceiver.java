@@ -3,7 +3,6 @@ package org.twinone.irremote.ir.io;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.htc.circontrol.CIRControl;
@@ -16,12 +15,11 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
 
     private CIRControl mCirControl;
 
-    private Handler mHandler;
     private Context mContext;
 
-    protected HTCReceiver(Context context) {
+    HTCReceiver(Context context) {
         super(context);
-        mHandler = new HTCReceiverHandler(this);
+        Handler mHandler = new HTCReceiverHandler(this);
         try {
             mContext = context;
             mCirControl = new CIRControl(context, mHandler);
@@ -31,7 +29,7 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
         }
     }
 
-    public static boolean isAvailable(Context c) {
+    public static boolean isHTCReceiverAvailable(Context c) {
         return getPreferences(c).getBoolean("available", false);
     }
 
@@ -44,41 +42,28 @@ public class HTCReceiver extends Receiver implements OnMessageListener {
         if (sp.contains("available")) {
             return;
         }
-        boolean isAvailable = false;
-        // List<PackageInfo> list = c.getPackageManager().getInstalledPackages(
-        // Integer.MAX_VALUE);
-        // Log.d("PKG", "------START-----");
-        // for (PackageInfo pi : list) {
-        // Log.d("PKG", pi.packageName);
-        // if ("com.htc.cirmodule".equals(pi.packageName)) {
-        // isAvailable = true;
-        // }
-        // }
-        // Log.d("PKG", "------STOP-----");
-        isAvailable = isPackageAvailable(c, "com.htc.cirmodule");
-        Log.d("", "CirModule: " + isAvailable);
-        sp.edit().putBoolean("available", isAvailable).apply();
+        sp.edit().putBoolean("available", isPackageAvailable(c)).apply();
     }
 
-    private static boolean isPackageAvailable(Context c, String name) {
+    private static boolean isPackageAvailable(Context c) {
         try {
-            c.getPackageManager().getPackageInfo(name, 0);
+            c.getPackageManager().getPackageInfo("com.htc.cirmodule", 0);
             return true;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return false;
     }
 
     private void checkAvailable() {
-        if (!isAvailable(mContext)) {
+        if (!isHTCReceiverAvailable(mContext)) {
             throw new ComponentNotAvailableException(
                     "The package com.htc.cirmodule was not installed");
         }
     }
 
     public boolean isAvailable() {
-        return isAvailable(mContext);
+        return isHTCReceiverAvailable(mContext);
     }
 
     @Override

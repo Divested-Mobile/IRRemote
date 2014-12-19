@@ -49,7 +49,7 @@ public class EditTextDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mOriginalText = (String) getArguments().getString(ARG_TEXT);
+        mOriginalText = getArguments().getString(ARG_TEXT);
     }
 
     @Override

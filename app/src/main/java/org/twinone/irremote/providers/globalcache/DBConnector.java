@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DBConnector {
+class DBConnector {
 
     private static final String TAG = "DBConnector";
     private final Context mContext;
@@ -59,7 +59,7 @@ public class DBConnector {
     }
 
     // Result may be null if connection failed!
-    public void triggerListenerOnReceived(int target, String result) {
+    void triggerListenerOnReceived(int target, String result) {
         if (mListener == null)
             return;
         Gson gson = new Gson();
@@ -80,7 +80,7 @@ public class DBConnector {
                     break;
             }
         }
-        mListener.onDataReceived(target, data);
+        mListener.onDataReceived(data);
     }
 
     public interface OnDataReceivedListener {
@@ -89,13 +89,13 @@ public class DBConnector {
          *
          * @param data may be null if the connection failed
          */
-        public void onDataReceived(int type, Object[] data);
+        public void onDataReceived(Object[] data);
     }
 
     private class DBTask extends AsyncTask<String, Void, String> {
-        private String mUrl;
-        private String mCacheName;
-        private int mTarget;
+        private final String mUrl;
+        private final String mCacheName;
+        private final int mTarget;
 
         public DBTask(GlobalCacheProviderData data) {
             mUrl = data.getUrl();

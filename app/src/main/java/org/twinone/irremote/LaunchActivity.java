@@ -49,9 +49,7 @@ public class LaunchActivity extends Activity {
             return false;
         if (!data.getScheme().equals(getPackageName()))
             return false;
-        if (!data.getAuthority().equals("launch"))
-            return false;
-        return true;
+        return data.getAuthority().equals("launch");
     }
 
 }

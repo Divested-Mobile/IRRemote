@@ -55,19 +55,12 @@ public class FileUtils {
 
     public static boolean copy(File src, File dst) {
         try {
-            InputStream in = new FileInputStream(src);
-            OutputStream out = new FileOutputStream(dst);
-            try { // Transfer bytes from in to out
+            try (InputStream in = new FileInputStream(src); OutputStream out = new FileOutputStream(dst)) { // Transfer bytes from in to out
                 byte[] buf = new byte[2048];
                 int len;
                 while ((len = in.read(buf)) > 0) {
                     out.write(buf, 0, len);
                 }
-            } catch (Exception e) {
-                throw e;
-            } finally {
-                in.close();
-                out.close();
             }
         } catch (Exception e) {
             return false;
@@ -102,12 +95,12 @@ public class FileUtils {
         }
     }
 
-    public static String read(InputStream is, boolean withNewLines) {
+    private static String read(InputStream is, boolean withNewLines) {
         try {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line);
                 if (withNewLines) {
@@ -122,12 +115,12 @@ public class FileUtils {
         return null;
     }
 
-    public static String[] readLines(InputStream is) {
-        ArrayList<String> strings = new ArrayList<String>();
+    private static String[] readLines(InputStream is) {
+        ArrayList<String> strings = new ArrayList<>();
         try {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 strings.add(line);
             }

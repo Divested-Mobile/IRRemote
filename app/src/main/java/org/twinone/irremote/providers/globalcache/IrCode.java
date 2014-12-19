@@ -17,15 +17,15 @@ public class IrCode extends GCBaseListable {
      */
     private static final long serialVersionUID = 3967117959677153127L;
 
-    public String Key;
+    private String Key;
     /**
      * The key for API requests for this codeset
      */
-    public String KeyName;
+    private String KeyName;
     /**
      * The name of the codeset to display to the user
      */
-    public String IRCode;
+    private String IRCode;
 
     public static Remote toRemote(Context c, String name, IrCode[] irCodes) {
         Remote remote = new Remote();

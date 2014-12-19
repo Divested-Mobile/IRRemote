@@ -24,7 +24,7 @@ import java.net.URL;
 public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = HttpJson.class.getSimpleName();
-
+    private final Class<? extends Resp> mRespClass;
     private String mMethod = "POST";
     private String mUrl;
     private Req mReq;
@@ -32,12 +32,9 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
     private boolean mHasError;
     private Exception mException;
     private boolean mCache;
-
     private int mStatusCode;
     private ResponseListener<Req, Resp> mResponseListener;
     private ExceptionListener<Req, Resp> mExceptionListener;
-
-    private Class<? extends Resp> mRespClass;
 
     public HttpJson(Class<? extends Resp> respClass) {
         mRespClass = respClass;
@@ -60,7 +57,7 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public void setResponseListener(ResponseListener<Req, Resp> listener) {
+    void setResponseListener(ResponseListener<Req, Resp> listener) {
         mResponseListener = listener;
     }
 
@@ -110,7 +107,7 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
         if (!mHasError) {
             if (mResponseListener != null)
-                mResponseListener.onServerResponse(mStatusCode, mReq, mResp);
+                mResponseListener.onServerResponse(mReq, mResp);
         } else {
             if (mExceptionListener != null)
                 mExceptionListener.onServerException(mException);
@@ -154,7 +151,7 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
             }
             Log.i("HttpJson", "Response:");
             Log.i("HttpJson", data.toString());
-            mResp = (Resp) new Gson().fromJson(data.toString(), mRespClass);
+            mResp = new Gson().fromJson(data.toString(), mRespClass);
             mStatusCode = conn.getResponseCode();
             conn.disconnect();
             flushCache();
@@ -173,7 +170,7 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
     }
 
     public interface ResponseListener<Req, Resp> {
-        public void onServerResponse(int statusCode, Req req, Resp resp);
+        public void onServerResponse(Req req, Resp resp);
 
     }
 

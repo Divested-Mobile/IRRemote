@@ -13,7 +13,7 @@ import org.twinone.irremote.R;
 
 import java.io.FileNotFoundException;
 
-public class BackgroundManager {
+class BackgroundManager {
 
     private final Context mContext;
 
@@ -27,8 +27,8 @@ public class BackgroundManager {
         mTarget = target;
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options,
-                                            int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options,
+                                             int reqWidth, int reqHeight) {
         int scale = 1;
         int width = options.outWidth;
         int height = options.outHeight;
@@ -56,9 +56,9 @@ public class BackgroundManager {
         }
     }
 
-    private boolean setBackgroundFromUri(Uri uri) {
+    private void setBackgroundFromUri(Uri uri) {
         if (uri == null)
-            return false;
+            return;
         final WindowManager wm = (WindowManager) mContext
                 .getSystemService(Context.WINDOW_SERVICE);
         final Point size = new Point();
@@ -66,17 +66,16 @@ public class BackgroundManager {
         try {
             final Bitmap b = decodeSampledBitmapFromUri(uri, size.x, size.y);
             if (b == null) {
-                return false;
+                return;
             }
             mTarget.setImageBitmap(b);
         } catch (FileNotFoundException e) {
-            return false;
+            return;
         }
-        return true;
     }
 
-    public Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
-                                             int reqHeight) throws FileNotFoundException {
+    Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
+                                      int reqHeight) throws FileNotFoundException {
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -87,7 +86,7 @@ public class BackgroundManager {
                 reqHeight);
 
         options.inJustDecodeBounds = false;
-        Bitmap bm = BitmapFactory.decodeStream(mContext.getContentResolver()
+        @SuppressWarnings("UnnecessaryLocalVariable") Bitmap bm = BitmapFactory.decodeStream(mContext.getContentResolver()
                 .openInputStream(uri), null, options);
         return bm;
     }

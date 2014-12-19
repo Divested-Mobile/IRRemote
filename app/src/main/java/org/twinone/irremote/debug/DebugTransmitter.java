@@ -38,12 +38,4 @@ public class DebugTransmitter extends Transmitter {
     public void pause() {
     }
 
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void cancel() {
-    }
-
 }

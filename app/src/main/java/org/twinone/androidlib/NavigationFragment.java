@@ -32,9 +32,9 @@ public abstract class NavigationFragment extends Fragment {
     public static final int EDGE_SIZE_RECOMMENDED = 40;
     private static final String PREF_KEY_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String PREF_FILENAME = "nav";
-    protected DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;
 
-    protected View mFragmentContainerView;
+    private View mFragmentContainerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
@@ -45,7 +45,7 @@ public abstract class NavigationFragment extends Fragment {
     public NavigationFragment() {
     }
 
-    protected SharedPreferences getPreferences() {
+    SharedPreferences getPreferences() {
         return getActivity().getSharedPreferences(PREF_FILENAME,
                 Context.MODE_PRIVATE);
     }
@@ -144,7 +144,7 @@ public abstract class NavigationFragment extends Fragment {
             mListener.onNavigationClosed();
     }
 
-    public void open() {
+    void open() {
         mDrawerLayout.openDrawer(mFragmentContainerView);
     }
 
@@ -171,10 +171,7 @@ public abstract class NavigationFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Only allow toggle from ActionBar title click if not locked!
-        if (!mHomeButtonLocked && mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return !mHomeButtonLocked && mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     protected ActionBar getSupportActionBar() {
@@ -245,7 +242,7 @@ public abstract class NavigationFragment extends Fragment {
      * Set the lock mode for the home button in the ActionBar<br>
      * true if you want the action bar button to be ignored
      */
-    public void setHomeButtonLocked(boolean locked) {
+    void setHomeButtonLocked(boolean locked) {
         mHomeButtonLocked = locked;
         getSupportActionBar().setHomeButtonEnabled(!locked);
     }
@@ -273,8 +270,7 @@ public abstract class NavigationFragment extends Fragment {
             mEdgeSize.setAccessible(true);
             int px = mEdgeSize.getInt(helper);
             float density = getResources().getDisplayMetrics().density;
-            int dp = (int) (px / density + 0.5f);
-            return dp;
+            return (int) (px / density + 0.5f);
         } catch (Exception e) {
             throw new RuntimeException("Error getting edge size");
         }

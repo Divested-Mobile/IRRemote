@@ -20,10 +20,10 @@ import java.util.Locale;
 
 public class ListableAdapter extends BaseAdapter implements Filterable {
 
-    private LayoutInflater mInflater;
-    private List<? extends BaseListable> mOriginalItems;
+    private final LayoutInflater mInflater;
+    private final List<? extends BaseListable> mOriginalItems;
+    private final Filter mFilter;
     private List<? extends BaseListable> mCurrentItems;
-    private Filter mFilter;
 
     @SuppressWarnings("unchecked")
     public ListableAdapter(Context context, Object[] items) {
@@ -78,10 +78,10 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return createViewFromResource(position, convertView, parent);
+        return createViewFromResource(position, parent);
     }
 
-    private View createViewFromResource(int position, View convertView,
+    private View createViewFromResource(int position,
                                         ViewGroup parent) {
         BaseListable item = mCurrentItems.get(position);
 
@@ -106,7 +106,7 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
                 results.values = mOriginalItems;
                 results.count = mOriginalItems.size();
             } else {
-                List<BaseListable> result = new ArrayList<BaseListable>();
+                List<BaseListable> result = new ArrayList<>();
                 for (BaseListable l : mOriginalItems) {
                     if (l.getDisplayName().toLowerCase(Locale.ENGLISH)
                             .contains(match)) {

@@ -6,7 +6,7 @@ import android.os.Message;
 import com.htc.circontrol.CIRControl;
 import com.htc.htcircontrol.HtcIrData;
 
-public class HTCReceiverHandler extends Handler {
+class HTCReceiverHandler extends Handler {
     private final OnMessageListener mListener;
 
     public HTCReceiverHandler(OnMessageListener listener) {

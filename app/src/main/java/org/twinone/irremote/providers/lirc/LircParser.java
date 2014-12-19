@@ -9,12 +9,12 @@ import org.twinone.irremote.ir.SignalFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LircParser {
+class LircParser {
 
     private final String[] mFile;
+    private final ArrayList<IrCode> mCodes;
     private int mOneOn;
     private int mOneOff;
-    private int mZeroOn;
 
     // Pulses are sent in the following order:
     // header <phead> <shead>
@@ -23,7 +23,7 @@ public class LircParser {
     // pre <ppre> <spre>
 
     // the actual code data in hex
-
+    private int mZeroOn;
     // post <ppost> <spost>
     // post_data <(hex)>
     // ptrail <ptrail>
@@ -45,22 +45,19 @@ public class LircParser {
     private PulseSpacePair mTrail;
     private PulseSpacePair mFoot;
     private int mFrequency = 38000;
-
-    private ArrayList<IrCode> mCodes;
-
     private int mPosition;
 
     public LircParser(String[] file) {
         for (String s : file) {
             Log.d("", "file: " + s);
         }
-        mCodes = new ArrayList<IrCode>();
+        mCodes = new ArrayList<>();
 
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
 
         // Remove duplicate spaces, trim and remove comments
-        for (int i = 0; i < file.length; i++) {
-            final String s = file[i].replaceAll("\\s+", " ").trim();
+        for (String f : file) {
+            final String s = f.replaceAll("\\s+", " ").trim();
             if (!s.startsWith("#") && !s.isEmpty()) {
                 list.add(s);
             }
@@ -73,13 +70,16 @@ public class LircParser {
             expect("begin remote");
             readHeader();
             String codes = readLine();
-            if (codes.equals("begin codes")) {
-                readCodes();
-            } else if (codes.equals("begin raw_codes")) {
-                readRawCodes();
-            } else {
-                throw new ParseException(
-                        "Expected begin codes or begin raw_codes block");
+            switch (codes) {
+                case "begin codes":
+                    readCodes();
+                    break;
+                case "begin raw_codes":
+                    readRawCodes();
+                    break;
+                default:
+                    throw new ParseException(
+                            "Expected begin codes or begin raw_codes block");
             }
 
             // Read the end codes or end raw_codes
@@ -96,41 +96,56 @@ public class LircParser {
     }
 
     private void readHeader() {
-        String s = null;
+        String s;
         while (!(s = readLine()).equals("begin codes")
                 && !s.equals("begin raw_codes")) {
             final String[] ss = s.split(" ");
             final String param = ss[0];
-            if (param.equals("one")) {
-                mOneOn = Integer.parseInt(ss[1]);
-                mOneOff = Integer.parseInt(ss[1]);
-            } else if (param.equals("zero")) {
-                mZeroOn = Integer.parseInt(ss[1]);
-                mZeroOff = Integer.parseInt(ss[1]);
-            } else if (param.equals("frequency")) {
-                mFrequency = Integer.parseInt(ss[1]);
-            } else if (param.equals("header")) {
-                mHeader = new PulseSpacePair(ss[1], ss[2]);
-            } else if (param.equals("plead")) {
-                mLead = new PulseSpacePair(Integer.parseInt(ss[1]), 0);
-            } else if (param.equals("pre_data")) {
-                mPreDataString = ss[1];
-            } else if (param.equals("post_data")) {
-                mPostDataString = ss[1];
-            } else if (param.equals("pre")) {
-                mPre = new PulseSpacePair(ss[1], ss[2]);
-            } else if (param.equals("post")) {
-                mPost = new PulseSpacePair(ss[1], ss[2]);
-            } else if (param.equals("ptrail")) {
-                mTrail = new PulseSpacePair(Integer.parseInt(ss[1]), 0);
-            } else if (param.equals("foot")) {
-                mFoot = new PulseSpacePair(ss[1], ss[2]);
-            } else if (param.equals("pre_data_bits")) {
-                mPreDataBits = Integer.parseInt(ss[1]);
-            } else if (param.equals("post_data_bits")) {
-                mPostDataBits = Integer.parseInt(ss[1]);
-            } else if (param.equals("bits")) {
-                mBits = Integer.parseInt(ss[1]);
+            switch (param) {
+                case "one":
+                    mOneOn = Integer.parseInt(ss[1]);
+                    mOneOff = Integer.parseInt(ss[1]);
+                    break;
+                case "zero":
+                    mZeroOn = Integer.parseInt(ss[1]);
+                    mZeroOff = Integer.parseInt(ss[1]);
+                    break;
+                case "frequency":
+                    mFrequency = Integer.parseInt(ss[1]);
+                    break;
+                case "header":
+                    mHeader = new PulseSpacePair(ss[1], ss[2]);
+                    break;
+                case "plead":
+                    mLead = new PulseSpacePair(Integer.parseInt(ss[1]), 0);
+                    break;
+                case "pre_data":
+                    mPreDataString = ss[1];
+                    break;
+                case "post_data":
+                    mPostDataString = ss[1];
+                    break;
+                case "pre":
+                    mPre = new PulseSpacePair(ss[1], ss[2]);
+                    break;
+                case "post":
+                    mPost = new PulseSpacePair(ss[1], ss[2]);
+                    break;
+                case "ptrail":
+                    mTrail = new PulseSpacePair(Integer.parseInt(ss[1]), 0);
+                    break;
+                case "foot":
+                    mFoot = new PulseSpacePair(ss[1], ss[2]);
+                    break;
+                case "pre_data_bits":
+                    mPreDataBits = Integer.parseInt(ss[1]);
+                    break;
+                case "post_data_bits":
+                    mPostDataBits = Integer.parseInt(ss[1]);
+                    break;
+                case "bits":
+                    mBits = Integer.parseInt(ss[1]);
+                    break;
             }
         }
 
@@ -145,7 +160,7 @@ public class LircParser {
     }
 
     private void readCodes() {
-        String s = null;
+        String s;
         while (!(s = readLine()).equals("end codes")) {
             final String[] ss = s.split(" ");
             final String codeName = ss[0];
@@ -158,7 +173,7 @@ public class LircParser {
     }
 
     private String buildProntoCode(PulseSpacePair[] code) {
-        ArrayList<Integer> list = new ArrayList<Integer>();
+        ArrayList<Integer> list = new ArrayList<>();
         addToList(list, mHeader);
         addToList(list, mLead);
         addToList(list, mPreData);
@@ -192,13 +207,13 @@ public class LircParser {
     private int[] toIntArray(List<Integer> integers) {
         int[] ret = new int[integers.size()];
         for (int i = 0; i < ret.length; i++) {
-            ret[i] = integers.get(i).intValue();
+            ret[i] = integers.get(i);
         }
         return ret;
     }
 
     private PulseSpacePair[] decodeChunk(int bits, String hex) {
-        ArrayList<PulseSpacePair> result = new ArrayList<PulseSpacePair>(bits);
+        ArrayList<PulseSpacePair> result = new ArrayList<>(bits);
         // parse a hex string without "0x"
         int num = Integer.parseInt(hex.substring(2), 16);
         String bitString = Integer.toBinaryString(num);
@@ -224,7 +239,7 @@ public class LircParser {
     }
 
     private void readRawCodes() {
-        String s = null;
+        String s;
         while (!(s = readLine()).equals("end raw_codes")) {
             String[] ss = s.split(" ");
             if (ss.length != 2 || !ss[0].equals("name")) {
@@ -232,7 +247,7 @@ public class LircParser {
                         "Expected code name in raw_codes block instead of " + s);
             }
             final String name = ss[1];
-            ArrayList<Integer> pattern = new ArrayList<Integer>();
+            ArrayList<Integer> pattern = new ArrayList<>();
             while (!(s = readLine()).startsWith("name")
                     && !s.equals("end raw_codes")) {
                 ss = s.split(" ");
@@ -257,8 +272,8 @@ public class LircParser {
     }
 
     private class PulseSpacePair {
-        public int on;
-        public int off;
+        public final int on;
+        public final int off;
 
         public PulseSpacePair(int on, int off) {
             this.on = on;

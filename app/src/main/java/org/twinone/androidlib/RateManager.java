@@ -31,11 +31,11 @@ public class RateManager {
         return c.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
     }
 
-    public static void show(Context c, String text) {
-        show(c, text, true);
+    public static void show(Context c) {
+        show(c, true);
     }
 
-    public static void show(Context c, String text, boolean hasNeverButton) {
+    private static void show(Context c, boolean hasNeverButton) {
         int current = getPrefs(c).getInt(PREF_KEY_COUNT, 0) + 1;
         int offset = getPrefs(c).getInt(PREF_KEY_OFFSET, OFFSET_DEFAULT);
         int repeat = getPrefs(c).getInt(PREF_KEY_REPEAT, REPEAT_DEFAULT);
@@ -44,23 +44,22 @@ public class RateManager {
         if (!never) {
             if (current == offset || current > offset
                     && ((current - offset) % repeat) == 0) {
-                getShareEditDialog(c, text, hasNeverButton).show();
+                getShareEditDialog(c, hasNeverButton).show();
             }
         }
         getPrefs(c).edit().putInt(PREF_KEY_COUNT, current).commit();
     }
 
-    public static void setNever(Context c, boolean never) {
+    private static void setNever(Context c, boolean never) {
         getPrefs(c).edit().putBoolean(PREF_KEY_NEVER, never).commit();
     }
 
-    public static AlertDialog.Builder getShareEditDialog(final Context c,
-                                                         final String promoText) {
-        return getShareEditDialog(c, promoText, true);
+    public static AlertDialog.Builder getShareEditDialog(final Context c) {
+        return getShareEditDialog(c, true);
     }
 
-    public static AlertDialog.Builder getShareEditDialog(final Context c,
-                                                         final String promoText, boolean hasNeverButton) {
+    private static AlertDialog.Builder getShareEditDialog(final Context c,
+                                                          boolean hasNeverButton) {
         final AlertDialog.Builder ab = new AlertDialog.Builder(c);
 
         ab.setCancelable(false);

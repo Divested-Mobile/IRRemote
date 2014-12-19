@@ -64,12 +64,6 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
         return getCurrentButton().getText();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     private void createRemoteAndSetType(int type) {
         mRemote = ComponentUtils.createEmptyRemote(getActivity(), type);
         Log.d("", "Creating empty remote");
@@ -84,7 +78,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
         setupStateForCurrentButton();
     }
 
-    public void saveRemote(Remote remote) {
+    void saveRemote(Remote remote) {
         remote.name = mName;
         remote.addFlags(Remote.FLAG_LEARNED);
         Log.d("", "Name: " + mName);
@@ -186,13 +180,13 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
     }
 
     @Override
-    protected void learnStart() {
+    void learnStart() {
         super.learnStart();
         setupState(State.LEARNING);
     }
 
     @Override
-    protected void learnStop() {
+    void learnStop() {
         super.learnStop();
         setupStateForCurrentButton();
     }
@@ -397,7 +391,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
     @Override
     public void onClick(DialogInterface dialog, int which) {
         if (which == DialogInterface.BUTTON_NEGATIVE) {
-            getActivity().finish();
+            getProvider().popAllFragments();
         } else {
             createRemoteAndSetType(which);
             dialog.dismiss();

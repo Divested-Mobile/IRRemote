@@ -10,11 +10,11 @@ public abstract class Constants {
     public static final boolean USE_DEBUG_TRANSMITTER = DEBUG;
     public static final boolean USE_DEBUG_RECEIVER = DEBUG;
 
-    public static String URL_REGISTER = "https://www.twinone.org/apps/irremote/register/";
-    public static String URL_VERIFY = "https://www.twinone.org/apps/irremote/verify/";
-    public static String URL_UPLOAD = "https://www.twinone.org/apps/irremote/api/upload/";
-    public static String URL_DOWNLOAD = "https://www.twinone.org/apps/irremote/api/download/";
-    public static String URL_MANUFACTURERS = "https://www.twinone.org/apps/irremote/api/manufacturers/";
+    public static final String URL_REGISTER = "https://www.twinone.org/apps/irremote/register/";
+    public static final String URL_VERIFY = "https://www.twinone.org/apps/irremote/verify/";
+    public static final String URL_UPLOAD = "https://www.twinone.org/apps/irremote/api/upload/";
+    private static final String URL_DOWNLOAD = "https://www.twinone.org/apps/irremote/api/download/";
+    public static final String URL_MANUFACTURERS = "https://www.twinone.org/apps/irremote/api/manufacturers/";
 
     static {
         boolean dbg = false;

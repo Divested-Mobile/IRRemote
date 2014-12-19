@@ -17,7 +17,7 @@ public class ComponentUtils {
             Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT,
             Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
             Button.ID_FAN_UP, Button.ID_TEMP_DOWN, Button.ID_TEMP_UP};
-    public static final int[] BUTTONS_TV = {Button.ID_POWER, Button.ID_MUTE,
+    private static final int[] BUTTONS_TV = {Button.ID_POWER, Button.ID_MUTE,
             Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_CH_UP,
             Button.ID_CH_DOWN, Button.ID_DIGIT_0, Button.ID_DIGIT_1,
             Button.ID_DIGIT_2, Button.ID_DIGIT_3, Button.ID_DIGIT_4,
@@ -25,7 +25,7 @@ public class ComponentUtils {
             Button.ID_DIGIT_8, Button.ID_DIGIT_9, Button.ID_MENU,
             Button.ID_NAV_OK, Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT,
             Button.ID_NAV_UP, Button.ID_NAV_DOWN, Button.ID_EXIT};
-    public static final int[] BUTTONS_CABLE = {Button.ID_POWER,
+    private static final int[] BUTTONS_CABLE = {Button.ID_POWER,
             Button.ID_MUTE, Button.ID_VOL_UP, Button.ID_VOL_DOWN,
             Button.ID_CH_UP, Button.ID_CH_DOWN, Button.ID_DIGIT_0,
             Button.ID_DIGIT_1, Button.ID_DIGIT_2, Button.ID_DIGIT_3,
@@ -36,13 +36,13 @@ public class ComponentUtils {
             Button.ID_EXIT, Button.ID_PLAY, Button.ID_PAUSE, Button.ID_STOP,
             Button.ID_PREV, Button.ID_NEXT, Button.ID_FFWD, Button.ID_RWD,
             Button.ID_REC,};
-    public static final int[] BUTTONS_AUDIO_AMPLIFIER = {Button.ID_POWER,
+    private static final int[] BUTTONS_AUDIO_AMPLIFIER = {Button.ID_POWER,
             Button.ID_MUTE, Button.ID_VOL_UP, Button.ID_VOL_DOWN,
             Button.ID_INPUT_1, Button.ID_INPUT_2, Button.ID_INPUT_3,
             Button.ID_INPUT_4, Button.ID_INPUT_5,
 
     };
-    public static final int[] BUTTONS_AIR_CONDITIONING = {Button.ID_POWER,
+    private static final int[] BUTTONS_AIR_CONDITIONING = {Button.ID_POWER,
             Button.ID_FAN_UP, Button.ID_FAN_DOWN, Button.ID_TEMP_UP,
             Button.ID_TEMP_DOWN};
 
@@ -377,7 +377,7 @@ public class ComponentUtils {
         }
     }
 
-    public static int[] getButtonsForType(int type) {
+    private static int[] getButtonsForType(int type) {
         switch (type) {
             case Remote.TYPE_TV:
                 return BUTTONS_TV;
@@ -401,10 +401,9 @@ public class ComponentUtils {
         r.details.type = type;
 
         int[] bb = getButtonsForType(type);
-        for (int i = 0; i < bb.length; i++) {
-            String name = ComponentUtils.getCommonButtonDisplyaName(bb[i], c);
-            Button b = new Button(bb[i], name);
-            r.addButton(b);
+        for (int btn : bb) {
+            String name = ComponentUtils.getCommonButtonDisplyaName(btn, c);
+            r.addButton(new Button(btn, name));
         }
 
         return r;

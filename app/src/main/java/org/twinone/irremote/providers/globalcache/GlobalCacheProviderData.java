@@ -45,7 +45,7 @@ public class GlobalCacheProviderData implements Serializable {
     public DeviceType deviceType;
     public Codeset codeset;
 
-    public static GlobalCacheProviderData deserialize(String data) {
+    private static GlobalCacheProviderData deserialize(String data) {
         return new Gson().fromJson(data, GlobalCacheProviderData.class);
     }
 
@@ -138,7 +138,7 @@ public class GlobalCacheProviderData implements Serializable {
         return deserialize(serialize());
     }
 
-    public String serialize() {
+    String serialize() {
         return new Gson().toJson(this);
     }
 

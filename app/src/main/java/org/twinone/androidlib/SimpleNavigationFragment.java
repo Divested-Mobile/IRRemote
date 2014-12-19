@@ -90,7 +90,7 @@ public class SimpleNavigationFragment extends NavigationFragment {
 
     private class NavigableAdapter extends BaseAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public NavigableAdapter(Context c) {
             mContext = c;
