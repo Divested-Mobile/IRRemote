@@ -29,7 +29,7 @@ public abstract class AnimHelper {
 
     /**
      * Convenience method for setting the dialog animations and showing it
-     *
+     *w
      * @param d
      */
     private static void showDialog(Dialog d) {

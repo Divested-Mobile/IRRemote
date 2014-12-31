@@ -23,7 +23,6 @@ import com.melnykov.fab.FloatingActionButton;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.RateManager;
-import org.twinone.androidlib.net.HttpJson;
 import org.twinone.androidlib.versionmanager.VersionManager;
 import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
@@ -37,7 +36,7 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.twinone.RegisterActivity;
+import org.twinone.irremote.providers.twinone.LoginRegisterActivity;
 import org.twinone.irremote.providers.twinone.UploadActivity;
 import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
@@ -323,12 +322,12 @@ public class MainActivity extends ToolbarActivity implements
                         break;
                     case 1:
                         Intent reg = new Intent(MainActivity.this,
-                                RegisterActivity.class);
+                                LoginRegisterActivity.class);
                         startActivity(reg);
                         break;
                     case 2:
                         Intent vfy = new Intent(MainActivity.this,
-                                RegisterActivity.class);
+                                LoginRegisterActivity.class);
                         Uri uri = Uri.parse("org.twinone.irremote/launch?a=verify");
                         vfy.setData(uri);
                         startActivity(vfy);

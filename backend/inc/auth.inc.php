@@ -43,5 +43,23 @@ function auth_username_access_token($db, $id, $access_token) {
 	return $count > 0;
 }
 
+function auth_username_password($db, $username, $password) {
+	$st = $db->prepare("SELECT access_token, password FROM users WHERE username=? LIMIT 1");
+	$st->bind_param("s", $username);
+	$st->execute();
+	$st->bind_result($token, $hash);
+	$st->fetch();
+	$st->close();
+
+		hj_log("auth_token_db", $token);
+
+	require_once(__DIR__.'/crypto.inc.php');
+	if (validate_password($password, $hash)) {
+		hj_log("auth_token_db", $token);
+		return $token;
+	}
+	return NULL;
+}
+
 
 ?>

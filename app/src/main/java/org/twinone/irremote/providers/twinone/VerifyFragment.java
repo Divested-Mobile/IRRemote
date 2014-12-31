@@ -55,7 +55,7 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 
     private void verifyAccount() {
 
-        if (RegisterActivity.isRegistered(getActivity())) {
+        if (LoginRegisterActivity.isRegistered(getActivity())) {
             int color = getResources().getColor(
                     R.color.abc_primary_text_material_dark);
             mMessage.setTextColor(color);
@@ -85,7 +85,6 @@ public class VerifyFragment extends Fragment implements OnClickListener,
     public void onServerResponse(VerifyReq req, VerifyResp resp) {
         if (resp.status == 0) {
             mUserInfo.access_token = resp.access_token;
-            mUserInfo.id = resp.id;
 
             mUserInfo.save(getActivity());
 
@@ -130,7 +129,6 @@ public class VerifyFragment extends Fragment implements OnClickListener,
 
     public static class VerifyResp {
         public int status;
-        public int id;
         public String access_token;
     }
 

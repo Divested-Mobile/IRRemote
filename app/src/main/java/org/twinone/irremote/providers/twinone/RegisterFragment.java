@@ -16,7 +16,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.twinone.androidlib.net.HttpJson;
@@ -29,7 +28,7 @@ import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterReq;
 import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterResp;
 import org.twinone.irremote.util.BaseTextWatcher;
 
-public class RegisterFragment extends Fragment implements
+public class RegisterFragment extends BaseLoginRegisterFragment implements
         OnFocusChangeListener, OnClickListener,
         ResponseListener<RegisterReq, RegisterResp>,
         ExceptionListener<RegisterReq, RegisterResp> {
@@ -47,6 +46,7 @@ public class RegisterFragment extends Fragment implements
     private static final int STATUS_UNKNOWN_ERR = 128;
     private static final int STATUS_DB_FAILED = 256;
 
+    private View mForm;
     private TextView mMessage;
     private EditText mUsername;
     private EditText mPwd;
@@ -71,17 +71,11 @@ public class RegisterFragment extends Fragment implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getActivity().setTitle(R.string.title_create_account);
 
-        LinearLayout mForm = (LinearLayout) root.findViewById(R.id.reg_form);
+        setType(LoginRegisterActivity.FRAGMENT_INDEX_REGISTER);
+
+        mForm = root.findViewById(R.id.reg_form);
         mMessage = (TextView) root.findViewById(R.id.reg_message);
-        UserInfo ui = UserInfo.load(getActivity());
-        if (ui != null && ui.username != null) {
-            if (ui.access_token == null)
-                mMessage.setText(getString(R.string.reg_err_already_registered_novfy, ui.username));
-            else
-                mMessage.setText(getString(R.string.reg_err_already_registered, ui.username));
-            mForm.setVisibility(View.GONE);
-            return root;
-        }
+
 
         mUsername = (EditText) root.findViewById(R.id.reg_username);
         mPwd = (EditText) root.findViewById(R.id.reg_pwd);
@@ -105,6 +99,11 @@ public class RegisterFragment extends Fragment implements
         mPwdConfirm.addTextChangedListener(tw);
         mEmail.addTextChangedListener(tw);
 
+        if (getUserInfo().isLoggedIn()) {
+            mMessage.setText(getString(R.string.reg_err_already_registered, getUserInfo().username));
+            mForm.setVisibility(View.GONE);
+            return root;
+        }
         return root;
     }
 
@@ -217,10 +216,9 @@ public class RegisterFragment extends Fragment implements
     public void onServerResponse(RegisterReq req,
                                  RegisterResp resp) {
         if (resp.status == STATUS_OK) {
-            UserInfo ui = new UserInfo();
-            ui.username = req.username;
-            ui.email = req.email;
-            ui.save(getActivity());
+            getUserInfo().username = req.username;
+            getUserInfo().email = req.email;
+            getUserInfo().save(getActivity());
 
             mDialog.setTitle(R.string.reg_dlgtit_ok);
             mDialog.setMessage(getString(R.string.reg_dlgmsg_ok));
@@ -287,9 +285,19 @@ public class RegisterFragment extends Fragment implements
     }
 
 
-	/*
-     * Unused methods...
-	 */
+    private void setupLayout(boolean isLoggedIn) {
+        mForm.setVisibility(isLoggedIn ? View.GONE : View.VISIBLE);
+        if (isLoggedIn) {
+            mMessage.setText(getString(R.string.reg_err_already_registered, getUserInfo().username));
+        } else {
+            mMessage.setText(getString(R.string.reg_header));
+        }
+    }
+
+    @Override
+    public void onUpdate() {
+        setupLayout(getUserInfo().isLoggedIn());
+    }
 
     public static class RegisterReq {
         public String username;

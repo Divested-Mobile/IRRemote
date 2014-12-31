@@ -28,6 +28,7 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'com.jpardogo.materialtabstrip:library:1.0.6'
 
     compile files('libs/HTCIR.jar')
     compile files('libs/jsoup-1.7.3.jar')

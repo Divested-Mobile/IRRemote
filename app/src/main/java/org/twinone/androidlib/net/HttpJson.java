@@ -93,6 +93,9 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
             throw new IllegalStateException(
                     "You must specify an URL with setUrl()");
         }
+        if (mResponseListener == null) {
+            Log.w(TAG, "You have not specified a ResponseListener!");
+        }
         if (responseListener != null)
             setResponseListener(responseListener);
         if (exceptionListener != null)

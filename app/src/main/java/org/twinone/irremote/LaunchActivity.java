@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.twinone.irremote.providers.twinone.RegisterActivity;
+import org.twinone.irremote.providers.twinone.LoginRegisterActivity;
 
 public class LaunchActivity extends Activity {
 
@@ -30,7 +30,7 @@ public class LaunchActivity extends Activity {
                 c = LaunchActivity.class;
                 break;
             case ACTION_VERIFY:
-                c = RegisterActivity.class;
+                c = LoginRegisterActivity.class;
         }
         Log.i("LaunchActivity", "Received " + " for intent " + uri.toString());
 

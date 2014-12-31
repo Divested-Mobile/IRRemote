@@ -31,6 +31,10 @@ public class UserInfo implements Serializable {
         return new File(c.getFilesDir(), "userinfo.json");
     }
 
+    private UserInfo() {
+
+    }
+
     private static void save(Context c, UserInfo userInfo) {
         // Never store passwords in clear text
         userInfo.password = null;
@@ -40,7 +44,21 @@ public class UserInfo implements Serializable {
 
     public static UserInfo load(Context c) {
         String json = FileUtils.read(getFile(c));
-        return new Gson().fromJson(json, UserInfo.class);
+        UserInfo ui = new Gson().fromJson(json, UserInfo.class);
+        return ui == null ? new UserInfo() : ui;
+    }
+
+    public boolean isRegisteredButNotVerified() {
+        return username != null && access_token == null;
+    }
+
+    public boolean isLoggedIn() {
+        return access_token != null;
+    }
+
+    public UserInfo logout() {
+        access_token = null;
+        return this;
     }
 
     /**
@@ -68,4 +86,6 @@ public class UserInfo implements Serializable {
     public void save(Context c) {
         save(c, this);
     }
+
+
 }

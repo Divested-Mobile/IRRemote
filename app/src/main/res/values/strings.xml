@@ -289,7 +289,7 @@
     <string name="reg_pwd_confirm_hint">Confirm password</string>
     <string name="reg_user_hint">Username</string>
     <string name="reg_submit">Register</string>
-    <string name="title_create_account">Create Account</string>
+    <string name="title_create_account">Register</string>
     <string name="title_verify_account">Verify Account</string>
     <string name="reg_err_pwd_match">Password don\'t match</string>
     <string name="reg_err_user_short">Username too short</string>
@@ -365,5 +365,14 @@
         <item quantity="one">%d button</item>
         <item quantity="other">%d buttons</item>
     </plurals>
+
+    <string name="title_login">Login</string>
+    <string name="login_logout">Logout</string>
+    <string name="login_submit">Login</string>
+    <string name="login_done">Logged in</string>
+    <string name="login_err_invalid">Invalid credentials</string>
+    <string name="login_logged_in">You are logged in as %s</string>
+
+
 
 </resources>
