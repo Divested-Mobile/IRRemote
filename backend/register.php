@@ -29,17 +29,10 @@ define('USER_INVALID',  64);
 define('UNKNOWN_ERR',  128);
 define('DB_FAILED',    256);
 
-
-
-
-// $email = $_GET['email'];
-// $pass = $_GET['password'];
-
-
-require_once(dirname(__DIR__)."/inc/validation.inc.php");
-require_once(dirname(__DIR__).'/inc/db.inc.php');
-require_once(dirname(__DIR__).'/inc/crypto.inc.php');
-require_once(dirname(__DIR__).'/inc/httpjson.inc.php');
+require_once(__DIR__."/inc/validation.inc.php");
+require_once(__DIR__.'/inc/db.inc.php');
+require_once(__DIR__.'/inc/crypto.inc.php');
+require_once(__DIR__.'/inc/httpjson.inc.php');
 
 // LOGS
 // file_put_contents(__DIR__."/register.txt","last submission:\n". json_encode($req, JSON_PRETTY_PRINT));
@@ -54,7 +47,7 @@ if (!validate_user($req->username)) hj_return(USER_INVALID);
 if (!isset($req->email) or !validate_email($req->email)) hj_return(EMAIL_INVALID);
 if (!isset($req->password) or strlen($req->password) < MIN_PASSWD_LEN) hj_return(PASS_SHORT);
 
-$db = open_db();
+$db = get_db();
 if ($db->connect_error) hj_return(DB_FAILED);
 
 $err = 0;
@@ -88,7 +81,7 @@ $db->close();
 // Send the email
 // TODO get out of gmail spam folder. See SpamAssassins
 $sub="Confirm your IR Remote account";
-$url = "https://www.twinone.org/apps/irremote/launch/?a=verify&token=$token";
+$url = "https://www.twinone.org/apps/irremote/launch.php?a=verify&token=$token";
 //&d=".urlencode(base64_encode($req->email.':'.$token));
 
 $msg="Dear $req->username.\r\n\r\n"

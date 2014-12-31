@@ -6,8 +6,8 @@ define('DB_FAILED', 2);
 define('VERIF_FAILED', 3);
 define('ALREADY_EXISTS', 4);
 
-require_once(dirname(__DIR__).'/inc/db.inc.php');
-require_once(dirname(__DIR__).'/inc/httpjson.inc.php');
+require_once(__DIR__.'/inc/db.inc.php');
+require_once(__DIR__.'/inc/httpjson.inc.php');
 
 $req = hj_request();
 
@@ -16,7 +16,7 @@ $tok = $req->token;
 if (!isset($tok)) hj_return(INV_REG_TOKEN);
 
 
-$db = open_db();
+$db = get_db();
 if ($db->connect_error) hj_return(DB_FAILED);
 
 $st = $db->prepare('SELECT username FROM users WHERE username=? LIMIT 1');

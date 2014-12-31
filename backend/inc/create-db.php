@@ -16,7 +16,7 @@ function query_check($q) {
 
 function drop_database() {
 	global $db;
-	$db = open_db();
+	$db = get_db();
 	if ($db->connect_error) die("Connection failed");
 	query_check('DROP DATABASE irremote;');
 }
@@ -56,7 +56,6 @@ function create_database() {
 		.'user_id int,' // User that uploaded the remote
 		.'manufacturer VARCHAR(64),'
 		.'model VARCHAR(64),'
-		.'country VARCHAR(64),'
 		.'device_type VARCHAR(64),' // (see Remote.java)
 		.'PRIMARY KEY (id),'
 		.'FOREIGN KEY (parent_id) REFERENCES remotes(id),'
@@ -68,9 +67,16 @@ function create_database() {
 		.'remote_id int,'
 		.'function VARCHAR(64),'
 		.'frequency int,'
-		.'pattern VARCHAR(4096),'
+		.'pattern VARCHAR(32768),'
+		.'FOREIGN KEY (remote_id) REFERENCES remotes(id)'
+		.');');
+
+	query_check('CREATE TABLE IF NOT EXISTS ratings ('
+		.'remote_id int NOT NULL,'
+		.'user_id int NOT NULL,'
+		.'rating tinyint,'
 		.'FOREIGN KEY (remote_id) REFERENCES remotes(id),'
-		.'PRIMARY KEY (remote_id)'
+		.'FOREIGN KEY (user_id) REFERENCES users(id)'
 		.');');
 
 	echo '<br><br>All OK';

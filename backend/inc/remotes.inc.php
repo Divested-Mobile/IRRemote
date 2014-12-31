@@ -16,6 +16,22 @@ class Pronto {
 
 }
 
+class Button {
+   public $id;
+   public $text;
+   public $signal;
+
+   function __construct($json) {
+      $this->id = $json->id;
+      $this->text = $json->text;
+      $this->signal = Signal::from_pronto($json->code);
+   }
+   public  function func_string() {
+     global $_id_text_map;
+     return $_id_text_map[$this->id];
+  }
+}
+
 class Signal {
 	public $frequency;
 	public $pattern;
@@ -48,8 +64,7 @@ class Signal {
 		$res->pattern = $pattern;
 		return $res;
 	}
-
-	public function to_globalcache() {
+	public function serialize() {
 		return $this->frequency.','.$this->serialize_pattern();
 	}
 	public function serialize_pattern() {
@@ -59,5 +74,85 @@ class Signal {
 	}
 }
 
+function get_type_string($remote) {
+   if ($remote->details->type == -1) return $remote->details->type_string;
+   global $_type_map;
+   return $_type_map[$remote->details->type];
+}
+
+$_type_map = array(
+   // Other -1
+   "TV", // 0
+   "CABLE", // 1
+   "CD", // 2
+   "DVD", // 3
+   "BLU_RAY", // 4
+   "AUDIO", // 5
+   "CAMERA", // 6
+   "AIR_CON", // 7
+);
+$_id_text_map = array(
+   "UNKNOWN", // 0
+   "POWER", // 1
+   "POWER_ON", // 2
+   "POWER_OFF", // 3
+   "VOL_UP", // 4
+   "VOL_DOWN", // 5
+   "CH_UP", // 6
+   "CH_DOWN", // 7
+   "NAV_UP", // 8
+   "NAV_DOWN", // 9
+   "NAV_LEFT", // 10
+   "NAV_RIGHT", // 11
+   "NAV_OK", // 12
+   "BACK", // 13
+   "MUTE", // 14
+   "MENU", // 15
+   "DIGIT_0", // 16
+   "DIGIT_1", // 17
+   "DIGIT_2", // 18
+   "DIGIT_3", // 19
+   "DIGIT_4", // 20
+   "DIGIT_5", // 21
+   "DIGIT_6", // 22
+   "DIGIT_7", // 23
+   "DIGIT_8", // 24
+   "DIGIT_9", // 25
+   "SRC", // 26
+   "GUIDE", // 27
+   "SMART", // 28
+   "LAST", // 29
+   "CLEAR", // 30
+   "EXIT", // 31
+   "CC", // 32
+   "INFO", // 33
+   "SLEEP", // 34
+   "PLAY", // 35
+   "PAUSE", // 36
+   "STOP", // 37
+   "FFWD", // 38
+   "RWD", // 39
+   "NEXT", // 40
+   "PREV", // 41
+   "REC", // 42
+   "DISP", // 43
+   "SRC_CD", // 44
+   "SRC_AUX", // 45
+   "SRC_TAPE", // 46
+   "SRC_TUNER", // 47
+   "RED", // 48
+   "GREEN", // 49
+   "BLUE", // 50
+   "YELLOW", // 51
+   "INPUT_1", // 52
+   "INPUT_2", // 53
+   "INPUT_3", // 54
+   "INPUT_4", // 55
+   "INPUT_5", // 56
+   "FAN_UP", // 57
+   "FAN_DOWN", // 58
+   "TEMP_UP", // 59
+   "TEMP_DOWN" // 60
+   );
 
 ?>
