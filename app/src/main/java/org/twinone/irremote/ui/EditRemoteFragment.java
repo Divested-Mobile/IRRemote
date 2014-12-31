@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 import android.view.DragEvent;
@@ -47,7 +48,6 @@ import org.twinone.irremote.ui.dialogs.OrganizeDialog;
 import org.twinone.irremote.ui.dialogs.OrganizeDialog.OrganizeListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -76,9 +76,9 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private static final int OPTION_CODE = 4;
     private static final int OPTION_REMOVE = 5;
     private static final int SCROLL_DELAY = 15;
+    private final MyEditTypeListener mEditTypeListener = new MyEditTypeListener();
     private boolean mIsEdited;
     private int mScrollPixels;
-
     private int mGridSizeX;
     private int mGridSizeY;
     private int mGridMarginX;
@@ -88,7 +88,6 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private boolean mScrolling;
     private Runnable mScrollRunnable;
     private ArrayList<Integer> mTargetInts = new ArrayList<>();
-    private final MyEditTypeListener mEditTypeListener = new MyEditTypeListener();
     private MenuItem mMenuSave;
     private ActionMode mActionMode;
     private MenuItem mSelectAll;
@@ -358,32 +357,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     private void editCorners() {
-        float[] c = getTarget(0).getButton().getCornerRadii();
-        Arrays.fill(c, 0);
         final ArrayList<ButtonView> targets = getTargets();
-        for (ButtonView bv : targets) {
-            float[] radii = bv.getButton().getCornerRadii();
-            for (int i = 0; i < radii.length; i++) {
-                c[i] += radii[i];
-            }
-        }
-        for (int i = 0; i < c.length; i++) {
-            c[i] = pxToDp(c[i] / targets.size());
-        }
-
-        EditCornersDialog d = EditCornersDialog.newInstance(c);
+        EditCornersDialog d = new EditCornersDialog();
 
         d.setListener(new OnCornersEditedListener() {
 
             @Override
-            public void onCornersEdited(float[] corners) {
-                for (int i = 0; i < corners.length; i++) {
-                    corners[i] = dpToPx(corners[i]);
-                }
-
-                for (ButtonView v : getTargets()) {
-                    v.getButton().setCornerRadii(corners);
-                }
+            public void onCornersEdited(float cornerRadius) {
+                for (ButtonView v : targets) v.getButton().setCornerRadius(cornerRadius);
                 refreshButtonsLayout();
                 onEditFinished();
             }

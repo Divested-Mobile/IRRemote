@@ -10,6 +10,7 @@ import org.twinone.irremote.compat.ToolbarActivity;
 public class UploadActivity extends ToolbarActivity {
 
     private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.extra.remote_name";
+    private String mRemoteName;
 
     public static void startFor(String remoteName, Context context) {
         Intent i = new Intent(context, UploadActivity.class);
@@ -27,11 +28,14 @@ public class UploadActivity extends ToolbarActivity {
             throw new RuntimeException(
                     "Call UploadActivity with UploadActivity.startFor()");
         }
-        String mRemoteName = getIntent().getExtras().getString(EXTRA_REMOTE_NAME);
+        mRemoteName = getIntent().getExtras().getString(EXTRA_REMOTE_NAME);
 
         setTitle(getString(R.string.title_upload, mRemoteName));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new UploadFragment()).commit();
+    }
+    public String getRemoteName() {
+        return mRemoteName;
     }
 
     @Override

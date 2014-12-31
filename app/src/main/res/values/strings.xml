@@ -3,7 +3,6 @@
 
     <string name="app_name">IR Remote</string>
 
-    <!-- Da menu -->
     <string name="db_menu_search_tit">Search</string>
     <string name="db_menu_refresh">Refresh</string>
     <string name="menu_save">Save Remote</string>
@@ -295,8 +294,8 @@
     <string name="reg_err_pwd_match">Password don\'t match</string>
     <string name="reg_err_user_short">Username too short</string>
     <string name="reg_err_pwd_short">Password too short. Choose a password of at least 8 characters</string>
-    <string name="reg_err_all_fields">Please fill in all fields</string>
-    <string name="reg_dlgtit_loading">Registering</string>
+    <string name="err_all_fields">Please fill in all fields</string>
+    <string name="loading">Loading</string>
     <string name="reg_err_user_taken">The username %s has already been taken</string>
     <string name="reg_err_invalid_email">Invalid email address</string>
     <string name="reg_err_email_taken">This email address is already registered</string>
@@ -325,12 +324,15 @@
     <string name="upl_hint_device_type">Device type</string>
     <string name="upl_hint_manufacturer">Manufactuter</string>
     <string name="upl_hint_model">Model</string>
+    <string name="upl_submit">Upload Remote</string>
+    <string name="upl_header">Please enter the details of the remote as accurately as you can</string>
+    <!-- -->
     <string name="dev_type_tv">TV</string>
     <string name="dev_type_cable">Set-top</string>
-    <string name="dev_type_cd">CD Player</string>
-    <string name="dev_type_dvd">DVD Player</string>
-    <string name="dev_type_blu_ray">Blu-ray Player</string>
-    <string name="dev_type_audio">Blu-ray Player</string>
+    <string name="dev_type_cd">CD</string>
+    <string name="dev_type_dvd">DVD</string>
+    <string name="dev_type_blu_ray">Blu-ray</string>
+    <string name="dev_type_audio">Audio System</string>
     <string name="dev_type_camera">Camera</string>
     <string name="dev_type_air_con">Air conditioning</string>
     <string name="dev_type_other">Other</string>
@@ -344,8 +346,24 @@
     <string name="provider_common">Common Remotes</string>
     <string name="provider_twinone">Online Database</string>
     <string name="provider_local">My Remotes</string>
-    <string name="provider_learn">Learn Remote</string>
+    <string name="provider_learn_remote">Learn Remote</string>
+    <string name="provider_learn_button">Learn Button</string>
     <string name="title_provider_add_button">Add button</string>
     <string name="title_provider_add_remote">Add remote</string>
-    
+
+    <string name="rate_dlgtit">Rate our app</string>
+    <string name="rate_dlgmsg">Please help us improve and add new features by leaving a positive review on Google Play</string>
+    <string name="rate_later">Later</string>
+    <string name="rate_never">No, thanks</string>
+    <string name="corners_square">Square</string>
+    <string name="corners_rounded_square">Rounded square</string>
+    <string name="corners_circle">Circle</string>
+    <string name="err_gc_invalid_data">Oops! The third party database contains an error</string>
+
+    <plurals name="list_remote_button_size">
+        <item quantity="zero">%d buttons</item>
+        <item quantity="one">%d button</item>
+        <item quantity="other">%d buttons</item>
+    </plurals>
+
 </resources>

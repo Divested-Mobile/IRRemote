@@ -23,6 +23,7 @@ public class ProviderNavFragment extends NavigationFragment implements
 
     private ListView mListView;
     private Integer[] mIds;
+
     public ProviderNavFragment() {
     }
 
@@ -61,7 +62,11 @@ public class ProviderNavFragment extends NavigationFragment implements
         ids.add(ProviderActivity.PROVIDER_LOCAL);
 
         if (Receiver.isAvailable(getActivity())) {
-            list.add(getString(R.string.provider_learn));
+            if (getProvider().getAction().equals(ProviderActivity.ACTION_SAVE_REMOTE)) {
+                list.add(getString(R.string.provider_learn_remote));
+            } else {
+                list.add(getString(R.string.provider_learn_button));
+            }
             ids.add(ProviderActivity.PROVIDER_LEARN);
         }
 

@@ -15,7 +15,7 @@ public class Button implements Serializable {
     /**
      * Pseudo id that indicates this button has no id
      */
-    public static final int ID_NONE = 0;
+    public static final int ID_UNKNOWN = 0;
     public static final int ID_POWER = 1;
     public static final int ID_POWER_ON = 2;
     public static final int ID_POWER_OFF = 3;
@@ -105,12 +105,14 @@ public class Button implements Serializable {
     public static final int BG_BROWN = 19;
     public static final int BG_GREY = 20;
     public static final int BG_BLUE_GREY = 21;
+
+
     /**
      *
      */
     private static final long serialVersionUID = 4924961807483469449L;
     /**
-     * Used to identify the purpose of a button
+     * Used to identify the purpose of a button (power, volume up...)
      */
     public final int id;
     /**
@@ -122,15 +124,7 @@ public class Button implements Serializable {
      * Button ID that represents the icon of this button
      */
     public int ic;
-
-    /**
-     * Text that will be shown on the button<br>
-     */
     public String text;
-
-    /**
-     * One of Signal.FORMAT_*
-     */
     public String code;
 
     public int bg;
@@ -139,19 +133,25 @@ public class Button implements Serializable {
     public float y;
     public float w;
     public float h;
-    public float rtl;
-    private float rbl;
-    private float rtr;
 
-    // corner radius in px
-    private float rbr;
+
+    private float r;
+    private float rtl;
+
+    public float getCornerRadius() {
+        if (r == 0) return rtl;
+        return r;
+    }
+
     /**
      * Text size in dp of this button
      */
     private int ts;
+
     public Button(String text) {
         this(0, text);
     }
+
     public Button(int id) {
         this(id, null);
     }
@@ -182,25 +182,9 @@ public class Button implements Serializable {
      * Set the radius for all 4 corners
      */
     public void setCornerRadius(float radius) {
-        rtl = rbl = rtr = rbr = radius;
+        r = rtl = radius;
     }
 
-    public float[] getCornerRadii() {
-        // return new float[] { rtl, rtr, rbr, rbl, rtl, rtr, rbr, rbl };
-        return new float[]{rtl, rtl, rtr, rtr, rbr, rbr, rbl, rbl};
-    }
-
-    public void setCornerRadii(float[] radii) {
-        // rtl = radii[0];
-        // rtr = radii[1];
-        // rbr = radii[2];
-        // rbl = radii[3];
-        rtl = radii[0];
-        rtr = radii[2];
-        rbr = radii[4];
-        rbl = radii[6];
-
-    }
 
     public boolean hasText() {
         return text != null && !text.isEmpty();
@@ -214,7 +198,7 @@ public class Button implements Serializable {
      * Returns true if this button is a common button
      */
     public boolean isCommon() {
-        return id != ID_NONE;
+        return id != ID_UNKNOWN;
     }
 
     public Signal getSignal() {
@@ -230,16 +214,6 @@ public class Button implements Serializable {
             return false;
         final Button b = (Button) o;
         return b.uid == this.uid;
-        // if (id != b.id)
-        // // Two different buttons
-        // return false;
-        // if (id != ID_NONE)
-        // // Two the same common buttons
-        // return true;
-        // // Both undefined buttons
-        // if (b.text == null && b.text == null)
-        // return true;
-        // return text != null && text.equals(b.text);
     }
 
     @Override

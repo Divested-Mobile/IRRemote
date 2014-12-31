@@ -124,7 +124,7 @@ public class ComponentUtils {
         for (int i : ICON_IDS)
             if (id == i)
                 return i;
-        return Button.ID_NONE;
+        return Button.ID_UNKNOWN;
     }
 
     /**
@@ -383,13 +383,13 @@ public class ComponentUtils {
                 return BUTTONS_TV;
 
             case Remote.TYPE_CABLE:
-            case Remote.TYPE_BLURAY:
+            case Remote.TYPE_BLU_RAY:
                 return BUTTONS_CABLE;
 
-            case Remote.TYPE_AUDIO_AMPLIFIER:
+            case Remote.TYPE_AUDIO:
                 return BUTTONS_AUDIO_AMPLIFIER;
 
-            case Remote.TYPE_AIR_CONDITIONER:
+            case Remote.TYPE_AIR_CON:
                 return BUTTONS_AIR_CONDITIONING;
             default:
                 return null;

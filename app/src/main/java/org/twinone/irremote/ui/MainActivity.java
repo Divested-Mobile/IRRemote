@@ -23,6 +23,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.RateManager;
+import org.twinone.androidlib.net.HttpJson;
 import org.twinone.androidlib.versionmanager.VersionManager;
 import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
@@ -120,12 +121,10 @@ public class MainActivity extends ToolbarActivity implements
     }
 
     private void setupNavigation() {
-
         mNavFragment = (MainNavFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigation_drawer);
         mNavFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
         mNavFragment.setEdgeSizeDp(30);
     }
 

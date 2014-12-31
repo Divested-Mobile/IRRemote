@@ -63,10 +63,10 @@ public class RateManager {
         final AlertDialog.Builder ab = new AlertDialog.Builder(c);
 
         ab.setCancelable(false);
-        ab.setTitle(R.string.lib_rate_dlg_tit);
-        ab.setMessage(R.string.lib_rate_dlg_msg);
+        ab.setTitle(R.string.rate_dlgtit);
+        ab.setMessage(R.string.rate_dlgmsg);
         if (hasNeverButton) {
-            ab.setNegativeButton(R.string.lib_share_never,
+            ab.setNegativeButton(R.string.rate_never,
                     new OnClickListener() {
 
                         @Override
@@ -75,7 +75,7 @@ public class RateManager {
                         }
                     });
         }
-        ab.setNeutralButton(R.string.lib_share_later, null);
+        ab.setNeutralButton(R.string.rate_later, null);
         ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
 
             @Override

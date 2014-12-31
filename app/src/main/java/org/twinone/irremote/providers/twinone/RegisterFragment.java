@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +27,10 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterReq;
 import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterResp;
+import org.twinone.irremote.util.BaseTextWatcher;
 
 public class RegisterFragment extends Fragment implements
-        OnFocusChangeListener, OnClickListener, TextWatcher,
+        OnFocusChangeListener, OnClickListener,
         ResponseListener<RegisterReq, RegisterResp>,
         ExceptionListener<RegisterReq, RegisterResp> {
 
@@ -93,10 +92,18 @@ public class RegisterFragment extends Fragment implements
         Button mSubmit = (Button) root.findViewById(R.id.reg_submit);
         mSubmit.setOnClickListener(this);
 
-        mUsername.addTextChangedListener(this);
-        mPwd.addTextChangedListener(this);
-        mPwdConfirm.addTextChangedListener(this);
-        mEmail.addTextChangedListener(this);
+
+        BaseTextWatcher tw = new BaseTextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                resetErrors();
+            }
+        };
+        mUsername.addTextChangedListener(tw);
+        mPwd.addTextChangedListener(tw);
+        mPwdConfirm.addTextChangedListener(tw);
+        mEmail.addTextChangedListener(tw);
 
         return root;
     }
@@ -149,10 +156,10 @@ public class RegisterFragment extends Fragment implements
         }
     }
 
-    private boolean areAllFilledIn(TextView... tvs) {
+    private boolean verifyAllFields(TextView... tvs) {
         for (TextView tv : tvs) {
             if (tv.getText().toString().isEmpty()) {
-                addError(R.string.reg_err_all_fields, (TextView[]) null);
+                addError(R.string.err_all_fields, (TextView[]) null);
                 return false;
             }
         }
@@ -163,7 +170,7 @@ public class RegisterFragment extends Fragment implements
 
         resetErrors();
 
-        if (!areAllFilledIn(mUsername, mEmail, mPwd, mPwdConfirm))
+        if (!verifyAllFields(mUsername, mEmail, mPwd, mPwdConfirm))
             return;
 
         if (mUsername.getText().length() < 5) {
@@ -189,7 +196,7 @@ public class RegisterFragment extends Fragment implements
             return;
         }
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.reg_dlgtit_loading);
+        ab.setTitle(R.string.loading);
         ab.setMessage("");
         ab.setCancelable(false);
         ab.setPositiveButton(android.R.string.ok, null);
@@ -262,10 +269,6 @@ public class RegisterFragment extends Fragment implements
         }
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        resetErrors();
-    }
 
     private void resetErrors() {
         if (!mHasErrors)
@@ -283,15 +286,6 @@ public class RegisterFragment extends Fragment implements
         mHasErrors = false;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count,
-                                  int after) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 
 	/*
      * Unused methods...

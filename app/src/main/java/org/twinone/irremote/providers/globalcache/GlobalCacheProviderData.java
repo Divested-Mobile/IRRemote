@@ -45,9 +45,7 @@ public class GlobalCacheProviderData implements Serializable {
     public DeviceType deviceType;
     public Codeset codeset;
 
-    private static GlobalCacheProviderData deserialize(String data) {
-        return new Gson().fromJson(data, GlobalCacheProviderData.class);
-    }
+
 
     public String getUrl() {
         Uri.Builder ub = Uri.parse(BASE_URL).buildUpon();
@@ -142,4 +140,7 @@ public class GlobalCacheProviderData implements Serializable {
         return new Gson().toJson(this);
     }
 
+    private static GlobalCacheProviderData deserialize(String data) {
+        return new Gson().fromJson(data, GlobalCacheProviderData.class);
+    }
 }

@@ -10,7 +10,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/upl_message"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:text="@string/reg_header"
+            android:text="@string/upl_header"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#aaffffff" />
 
@@ -26,23 +26,33 @@
             android:id="@+id/upl_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/upl_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/upl_hint_name"
-                android:inputType="text"
-                android:maxLength="64" />
+            <!--<EditText-->
+                <!--android:id="@+id/upl_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:hint="@string/upl_hint_name"-->
+                <!--android:inputType="text"-->
+                <!--android:maxLength="64" />-->
 
             <Spinner
                 android:id="@+id/upl_device_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:title="@string/upl_hint_device_type"
+                android:inputType="text"
+                android:maxLength="64"
+                android:title="@string/upl_hint_device_type" />
+
+            <EditText
+                android:id="@+id/upl_device_type_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:hint="@string/upl_hint_device_type"
                 android:inputType="text"
                 android:maxLength="64" />
 
@@ -55,7 +65,7 @@
                 android:inputType="text"
                 android:maxLength="64" />
 
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/upl_model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,13 +75,13 @@
                 android:maxLength="64" />
 
             <Button
-                android:id="@+id/reg_submit"
+                android:id="@+id/upl_submit"
                 style="@style/AccentTint_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/reg_submit"
+                android:text="@string/upl_submit"
                 android:textColor="@android:color/black" />
         </LinearLayout>
     </LinearLayout>

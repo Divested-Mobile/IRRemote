@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:minHeight="48dp"
-    android:textColor="#dedede"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-/>
+    android:textColor="#dedede" />

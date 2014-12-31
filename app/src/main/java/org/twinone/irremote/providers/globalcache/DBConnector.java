@@ -64,23 +64,28 @@ class DBConnector {
             return;
         Gson gson = new Gson();
         Object[] data = null;
-        if (result != null) {
-            switch (target) {
-                case GlobalCacheProviderData.TYPE_MANUFACTURER:
-                    data = gson.fromJson(result, Manufacturer[].class);
-                    break;
-                case GlobalCacheProviderData.TYPE_DEVICE_TYPE:
-                    data = gson.fromJson(result, DeviceType[].class);
-                    break;
-                case GlobalCacheProviderData.TYPE_CODESET:
-                    data = gson.fromJson(result, Codeset[].class);
-                    break;
-                case GlobalCacheProviderData.TYPE_IR_CODE:
-                    data = gson.fromJson(result, IrCode[].class);
-                    break;
+        try {
+            if (result != null) {
+                switch (target) {
+                    case GlobalCacheProviderData.TYPE_MANUFACTURER:
+                        data = gson.fromJson(result, Manufacturer[].class);
+                        break;
+                    case GlobalCacheProviderData.TYPE_DEVICE_TYPE:
+                        data = gson.fromJson(result, DeviceType[].class);
+                        break;
+                    case GlobalCacheProviderData.TYPE_CODESET:
+                        data = gson.fromJson(result, Codeset[].class);
+                        break;
+                    case GlobalCacheProviderData.TYPE_IR_CODE:
+                        data = gson.fromJson(result, IrCode[].class);
+                        break;
+                }
             }
+
+            mListener.onDataReceived(data);
+        } catch (Exception e) {
+            mListener.onDataReceived(null);
         }
-        mListener.onDataReceived(data);
     }
 
     public interface OnDataReceivedListener {

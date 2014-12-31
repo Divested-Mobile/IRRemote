@@ -14,7 +14,7 @@ public class LircListable extends BaseListable {
     public int type;
 
     @Override
-    public String getDisplayName() {
+    public String toString() {
         return name;
     }
 

@@ -19,7 +19,6 @@ import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.ListableAdapter;
-import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.ProviderFragment;
 import org.twinone.irremote.util.FileUtils;
 
@@ -46,10 +45,10 @@ public class CommonProviderFragment extends ProviderFragment implements
             return Remote.TYPE_CABLE;
         }
         if (COMMON_BLURAY_NAME.equals(deviceType)) {
-            return Remote.TYPE_BLURAY;
+            return Remote.TYPE_BLU_RAY;
         }
         if (COMMON_AUDIO_AMPLIFIER.equals(deviceType)) {
-            return Remote.TYPE_AUDIO_AMPLIFIER;
+            return Remote.TYPE_AUDIO;
         }
         throw new IllegalArgumentException("WTF, no such type" + deviceType);
     }
@@ -144,9 +143,6 @@ public class CommonProviderFragment extends ProviderFragment implements
             case R.id.menu_save:
                 saveRemote();
                 break;
-            case R.id.menu_more:
-                // TODO when Twinone DB is ready, switch to it?
-                getProvider().switchTo(ProviderActivity.PROVIDER_GLOBALCACHE);
         }
         return false;
     }
@@ -157,17 +153,17 @@ public class CommonProviderFragment extends ProviderFragment implements
         MyListable item = (MyListable) mListView.getAdapter().getItem(position);
         if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_TYPE) {
             CommonProviderData clone = mTarget.clone();
-            clone.deviceType = item.getDisplayName();
+            clone.deviceType = item.toString();
             clone.targetType = CommonProviderData.TARGET_DEVICE_NAME;
-            getProvider().addCommonProviderFragment(clone);
+            addCommonProviderFragment(clone);
         } else if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_NAME) {
-            mTarget.deviceName = item.getDisplayName();
+            mTarget.deviceName = item.toString();
             if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
                 mRemote = buildRemote();
                 saveRemote();
             } else {
                 mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
-                getProvider().addCommonProviderFragment(mTarget.clone());
+                addCommonProviderFragment(mTarget.clone());
             }
         } else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
             Button b = mRemote.getButton(item.id);
@@ -210,12 +206,9 @@ public class CommonProviderFragment extends ProviderFragment implements
         setupSearchView(menu);
 
         MenuItem save = menu.findItem(R.id.menu_save);
-        MenuItem more = menu.findItem(R.id.menu_more);
         boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
         boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
         save.setVisible(ircode && remote);
-        more.setVisible(!ircode);
-
     }
 
     public static class CommonProviderData implements Serializable {
@@ -230,6 +223,7 @@ public class CommonProviderFragment extends ProviderFragment implements
         public int targetType;
         String deviceType;
         String deviceName;
+
         public CommonProviderData() {
             targetType = TARGET_DEVICE_TYPE;
         }
@@ -247,17 +241,27 @@ public class CommonProviderFragment extends ProviderFragment implements
     @SuppressWarnings("serial")
     private class MyListable extends BaseListable {
 
-        public int id;
         private final String text;
+        public int id;
 
         public MyListable(String text) {
             this.text = text;
         }
 
         @Override
-        public String getDisplayName() {
+        public String toString() {
             return text;
         }
 
+    }
+
+    public void addCommonProviderFragment(CommonProviderData data) {
+        setExitState(CommonProviderData.TARGET_DEVICE_TYPE);
+        setCurrentState(data.targetType);
+        CommonProviderFragment frag = new CommonProviderFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(CommonProviderFragment.ARG_DATA, data);
+        frag.setArguments(args);
+        getProvider().addFragment(frag);
     }
 }

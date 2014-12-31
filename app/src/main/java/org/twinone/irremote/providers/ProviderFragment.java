@@ -1,11 +1,12 @@
 package org.twinone.irremote.providers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +30,7 @@ public abstract class ProviderFragment extends Fragment {
         super.onAttach(activity);
         if (!(activity instanceof ProviderActivity)) {
             throw new ClassCastException(
-                    "BaseProviderFragment should be attached to a BaseProviderActivity");
+                    "ProviderFragment should be attached to a ProviderActivity");
         }
     }
 
@@ -66,9 +67,6 @@ public abstract class ProviderFragment extends Fragment {
 
         @Override
         public boolean onQueryTextChange(String text) {
-            // Android calls this when navigating to a new fragment, adapter =
-            // null
-            Log.d("", "test");
             if (mAdapter != null)
                 mAdapter.getFilter().filter(text);
             return true;
@@ -76,10 +74,6 @@ public abstract class ProviderFragment extends Fragment {
 
         @Override
         public boolean onQueryTextSubmit(String query) {
-            // Android calls this when navigating to a new fragment, adapter =
-            // null
-            Log.d("", "test");
-
             if (mAdapter != null)
                 mAdapter.getFilter().filter(query);
             return true;
@@ -89,6 +83,33 @@ public abstract class ProviderFragment extends Fragment {
         public boolean onClose() {
             return false;
         }
+
+    }
+
+    private AlertDialog mLoadingDialog;
+    protected void showLoadingDialog() {
+        hideLoadingDialog();
+        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+        ab.setCancelable(false);
+        ab.setTitle(R.string.loading);
+        ab.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onCancelLoading();
+                getActivity().onNavigateUp();
+            }
+        });
+        mLoadingDialog = ab.create();
+        mLoadingDialog.show();
+    }
+    protected void hideLoadingDialog() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.cancel();
+        }
+        mLoadingDialog = null;
+    }
+    protected void onCancelLoading() {
 
     }
 

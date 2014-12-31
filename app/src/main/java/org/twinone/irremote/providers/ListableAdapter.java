@@ -21,20 +21,24 @@ import java.util.Locale;
 public class ListableAdapter extends BaseAdapter implements Filterable {
 
     private final LayoutInflater mInflater;
-    private final List<? extends BaseListable> mOriginalItems;
+    private final List<Object> mOriginalItems;
     private final Filter mFilter;
-    private List<? extends BaseListable> mCurrentItems;
+    private List<Object> mCurrentItems;
+    private Context mContext;
+    protected Context getContext() { return mContext; }
 
     @SuppressWarnings("unchecked")
     public ListableAdapter(Context context, Object[] items) {
+        if (items == null) throw new NullPointerException("Null items");
+        mContext = context;
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // populate mItems
-        mOriginalItems = (List<BaseListable>) (List<?>) Arrays.asList(items);
+        mOriginalItems =  Arrays.asList(items);
         sort(mOriginalItems);
         mCurrentItems = mOriginalItems;
         mFilter = new MyFilter();
     }
+
 
     /**
      * Restores the original dataset, with all elements in it
@@ -44,7 +48,7 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
         notifyDataSetChanged();
     }
 
-    private void sort(List<? extends BaseListable> items) {
+    private void sort(List items) {
         try {
             Collections.sort(items);
         } catch (Exception e) {
@@ -63,11 +67,11 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public BaseListable getItem(int position) {
+    public Object getItem(int position) {
         return mCurrentItems.get(position);
     }
 
-    public List<? extends BaseListable> getAllItems() {
+    public List<Object> getAllItems() {
         return mCurrentItems;
     }
 
@@ -81,13 +85,17 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
         return createViewFromResource(position, parent);
     }
 
+
+    protected LayoutInflater getLayoutInflater() {return mInflater;}
+
+
     private View createViewFromResource(int position,
                                         ViewGroup parent) {
-        BaseListable item = mCurrentItems.get(position);
+        Object item = mCurrentItems.get(position);
 
         TextView tv = (TextView) mInflater.inflate(R.layout.listable_element,
                 parent, false);
-        tv.setText(item.getDisplayName());
+        tv.setText(item.toString());
         return tv;
     }
 
@@ -106,11 +114,11 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
                 results.values = mOriginalItems;
                 results.count = mOriginalItems.size();
             } else {
-                List<BaseListable> result = new ArrayList<>();
-                for (BaseListable l : mOriginalItems) {
-                    if (l.getDisplayName().toLowerCase(Locale.ENGLISH)
+                List<Object> result = new ArrayList<>();
+                for (Object o : mOriginalItems) {
+                    if (o.toString().toLowerCase(Locale.ENGLISH)
                             .contains(match)) {
-                        result.add(l);
+                        result.add(o);
                     }
 
                 }
@@ -124,7 +132,7 @@ public class ListableAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            mCurrentItems = (List<? extends BaseListable>) results.values;
+            mCurrentItems = (List<Object>) results.values;
             notifyDataSetChanged();
         }
 

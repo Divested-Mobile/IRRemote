@@ -27,9 +27,11 @@ class DelaySliderDialog extends DialogPreference implements
     private final int mMin;
     private TextView mText;
     private SeekBar mSlider;
+
     public DelaySliderDialog(Context context) {
         this(context, null);
     }
+
     public DelaySliderDialog(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPersistent(true);

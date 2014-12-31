@@ -16,6 +16,7 @@ public class DeviceInfo {
     private final int appVersion;
     private final String androidId;
     private final String language;
+
     public DeviceInfo(Context c) {
         androidId = Secure.getString(c.getContentResolver(), Secure.ANDROID_ID);
         language = Locale.getDefault().getLanguage();

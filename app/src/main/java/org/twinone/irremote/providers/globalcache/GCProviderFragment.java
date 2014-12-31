@@ -1,8 +1,5 @@
 package org.twinone.irremote.providers.globalcache;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,9 +29,8 @@ public class GCProviderFragment extends ProviderFragment implements
     private DBConnector mConnector;
 
     private boolean mCreated;
-    private AlertDialog mDialog;
 
-    private GlobalCacheProviderData mUriData;
+    private GlobalCacheProviderData mGCData;
     private Object[] mData;
 
     public GCProviderFragment() {
@@ -45,10 +41,10 @@ public class GCProviderFragment extends ProviderFragment implements
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null && getArguments().containsKey(ARG_URI_DATA)) {
-            mUriData = (GlobalCacheProviderData) getArguments()
+            mGCData = (GlobalCacheProviderData) getArguments()
                     .getSerializable(ARG_URI_DATA);
         } else {
-            mUriData = new GlobalCacheProviderData();
+            mGCData = new GlobalCacheProviderData();
         }
     }
 
@@ -58,7 +54,8 @@ public class GCProviderFragment extends ProviderFragment implements
 
         setHasOptionsMenu(true);
 
-        setCurrentState(mUriData.targetType);
+        setCurrentState(mGCData.targetType);
+        setExitState(GlobalCacheProviderData.TYPE_MANUFACTURER);
 
         View rootView = inflater.inflate(R.layout.fragment_listable, container,
                 false);
@@ -71,13 +68,13 @@ public class GCProviderFragment extends ProviderFragment implements
         if (mCreated) {
             mListView.setAdapter(mAdapter);
             mAdapter.restoreOriginalDataSet();
-        } else if (mUriData.isAvailableInCache(getActivity())) {
+        } else if (mGCData.isAvailableInCache(getActivity())) {
             queryServer(false);
         } else {
             queryServer(true);
         }
 
-        String title = mUriData.getFullyQualifiedName(" > ");
+        String title = mGCData.getFullyQualifiedName(" > ");
         if (title == null) {
             title = getString(R.string.db_select_manufacturer);
         }
@@ -91,47 +88,25 @@ public class GCProviderFragment extends ProviderFragment implements
         mListView.setAdapter(null);
 
         if (showDialog)
-            showDialog();
+            showLoadingDialog();
 
         if (mConnector != null)
             mConnector.cancelQuery();
 
         mConnector = new DBConnector(getActivity(), this);
         mConnector.setOnDataReceivedListener(this);
-        mConnector.query(mUriData.clone());
+        mConnector.query(mGCData.clone());
     }
 
-    private void cancelDialog() {
-        if (mDialog != null && mDialog.isShowing()) {
-            mDialog.cancel();
-        }
-    }
-
-    private void showDialog() {
-        cancelDialog();
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setCancelable(false);
-        ab.setTitle("Loading...");
-        ab.setNegativeButton("Cancel", new OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mConnector.cancelQuery();
-                getActivity().onNavigateUp();
-            }
-        });
-        mDialog = ab.create();
-        mDialog.show();
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.db_menu, menu);
         setupSearchView(menu);
-        mSearchView.setQueryHint(getSearchHint(mUriData));
+        mSearchView.setQueryHint(getSearchHint(mGCData));
 
-        boolean show = mUriData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
+        boolean show = mGCData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
                 && ACTION_SAVE_REMOTE.equals(getProvider().getAction());
         menu.findItem(R.id.menu_db_save).setVisible(show);
     }
@@ -151,13 +126,13 @@ public class GCProviderFragment extends ProviderFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_db_refresh:
-                mUriData.removeFromCache(getActivity());
+                mGCData.removeFromCache(getActivity());
                 queryServer(true);
                 return true;
             case R.id.menu_db_save:
                 if (mData != null) {
-                    String name = mUriData.manufacturer.Manufacturer + " "
-                            + mUriData.deviceType.DeviceType;
+                    String name = mGCData.manufacturer.Manufacturer + " "
+                            + mGCData.deviceType.DeviceType;
                     Remote remote = IrCode.toRemote(getActivity(), name,
                             (IrCode[]) mData);
                     getProvider().saveRemote(remote);
@@ -172,11 +147,11 @@ public class GCProviderFragment extends ProviderFragment implements
         if (!isAdded())
             return;
 
-        cancelDialog();
+        hideLoadingDialog();
         mData = data;
         if (data == null) {
-            Toast.makeText(getActivity(), "Oops! There was an error",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.err_gc_invalid_data,
+                    Toast.LENGTH_LONG).show();
             mListView.setAdapter(null);
             return;
         }
@@ -187,17 +162,7 @@ public class GCProviderFragment extends ProviderFragment implements
 
     @Override
     public void onPause() {
-        cancelDialog();
-
-        // SearchView is so crappy that invalidateOptionsMenu will
-        // not remove the keyboard, we have to use this "hack"
-        // The null check is because the user could presses back very quickly
-
-        // if (mSearchView != null) {
-        // mSearchView.setQuery("", false);
-        // mSearchView.clearFocus();
-        // }
-
+        hideLoadingDialog();
         super.onPause();
     }
 
@@ -214,9 +179,9 @@ public class GCProviderFragment extends ProviderFragment implements
                 getProvider().saveButton(b);
             }
         } else {
-            GlobalCacheProviderData clone = mUriData.clone();
+            GlobalCacheProviderData clone = mGCData.clone();
             select(clone, item);
-            getProvider().addGCProviderFragment(clone);
+            addGCProviderFragment(clone);
         }
     }
 
@@ -224,7 +189,7 @@ public class GCProviderFragment extends ProviderFragment implements
                                    int position, long id) {
 
         // mListView.setItemChecked(position, true);
-        // if (mUriData.targetType == UriData.TYPE_IR_CODE) {
+        // if (mGCData.targetType == UriData.TYPE_IR_CODE) {
         // // When the user long presses the button he can save it
         // Button b = IrCode.toButton((IrCode) mData[position]);
         // SaveButtonDialogFragment.showFor(getActivity(), b);
@@ -249,4 +214,20 @@ public class GCProviderFragment extends ProviderFragment implements
         }
     }
 
+    @Override
+    protected void onCancelLoading() {
+        super.onCancelLoading();
+        mConnector.cancelQuery();
+    }
+
+
+    public void addGCProviderFragment(GlobalCacheProviderData data) {
+//        setExitState(GlobalCacheProviderData.TYPE_MANUFACTURER);
+//        setCurrentState(data.targetType);
+        GCProviderFragment frag = new GCProviderFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(GCProviderFragment.ARG_URI_DATA, data);
+        frag.setArguments(args);
+        getProvider().addFragment(frag);
+    }
 }

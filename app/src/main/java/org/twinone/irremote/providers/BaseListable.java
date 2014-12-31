@@ -9,14 +9,15 @@ public abstract class BaseListable implements Comparable<BaseListable>,
      */
     private static final long serialVersionUID = 5249675491365192665L;
 
-    public abstract String getDisplayName();
+    @Override
+    public abstract String toString();
 
     @Override
     public int compareTo(BaseListable another) {
-        if (getDisplayName() == null || another == null
-                || another.getDisplayName() == null) {
+        if (this.toString() == null || another == null
+                || this.toString() == null) {
             return 0;
         }
-        return getDisplayName().compareToIgnoreCase(another.getDisplayName());
+        return this.toString().compareToIgnoreCase(this.toString());
     }
 }

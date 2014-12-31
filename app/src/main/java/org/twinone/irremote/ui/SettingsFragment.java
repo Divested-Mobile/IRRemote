@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -34,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment implements
     private static final int BG_REQUEST_CODE = 1337;
 
     private ListPreference mBackground;
+    private CheckBoxPreference mFixButtons;
     private boolean mNewFixButtonsVal;
 
     @Override
@@ -50,7 +52,7 @@ public class SettingsFragment extends PreferenceFragment implements
         super.onPause();
         getPreferenceManager().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
-        if (mBackground.getValue().equals("")) {
+        if ("".equals(mBackground.getValue())) {
             String key = getString(R.string.pref_key_bg);
             String value = getString(R.string.pref_val_bg_gallery);
             getPreferenceManager().getSharedPreferences().edit()
@@ -69,7 +71,7 @@ public class SettingsFragment extends PreferenceFragment implements
         mBackground = (ListPreference) findPreference(getString(R.string.pref_key_bg));
         mBackground.setOnPreferenceClickListener(this);
 
-        Preference mFixButtons = findPreference(getString(R.string.pref_key_fix));
+        mFixButtons = (CheckBoxPreference) findPreference(getString(R.string.pref_key_fix));
         mFixButtons.setOnPreferenceChangeListener(this);
 
     }
@@ -95,7 +97,7 @@ public class SettingsFragment extends PreferenceFragment implements
     private void showConfirmFixButtonsDialog() {
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
         ab.setTitle(R.string.pref_dlg_tit_fix);
-        ab.setTitle(R.string.pref_dlg_msg_fix);
+        ab.setMessage(R.string.pref_dlg_msg_fix);
         ab.setNegativeButton(android.R.string.cancel, null);
         ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
 
@@ -110,6 +112,7 @@ public class SettingsFragment extends PreferenceFragment implements
     private void saveFixButtons() {
         Editor e = getPreferenceManager().getSharedPreferences().edit();
         String key = getString(R.string.pref_key_fix);
+        mFixButtons.setChecked(mNewFixButtonsVal);
         e.putBoolean(key, mNewFixButtonsVal).apply();
     }
 

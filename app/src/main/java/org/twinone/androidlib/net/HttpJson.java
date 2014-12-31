@@ -1,16 +1,16 @@
 package org.twinone.androidlib.net;
 
 import android.content.Context;
-import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.apache.http.HttpEntity;
+import org.twinone.irremote.util.SimpleCache;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -36,6 +36,9 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
     private ResponseListener<Req, Resp> mResponseListener;
     private ExceptionListener<Req, Resp> mExceptionListener;
 
+    private Context mContext;
+    private long mMaxAgeMillis = 28 * 3600 * 24 * 1000L; // 4 weeks
+
     public HttpJson(Class<? extends Resp> respClass) {
         mRespClass = respClass;
     }
@@ -45,24 +48,27 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
         setUrl(url);
     }
 
-    public static boolean installHttpCache(Context context) {
-        try {
-            File httpCacheDir = new File(context.getCacheDir(), "http");
-            long httpCacheSize = 10 * 1024 * 1024; // 10 MiB
-            HttpResponseCache.install(httpCacheDir, httpCacheSize);
-            return true;
-        } catch (IOException e) {
-            Log.i(TAG, "HTTP response cache installation failed:" + e);
-            return false;
-        }
-    }
-
     void setResponseListener(ResponseListener<Req, Resp> listener) {
         mResponseListener = listener;
     }
 
-    public void setCache(boolean cache) {
-        mCache = cache;
+    public void enableCache(Context c) {
+        mCache = true;
+        mContext = c;
+    }
+
+    /**
+     * Sets the maximum age in seconds before the file has to be refreshed
+     */
+    public void setCacheMaxAge(long maxAgeSeconds) {
+        mMaxAgeMillis = maxAgeSeconds * 1000;
+    }
+
+    /**
+     * Sets the maximum age in milliseconds before the file has to be refreshed
+     */
+    public void setCacheMaxAgeMillis(long maxAgeMillis) {
+        mMaxAgeMillis = maxAgeMillis;
     }
 
     public void setExceptionListener(ExceptionListener<Req, Resp> listener) {
@@ -98,13 +104,18 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        mHasError = !serverRequestImpl();
+        if (!getCachedResponse()) {
+            serverRequestImpl();
+        }
         return null;
     }
 
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
+        Log.i("HttpJson", "Response:");
+        Log.i("HttpJson", new Gson().toJson(mResp));
+
         if (!mHasError) {
             if (mResponseListener != null)
                 mResponseListener.onServerResponse(mReq, mResp);
@@ -123,17 +134,33 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
         mMethod = method;
     }
 
-    private boolean serverRequestImpl() {
+    private boolean getCachedResponse() {
+        if (!mCache) return false;
+        if (!SimpleCache.isAvailable(mContext, mUrl)) return false;
+        long currentAge = System.currentTimeMillis() - SimpleCache.getLastModified(mContext, mUrl);
+        if (mMaxAgeMillis < currentAge) {
+            Log.i(TAG, "Cached response too old, getting fresh copy");
+            return false;
+        }
+        String resp = SimpleCache.read(mContext, mUrl);
+        try { // Could be another class...
+            mResp = new Gson().fromJson(resp, mRespClass);
+            Log.d(TAG, "Returning cached response");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void serverRequestImpl() {
         try {
 
             final HttpURLConnection conn = (HttpURLConnection) new URL(mUrl)
                     .openConnection();
             conn.setRequestMethod(mMethod);
             conn.setRequestProperty("Content-Type", "application/json");
-            if (!mCache) {
-                conn.addRequestProperty("Cache-Control", "no-cache");
-            }
             conn.connect();
+
             if (mReq != null) {
                 String json = new Gson().toJson(mReq);
                 Log.d("", "Pushing string: " + json);
@@ -149,23 +176,19 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
             while ((tmp = br.readLine()) != null) {
                 data.append(tmp);
             }
-            Log.i("HttpJson", "Response:");
-            Log.i("HttpJson", data.toString());
+            Log.d(TAG, "String response: " + data.toString());
             mResp = new Gson().fromJson(data.toString(), mRespClass);
+            if (mCache) {
+                SimpleCache.write(mContext, mUrl, data.toString());
+            }
             mStatusCode = conn.getResponseCode();
             conn.disconnect();
-            flushCache();
-            return true;
+            mHasError = false;
         } catch (Exception e) {
+            e.printStackTrace();
             mException = e;
-            return false;
-        }
-    }
-
-    private void flushCache() {
-        HttpResponseCache cache = HttpResponseCache.getInstalled();
-        if (cache != null) {
-            cache.flush();
+            Log.w("", "Exception: ", e);
+            mHasError = true;
         }
     }
 

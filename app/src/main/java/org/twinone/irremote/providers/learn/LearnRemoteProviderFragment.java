@@ -31,7 +31,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
     private static final String SAVE_BUTTON_NUMBER = "button_number";
     private static final String SAVE_REMOTE = "save_remote";
 
-    private String mName;
+    private String mTypeString;
     private int mType;
 
     private Remote mRemote;
@@ -73,15 +73,15 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     private void setType(int type) {
         mType = type;
-        mName = getResources().getStringArray(R.array.learn_device_types)[mType];
-        getActivity().setTitle(getString(R.string.learn_activity_title, mName));
+        mTypeString = getResources().getStringArray(R.array.learn_device_types)[mType];
+        getActivity().setTitle(getString(R.string.learn_activity_title, mTypeString));
         setupStateForCurrentButton();
     }
 
     void saveRemote(Remote remote) {
-        remote.name = mName;
+        remote.name = mTypeString;
         remote.addFlags(Remote.FLAG_LEARNED);
-        Log.d("", "Name: " + mName);
+        Log.d("", "Name: " + mTypeString);
         getProvider().saveRemote(remote);
     }
 
@@ -153,7 +153,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
             Log.d("", "restoreInstance: A");
             mCurrentButtonIndex = savedInstanceState.getInt(SAVE_BUTTON_NUMBER);
             mRemote = (Remote) savedInstanceState.getSerializable(SAVE_REMOTE);
-            mName = savedInstanceState.getString(SAVE_NAME);
+            mTypeString = savedInstanceState.getString(SAVE_NAME);
             setType(savedInstanceState.getInt(SAVE_DEVICE_TYPE));
         } else if (getArguments() != null
                 && getArguments().containsKey(ARG_REMOTE_TYPE)) {
@@ -171,7 +171,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
         outState.putInt(SAVE_BUTTON_NUMBER, mCurrentButtonIndex);
 
         if (mRemote != null) {
-            outState.putString(SAVE_NAME, mName);
+            outState.putString(SAVE_NAME, mTypeString);
             outState.putInt(SAVE_DEVICE_TYPE, mType);
             outState.putSerializable(SAVE_REMOTE, mRemote);
         }

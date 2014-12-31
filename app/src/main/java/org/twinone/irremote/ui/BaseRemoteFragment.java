@@ -129,20 +129,4 @@ public abstract class BaseRemoteFragment extends Fragment {
     Remote getRemote() {
         return mRemote;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mTransmitter != null)
-            mTransmitter.resume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mTransmitter != null)
-            mTransmitter.pause();
-    }
-
 }

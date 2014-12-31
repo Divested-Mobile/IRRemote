@@ -210,10 +210,17 @@ public class LircProviderFragment extends ProviderFragment implements
         } else {
             LircProviderData clone = mUriData.clone();
             select(clone, item);
-            ((ProviderActivity) getActivity()).addLircProviderFragment(clone);
+          addLircProviderFragment(clone);
         }
     }
-
+    public void addLircProviderFragment(LircProviderData data) {
+        setCurrentState(data.targetType);
+        LircProviderFragment frag = new LircProviderFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(LircProviderFragment.ARG_URI_DATA, data);
+        frag.setArguments(args);
+        getProvider().addFragment(frag);
+    }
     public boolean onItemLongClick(AdapterView<?> parent, View view,
                                    int position, long id) {
 
@@ -231,11 +238,11 @@ public class LircProviderFragment extends ProviderFragment implements
         data.targetType = LircProviderData.TYPE_MANUFACTURER;
         if (listable != null) {
             if (listable.type == LircProviderData.TYPE_MANUFACTURER) {
-                data.manufacturer = listable.getDisplayName();
+                data.manufacturer = listable.toString();
                 data.targetType = LircProviderData.TYPE_CODESET;
                 Log.d("", "appending manufacturer: " + data.getUrl());
             } else if (listable.type == LircProviderData.TYPE_CODESET) {
-                data.codeset = listable.getDisplayName();
+                data.codeset = listable.toString();
                 data.targetType = LircProviderData.TYPE_IR_CODE;
                 Log.d("", "appending codeset: " + data.getUrl());
             }

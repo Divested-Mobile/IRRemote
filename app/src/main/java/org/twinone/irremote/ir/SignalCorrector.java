@@ -65,7 +65,7 @@ public class SignalCorrector {
     private static int getVersionMR() {
         try {
             int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-            return  Integer.valueOf(Build.VERSION.RELEASE
+            return Integer.valueOf(Build.VERSION.RELEASE
                     .substring(lastIdx + 1));
         } catch (Exception e) {
             return 0;

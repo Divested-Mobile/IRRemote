@@ -18,7 +18,7 @@ import org.twinone.irremote.components.Button;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.ui.ButtonView;
-import org.twinone.irremote.util.TransmitOnTouchListener;
+import org.twinone.irremote.components.TransmitOnTouchListener;
 
 public class SaveButtonDialog extends DialogFragment implements
         DialogInterface.OnClickListener, TextWatcher {
@@ -71,6 +71,8 @@ public class SaveButtonDialog extends DialogFragment implements
         View view = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_save_button, null, false);
 
+        mButton.bg = Button.BG_AMBER;
+        mButton.setCornerRadius(Float.MAX_VALUE);
         mButtonText = (EditText) view
                 .findViewById(R.id.dialog_save_button_text);
         mButtonText.setText(mButton.text);
@@ -111,7 +113,6 @@ public class SaveButtonDialog extends DialogFragment implements
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count,
                                   int after) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -122,8 +123,6 @@ public class SaveButtonDialog extends DialogFragment implements
 
     @Override
     public void afterTextChanged(Editable s) {
-        // TODO Auto-generated method stub
-
     }
 
     public interface OnSaveButton {

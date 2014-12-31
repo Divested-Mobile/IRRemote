@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_action_rename"
         android:title="@string/menu_action_rename"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_action_edit"
         android:title="@string/menu_action_edit"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_action_delete"
         android:title="@string/menu_action_delete_remote"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_action_settings"
         android:title="@string/menu_action_settings"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_action_learn"
         android:title="@string/menu_action_learn"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <!-- DEBUG -->
     <item
         android:id="@+id/menu_debug"
-        android:title="Debug"/>
+        android:title="Debug" />
 
 </menu>

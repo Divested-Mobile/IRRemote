@@ -26,7 +26,7 @@ public class DeviceType extends GCBaseListable {
     }
 
     @Override
-    public String getDisplayName() {
+    public String toString() {
         return DeviceType;
     }
 }

@@ -18,30 +18,32 @@ import java.util.List;
 
 public class Remote implements Serializable {
 
+    public static final int TYPE_UNKNOWN = -1;
     public static final int TYPE_TV = 0;
     public static final int TYPE_CABLE = 1;
-    public static final int TYPE_BLURAY = 2;
-    public static final int TYPE_AUDIO_AMPLIFIER = 3;
-    public static final int TYPE_AIR_CONDITIONER = 4;
-    // Unknown remotes will be displayed as a list
-    public static final int TYPE_UNKNOWN = -1;
+    public static final int TYPE_CD = 2;
+    public static final int TYPE_DVD = 3;
+    public static final int TYPE_BLU_RAY = 4;
+    public static final int TYPE_AUDIO = 5;
+    public static final int TYPE_CAMERA = 6;
+    public static final int TYPE_AIR_CON = 7;
+
     public static final int FLAG_LEARNED = 1;
-    /**
-     *
-     */
-    private static final long serialVersionUID = 2984007269058624013L;
+
     private static final String REMOTES_VERSION = "_v2";
     private static final String EXTENSION = ".remote";
     private static final String BUTTON_EXTENSION = ".button";
     private static final String BUTTON_PREFIX = "b_";
     private static final String OPTIONS_FILE = "remote.options";
-    public String name;
     public final List<Button> buttons;
+    public String name;
     public Details details;
+
     public Remote() {
         buttons = new ArrayList<>();
         details = new Details();
     }
+
     private Remote(Context c, String remoteName) {
         this();
         if (remoteName == null)
@@ -133,7 +135,6 @@ public class Remote implements Serializable {
      * this changes<br>
      * Please note that this is highly inefficient for adding multiple buttons.
      * Load the remote, and add the buttons manually instead of using this.
-     *
      */
     public static void addButton(Context c, String remote, Button b) {
         Remote r = Remote.load(c, remote);
@@ -221,7 +222,7 @@ public class Remote implements Serializable {
      * @return
      */
     public Button getButtonById(int id) {
-        // if (id == Button.ID_NONE)
+        // if (id == Button.ID_UNKNOWN)
         // return null;
         for (int i = 0; i < buttons.size(); i++) {
             if (buttons.get(i).id == id) {
@@ -282,11 +283,7 @@ public class Remote implements Serializable {
     }
 
     public static class Details implements Serializable {
-        /**
-         *
-         */
         private static final long serialVersionUID = -6674520681482052007L;
-        // Receiving device details
         public int type;
         /**
          * Used if the user indicates the remote is for some strange device type
@@ -295,29 +292,15 @@ public class Remote implements Serializable {
         public String typeString;
         public String manufacturer;
         public String model;
-        /**
-         * Height of the remote (in pixels)
-         */
-        public int h;
-        /**
-         * Width of the remote (in pixels)
-         */
+        public int h; // px
         public int w;
         public int flags;
-        /**
-         * Top margin
-         */
         public int marginTop;
-        /**
-         * Left margin
-         */
         public int marginLeft;
-        // Remote details
         long id;
         /**
          * If this remote was forked from another, this is the parent's id
          */
-        // Original owner can be retrieved on server
         @SerializedName("parent_id")
         long parentId;
     }

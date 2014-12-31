@@ -268,7 +268,6 @@
     <string name="edit_corners_tr">Arriba Derecha</string>
     <string name="edit_corners_bl">Abajo Izquierda</string>
     <string name="edit_corners_br">Abajo Derecha</string>
-    <string name="edit_corners_advanced">Avanzado</string>
     <string name="edit_corners_dlgtit">Radio Esquinas</string>
 
 </resources>

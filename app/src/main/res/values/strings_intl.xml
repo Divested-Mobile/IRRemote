@@ -2,14 +2,14 @@
 <resources>
 
     <!-- Keys -->
-    <string name="pref_key_fix">org.twinone.irremote.pref.fix_pulses</string>
-    <string name="pref_key_orientation">org.twinone.irremote.pref.orientation</string>
-    <string name="pref_key_bg">org.twinone.irremote.pref.remote_background</string>
-    <string name="pref_key_bg_uri">org.twinone.irremote.pref.background_uri</string>
-    <string name="pref_key_fullscreen">org.twinone.irremote.pref.fullscreen</string>
-    <string name="pref_key_vibrate">org.twinone.irremote.pref.vibrate</string>
-    <string name="pref_key_light">org.twinone.irremote.pref.light</string>
-    <string name="pref_key_delay">org.twinone.irremote.pref.delay</string>
+    <string name="pref_key_fix" translatable="false">org.twinone.irremote.pref.fix_pulses</string>
+    <string name="pref_key_orientation" translatable="false">org.twinone.irremote.pref.orientation</string>
+    <string name="pref_key_bg" translatable="false">org.twinone.irremote.pref.remote_background</string>
+    <string name="pref_key_bg_uri" translatable="false">org.twinone.irremote.pref.background_uri</string>
+    <string name="pref_key_fullscreen" translatable="false">org.twinone.irremote.pref.fullscreen</string>
+    <string name="pref_key_vibrate" translatable="false">org.twinone.irremote.pref.vibrate</string>
+    <string name="pref_key_light" translatable="false">org.twinone.irremote.pref.light</string>
+    <string name="pref_key_delay" translatable="false">org.twinone.irremote.pref.delay</string>
 
     <!-- Defaults -->
     <item name="pref_def_fix" type="bool">false</item>
@@ -27,15 +27,15 @@
     <item name="def_min_text_size" type="integer">4</item>
 
     <!-- Values -->
-    <string name="pref_val_ori_system">system</string>
-    <string name="pref_val_ori_auto">auto</string>
-    <string name="pref_val_ori_port">port</string>
-    <string name="pref_val_ori_land">land</string>
+    <string name="pref_val_ori_system" translatable="false">system</string>
+    <string name="pref_val_ori_auto" translatable="false">auto</string>
+    <string name="pref_val_ori_port" translatable="false">port</string>
+    <string name="pref_val_ori_land" translatable="false">land</string>
     <!--  -->
-    <string name="pref_val_bg_gallery">0</string>
-    <string name="pref_val_bg_none">1</string>
+    <string name="pref_val_bg_gallery" translatable="false">0</string>
+    <string name="pref_val_bg_none" translatable="false">1</string>
     <!--  -->
-    <string name="pref_val_theme_tr">tr</string>
-    <string name="pref_val_theme_sl">sl</string>
+    <string name="pref_val_theme_tr" translatable="false">tr</string>
+    <string name="pref_val_theme_sl" translatable="false">sl</string>
 
 </resources>

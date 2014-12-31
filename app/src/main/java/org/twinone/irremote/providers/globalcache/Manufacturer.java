@@ -25,7 +25,7 @@ public class Manufacturer extends GCBaseListable {
     }
 
     @Override
-    public String getDisplayName() {
+    public String toString() {
         return Manufacturer;
     }
 

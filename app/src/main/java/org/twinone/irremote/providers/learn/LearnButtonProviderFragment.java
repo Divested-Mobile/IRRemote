@@ -58,7 +58,6 @@ public class LearnButtonProviderFragment extends BaseLearnProviderFragment imple
 
     @Override
     protected void onLearnTimeout() {
-        mStatus.setText("Timed out\nTouch Learn to try again");
     }
 
     @Override

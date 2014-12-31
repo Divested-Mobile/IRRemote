@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.util.TransmitOnTouchListener;
+import org.twinone.irremote.components.TransmitOnTouchListener;
 
 public class DefaultRemoteFragment extends BaseRemoteFragment {
 

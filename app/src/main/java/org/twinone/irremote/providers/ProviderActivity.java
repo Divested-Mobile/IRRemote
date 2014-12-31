@@ -25,6 +25,7 @@ import org.twinone.irremote.providers.learn.LearnButtonProviderFragment;
 import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
 import org.twinone.irremote.providers.lirc.LircProviderData;
 import org.twinone.irremote.providers.lirc.LircProviderFragment;
+import org.twinone.irremote.providers.twinone.TwinoneProviderFragment;
 import org.twinone.irremote.ui.ProviderNavFragment;
 import org.twinone.irremote.ui.dialogs.SaveButtonDialog;
 import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
@@ -81,6 +82,7 @@ public class ProviderActivity extends ActionBarActivity implements
      * Provides an empty remote (no buttons) or button (no code, color or text)
      */
     public static final int PROVIDER_EMPTY = 7;
+
     private static final String SAVE_TITLE = "save_title";
     private int mPendingSwitch = -1;
     private String mAction;
@@ -209,8 +211,6 @@ public class ProviderActivity extends ActionBarActivity implements
 
     @Override
     public boolean onNavigateUp() {
-        Log.d("TAG", "onnavigateup");
-
         if (mInnerFragmentCurrentState == mInnerFragmentExitState) {
             finish();
         } else {
@@ -240,8 +240,7 @@ public class ProviderActivity extends ActionBarActivity implements
         getTransmitter().transmit(signal);
     }
 
-    void addFragment(ProviderFragment fragment) {
-        Log.w("ProviderActivity", "Adding fragment!");
+    public void addFragment(ProviderFragment fragment) {
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment).addToBackStack("default")
                 .commit();
@@ -259,37 +258,6 @@ public class ProviderActivity extends ActionBarActivity implements
     public void finish() {
         super.finish();
         AnimHelper.onFinish(this);
-    }
-
-    public void addCommonProviderFragment(CommonProviderData data) {
-        setExitState(CommonProviderData.TARGET_DEVICE_TYPE);
-
-        mInnerFragmentCurrentState = data.targetType;
-        CommonProviderFragment frag = new CommonProviderFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(CommonProviderFragment.ARG_DATA, data);
-        frag.setArguments(args);
-        addFragment(frag);
-    }
-
-    public void addGCProviderFragment(GlobalCacheProviderData data) {
-        setExitState(CommonProviderData.TARGET_DEVICE_TYPE);
-
-        mInnerFragmentCurrentState = data.targetType;
-        GCProviderFragment frag = new GCProviderFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(GCProviderFragment.ARG_URI_DATA, data);
-        frag.setArguments(args);
-        addFragment(frag);
-    }
-
-    public void addLircProviderFragment(LircProviderData data) {
-        mInnerFragmentCurrentState = data.targetType;
-        LircProviderFragment frag = new LircProviderFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(LircProviderFragment.ARG_URI_DATA, data);
-        frag.setArguments(args);
-        addFragment(frag);
     }
 
     public void popAllFragments() {
@@ -322,6 +290,9 @@ public class ProviderActivity extends ActionBarActivity implements
                     addFragment(new LearnRemoteProviderFragment());
                 else
                     addFragment(new LearnButtonProviderFragment());
+                break;
+            case PROVIDER_TWINONE:
+                addFragment(new TwinoneProviderFragment());
                 break;
             default:
                 addFragment(new CommonProviderFragment());

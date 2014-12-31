@@ -16,5 +16,5 @@
     <dimen name="grid_min_margin_x">18dp</dimen>
     <dimen name="grid_min_margin_y">18dp</dimen>
     <dimen name="default_text_size">20dp</dimen>
-    
+
 </resources>

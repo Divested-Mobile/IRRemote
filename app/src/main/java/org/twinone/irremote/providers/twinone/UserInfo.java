@@ -7,21 +7,25 @@ import com.google.gson.Gson;
 import org.twinone.irremote.util.FileUtils;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class UserInfo {
+public class UserInfo implements Serializable {
 
     public static final int MASK_ID = 1;
-    private static final int MASK_USERNAME = 1 << 1;
     public static final int MASK_ACCESS_TOKEN = 1 << 2;
-    private static final int MASK_PASSWORD = 1 << 3;
-    private static final int MASK_EMAIL = 1 << 4;
-    private static final int MASK_LANGUAGE = 1 << 5;
-    public int id;
+    public static final int MASK_USERNAME = 1 << 1;
+    public static final int MASK_PASSWORD = 1 << 3;
+    public static final int MASK_EMAIL = 1 << 4;
+    public static final int MASK_COUNTRY = 1 << 5;
+
+    private static final int FILTER_SERVER_AUTH = MASK_USERNAME | MASK_ACCESS_TOKEN;
+
+    public Integer id;
     public String username;
     public String access_token;
-    private String password;
     public String email;
-    private String language;
+    private String password;
+    private String country;
 
     private static File getFile(Context c) {
         return new File(c.getFilesDir(), "userinfo.json");
@@ -40,24 +44,25 @@ public class UserInfo {
     }
 
     /**
-     * Remove everything from this {@link UserInfo} except the fields specified
-     * in the mask {@link UserInfo}
-     *
-     * @param mask
+     * @return The UserInfo needed to authenticate to the server
      */
-    public void mask(int mask) {
-        if ((MASK_ID & mask) != 0)
-            id = 0;
-        if ((MASK_USERNAME & mask) != 0)
-            username = null;
-        if ((MASK_ACCESS_TOKEN & mask) != 0)
-            access_token = null;
-        if ((MASK_PASSWORD & mask) != 0)
-            password = null;
-        if ((MASK_EMAIL & mask) != 0)
-            email = null;
-        if ((MASK_LANGUAGE & mask) != 0)
-            language = null;
+    public static UserInfo getAuthInfo(Context c) {
+        return load(c).mask(FILTER_SERVER_AUTH);
+    }
+
+    /**
+     * Clear everything except the fields in the mask
+     *
+     * @return This UserInfo
+     */
+    public UserInfo mask(int mask) {
+        if ((MASK_ID & mask) == 0) id = null;
+        if ((MASK_USERNAME & mask) == 0) username = null;
+        if ((MASK_ACCESS_TOKEN & mask) == 0) access_token = null;
+        if ((MASK_PASSWORD & mask) == 0) password = null;
+        if ((MASK_EMAIL & mask) == 0) email = null;
+        if ((MASK_COUNTRY & mask) == 0) country = null;
+        return this;
     }
 
     public void save(Context c) {

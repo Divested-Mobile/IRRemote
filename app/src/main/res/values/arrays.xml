@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string-array name="corners">
+        <item>@string/corners_circle</item>
+        <item>@string/corners_rounded_square</item>
+        <item>@string/corners_square</item>
+    </string-array>
     <string-array name="learn_device_types">
         <item>@string/device_type_tv</item>
         <item>@string/device_type_cable</item>
@@ -69,6 +73,6 @@
         <item>@string/dev_type_camera</item>
         <item>@string/dev_type_air_con</item>
         <item>@string/dev_type_other</item>
-        </string-array>
+    </string-array>
 
 </resources>

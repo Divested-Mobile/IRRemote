@@ -16,7 +16,7 @@ public class Codeset extends GCBaseListable {
     public String Codeset;
 
     @Override
-    public String getDisplayName() {
+    public String toString() {
         return Codeset;
     }
 

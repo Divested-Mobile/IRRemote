@@ -1,4 +1,4 @@
-package org.twinone.irremote.util;
+package org.twinone.irremote.components;
 
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;

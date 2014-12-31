@@ -42,7 +42,7 @@ public class IrCode extends GCBaseListable {
         button.text = irCode.KeyName;
         button.code = SignalFactory
                 .toPronto(SignalFactory.parse(irCode.IRCode));
-        if (button.id != Button.ID_NONE) {
+        if (button.id != Button.ID_UNKNOWN) {
             button.text = ComponentUtils.getCommonButtonDisplyaName(button.id,
                     c);
         }
@@ -134,7 +134,7 @@ public class IrCode extends GCBaseListable {
         if (button.contains("pause"))
             return Button.ID_PAUSE;
 
-        return Button.ID_NONE;
+        return Button.ID_UNKNOWN;
     }
 
     /**
@@ -155,7 +155,7 @@ public class IrCode extends GCBaseListable {
     }
 
     @Override
-    public String getDisplayName() {
+    public String toString() {
         // return KeyName + "(" + Key + ")";
         return KeyName;
     }

@@ -12,7 +12,7 @@ public class Manufacturer extends BaseListable {
     public String name;
 
     @Override
-    public String getDisplayName() {
+    public String toString() {
         return null;
     }
 

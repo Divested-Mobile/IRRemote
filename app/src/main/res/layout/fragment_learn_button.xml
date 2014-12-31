@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <Button
         android:id="@+id/learn_test"
@@ -16,7 +16,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/learn_cancel"
@@ -51,8 +51,8 @@
 
     <de.passsy.holocircularprogressbar.HoloCircularProgressBar
         android:id="@+id/learn_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/learn_progress_size"
+        android:layout_height="@dimen/learn_progress_size"
         android:layout_centerInParent="true"
         app:marker_visible="false"
         app:progress_background_color="#aaa"

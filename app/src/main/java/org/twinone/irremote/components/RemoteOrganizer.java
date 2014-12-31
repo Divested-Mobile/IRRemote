@@ -213,7 +213,7 @@ public class RemoteOrganizer {
         addRow(Button.ID_MENU, 0, Button.ID_DIGIT_0, 0);
 
         int type = mRemote.details.type;
-        if (type == Remote.TYPE_CABLE || type == Remote.TYPE_BLURAY) {
+        if (type == Remote.TYPE_CABLE || type == Remote.TYPE_BLU_RAY) {
             addRow(Button.ID_RWD, Button.ID_PLAY, Button.ID_FFWD, Button.ID_REC);
             addRow(Button.ID_PREV, Button.ID_PAUSE, Button.ID_NEXT,
                     Button.ID_STOP);

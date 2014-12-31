@@ -86,17 +86,17 @@ public class ButtonView extends CenterImageButton {
 
     @SuppressLint("NewApi")
     private void updateBackground() {
-        if (mButton.bg == 0)
-            return;
+
+        if (mButton.bg == 0) return;
         final StateListDrawable dd = new StateListDrawable();
         final GradientDrawable pressed = (GradientDrawable) ComponentUtils
                 .getGradientDrawable(getContext(), mButton.bg, true).mutate();
 
-        pressed.setCornerRadii(mButton.getCornerRadii());
+        pressed.setCornerRadius(mButton.getCornerRadius());
         dd.addState(new int[]{android.R.attr.state_pressed}, pressed);
         final GradientDrawable def = (GradientDrawable) ComponentUtils
                 .getGradientDrawable(getContext(), mButton.bg, false).mutate();
-        def.setCornerRadii(mButton.getCornerRadii());
+        def.setCornerRadius(mButton.getCornerRadius());
         dd.addState(StateSet.WILD_CARD, def);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -111,8 +111,8 @@ public class ButtonView extends CenterImageButton {
                 public void getOutline(View view, Outline outline) {
                     outline.setRoundRect(0, 0, (int) mButton.w,
                             (int) mButton.h,
-                            mButton.rtl > mButton.h / 2 ? mButton.h / 2
-                                    : mButton.rtl);
+                            mButton.getCornerRadius() > mButton.h / 2 ? mButton.h / 2
+                                    : mButton.getCornerRadius());
                 }
             });
             setClipToOutline(true);
@@ -194,7 +194,6 @@ public class ButtonView extends CenterImageButton {
     }
 
     public void setPressedIgnoringLock(boolean pressed) {
-        Log.d("TAG", "Setting Pressed Ingnoring: " + pressed);
         super.setPressed(pressed);
     }
 
