@@ -3,25 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_action_rename"
-        android:title="@string/menu_action_rename"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/menu_action_edit"
         android:title="@string/menu_action_edit"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_action_delete"
-        android:title="@string/menu_action_delete_remote"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_action_settings"
         android:title="@string/menu_action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_action_learn"
-        android:title="@string/menu_action_learn"
-        app:showAsAction="never" />
+
 
     <!-- DEBUG -->
     <item

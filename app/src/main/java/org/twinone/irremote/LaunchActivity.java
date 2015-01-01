@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.twinone.irremote.providers.twinone.LoginRegisterActivity;
+import org.twinone.irremote.ui.MainActivity;
 
 public class LaunchActivity extends Activity {
 
@@ -36,10 +37,15 @@ public class LaunchActivity extends Activity {
 
         if (c != null) {
             Intent i = new Intent(this, c);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             i.setData(getIntent().getData());
             Log.i("LaunchActivity", "Starting " + c.getSimpleName()
                     + " for intent " + uri.toString());
+
+//            Intent main = new Intent(this, MainActivity.class);
+//            startActivities(new Intent[]{main, i});
             startActivity(i);
+            finish();
         }
     }
 

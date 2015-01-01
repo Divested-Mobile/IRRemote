@@ -43,8 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:cursorVisible="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:focusableInTouchMode="false"
                 android:hint="@string/reg_email_hint"
                 android:inputType="textEmailAddress" />
 

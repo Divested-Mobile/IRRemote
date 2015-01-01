@@ -17,9 +17,9 @@ if (!isset($req->username) or !isset($req->password)) hj_return(INVALID_CREDENTI
 $db = get_db();
 if ($db->connect_error) hj_return(DB_FAILED);
 $access_token = auth_username_password($db, $req->username, $req->password);
-hj_resp('access_token', $access_token);
 if ($access_token === NULL) hj_return(INVALID_CREDENTIALS);
 
+hj_resp('access_token', $access_token);
 
 hj_return(0);
 

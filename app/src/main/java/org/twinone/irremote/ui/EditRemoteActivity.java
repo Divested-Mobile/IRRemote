@@ -30,7 +30,6 @@ public class EditRemoteActivity extends ToolbarActivity {
         setContentView(R.layout.activity_empty);
 
         String mRemoteName = getIntent().getStringExtra(EXTRA_REMOTE_NAME);
-        setTitle(getString(R.string.edit_activity_title, mRemoteName));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {

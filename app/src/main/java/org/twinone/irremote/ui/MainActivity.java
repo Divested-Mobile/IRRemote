@@ -251,13 +251,7 @@ public class MainActivity extends ToolbarActivity implements
         if (!hasRemote) {
             setTitle(R.string.app_name);
         }
-        menu.findItem(R.id.menu_action_delete).setVisible(hasRemote);
-        menu.findItem(R.id.menu_action_rename).setVisible(hasRemote);
         menu.findItem(R.id.menu_action_edit).setVisible(hasRemote);
-
-        boolean showLearn = canReceive || Constants.USE_DEBUG_RECEIVER;
-        menu.findItem(R.id.menu_action_learn).setVisible(showLearn);
-
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG);
         return true;
     }
@@ -265,28 +259,12 @@ public class MainActivity extends ToolbarActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_action_delete:
-                showDeleteRemoteDialog();
-                return true;
-            case R.id.menu_action_rename:
-                RenameRemoteDialog d = RenameRemoteDialog
-                        .newInstance(getRemoteName());
-                d.setOnRemoteRenamedListener(this);
-                d.show(this);
-                break;
+
 
             case R.id.menu_action_edit:
                 EditRemoteActivity.show(this, getRemoteName());
                 break;
 
-            case R.id.menu_action_learn:
-
-                Intent learn = new Intent(this, ProviderActivity.class);
-                learn.putExtra(ProviderActivity.EXTRA_PROVIDER,
-                        ProviderActivity.PROVIDER_LEARN);
-                learn.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
-                AnimHelper.startActivity(this, learn);
-                break;
             case R.id.menu_action_settings:
 
                 Intent i = new Intent(this, SettingsActivity.class);
@@ -338,27 +316,7 @@ public class MainActivity extends ToolbarActivity implements
         ab.show();
     }
 
-    private void showDeleteRemoteDialog() {
-        final String remoteName = getRemoteName();
-        if (remoteName == null)
-            return;
-
-        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setTitle(R.string.delete_remote_title);
-        ab.setMessage(getString(R.string.delete_remote_message, remoteName));
-        ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                Remote.remove(MainActivity.this, remoteName);
-                onRemotesChanged();
-            }
-        });
-        ab.setNegativeButton(android.R.string.cancel, null);
-        AnimHelper.showDialog(ab);
-    }
-
-    private void onRemotesChanged() {
+    public void onRemotesChanged() {
         invalidateOptionsMenu();
         updateRemoteLayout();
         if (getRemoteName() == null) {

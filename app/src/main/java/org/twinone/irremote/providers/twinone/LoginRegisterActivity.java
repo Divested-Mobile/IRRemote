@@ -1,5 +1,7 @@
 package org.twinone.irremote.providers.twinone;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,14 +9,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
+import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.ui.MainActivity;
 import org.twinone.irremote.ui.SettingsActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginRegisterActivity extends ToolbarActivity {
 
@@ -63,14 +69,17 @@ public class LoginRegisterActivity extends ToolbarActivity {
     }
 
     private ArrayList<OnUpdateListener> mListeners = new ArrayList<>();
+
     public void addOnPageSelectedListener(OnUpdateListener l) {
         mListeners.add(l);
     }
 
     public interface OnUpdateListener {
         public void onPageSelected(int position);
+
         public void onUpdate();
     }
+
     private class MyPageListener implements ViewPager.OnPageChangeListener {
 
         @Override
@@ -133,6 +142,13 @@ public class LoginRegisterActivity extends ToolbarActivity {
     void addFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment).commit();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+//        MainActivity.recreate(this);
+        AnimHelper.onFinish(this);
     }
 
 }

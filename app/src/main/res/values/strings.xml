@@ -14,8 +14,8 @@
     <!--  -->
     <string name="common_menu_todb">More</string>
     <!--  -->
-    <string name="menu_action_delete_remote">Delete</string>
-    <string name="menu_action_rename">Rename</string>
+    <string name="menu_action_delete_remote">Delete Remote</string>
+    <string name="menu_action_rename">Rename Remote</string>
     <string name="menu_action_edit">Edit</string>
     <string name="menu_action_learn">Learn</string>
     <string name="menu_action_settings">Settings</string>

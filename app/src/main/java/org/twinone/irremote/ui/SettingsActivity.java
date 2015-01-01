@@ -3,6 +3,7 @@ package org.twinone.irremote.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
@@ -31,24 +32,15 @@ public class SettingsActivity extends ToolbarActivity {
 
     @Override
     public boolean onNavigateUp() {
-        exit();
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        exit();
-    }
-
-    private void exit() {
-        MainActivity.recreate(this);
         finish();
+        return true;
     }
 
     @Override
     public void finish() {
         super.finish();
-        AnimHelper.onFinish(this);
+        MainActivity.recreate(SettingsActivity.this);
+        AnimHelper.onFinish(SettingsActivity.this);
     }
 
 }

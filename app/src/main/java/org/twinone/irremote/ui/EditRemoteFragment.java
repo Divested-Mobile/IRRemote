@@ -30,6 +30,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.ui.dialogs.EditColorDialog;
@@ -46,6 +47,7 @@ import org.twinone.irremote.ui.dialogs.EditTextSizeDialog;
 import org.twinone.irremote.ui.dialogs.EditTextSizeDialog.OnTextSizeChangedListener;
 import org.twinone.irremote.ui.dialogs.OrganizeDialog;
 import org.twinone.irremote.ui.dialogs.OrganizeDialog.OrganizeListener;
+import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ import java.util.List;
  * allow direct reading (???)
  */
 public class EditRemoteFragment extends BaseRemoteFragment implements
-        OnDragListener, OnLongClickListener, OnClickListener, Callback {
+        OnDragListener, OnLongClickListener, OnClickListener, Callback, RenameRemoteDialog.OnRemoteRenamedListener {
 
     private static final String SAVE_EDITED = "save_edited";
     private static final String SAVE_TARGETS = "save_targets";
@@ -582,6 +584,10 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         }
 
         autoHelpDialogIfNeeded();
+        setupTitle();
+    }
+    private void setupTitle() {
+        getActivity().setTitle(getString(R.string.edit_activity_title, mRemote.name));
     }
 
     private void autoHelpDialogIfNeeded() {
@@ -618,6 +624,16 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
             // case R.id.menu_edit_multi:
             // enterActionMode();
             // break;
+
+            case R.id.menu_action_delete:
+                showDeleteRemoteDialog();
+                return true;
+            case R.id.menu_action_rename:
+                RenameRemoteDialog d = RenameRemoteDialog
+                        .newInstance(mRemote.name);
+                d.setOnRemoteRenamedListener(this);
+                d.show(getActivity());
+                break;
             case R.id.menu_edit_add_button:
                 requestNewButton();
                 break;
@@ -638,6 +654,23 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                 return false;
         }
         return true;
+    }
+
+    private void showDeleteRemoteDialog() {
+        final String remoteName = mRemote.name;
+        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+        ab.setTitle(R.string.delete_remote_title);
+        ab.setMessage(getString(R.string.delete_remote_message, remoteName));
+        ab.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                Remote.remove(getActivity(), remoteName);
+                getActivity().finish();
+            }
+        });
+        ab.setNegativeButton(android.R.string.cancel, null);
+        AnimHelper.showDialog(ab);
     }
 
     private void showHelpDialog() {
@@ -794,4 +827,9 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         }
     }
 
+    @Override
+    public void onRemoteRenamed(String newName) {
+        mRemote.name = newName;
+        setupTitle();
+    }
 }

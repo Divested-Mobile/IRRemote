@@ -100,14 +100,12 @@ public class MainNavFragment extends NavigationFragment implements
 
         mRemotesListView = (SelectRemoteListView) root
                 .findViewById(R.id.select_remote_listview);
-        // new SelectRemoteListView(getActivity());
 
         mRemotesListView.setShowAddRemote(false);
         mRemotesListView.setOnSelectListener(this);
         mInfoTextView = (TextView) root
                 .findViewById(R.id.select_remote_empty_info);
         updateInfoTextView();
-        // root.addView(mRemotesListView);
         return root;
     }
 

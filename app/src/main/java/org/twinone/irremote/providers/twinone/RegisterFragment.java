@@ -28,8 +28,7 @@ import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterReq;
 import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterResp;
 import org.twinone.irremote.util.BaseTextWatcher;
 
-public class RegisterFragment extends BaseLoginRegisterFragment implements
-        OnFocusChangeListener, OnClickListener,
+public class RegisterFragment extends BaseLoginRegisterFragment implements OnClickListener,
         ResponseListener<RegisterReq, RegisterResp>,
         ExceptionListener<RegisterReq, RegisterResp> {
 
@@ -81,7 +80,6 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements
         mPwd = (EditText) root.findViewById(R.id.reg_pwd);
         mPwdConfirm = (EditText) root.findViewById(R.id.reg_pwd_confirm);
         mEmail = (EditText) root.findViewById(R.id.reg_email);
-        mEmail.setOnFocusChangeListener(this);
         mEmail.setOnClickListener(this);
         Button mSubmit = (Button) root.findViewById(R.id.reg_submit);
         mSubmit.setOnClickListener(this);
@@ -105,14 +103,6 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements
             return root;
         }
         return root;
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        Log.i("a", "OnFocusChange");
-        if (hasFocus && mEmail.getText().toString().isEmpty()) {
-            startAccountChooser();
-        }
     }
 
     private void startAccountChooser() {
@@ -287,6 +277,7 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements
 
     private void setupLayout(boolean isLoggedIn) {
         mForm.setVisibility(isLoggedIn ? View.GONE : View.VISIBLE);
+        resetErrors();
         if (isLoggedIn) {
             mMessage.setText(getString(R.string.reg_err_already_registered, getUserInfo().username));
         } else {

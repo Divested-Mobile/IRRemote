@@ -15,8 +15,8 @@
     <!--  -->
     <string name="common_menu_todb">Más</string>
     <!--  -->
-    <string name="menu_action_delete_remote">Borrar</string>
-    <string name="menu_action_rename">Renombrar</string>
+    <string name="menu_action_delete_remote">Borrar Mando</string>
+    <string name="menu_action_rename">Renombrar Mando</string>
     <string name="menu_action_edit">Editar</string>
     <string name="menu_action_learn">Aprender</string>
     <string name="menu_action_settings">Ajustes</string>

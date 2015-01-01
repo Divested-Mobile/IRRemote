@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_action_rename"
+        android:title="@string/menu_action_rename"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_action_delete"
+        android:title="@string/menu_action_delete_remote"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_edit_add_button"
         android:title="@string/menu_edit_add_button" />
     <item
