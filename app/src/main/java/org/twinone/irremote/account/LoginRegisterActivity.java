@@ -1,7 +1,5 @@
-package org.twinone.irremote.providers.twinone;
+package org.twinone.irremote.account;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,18 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
-import org.twinone.irremote.ui.MainActivity;
 import org.twinone.irremote.ui.SettingsActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LoginRegisterActivity extends ToolbarActivity {
 

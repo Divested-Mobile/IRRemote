@@ -22,13 +22,13 @@
             android:textColor="#aaffffff" />
 
         <LinearLayout
-            android:id="@+id/login_form"
+            android:id="@+id/form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/login_username"
+                android:id="@+id/form_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -38,7 +38,7 @@
 
 
             <EditText
-                android:id="@+id/login_pwd"
+                android:id="@+id/form_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -46,7 +46,7 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/login_submit"
+                android:id="@+id/form_submit"
                 style="@style/AccentTint_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

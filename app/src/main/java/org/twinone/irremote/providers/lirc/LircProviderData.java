@@ -18,7 +18,7 @@ public class LircProviderData implements Serializable {
     // The type we want to query
     public int targetType = TYPE_MANUFACTURER;
     /**
-     * A specific remote / button list
+     * A specific menu_main / button list
      */
     public static final int TYPE_CODESET = 2;
     /**

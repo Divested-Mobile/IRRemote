@@ -12,7 +12,7 @@ import org.twinone.irremote.components.AnimHelper;
 
 public class EditRemoteActivity extends ToolbarActivity {
 
-    private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.intent.extra.remote";
+    private static final String EXTRA_REMOTE_NAME = "org.twinone.irremote.intent.extra.menu_main";
     private EditRemoteFragment mEditFragment;
 
     public static void show(Activity a, String remoteName) {

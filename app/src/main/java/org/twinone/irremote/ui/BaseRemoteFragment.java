@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Displays the remote.
+ * Displays the menu_main.
  *
  * @author twinone
  */
@@ -63,7 +63,7 @@ public abstract class BaseRemoteFragment extends Fragment {
         }
 
         if (savedInstanceState != null) {
-            Log.d(TAG, "Retrieving remote from savedInstanceState");
+            Log.d(TAG, "Retrieving menu_main from savedInstanceState");
             mRemote = (Remote) savedInstanceState.getSerializable(SAVE_REMOTE);
         } else {
             mRemote = Remote.load(getActivity(), (String) getArguments()

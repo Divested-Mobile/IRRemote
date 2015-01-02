@@ -1,9 +1,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
     android:gravity="center_vertical"
     android:minHeight="48dp"
     android:paddingLeft="16dp"
+    android:textSize="14sp"
     android:paddingRight="16dp"
-    android:textColor="#dedede" />
+    android:background="@drawable/selector_remote_list_view_item"
+    android:textColor="#fff" />

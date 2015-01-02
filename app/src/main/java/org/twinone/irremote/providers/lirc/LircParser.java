@@ -67,7 +67,7 @@ class LircParser {
 
     public LircListable[] parse() {
         for (mPosition = 0; mPosition < mFile.length; mPosition++) {
-            expect("begin remote");
+            expect("begin menu_main");
             readHeader();
             String codes = readLine();
             switch (codes) {
@@ -84,7 +84,7 @@ class LircParser {
 
             // Read the end codes or end raw_codes
             readLine();
-            expect("end remote");
+            expect("end menu_main");
         }
         return mCodes.toArray(new IrCode[mCodes.size()]);
     }

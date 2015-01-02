@@ -23,7 +23,7 @@ import java.util.Iterator;
 public class SaveRemoteDialog extends DialogFragment implements
         DialogInterface.OnClickListener {
 
-    private static final String ARG_REMOTE = "org.twinone.irremote.arg.remote";
+    private static final String ARG_REMOTE = "org.twinone.irremote.arg.menu_main";
     private Remote mRemote;
     private EditText mRemoteName;
     private OnRemoteSavedListener mListener;

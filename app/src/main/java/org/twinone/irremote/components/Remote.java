@@ -29,12 +29,16 @@ public class Remote implements Serializable {
     public static final int TYPE_AIR_CON = 7;
 
     public static final int FLAG_LEARNED = 1;
+    /**
+     * This remote is from the globalcache database
+     */
+    public static final int FLAG_GC = 1 << 1;
 
     private static final String REMOTES_VERSION = "_v2";
-    private static final String EXTENSION = ".remote";
+    private static final String EXTENSION = ".menu_main";
     private static final String BUTTON_EXTENSION = ".button";
     private static final String BUTTON_PREFIX = "b_";
-    private static final String OPTIONS_FILE = "remote.options";
+    private static final String OPTIONS_FILE = "menu_main.options";
     public final List<Button> buttons;
     public String name;
     public Details details;
@@ -82,7 +86,7 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Load this remote from the file system
+     * Load this menu_main from the file system
      */
     public static Remote load(Context c, String name) {
         if (name == null)
@@ -112,8 +116,15 @@ public class Remote implements Serializable {
         return result;
     }
 
+    /** Load details from disk */
+    public static Remote.Details loadDetails(Context c, String remoteName) {
+        File dir = getRemoteDir(c, remoteName);
+        File f = new File(dir, OPTIONS_FILE);
+        return new Gson().fromJson(FileUtils.read(f), Details.class);
+    }
+
     /**
-     * @return the persisted selected remote or null if it was not set
+     * @return the persisted selected menu_main or null if it was not set
      */
     public static String getPersistedRemoteName(Context c) {
         return c.getSharedPreferences("remote", Context.MODE_PRIVATE)
@@ -121,7 +132,7 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Set the remote selected by the user
+     * Set the menu_main selected by the user
      */
     public static void setLastUsedRemoteName(Context c, String remoteName) {
         c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
@@ -130,11 +141,11 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Add a button to a remote and save it to disk If you call save on another
-     * remote with the same name which was loaded earlier, you will overwrite
+     * Add a button to a menu_main and save it to disk If you call save on another
+     * menu_main with the same name which was loaded earlier, you will overwrite
      * this changes<br>
      * Please note that this is highly inefficient for adding multiple buttons.
-     * Load the remote, and add the buttons manually instead of using this.
+     * Load the menu_main, and add the buttons manually instead of using this.
      */
     public static void addButton(Context c, String remote, Button b) {
         Remote r = Remote.load(c, remote);
@@ -151,7 +162,7 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Add flags to this remote, you can OR them together
+     * Add flags to this menu_main, you can OR them together
      *
      * @param flags
      */
@@ -160,7 +171,7 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Remove flags from this remote, you can OR them together
+     * Remove flags from this menu_main, you can OR them together
      *
      * @param flags
      */
@@ -169,7 +180,7 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Calls {@link #getRemoteDir(Context, String)} for this remote
+     * Calls {@link #getRemoteDir(Context, String)} for this menu_main
      */
     private File getRemoteDir(Context c) {
         return getRemoteDir(c, name);
@@ -187,7 +198,7 @@ public class Remote implements Serializable {
     }
 
     /**
-     * Save this remote to the file system
+     * Save this menu_main to the file system
      */
     public void save(Context c) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -199,12 +210,13 @@ public class Remote implements Serializable {
                 FileUtils.write(f, gson.toJson(b));
             }
         }
+
         File f = new File(dir, OPTIONS_FILE);
         FileUtils.write(f, gson.toJson(details));
     }
 
     /**
-     * True if this remote contains the specified button
+     * True if this menu_main contains the specified button
      */
     boolean contains(int uid) {
         for (int i = 0; i < buttons.size(); i++) {
@@ -286,7 +298,7 @@ public class Remote implements Serializable {
         private static final long serialVersionUID = -6674520681482052007L;
         public int type;
         /**
-         * Used if the user indicates the remote is for some strange device type
+         * Used if the user indicates the menu_main is for some strange device type
          */
         @SerializedName("type_string")
         public String typeString;
@@ -299,7 +311,7 @@ public class Remote implements Serializable {
         public int marginLeft;
         long id;
         /**
-         * If this remote was forked from another, this is the parent's id
+         * If this menu_main was forked from another, this is the parent's id
          */
         @SerializedName("parent_id")
         long parentId;

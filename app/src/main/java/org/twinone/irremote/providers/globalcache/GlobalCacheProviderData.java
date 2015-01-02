@@ -23,7 +23,7 @@ public class GlobalCacheProviderData implements Serializable {
      */
     public static final int TYPE_DEVICE_TYPE = 1;
     /**
-     * A specific remote / button list
+     * A specific menu_main / button list
      */
     public static final int TYPE_CODESET = 2;
     /**

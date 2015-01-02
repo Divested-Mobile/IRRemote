@@ -109,7 +109,7 @@
     <string name="button_text_temp_up">tmp +</string>
     <string name="button_text_temp_down">tmp -</string>
 
-    <!-- Digits allowed to save a remote name -->
+    <!-- Digits allowed to save a menu_main name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
 
@@ -194,8 +194,8 @@
     <string name="edit_confirmexitdlg_tit">Save changes?</string>
     <string name="edit_confirmexitdlg_save">Save</string>
     <string name="edit_confirmexitdlg_discard">Discard</string>
-    <!-- %s will be replaced with the remote name -->
-    <string name="edit_activity_title">Edit - \"%s\"</string>
+    <!-- %s will be replaced with the menu_main name -->
+    <string name="edit_activity_title">Edit - %s</string>
     <!--  -->
     <string name="menu_edit_organize">Organize</string>
     <string name="menu_edit_snap">Snap to grid</string>
@@ -372,6 +372,12 @@
     <string name="login_done">Logged in</string>
     <string name="login_err_invalid">Invalid credentials</string>
     <string name="login_logged_in">You are logged in as %s</string>
+
+    <string name="menu_action_account">My account</string>
+    <string name="title_account">My account</string>
+    <string name="remote_uploaded">Remote uploaded</string>
+    <string name="upload_err">Error %d uploading remote</string>
+
 
 
 

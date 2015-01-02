@@ -1,6 +1,5 @@
 package org.twinone.irremote.providers.twinone;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import com.google.gson.annotations.SerializedName;
 import org.twinone.androidlib.net.HttpJson;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
+import org.twinone.irremote.account.UserInfo;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.BaseListable;
 import org.twinone.irremote.providers.ListableAdapter;
@@ -176,7 +176,7 @@ public class TwinoneProviderFragment extends ProviderFragment implements ListVie
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.db_menu, menu);
+        inflater.inflate(R.menu.menu_db, menu);
         setupSearchView(menu);
         mSearchView.setQueryHint(getSearchHint(mRequest));
 

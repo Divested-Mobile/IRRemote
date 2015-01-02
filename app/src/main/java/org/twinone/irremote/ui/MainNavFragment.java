@@ -7,30 +7,33 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.twinone.androidlib.NavigationFragment;
 import org.twinone.irremote.R;
+import org.twinone.androidlib.MultiListenerDrawerLayout;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
 
 import java.util.List;
 
-public class MainNavFragment extends NavigationFragment implements
-        OnRemoteSelectedListener {
+public class MainNavFragment extends NavigationFragment {
 
     // private static final String PREF_FILENAME = "nav";
-    // Keep track of the user's last selected remote
+    // Keep track of the user's last selected menu_main
     public static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
 
-    private DrawerLayout mDrawerLayout;
+
+    private MultiListenerDrawerLayout getMultiListenerDrawerLayout() {
+        return (MultiListenerDrawerLayout) mDrawerLayout;
+    }
+
     private SelectRemoteListView mRemotesListView;
     private View mFragmentContainerView;
     private TextView mInfoTextView;
     // -1 when none selected
     private int mTargetRemotePosition = -1;
-    private boolean mAddRemoteSelected;
 
     public MainNavFragment() {
     }
@@ -39,16 +42,16 @@ public class MainNavFragment extends NavigationFragment implements
     public void update() {
         mRemotesListView.updateRemotesList();
 
-        // select the appropriate remote
+        // select the appropriate menu_main
         List<String> names = Remote.getNames(getActivity());
         String lastSelectedRemotePref = Remote
                 .getPersistedRemoteName(getActivity());
         if (names.contains(lastSelectedRemotePref)) {
-            mRemotesListView.selectRemote(lastSelectedRemotePref, false);
-        } else if (names.size() > 0) {
-            mRemotesListView.selectRemote(0, false);
+            mRemotesListView.selectRemote(lastSelectedRemotePref);
+        } else if (!names.isEmpty()) {
+            mRemotesListView.selectRemote(0);
         } else {
-            mRemotesListView.selectRemote(-1, false);
+//            mRemotesListView.selectRemote(-1, false);
         }
         updateTitle();
         updateInfoTextView();
@@ -80,15 +83,42 @@ public class MainNavFragment extends NavigationFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(getActivity() instanceof OnRemoteSelectedListener)) {
+        if (!(getActivity() instanceof MainActivity)) {
             throw new ClassCastException(
-                    "Activity should implement SelectRemoteListView.OnSelectListener");
+                    "MainNavFragment should be attached to MainActivity");
         }
     }
+
+
+    int mDrawerOffset;
 
     @Override
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         super.setUp(fragmentId, drawerLayout);
+        if (isOpen()) {
+            getMainActivity().showAddRemoteButton();
+        }
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                getMainActivity().getAddRemoteButton().setOffset(slideOffset);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         update();
     }
 
@@ -100,23 +130,34 @@ public class MainNavFragment extends NavigationFragment implements
 
         mRemotesListView = (SelectRemoteListView) root
                 .findViewById(R.id.select_remote_listview);
+        mRemotesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onRemoteSelected(position);
+            }
 
-        mRemotesListView.setShowAddRemote(false);
-        mRemotesListView.setOnSelectListener(this);
+        });
         mInfoTextView = (TextView) root
                 .findViewById(R.id.select_remote_empty_info);
         updateInfoTextView();
         return root;
     }
 
+    private void onRemoteSelected(int position) {
+        String remoteName = mRemotesListView.getRemoteName(position);
+        Remote.setLastUsedRemoteName(getActivity(), remoteName);
+        mTargetRemotePosition = position;
+        close();
+    }
+
     /**
-     * This will select the remote in the list, it will also make a call to the
+     * This will select the menu_main in the list, it will also make a call to the
      * listener
      *
      * @param position
      */
-    public void select(int position) {
-        mRemotesListView.selectRemote(position, true);
+    public void selectRemote(int position) {
+        mRemotesListView.selectRemote(position);
     }
 
     public boolean isDrawerOpen() {
@@ -133,23 +174,13 @@ public class MainNavFragment extends NavigationFragment implements
     }
 
     @Override
-    public void onRemoteSelected(int position, String remoteName) {
-        Remote.setLastUsedRemoteName(getActivity(), remoteName);
-        mTargetRemotePosition = position;
-        close();
-
-    }
-
-    @Override
-    public void onAddRemoteSelected() {
-        mAddRemoteSelected = true;
-        close();
-    }
-
-    @Override
     protected void onOpen() {
         updateTitle();
-        ((MainActivity) getActivity()).showAddRemoteButton();
+        getMainActivity().showAddRemoteButton();
+    }
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
     }
 
     @Override
@@ -157,18 +188,12 @@ public class MainNavFragment extends NavigationFragment implements
         // We should provide navigation after the drawer has been closed,
         // because of animations
         if (mTargetRemotePosition != -1) {
-            ((OnRemoteSelectedListener) getActivity()).onRemoteSelected(
-                    mTargetRemotePosition,
-                    mRemotesListView.getRemoteName(mTargetRemotePosition));
+            String name = mRemotesListView.getSelectedRemoteName();
+            getMainActivity().setRemote(name);
             mTargetRemotePosition = -1;
-        } else if (mAddRemoteSelected) {
-            ((OnRemoteSelectedListener) getActivity()).onAddRemoteSelected();
-            mAddRemoteSelected = false;
         }
-
         updateTitle();
-        ((MainActivity) getActivity()).hideAddRemoteButton();
-
+        getMainActivity().hideAddRemoteButton();
     }
 
 }

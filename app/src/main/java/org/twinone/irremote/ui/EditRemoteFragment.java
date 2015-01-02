@@ -412,7 +412,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     /**
-     * Add a new button to the remote without saving
+     * Add a new button to the menu_main without saving
      */
     private void addNewButton(Button b) {
         RemoteOrganizer ro = new RemoteOrganizer(getActivity());
@@ -524,7 +524,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     /**
-     * Refresh the buttons' positions and set the remote to edited state.
+     * Refresh the buttons' positions and set the menu_main to edited state.
      */
     private void refreshButtonsLayout() {
         setupButtons();
@@ -586,6 +586,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         autoHelpDialogIfNeeded();
         setupTitle();
     }
+
     private void setupTitle() {
         getActivity().setTitle(getString(R.string.edit_activity_title, mRemote.name));
     }
@@ -620,19 +621,11 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            // We're now entering action mode clicking a button
-            // case R.id.menu_edit_multi:
-            // enterActionMode();
-            // break;
-
             case R.id.menu_action_delete:
                 showDeleteRemoteDialog();
                 return true;
             case R.id.menu_action_rename:
-                RenameRemoteDialog d = RenameRemoteDialog
-                        .newInstance(mRemote.name);
-                d.setOnRemoteRenamedListener(this);
-                d.show(getActivity());
+                showRenameRemoteDialog();
                 break;
             case R.id.menu_edit_add_button:
                 requestNewButton();
@@ -640,10 +633,6 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
             case R.id.menu_edit_organize:
                 showOrganizeDialog();
                 break;
-            // case R.id.menu_edit_snap:
-            // item.setChecked(!item.isChecked());
-            // mSnapToGrid = item.isChecked();
-            // break;
             case R.id.menu_edit_save:
                 saveRemote();
                 break;
@@ -654,6 +643,13 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                 return false;
         }
         return true;
+    }
+
+    private void showRenameRemoteDialog() {
+        RenameRemoteDialog d = RenameRemoteDialog
+                .newInstance(mRemote.name);
+        d.setOnRemoteRenamedListener(this);
+        d.show(getActivity());
     }
 
     private void showDeleteRemoteDialog() {
@@ -768,7 +764,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         getToolbar().setVisibility(View.INVISIBLE);
         mActionMode = mode;
         MenuInflater inflater = mode.getMenuInflater();
-        inflater.inflate(R.menu.edit_cab, menu);
+        inflater.inflate(R.menu.menu_edit_cab, menu);
         return true;
     }
 

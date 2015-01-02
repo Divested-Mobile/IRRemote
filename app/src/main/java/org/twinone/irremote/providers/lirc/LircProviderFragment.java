@@ -20,7 +20,6 @@ import android.widget.Toast;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ListableAdapter;
-import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.ProviderFragment;
 
 public class LircProviderFragment extends ProviderFragment implements
@@ -129,7 +128,7 @@ public class LircProviderFragment extends ProviderFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.db_menu, menu);
+        inflater.inflate(R.menu.menu_db, menu);
 
         setupSearchView(menu);
 //		mSearchView.setQueryHint(getSearchHint(mUriData));

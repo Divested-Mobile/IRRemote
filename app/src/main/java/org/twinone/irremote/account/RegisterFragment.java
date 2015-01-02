@@ -1,4 +1,4 @@
-package org.twinone.irremote.providers.twinone;
+package org.twinone.irremote.account;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -6,13 +6,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,8 +22,8 @@ import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
-import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterReq;
-import org.twinone.irremote.providers.twinone.RegisterFragment.RegisterResp;
+import org.twinone.irremote.account.RegisterFragment.RegisterReq;
+import org.twinone.irremote.account.RegisterFragment.RegisterResp;
 import org.twinone.irremote.util.BaseTextWatcher;
 
 public class RegisterFragment extends BaseLoginRegisterFragment implements OnClickListener,
@@ -72,16 +70,16 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements OnCli
 
         setType(LoginRegisterActivity.FRAGMENT_INDEX_REGISTER);
 
-        mForm = root.findViewById(R.id.reg_form);
-        mMessage = (TextView) root.findViewById(R.id.reg_message);
+        mForm = root.findViewById(R.id.form);
+        mMessage = (TextView) root.findViewById(R.id.form_message);
 
 
-        mUsername = (EditText) root.findViewById(R.id.reg_username);
-        mPwd = (EditText) root.findViewById(R.id.reg_pwd);
-        mPwdConfirm = (EditText) root.findViewById(R.id.reg_pwd_confirm);
-        mEmail = (EditText) root.findViewById(R.id.reg_email);
+        mUsername = (EditText) root.findViewById(R.id.form_username);
+        mPwd = (EditText) root.findViewById(R.id.form_pwd);
+        mPwdConfirm = (EditText) root.findViewById(R.id.form_pwd_confirm);
+        mEmail = (EditText) root.findViewById(R.id.form_email);
         mEmail.setOnClickListener(this);
-        Button mSubmit = (Button) root.findViewById(R.id.reg_submit);
+        Button mSubmit = (Button) root.findViewById(R.id.form_submit);
         mSubmit.setOnClickListener(this);
 
 
@@ -115,10 +113,10 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.reg_submit:
+            case R.id.form_submit:
                 checkFieldsAndSubmit();
                 break;
-            case R.id.reg_email:
+            case R.id.form_email:
                 startAccountChooser();
                 break;
         }

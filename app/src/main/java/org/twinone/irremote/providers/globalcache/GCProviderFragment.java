@@ -102,7 +102,7 @@ public class GCProviderFragment extends ProviderFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.db_menu, menu);
+        inflater.inflate(R.menu.menu_db, menu);
         setupSearchView(menu);
         mSearchView.setQueryHint(getSearchHint(mGCData));
 
@@ -135,6 +135,8 @@ public class GCProviderFragment extends ProviderFragment implements
                             + mGCData.deviceType.DeviceType;
                     Remote remote = IrCode.toRemote(getActivity(), name,
                             (IrCode[]) mData);
+                    remote.details.manufacturer = mGCData.manufacturer.Manufacturer;
+                    remote.addFlags(Remote.FLAG_GC);
                     getProvider().saveRemote(remote);
                 }
                 return true;

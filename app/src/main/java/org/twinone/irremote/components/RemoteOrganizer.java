@@ -88,7 +88,7 @@ public class RemoteOrganizer {
     }
 
     /**
-     * Add default icons to this remote's buttons based on their ID's
+     * Add default icons to this menu_main's buttons based on their ID's
      */
     public static void addIcons(Remote remote, boolean removeTextIfIconFound) {
         for (Button b : remote.buttons) {
@@ -104,12 +104,12 @@ public class RemoteOrganizer {
     }
 
     /**
-     * Removes a button from the remote and adds it to the organized buttons
+     * Removes a button from the menu_main and adds it to the organized buttons
      * list
      */
     private void moveToOrganizedList(Button... buttons) {
         for (Button b : buttons) {
-            // b can be null but we don't want it in the remote
+            // b can be null but we don't want it in the menu_main
             if (b != null) {
                 mOrganizedButtons.add(b);
                 mRemote.removeButton(b);

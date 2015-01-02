@@ -18,13 +18,10 @@ import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.common.CommonProviderFragment;
-import org.twinone.irremote.providers.common.CommonProviderFragment.CommonProviderData;
 import org.twinone.irremote.providers.globalcache.GCProviderFragment;
-import org.twinone.irremote.providers.globalcache.GlobalCacheProviderData;
 import org.twinone.irremote.providers.learn.LearnButtonProviderFragment;
 import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
-import org.twinone.irremote.providers.lirc.LircProviderData;
-import org.twinone.irremote.providers.lirc.LircProviderFragment;
+import org.twinone.irremote.providers.local.LocalProviderFragment;
 import org.twinone.irremote.providers.twinone.TwinoneProviderFragment;
 import org.twinone.irremote.ui.ProviderNavFragment;
 import org.twinone.irremote.ui.dialogs.SaveButtonDialog;
@@ -36,7 +33,7 @@ public class ProviderActivity extends ActionBarActivity implements
         NavigationListener {
 
     /**
-     * The user will select a remote which will be saved directly
+     * The user will select a menu_main which will be saved directly
      */
     public static final String ACTION_SAVE_REMOTE = "org.twinone.irremote.intent.action.save_remote";
     /**
@@ -71,7 +68,7 @@ public class ProviderActivity extends ActionBarActivity implements
      */
     public static final int PROVIDER_TWINONE = 4;
     /**
-     * On HTC Devices, learn a remote (or button)
+     * On HTC Devices, learn a menu_main (or button)
      */
     public static final int PROVIDER_LEARN = 5;
     /**
@@ -79,7 +76,7 @@ public class ProviderActivity extends ActionBarActivity implements
      */
     public static final int PROVIDER_LOCAL = 6;
     /**
-     * Provides an empty remote (no buttons) or button (no code, color or text)
+     * Provides an empty menu_main (no buttons) or button (no code, color or text)
      */
     public static final int PROVIDER_EMPTY = 7;
 
@@ -100,7 +97,7 @@ public class ProviderActivity extends ActionBarActivity implements
 
             @Override
             public void onRemoteSaved(String name) {
-                // Finish the activity, we've saved the remote
+                // Finish the activity, we've saved the menu_main
                 Remote.setLastUsedRemoteName(activity, name);
                 Toast.makeText(activity, R.string.remote_saved_toast,
                         Toast.LENGTH_SHORT).show();
@@ -138,7 +135,7 @@ public class ProviderActivity extends ActionBarActivity implements
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.db_menu);
+        mToolbar.inflateMenu(R.menu.menu_db);
 
         setupNavigation();
 
@@ -189,7 +186,7 @@ public class ProviderActivity extends ActionBarActivity implements
     }
 
     /**
-     * Use this method to prompt the user to save this remote
+     * Use this method to prompt the user to save this menu_main
      */
     public void saveRemote(Remote remote) {
         saveRemote(this, remote);
@@ -293,6 +290,9 @@ public class ProviderActivity extends ActionBarActivity implements
                 break;
             case PROVIDER_TWINONE:
                 addFragment(new TwinoneProviderFragment());
+                break;
+            case PROVIDER_LOCAL:
+                addFragment(new LocalProviderFragment());
                 break;
             default:
                 addFragment(new CommonProviderFragment());

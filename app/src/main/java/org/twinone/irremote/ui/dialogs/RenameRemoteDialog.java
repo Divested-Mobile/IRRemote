@@ -17,7 +17,7 @@ import org.twinone.irremote.components.Remote;
 public class RenameRemoteDialog extends DialogFragment implements
         DialogInterface.OnClickListener {
 
-    private static final String ARG_REMOTE = "org.twinone.irremote.arg.remote";
+    private static final String ARG_REMOTE = "org.twinone.irremote.arg.menu_main";
 
     private String mOriginalRemoteName;
     private EditText mNewRemoteName;

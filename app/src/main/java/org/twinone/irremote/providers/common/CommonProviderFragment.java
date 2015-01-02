@@ -183,7 +183,7 @@ public class CommonProviderFragment extends ProviderFragment implements
             b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
                     getActivity());
             r.addButton(b);
-            Log.d("TEST", "Adding button " + b.text + " to remote");
+            Log.d("TEST", "Adding button " + b.text + " to menu_main");
         }
         r.details.type = getDeviceTypeInt(mTarget.deviceType);
         return r;
@@ -202,7 +202,7 @@ public class CommonProviderFragment extends ProviderFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.common_menu, menu);
+        inflater.inflate(R.menu.menu_common, menu);
         setupSearchView(menu);
 
         MenuItem save = menu.findItem(R.id.menu_save);

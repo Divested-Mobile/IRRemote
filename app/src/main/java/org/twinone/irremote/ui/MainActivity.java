@@ -28,6 +28,8 @@ import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
 import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
+import org.twinone.irremote.account.AccountActivity;
+import org.twinone.irremote.account.UserInfo;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
@@ -36,14 +38,11 @@ import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.twinone.LoginRegisterActivity;
+import org.twinone.irremote.account.LoginRegisterActivity;
 import org.twinone.irremote.providers.twinone.UploadActivity;
-import org.twinone.irremote.ui.SelectRemoteListView.OnRemoteSelectedListener;
-import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
-public class MainActivity extends ToolbarActivity implements
-        OnRemoteSelectedListener, OnRemoteRenamedListener, OnUpdateListener,
+public class MainActivity extends ToolbarActivity implements OnRemoteRenamedListener, OnUpdateListener,
         android.view.View.OnClickListener {
 
     private static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
@@ -58,9 +57,17 @@ public class MainActivity extends ToolbarActivity implements
      * @param c
      */
     public static void recreate(Context c) {
-        Intent i = new Intent(c, MainActivity.class);
-        i.putExtra(EXTRA_RECREATE, true);
-        c.startActivity(i);
+        setShouldRecreate(c, true);
+    }
+
+    private static void setShouldRecreate(Context c, boolean shouldRecreate) {
+        c.getSharedPreferences("default", Context.MODE_PRIVATE).edit().putBoolean("recreate_main_activity", shouldRecreate).apply();
+    }
+
+    private boolean shouldRecreate() {
+        boolean should = getSharedPreferences("default", Context.MODE_PRIVATE).getBoolean("recreate_main_activity", false);
+        setShouldRecreate(this, false);
+        return should;
     }
 
     public static int getRequestedOrientation(Context c) {
@@ -181,9 +188,8 @@ public class MainActivity extends ToolbarActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-
-        onRemotesChanged();
-
+        if (shouldRecreate()) recreate();
+        else onRemotesChanged();
     }
 
     @Override
@@ -191,16 +197,17 @@ public class MainActivity extends ToolbarActivity implements
         return getRequestedOrientation(this);
     }
 
-    void setRemote(String name) {
+    public void setRemote(String name) {
+        Log.i("MainActivity", "SetRemote: " + name);
         new DefaultRemoteFragment().showFor(this, name);
     }
 
-    String getRemoteName() {
+    public String getRemoteName() {
         return mNavFragment.getSelectedRemoteName();
     }
 
     /**
-     * Updates the navigation fragment after a remote was selected / deleted /
+     * Updates the navigation fragment after a menu_main was selectesd / deleted /
      * renamed
      */
     void updateRemoteLayout() {
@@ -216,65 +223,67 @@ public class MainActivity extends ToolbarActivity implements
 
     @Override
     public void onRemoteRenamed(String newName) {
-        // As we renamed this remote, it was selected before, so we need to
+        // As we renamed this menu_main, it was selected before, so we need to
         // select it again
         Remote.setLastUsedRemoteName(this, newName);
         mNavFragment.update();
     }
 
-    @Override
-    public void onRemoteSelected(int position, String remoteName) {
-        setRemote(remoteName);
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_remote:
-                onAddRemoteSelected();
+                Intent i = new Intent(this, ProviderActivity.class);
+                i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
+                AnimHelper.startActivity(this, i);
                 break;
         }
     }
 
     @Override
-    public void onAddRemoteSelected() {
-        Intent i = new Intent(this, ProviderActivity.class);
-        i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
-        AnimHelper.startActivity(this, i);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean open = mNavFragment.isOpen();
+        boolean hasRemote = getRemoteName() != null;
+        if (!hasRemote) setTitle(R.string.app_name);
+
+        menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open);
+
+        menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
+        menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.remote, menu);
-        boolean hasRemote = getRemoteName() != null;
-        boolean canReceive = Receiver.isAvailable(this);
-        if (!hasRemote) {
-            setTitle(R.string.app_name);
-        }
-        menu.findItem(R.id.menu_action_edit).setVisible(hasRemote);
-        menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-
             case R.id.menu_action_edit:
                 EditRemoteActivity.show(this, getRemoteName());
                 break;
-
             case R.id.menu_action_settings:
-
                 Intent i = new Intent(this, SettingsActivity.class);
                 AnimHelper.startActivity(this, i);
                 break;
             case R.id.menu_debug:
                 debugDialog();
                 break;
+            case R.id.menu_action_account:
+                if (UserInfo.load(MainActivity.this).isLoggedIn()) {
+                    Intent acc = new Intent(MainActivity.this, AccountActivity.class);
+                    AnimHelper.startActivity(this, acc);
+                } else {
+                    Intent reg = new Intent(MainActivity.this,
+                            LoginRegisterActivity.class);
+                    AnimHelper.startActivity(this, reg);
+                }
+                break;
         }
-
         return false;
     }
 
@@ -285,10 +294,6 @@ public class MainActivity extends ToolbarActivity implements
 
                 "Upload",
 
-                "Register",
-
-                "Verify"
-
         };
         ab.setItems(titles, new OnClickListener() {
 
@@ -297,18 +302,6 @@ public class MainActivity extends ToolbarActivity implements
                 switch (which) {
                     case 0:
                         UploadActivity.startFor(getRemoteName(), MainActivity.this);
-                        break;
-                    case 1:
-                        Intent reg = new Intent(MainActivity.this,
-                                LoginRegisterActivity.class);
-                        startActivity(reg);
-                        break;
-                    case 2:
-                        Intent vfy = new Intent(MainActivity.this,
-                                LoginRegisterActivity.class);
-                        Uri uri = Uri.parse("org.twinone.irremote/launch?a=verify");
-                        vfy.setData(uri);
-                        startActivity(vfy);
                         break;
                 }
             }
@@ -332,6 +325,10 @@ public class MainActivity extends ToolbarActivity implements
 
     public void hideAddRemoteButton() {
         mAddRemoteButton.hide();
+    }
+
+    public FloatingActionButton getAddRemoteButton() {
+        return mAddRemoteButton;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.twinone.irremote.providers.twinone;
+package org.twinone.irremote.account;
 
 
 import android.os.Bundle;

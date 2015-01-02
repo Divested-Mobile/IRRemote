@@ -1,4 +1,4 @@
-package org.twinone.irremote.providers.twinone;
+package org.twinone.irremote.account;
 
 import android.content.Context;
 
@@ -32,7 +32,6 @@ public class UserInfo implements Serializable {
     }
 
     private UserInfo() {
-
     }
 
     private static void save(Context c, UserInfo userInfo) {

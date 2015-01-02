@@ -32,7 +32,7 @@ public abstract class NavigationFragment extends Fragment {
     public static final int EDGE_SIZE_RECOMMENDED = 40;
     private static final String PREF_KEY_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String PREF_FILENAME = "nav";
-    private DrawerLayout mDrawerLayout;
+    protected DrawerLayout mDrawerLayout;
 
     private View mFragmentContainerView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -113,6 +113,8 @@ public abstract class NavigationFragment extends Fragment {
             }
         };
 
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
             open();
         }
@@ -124,7 +126,6 @@ public abstract class NavigationFragment extends Fragment {
             }
         });
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mIsSetUp = true;
     }
 
@@ -331,14 +332,15 @@ public abstract class NavigationFragment extends Fragment {
         }
         try {
             String field = left ? "mLeftDragger" : "mRightDragger";
-            Field dragger = mDrawerLayout.getClass().getDeclaredField(field);
+            Field dragger = mDrawerLayout.getClass().asSubclass(DrawerLayout.class).getField(field);
             dragger.setAccessible(true);
             ViewDragHelper helper = (ViewDragHelper) dragger.get(mDrawerLayout);
             Field mEdgeSize = helper.getClass().getDeclaredField("mEdgeSize");
             mEdgeSize.setAccessible(true);
             mEdgeSize.setInt(helper, px);
         } catch (Exception e) {
-            throw new RuntimeException("Error setting edge size");
+            e.printStackTrace();
+//            throw new RuntimeException("Error setting edge size", e);
         }
     }
 

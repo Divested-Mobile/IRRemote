@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.twinone.androidlib.net.HttpJson;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
+import org.twinone.irremote.account.UserInfo;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.twinone.TwinoneProviderFragment.OnManufacturersReceivedListener;
 import org.twinone.irremote.util.BaseTextWatcher;
@@ -105,16 +107,7 @@ public class UploadFragment extends Fragment implements
                 if (!verifyAllFields()) {
                     return;
                 }
-                Remote r = Remote.load(getActivity(), getUploadActivity().getRemoteName());
-                if (isOtherDeviceTypeSelected()) {
-                    r.details.typeString = getTypeString();
-                } else {
-                    r.details.type = mDeviceType.getSelectedItemPosition();
-                    r.details.typeString = null;
-                }
-                r.details.model = mModel.getText().toString();
-                r.details.manufacturer = mManufacturer.getText().toString();
-                upload(r);
+                upload();
                 break;
         }
     }
@@ -179,11 +172,24 @@ public class UploadFragment extends Fragment implements
     }
 
 
-    public void upload(Remote remote) {
+    public void upload() {
+        Remote r = Remote.load(getActivity(), getUploadActivity().getRemoteName());
+        if (isOtherDeviceTypeSelected()) {
+            r.details.type = -1;
+            r.details.typeString = getTypeString();
+        } else {
+            r.details.type = mDeviceType.getSelectedItemPosition();
+            r.details.typeString = null;
+        }
+        r.details.model = mModel.getText().toString();
+        r.details.manufacturer = mManufacturer.getText().toString();
+
+
+
         HttpJson<UploadReq, UploadResp> hj = new HttpJson<>(UploadResp.class);
         hj.setUrl(Constants.URL_UPLOAD);
         UploadReq req = new UploadReq();
-        req.remote = remote;
+        req.remote = r;
         req.userinfo = UserInfo.getAuthInfo(getActivity());
         req.deviceinfo = new DeviceInfo(getActivity());
         hj.execute(req, this);
@@ -191,7 +197,11 @@ public class UploadFragment extends Fragment implements
 
     @Override
     public void onServerResponse(UploadReq req, UploadResp resp) {
-
+        if (resp.status == 0) {
+            Toast.makeText(getActivity(), R.string.remote_uploaded, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.upload_err, resp.status), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

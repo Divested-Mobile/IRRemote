@@ -6,7 +6,7 @@ import org.twinone.irremote.ir.SignalFactory;
 import java.io.Serializable;
 
 /**
- * No two buttons on a remote can have the same id
+ * No two buttons on a menu_main can have the same id
  *
  * @author Twinone
  */
@@ -116,7 +116,7 @@ public class Button implements Serializable {
      */
     public final int id;
     /**
-     * Used to identify this button in this remote (unique inside a remote)
+     * Used to identify this button in this menu_main (unique inside a menu_main)
      */
     public int uid;
 

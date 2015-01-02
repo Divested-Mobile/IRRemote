@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/reg_message"
+            android:id="@+id/form_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -23,13 +23,13 @@
             android:textColor="#aaffffff" />
 
         <LinearLayout
-            android:id="@+id/reg_form"
+            android:id="@+id/form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/reg_username"
+                android:id="@+id/form_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -38,7 +38,7 @@
                 android:maxLength="32" />
 
             <EditText
-                android:id="@+id/reg_email"
+                android:id="@+id/form_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
                 android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/reg_pwd"
+                android:id="@+id/form_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -56,7 +56,7 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/reg_pwd_confirm"
+                android:id="@+id/form_pwd_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -64,7 +64,7 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/reg_submit"
+                android:id="@+id/form_submit"
                 style="@style/AccentTint_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

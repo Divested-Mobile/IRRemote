@@ -2,10 +2,10 @@
 <resources>
 
     <!-- Same as used in icon -->
-
     <item name="primary" type="color">@color/material_blue_grey_800</item>
     <item name="primary_dark" type="color">@color/material_blue_grey_900</item>
-    <item name="accent" type="color">@color/material_orange_400</item>
+    <!--<item name="accent" type="color">@color/material_orange_400</item>-->
+    <item name="accent" type="color">@color/gmail_red</item>
     <item name="accent_dark" type="color">@color/material_orange_600</item>
     <item name="main_red" type="color">@color/material_red_500</item>
     <item name="green_learned" type="color">@color/material_green_500</item>
@@ -13,9 +13,12 @@
     <item name="learn_progress_color" type="color">@color/accent_dark</item>
     <item name="accent_contrast_text" type="color">@android:color/black</item>
 
-    <!-- Background of the remote itself -->
+    <!-- Background of the menu_main itself -->
     <color name="remote_bg_start">#222426</color>
     <color name="remote_bg_center">#222426</color>
     <color name="remote_bg_end">#222426</color>
+
+
+    <item name="gmail_red" type="color">#da4336</item>
 
 </resources>

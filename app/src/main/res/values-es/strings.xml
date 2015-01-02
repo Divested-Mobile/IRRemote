@@ -110,7 +110,7 @@
     <string name="button_text_temp_up">Tmp +</string>
     <string name="button_text_temp_down">Tmp -</string>
 
-    <!-- Digits allowed to save a remote name -->
+    <!-- Digits allowed to save a menu_main name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZÑÇabcdefghijklmnñopqrstuvwxyzñç0123456789- _</string>
 
@@ -133,7 +133,7 @@
     <string name="dlg_na_msg">Parece que tu dispositivo no tiene emisor de infrarrojos\nLo sentimos, pero no podrás usar esta app en este dispositivo.</string>
 
     <!-- Ready -->
-    <string name="learn_tit_ready">Configurar \"%s\"</string>
+    <string name="learn_tit_ready">Configurar - %s</string>
     <string name="learn_desc_ready">Pulsa y mantén el botón \"%s\" en tu mando apuntando al lector de infrarrojos de tu dispositivo a unos 5cm.\nCuando estés listo, pulsa Aprender</string>
 
     <!-- Learning -->
@@ -197,8 +197,8 @@
     <string name="edit_confirmexitdlg_tit">Guardar cambios?</string>
     <string name="edit_confirmexitdlg_save">Guardado</string>
     <string name="edit_confirmexitdlg_discard">Cancelar</string>
-    <!-- %s will be replaced with the remote name -->
-    <string name="edit_activity_title">Editar - \"%s\"</string>
+    <!-- %s will be replaced with the menu_main name -->
+    <string name="edit_activity_title">Editar - %s</string>
     <!--  -->
     <string name="menu_edit_organize">Organizar</string>
     <string name="menu_edit_snap">Alinear a cuadrícula</string>

@@ -1,7 +1,6 @@
-package org.twinone.irremote.providers.twinone;
+package org.twinone.irremote.account;
 
 import android.accounts.AccountManager;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +24,8 @@ import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
-import org.twinone.irremote.providers.twinone.LoginFragment.LoginReq;
-import org.twinone.irremote.providers.twinone.LoginFragment.LoginResp;
+import org.twinone.irremote.account.LoginFragment.LoginReq;
+import org.twinone.irremote.account.LoginFragment.LoginResp;
 import org.twinone.irremote.util.BaseTextWatcher;
 
 
@@ -69,15 +68,15 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getActivity().setTitle(R.string.title_create_account);
 
-        mForm = (LinearLayout) root.findViewById(R.id.login_form);
+        mForm = (LinearLayout) root.findViewById(R.id.form);
         mMessage = (TextView) root.findViewById(R.id.login_message);
         mLogout = (Button) root.findViewById(R.id.logout);
         mLogout.setOnClickListener(this);
-        mUsername = (EditText) root.findViewById(R.id.login_username);
-        mPwd = (EditText) root.findViewById(R.id.login_pwd);
+        mUsername = (EditText) root.findViewById(R.id.form_username);
+        mPwd = (EditText) root.findViewById(R.id.form_pwd);
 
         setupLayout(getUserInfo().isLoggedIn());
-        Button mSubmit = (Button) root.findViewById(R.id.login_submit);
+        Button mSubmit = (Button) root.findViewById(R.id.form_submit);
         mSubmit.setOnClickListener(this);
 
         BaseTextWatcher tw = new BaseTextWatcher() {
@@ -110,7 +109,6 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
     }
 
     private void startAccountChooser() {
-        Log.i("RegisterActivity", "startAccountChooser()");
         Intent intent = AccountManager.newChooseAccountIntent(null, null,
                 new String[]{"com.google"}, true, null, null, null, null);
         startActivityForResult(intent, GET_ACCOUNT);
@@ -119,7 +117,7 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_submit:
+            case R.id.form_submit:
                 checkFieldsAndSubmit();
                 break;
             case R.id.logout:

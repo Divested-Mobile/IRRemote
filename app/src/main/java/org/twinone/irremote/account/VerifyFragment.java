@@ -1,4 +1,4 @@
-package org.twinone.irremote.providers.twinone;
+package org.twinone.irremote.account;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import org.twinone.androidlib.net.HttpJson.ExceptionListener;
 import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
-import org.twinone.irremote.providers.twinone.VerifyFragment.VerifyReq;
-import org.twinone.irremote.providers.twinone.VerifyFragment.VerifyResp;
+import org.twinone.irremote.account.VerifyFragment.VerifyReq;
+import org.twinone.irremote.account.VerifyFragment.VerifyResp;
 
 public class VerifyFragment extends Fragment implements OnClickListener,
         ResponseListener<VerifyReq, VerifyResp>,

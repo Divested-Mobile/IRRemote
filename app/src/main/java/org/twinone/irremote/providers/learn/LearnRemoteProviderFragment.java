@@ -66,7 +66,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     private void createRemoteAndSetType(int type) {
         mRemote = ComponentUtils.createEmptyRemote(getActivity(), type);
-        Log.d("", "Creating empty remote");
+        Log.d("", "Creating empty menu_main");
         Log.d("", "Remote null :" + (mRemote == null));
         setType(type);
     }
@@ -125,7 +125,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     private void logButtons() {
         if (mRemote == null) {
-            Log.d("", "Cannot log buttons: null remote");
+            Log.d("", "Cannot log buttons: null menu_main");
             return;
         }
         int c = 0;

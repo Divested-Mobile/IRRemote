@@ -6,8 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.twinone.irremote.providers.twinone.LoginRegisterActivity;
-import org.twinone.irremote.ui.MainActivity;
+import org.twinone.irremote.account.LoginRegisterActivity;
 
 public class LaunchActivity extends Activity {
 
