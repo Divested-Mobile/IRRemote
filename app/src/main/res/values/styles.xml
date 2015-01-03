@@ -31,7 +31,7 @@
     </style>
 
     <style name="AccentTint_Button_Base" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/accent_contrast_text</item>
     </style>
 
     <style name="AccentTint_Button" parent="@style/AccentTint_Button_Base">

@@ -25,7 +25,7 @@ public class MainNavFragment extends NavigationFragment {
     public static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
 
 
-    private MultiListenerDrawerLayout getMultiListenerDrawerLayout() {
+    public MultiListenerDrawerLayout getMultiListenerDrawerLayout() {
         return (MultiListenerDrawerLayout) mDrawerLayout;
     }
 
@@ -98,25 +98,10 @@ public class MainNavFragment extends NavigationFragment {
         if (isOpen()) {
             getMainActivity().showAddRemoteButton();
         }
-        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+        mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 getMainActivity().getAddRemoteButton().setOffset(slideOffset);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
             }
         });
         update();

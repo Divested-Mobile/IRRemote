@@ -6,7 +6,6 @@
         android:id="@+id/menu_action_account"
         android:icon="@drawable/ic_person_white_24dp"
         android:title="@string/menu_action_account"
-        android:visible="false"
         app:showAsAction="always" />
 
     <item

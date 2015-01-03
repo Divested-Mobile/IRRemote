@@ -19,7 +19,6 @@
         android:layout_marginBottom="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/vfy_try_again"
-        android:textColor="@android:color/black"
         android:visibility="gone" />
 
 </LinearLayout>

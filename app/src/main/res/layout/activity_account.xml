@@ -79,8 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
                     android:layout_marginTop="32dp"
-                    android:text="@string/reg_submit"
-                    android:textColor="@android:color/black" />
+                    android:text="@string/reg_submit" />
             </LinearLayout>
 
             <Button
@@ -91,7 +90,6 @@
                 android:layout_marginBottom="32dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/login_logout"
-                android:textColor="@android:color/black"
                 android:visibility="gone" />
 
         </LinearLayout>

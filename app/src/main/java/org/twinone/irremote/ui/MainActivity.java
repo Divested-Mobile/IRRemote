@@ -132,7 +132,19 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         mNavFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         mNavFragment.setEdgeSizeDp(30);
+        mNavFragment.getMultiListenerDrawerLayout().addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if (mMenuItemAccount != null) {
+                    Log.d("", "Setting slide offset " + slideOffset);
+//                    mMenuItemAccount.setScaleX(slideOffset);
+                    mMenuItemAccount.setAlpha(slideOffset);
+                    mMenuItemAccount.setTranslationX(50 - slideOffset * 50);
+                }
+            }
+        });
     }
+
 
     private void setupShowAds() {
         ViewGroup mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
@@ -241,22 +253,41 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         }
     }
 
+    private View mMenuItemAccount;
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         boolean open = mNavFragment.isOpen();
         boolean hasRemote = getRemoteName() != null;
         if (!hasRemote) setTitle(R.string.app_name);
 
-        menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open);
+        mMenuItemAccount = getToolbar().findViewById(R.id.menu_action_account);
+        Log.w("", "menu null: " + (mMenuItemAccount == null));
+
+        if (!open && mMenuItemAccount != null) {
+            mMenuItemAccount.setAlpha(0);
+        }
+        Log.w("", "OnPrepareOptionsMenu " + isAccountButtonNull());
+
+//        menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open);
 
         menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
-        return super.onPrepareOptionsMenu(menu);
+        return true;
+    }
+
+    private boolean isAccountButtonNull() {
+        mMenuItemAccount = getToolbar().findViewById(R.id.menu_action_account);
+        return mMenuItemAccount == null;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.menu_action_account);
+        Log.w("", "OnCreateOptionsMenu " + isAccountButtonNull());
         return true;
     }
 

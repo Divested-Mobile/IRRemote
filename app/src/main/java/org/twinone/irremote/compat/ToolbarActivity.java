@@ -29,7 +29,7 @@ public abstract class ToolbarActivity extends ActionBarActivity {
         setupToolbar();
     }
 
-    void setupToolbar() {
+    protected void setupToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
     }

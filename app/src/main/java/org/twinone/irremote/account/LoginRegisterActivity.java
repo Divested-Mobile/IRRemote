@@ -52,7 +52,9 @@ public class LoginRegisterActivity extends ToolbarActivity {
             // Initialize the ViewPager and set an adapter
             ViewPager pager = (ViewPager) findViewById(R.id.register_pager);
             pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+            pager.setCurrentItem(FRAGMENT_INDEX_REGISTER);
             pager.setOnPageChangeListener(new MyPageListener());
+
 
             // Bind the tabs to the ViewPager
             PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.register_tabs);
@@ -142,7 +144,6 @@ public class LoginRegisterActivity extends ToolbarActivity {
     @Override
     public void finish() {
         super.finish();
-//        MainActivity.recreate(this);
         AnimHelper.onFinish(this);
     }
 

@@ -11,7 +11,7 @@
     <item name="green_learned" type="color">@color/material_green_500</item>
     <item name="navigation_background" type="color">#333</item>
     <item name="learn_progress_color" type="color">@color/accent_dark</item>
-    <item name="accent_contrast_text" type="color">@android:color/black</item>
+    <item name="accent_contrast_text" type="color">@android:color/white</item>
 
     <!-- Background of the menu_main itself -->
     <color name="remote_bg_start">#222426</color>
