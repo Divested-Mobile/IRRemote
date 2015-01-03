@@ -2,6 +2,7 @@ package org.twinone.irremote.compat;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -43,5 +44,4 @@ public abstract class ToolbarActivity extends ActionBarActivity {
         super.setTitle(title);
         getToolbar().setTitle(title);
     }
-
 }
