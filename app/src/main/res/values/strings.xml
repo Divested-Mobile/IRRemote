@@ -371,12 +371,13 @@
     <string name="login_submit">Login</string>
     <string name="login_done">Logged in</string>
     <string name="login_err_invalid">Invalid credentials</string>
-    <string name="login_logged_in">You are logged in as %s</string>
 
     <string name="menu_action_account">My account</string>
     <string name="title_account">My account</string>
     <string name="remote_uploaded">Remote uploaded</string>
     <string name="upload_err">Error %d uploading remote</string>
+    <string name="acc_header">You are curerntly logged in as</string>
+
 
 
 

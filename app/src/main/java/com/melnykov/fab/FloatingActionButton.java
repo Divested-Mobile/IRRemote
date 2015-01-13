@@ -302,13 +302,15 @@ public class FloatingActionButton extends ImageButton {
     /**
      * Specifies the offset of the button, ranging from 0 to 1
      * Where 0 is completely hidden and 1 is completely shown
+     *
      * @param offset
      */
     public void setOffset(float offset) {
         if (offset == 0) mVisible = false;
         else if (offset == 1) mVisible = true;
-        setTranslationY((1 - offset) * getHeight() + getMarginBottom());
+        setTranslationY((1 - offset) * (getHeight() + getMarginBottom()));
     }
+
     private void toggle(final boolean visible, final boolean animate,
                         boolean force) {
         if (mVisible != visible || force) {

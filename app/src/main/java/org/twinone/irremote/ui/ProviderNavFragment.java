@@ -74,7 +74,7 @@ public class ProviderNavFragment extends NavigationFragment implements
         mIds = ids.toArray(new Integer[ids.size()]);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.provider_list_item,
                 mStrings);
         mListView.setAdapter(adapter);
     }

@@ -88,7 +88,7 @@ public class SelectRemoteListView extends ListView implements
             TextView view = (TextView) convertView;
             if (view == null)
                 view = (TextView) mInflater.inflate(
-                        R.layout.remote_list_item, parent, false);
+                        R.layout.main_nav_item, parent, false);
             view.setText(mItems.get(position));
             view.setId(position);
             return view;

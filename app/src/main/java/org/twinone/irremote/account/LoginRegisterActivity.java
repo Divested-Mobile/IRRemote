@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
+import android.widget.TabWidget;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -34,6 +36,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
     }
 
     private UserInfo mUserInfo;
+    private PagerSlidingTabStrip mTabs;
 
     public UserInfo getUserInfo() {
         return mUserInfo;
@@ -57,8 +60,8 @@ public class LoginRegisterActivity extends ToolbarActivity {
 
 
             // Bind the tabs to the ViewPager
-            PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.register_tabs);
-            tabs.setViewPager(pager);
+             mTabs = (PagerSlidingTabStrip) findViewById(R.id.register_tabs);
+            mTabs.setViewPager(pager);
 
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -128,6 +131,16 @@ public class LoginRegisterActivity extends ToolbarActivity {
         public Fragment getItem(int position) {
             if (position == FRAGMENT_INDEX_LOGIN) return new LoginFragment();
             return new RegisterFragment();
+        }
+
+        public void oPageSelected(int position)
+        {
+            // Unfortunately when TabHost changes the current tab, it kindly
+            // also takes care of putting focus on it when not in touch mode.
+            // The jerk.
+            // This hack tries to prevent this from pulling focus out of our
+            // ViewPager.
+
         }
     }
 

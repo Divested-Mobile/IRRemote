@@ -5,8 +5,8 @@
     <item name="primary" type="color">@color/material_blue_grey_800</item>
     <item name="primary_dark" type="color">@color/material_blue_grey_900</item>
     <!--<item name="accent" type="color">@color/material_orange_400</item>-->
-    <item name="accent" type="color">@color/gmail_red</item>
-    <item name="accent_dark" type="color">@color/material_orange_600</item>
+    <item name="accent" type="color">@color/material_red_500</item>
+    <item name="accent_dark" type="color">@color/material_red_700</item>
     <item name="main_red" type="color">@color/material_red_500</item>
     <item name="green_learned" type="color">@color/material_green_500</item>
     <item name="navigation_background" type="color">#333</item>

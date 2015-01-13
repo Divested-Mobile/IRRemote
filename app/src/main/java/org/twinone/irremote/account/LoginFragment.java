@@ -26,6 +26,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.account.LoginFragment.LoginReq;
 import org.twinone.irremote.account.LoginFragment.LoginResp;
+import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.util.BaseTextWatcher;
 
 
@@ -39,13 +40,11 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
     private static final int STATUS_INVALID_LOGIN = 1;
 
     private LinearLayout mForm;
-    private Button mLogout;
     private TextView mMessage;
     private EditText mUsername;
     private EditText mPwd;
-//    private AlertDialog mDialog;
+    //    private AlertDialog mDialog;
     private boolean mHasErrors = false;
-    private boolean mLoggedIn;
 
 
     @Override
@@ -63,15 +62,12 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
 
         setType(LoginRegisterActivity.FRAGMENT_INDEX_LOGIN);
 
-
         View root = inflater.inflate(R.layout.fragment_login, null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getActivity().setTitle(R.string.title_create_account);
 
         mForm = (LinearLayout) root.findViewById(R.id.form);
         mMessage = (TextView) root.findViewById(R.id.login_message);
-        mLogout = (Button) root.findViewById(R.id.logout);
-        mLogout.setOnClickListener(this);
         mUsername = (EditText) root.findViewById(R.id.form_username);
         mPwd = (EditText) root.findViewById(R.id.form_pwd);
 
@@ -86,26 +82,17 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
                 resetErrors();
             }
         };
-
-
-        if (getUserInfo().isLoggedIn()) {
-            mMessage.setText(getString(R.string.login_logged_in, getUserInfo().username));
-            return root;
-        }
-
-
         return root;
     }
 
     private void setupLayout(boolean isLoggedIn) {
-        mLoggedIn = isLoggedIn;
-        mForm.setVisibility(isLoggedIn ? View.GONE : View.VISIBLE);
-        mMessage.setVisibility(isLoggedIn ? View.VISIBLE : View.GONE);
-        if (isLoggedIn) {
-            mMessage.setText(getString(R.string.login_logged_in, getUserInfo().username));
-            hideInputMethod();
-        }
-        mLogout.setVisibility(isLoggedIn ? View.VISIBLE : View.GONE);
+//        mForm.setVisibility(isLoggedIn ? View.GONE : View.VISIBLE);
+//        mLogout.setVisibility(isLoggedIn ? View.VISIBLE : View.GONE);
+//        setupMessageLayout();
+    }
+
+    private void setupMessageLayout() {
+        mMessage.setVisibility(getUserInfo().isLoggedIn() || mHasErrors ? View.VISIBLE : View.GONE);
     }
 
     private void startAccountChooser() {
@@ -128,13 +115,6 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
         }
     }
 
-    private void hideInputMethod() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mUsername.getWindowToken(), 0);
-
-    }
-
     private void addError(int resId, TextView... vs) {
         addError(getString(resId), vs);
     }
@@ -147,9 +127,10 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
         else
             mMessage.append("\n\n" + err);
 
+        mMessage.setVisibility(View.VISIBLE);
         mMessage.setTextColor(error);
         mHasErrors = true;
-
+        setupMessageLayout();
         if (vs != null) {
             for (TextView v : vs)
                 v.setTextColor(error);
@@ -176,19 +157,10 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
     }
 
     private void submit() {
-//        if (mDialog != null && mDialog.isShowing())
-//            return;
         if (!isAdded()) {
             Log.d("LoginFragment", "!isAdded()");
             return;
         }
-//        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-//        ab.setTitle(R.string.loading);
-//        ab.setMessage("");
-//        ab.setCancelable(false);
-//        ab.setPositiveButton(android.R.string.ok, null);
-//        mDialog = ab.show();
-
         LoginReq req = new LoginReq();
         req.username = mUsername.getText().toString();
         req.password = mPwd.getText().toString();
@@ -205,16 +177,20 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
             getUserInfo().username = req.username;
             getUserInfo().access_token = resp.access_token;
             getUserInfo().save(getActivity());
-            Toast.makeText(getActivity(), R.string.login_done, Toast.LENGTH_LONG).show();
-            setupLayout(true);
-            // finish(); ?
-            getLoginRegisterActivity().updateAllFragments();
+//            Toast.makeText(getActivity(), R.string.login_done, Toast.LENGTH_LONG).show();
+//            setupLayout(true);
+            startAccountActivity();
+//            getLoginRegisterActivity().updateAllFragments();
         } else {
             if ((STATUS_INVALID_LOGIN & resp.status) != 0)
                 addError(R.string.login_err_invalid, (TextView[]) null);
         }
-//        if (mDialog.isShowing())
-//            mDialog.dismiss();
+    }
+
+    private void startAccountActivity() {
+        Intent i = new Intent(getActivity(), AccountActivity.class);
+        AnimHelper.startActivity(getActivity(), i);
+        getActivity().finish();
     }
 
     @Override
@@ -231,7 +207,7 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
         int def = getResources().getColor(
                 R.color.abc_primary_text_material_dark);
 
-        mMessage.setText(null);
+        mMessage.setVisibility(View.GONE);
 
         mMessage.setTextColor(def);
         mUsername.setTextColor(def);

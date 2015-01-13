@@ -1,6 +1,8 @@
 package org.twinone.irremote.account;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.twinone.irremote.R;
@@ -13,6 +15,8 @@ public class AccountActivity extends ToolbarActivity {
     private TextView mUsername;
     private TextView mEmail;
 
+    private Button mLogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,17 @@ public class AccountActivity extends ToolbarActivity {
 
         mUsername = (TextView)findViewById(R.id.form_username);
         mEmail = (TextView)findViewById(R.id.form_email);
+        mLogout = (Button)findViewById(R.id.logout);
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUserInfo.logout().save(AccountActivity.this);
+                finish();
+            }
+        });
+
+        mUsername.setText(mUserInfo.username);
+        mEmail.setText(mUserInfo.email);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

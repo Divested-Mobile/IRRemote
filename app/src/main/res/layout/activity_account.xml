@@ -27,8 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal"
-                android:text="@string/reg_header"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:text="@string/acc_header"
+                android:textSize="12sp"
                 android:textColor="#aaffffff" />
 
             <LinearLayout
@@ -37,49 +37,47 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText
+                <TextView
                     android:id="@+id/form_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
                     android:hint="@string/reg_user_hint"
                     android:inputType="text"
-                    android:maxLength="32" />
+                    android:maxLength="32"
+                    android:textSize="34sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/form_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:cursorVisible="true"
+                    android:fontFamily="sans-serif-condensed"
+
                     android:focusableInTouchMode="false"
+                    android:gravity="center"
                     android:hint="@string/reg_email_hint"
                     android:inputType="textEmailAddress" />
 
-                <EditText
-                    android:id="@+id/form_pwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/reg_pwd_hint"
-                    android:inputType="textPassword" />
+                <!--<EditText-->
+                <!--android:id="@+id/form_pwd"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:hint="@string/reg_pwd_hint"-->
+                <!--android:inputType="textPassword" />-->
 
-                <EditText
-                    android:id="@+id/form_pwd_confirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/reg_pwd_confirm_hint"
-                    android:inputType="textPassword" />
+                <!--<EditText-->
+                <!--android:id="@+id/form_pwd_confirm"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:hint="@string/reg_pwd_confirm_hint"-->
+                <!--android:inputType="textPassword" />-->
 
-                <Button
-                    android:id="@+id/form_submit"
-                    style="@style/AccentTint_Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/reg_submit" />
             </LinearLayout>
 
             <Button
@@ -89,8 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/login_logout"
-                android:visibility="gone" />
+                android:text="@string/login_logout" />
 
         </LinearLayout>
 
