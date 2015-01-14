@@ -1,7 +1,6 @@
 package org.twinone.irremote.account;
 
 import android.accounts.AccountManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,21 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.twinone.androidlib.net.HttpJson;
 import org.twinone.androidlib.net.HttpJson.ExceptionListener;
 import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.account.LoginFragment.LoginReq;
 import org.twinone.irremote.account.LoginFragment.LoginResp;
+import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.util.BaseTextWatcher;
 
@@ -43,7 +40,6 @@ public class LoginFragment extends BaseLoginRegisterFragment implements OnClickL
     private TextView mMessage;
     private EditText mUsername;
     private EditText mPwd;
-    //    private AlertDialog mDialog;
     private boolean mHasErrors = false;
 
 

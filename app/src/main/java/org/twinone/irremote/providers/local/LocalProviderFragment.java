@@ -1,7 +1,6 @@
 package org.twinone.irremote.providers.local;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,6 @@ import android.widget.Toast;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ProviderFragment;
-import org.twinone.irremote.ui.SelectRemoteListView;
-
-import java.util.List;
 
 public class LocalProviderFragment extends ProviderFragment implements AdapterView.OnItemClickListener {
     private ListView mListView;

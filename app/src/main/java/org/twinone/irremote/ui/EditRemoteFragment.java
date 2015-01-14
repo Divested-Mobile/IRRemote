@@ -1,15 +1,12 @@
 package org.twinone.irremote.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 import android.view.DragEvent;
@@ -26,9 +23,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.compat.ToolbarActivity;
-import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
@@ -78,7 +77,6 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private static final int OPTION_CODE = 4;
     private static final int OPTION_REMOVE = 5;
     private static final int SCROLL_DELAY = 15;
-    private final MyEditTypeListener mEditTypeListener = new MyEditTypeListener();
     private boolean mIsEdited;
     private int mScrollPixels;
     private int mGridSizeX;
@@ -228,10 +226,18 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private void showEditDialog() {
         if (mTargetInts.size() == 0)
             return;
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.edit_button_title);
-        ab.setItems(R.array.edit_button_options, mEditTypeListener);
-        AnimHelper.showDialog(ab).setCanceledOnTouchOutside(true);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.edit_button_title);
+        mb.items(R.array.edit_button_options);
+        mb.itemsCallback(new MaterialDialog.ListCallback() {
+            @Override
+            public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                showSelectedEditDialog(which);
+            }
+        });
+        mb.negativeText(android.R.string.cancel);
+        mb.cancelable(false);
+        mb.show();
     }
 
     /**
@@ -654,27 +660,29 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
     private void showDeleteRemoteDialog() {
         final String remoteName = mRemote.name;
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.delete_remote_title);
-        ab.setMessage(getString(R.string.delete_remote_message, remoteName));
-        ab.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.delete_remote_title);
+        mb.content(getString(R.string.delete_remote_message, remoteName));
+        mb.positiveText(android.R.string.ok);
 
+        mb.negativeText(android.R.string.cancel);
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface arg0, int arg1) {
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
                 Remote.remove(getActivity(), remoteName);
                 getActivity().finish();
             }
         });
-        ab.setNegativeButton(android.R.string.cancel, null);
-        AnimHelper.showDialog(ab);
+        mb.show();
     }
 
     private void showHelpDialog() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.edit_helpdlg_tit);
-        ab.setMessage(R.string.edit_helpdlg_msg);
-        ab.setPositiveButton(android.R.string.ok, null);
-        AnimHelper.showDialog(ab);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.edit_helpdlg_tit);
+        mb.content(R.string.edit_helpdlg_msg);
+        mb.positiveText(android.R.string.ok);
+        mb.show();
     }
 
     @Override
@@ -792,35 +800,26 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         return false;
     }
 
-    private class MyEditTypeListener implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                // case OPTION_TEXT:
-                // editText();
-                // break;
-                // case OPTION_SIZE:
-                // editSize();
-                // break;
-                case OPTION_TEXT_SIZE:
-                    editTextSize();
-                    break;
-                case OPTION_ICON:
-                    editIcon();
-                    break;
-                case OPTION_COLOR:
-                    editColor();
-                    break;
-                case OPTION_CORNERS:
-                    editCorners();
-                    break;
-                case OPTION_CODE:
-                    editCode();
-                    break;
-                case OPTION_REMOVE:
-                    editRemove();
-                    break;
-            }
+    private void showSelectedEditDialog(int which) {
+        switch (which) {
+            case OPTION_TEXT_SIZE:
+                editTextSize();
+                break;
+            case OPTION_ICON:
+                editIcon();
+                break;
+            case OPTION_COLOR:
+                editColor();
+                break;
+            case OPTION_CORNERS:
+                editCorners();
+                break;
+            case OPTION_CODE:
+                editCode();
+                break;
+            case OPTION_REMOVE:
+                editRemove();
+                break;
         }
     }
 

@@ -1,12 +1,12 @@
 package org.twinone.irremote.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 
@@ -76,27 +76,25 @@ public class EditRemoteActivity extends ToolbarActivity {
     }
 
     private void showConfirmationDialog() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setTitle(R.string.edit_confirmexitdlg_tit);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(this);
+        mb.title(R.string.edit_confirmexitdlg_tit);
+        mb.positiveText(R.string.edit_confirmexitdlg_save);
+        mb.negativeText(R.string.edit_confirmexitdlg_discard);
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+                saveRemote();
+                finish();
+            }
 
-        ab.setPositiveButton(R.string.edit_confirmexitdlg_save,
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveRemote();
-                        finish();
-                    }
-                });
-        ab.setNegativeButton(R.string.edit_confirmexitdlg_discard,
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-        AnimHelper.showDialog(ab);
+            @Override
+            public void onNegative(MaterialDialog dialog) {
+                super.onNegative(dialog);
+                finish();
+            }
+        });
+        mb.show();
     }
 
     private void saveRemote() {

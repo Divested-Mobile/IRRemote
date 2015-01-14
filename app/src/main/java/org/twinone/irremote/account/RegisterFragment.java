@@ -2,7 +2,6 @@ package org.twinone.irremote.account;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,14 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.androidlib.net.HttpJson;
 import org.twinone.androidlib.net.HttpJson.ExceptionListener;
 import org.twinone.androidlib.net.HttpJson.ResponseListener;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.account.RegisterFragment.RegisterReq;
 import org.twinone.irremote.account.RegisterFragment.RegisterResp;
+import org.twinone.irremote.compat.Compat;
+import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.util.BaseTextWatcher;
 
 public class RegisterFragment extends BaseLoginRegisterFragment implements OnClickListener,
@@ -49,7 +51,7 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements OnCli
     private EditText mPwd;
     private EditText mPwdConfirm;
     private EditText mEmail;
-    private AlertDialog mDialog;
+    private MaterialDialog mDialog;
     private boolean mHasErrors = false;
 
     @Override
@@ -182,12 +184,12 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements OnCli
             Log.d("RegisterFragment", "!isAdded()");
             return;
         }
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.loading);
-        ab.setMessage("");
-        ab.setCancelable(false);
-        ab.setPositiveButton(android.R.string.ok, null);
-        mDialog = ab.show();
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.loading);
+        mb.content("");
+        mb.cancelable(false);
+        mb.positiveText(android.R.string.ok);
+        mDialog = mb.build();
 
         RegisterReq req = new RegisterReq();
         req.username = mUsername.getText().toString();

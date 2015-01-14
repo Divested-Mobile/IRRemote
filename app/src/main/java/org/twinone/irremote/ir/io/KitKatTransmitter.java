@@ -4,7 +4,6 @@ import android.content.Context;
 import android.hardware.ConsumerIrManager;
 import android.hardware.ConsumerIrManager.CarrierFrequencyRange;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalCorrector;

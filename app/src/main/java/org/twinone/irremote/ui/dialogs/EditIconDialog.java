@@ -1,11 +1,9 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.ComponentUtils;
 
 public class EditIconDialog extends DialogFragment implements
@@ -68,20 +69,21 @@ public class EditIconDialog extends DialogFragment implements
             }
         });
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setView(view);
-        ab.setNegativeButton(R.string.icon_remove, new OnClickListener() {
-
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(view, false);
+        mb.negativeText(R.string.icon_remove);
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onNegative(MaterialDialog dialog) {
+                super.onNegative(dialog);
                 if (mListener != null) {
                     mListener.onIconSelected(0);
                 }
             }
         });
-        ab.setNeutralButton(android.R.string.cancel, null);
-        ab.setTitle(R.string.icon_dlgtit);
-        return ab.create();
+        mb.neutralText(android.R.string.cancel);
+        mb.title(R.string.icon_dlgtit);
+        return mb.build();
         // return AnimHelper.addAnimations(ab.create());
     }
 

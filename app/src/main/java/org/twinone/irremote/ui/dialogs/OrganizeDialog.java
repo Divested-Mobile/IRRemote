@@ -1,21 +1,20 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.RemoteOrganizer;
 
-public class OrganizeDialog extends DialogFragment implements
-        DialogInterface.OnClickListener {
+public class OrganizeDialog extends DialogFragment {
 
     private CheckBox mIcons;
     private CheckBox mColors;
@@ -30,7 +29,6 @@ public class OrganizeDialog extends DialogFragment implements
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
         View root = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_organize, null);
 
@@ -39,23 +37,22 @@ public class OrganizeDialog extends DialogFragment implements
         mPositions = (CheckBox) root.findViewById(R.id.organize_positions);
         mCorners = (CheckBox) root.findViewById(R.id.organize_corners);
 
-        ab.setView(root);
-        ab.setNegativeButton(android.R.string.cancel, null);
-        ab.setPositiveButton(android.R.string.ok, this);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(root, false);
+        mb.negativeText(android.R.string.cancel);
+        mb.positiveText(android.R.string.ok);
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+                if (mListener != null) mListener.onOrganize(getFlags());
+            }
+        });
 
-        ab.setTitle(R.string.organize_dlgtit);
-        return AnimHelper.addAnimations(ab.create());
+        mb.title(R.string.organize_dlgtit);
+        return mb.build();
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        switch (which) {
-            case DialogInterface.BUTTON_POSITIVE:
-                if (mListener != null)
-                    mListener.onOrganize(getFlags());
-                break;
-        }
-    }
 
     private int getFlags() {
         int flags = 0;

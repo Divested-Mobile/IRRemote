@@ -2,7 +2,6 @@ package org.twinone.irremote.compat;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 

@@ -1,7 +1,6 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -16,8 +15,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.ComponentUtils;
 
 public class EditColorDialog extends DialogFragment implements
@@ -69,12 +70,12 @@ public class EditColorDialog extends DialogFragment implements
             }
         });
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setView(view);
-        ab.setNegativeButton(android.R.string.cancel, null);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(view, false);
+        mb.negativeText(android.R.string.cancel);
 
-        ab.setTitle(R.string.color_dlgtit);
-        return AnimHelper.addAnimations(ab.create());
+        mb.title(R.string.color_dlgtit);
+        return mb.build();
     }
 
     @Override

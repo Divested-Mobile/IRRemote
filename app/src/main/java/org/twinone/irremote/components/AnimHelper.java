@@ -1,10 +1,7 @@
 package org.twinone.irremote.components;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 
 import org.twinone.irremote.R;
 
@@ -21,26 +18,26 @@ public abstract class AnimHelper {
         a.overridePendingTransition(0, R.anim.slide_out_right);
     }
 
-    public static Dialog showDialog(AlertDialog.Builder ab) {
-        final Dialog d = ab.create();
-        showDialog(d);
-        return d;
-    }
+//    public static Dialog showDialog(AlertDialog.Builder ab) {
+//        final Dialog d = ab.create();
+//        showDialog(d);
+//        return d;
+//    }
 
     /**
      * Convenience method for setting the dialog animations and showing it
      *w
      * @param d
      */
-    private static void showDialog(Dialog d) {
-        addAnimations(d);
-        d.show();
-    }
+//    private static void showDialog(Dialog d) {
+//        addAnimations(d);
+//        d.show();
+//    }
 
-    public static Dialog addAnimations(Dialog d) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return d;
-        d.getWindow().getAttributes().windowAnimations = R.style.DialogAnims;
-        return d;
-    }
+//    public static Dialog addAnimations(Dialog d) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//            return d;
+//        d.getWindow().getAttributes().windowAnimations = R.style.DialogAnims;
+//        return d;
+//    }
 }

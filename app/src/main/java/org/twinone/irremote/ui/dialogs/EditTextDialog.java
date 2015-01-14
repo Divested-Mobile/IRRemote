@@ -1,17 +1,17 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.AnimHelper;
 
 public class EditTextDialog extends DialogFragment {
@@ -59,21 +59,20 @@ public class EditTextDialog extends DialogFragment {
         mEditText = (EditText) view.findViewById(R.id.dialog_edittext_input);
         mEditText.setText(mOriginalText);
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setView(view);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(view, false);
 
-        ab.setTitle(R.string.edit_button_title);
-        ab.setPositiveButton(R.string.rename_remote_save,
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mListener.onTextChanged(mEditText.getText().toString());
-                    }
-                });
-        ab.setNegativeButton(android.R.string.cancel, null);
-
-        return ab.create();
+        mb.title(R.string.edit_button_title);
+        mb.positiveText(R.string.rename_remote_save);
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+                if (mListener != null) mListener.onTextChanged(mEditText.getText().toString());
+            }
+        });
+        mb.negativeText(android.R.string.cancel);
+        return mb.build();
     }
 
     public void setListener(OnTextChangedListener listener) {

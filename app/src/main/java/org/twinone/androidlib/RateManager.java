@@ -1,14 +1,14 @@
 package org.twinone.androidlib;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 
 public class RateManager {
 
@@ -54,39 +54,30 @@ public class RateManager {
         getPrefs(c).edit().putBoolean(PREF_KEY_NEVER, never).commit();
     }
 
-    public static AlertDialog.Builder getShareEditDialog(final Context c) {
-        return getShareEditDialog(c, true);
-    }
+    private static MaterialDialog.Builder getShareEditDialog(final Context c,
+                                                             boolean hasNeverButton) {
 
-    private static AlertDialog.Builder getShareEditDialog(final Context c,
-                                                          boolean hasNeverButton) {
-        final AlertDialog.Builder ab = new AlertDialog.Builder(c);
-
-        ab.setCancelable(false);
-        ab.setTitle(R.string.rate_dlgtit);
-        ab.setMessage(R.string.rate_dlgmsg);
-        if (hasNeverButton) {
-            ab.setNegativeButton(R.string.rate_never,
-                    new OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            setNever(c, true);
-                        }
-                    });
-        }
-        ab.setNeutralButton(R.string.rate_later, null);
-        ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(c);
+        mb.cancelable(false);
+        mb.title(R.string.rate_dlgtit);
+        mb.content(R.string.rate_dlgmsg);
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onNegative(MaterialDialog dialog) {
+                super.onNegative(dialog);
+                setNever(c, true);
+            }
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
                 showMarket(c);
                 setNever(c, true);
             }
         });
-
-        return ab;
+        mb.neutralText(R.string.rate_later);
+        mb.positiveText(android.R.string.ok);
+        return mb;
     }
 
     private static void showMarket(Context c) {

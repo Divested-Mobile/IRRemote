@@ -1,17 +1,12 @@
 package org.twinone.irremote.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
@@ -30,16 +26,16 @@ import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.account.AccountActivity;
+import org.twinone.irremote.account.LoginRegisterActivity;
 import org.twinone.irremote.account.UserInfo;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
-import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.account.LoginRegisterActivity;
 import org.twinone.irremote.providers.twinone.UploadActivity;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
@@ -173,18 +169,19 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
     }
 
     private void showNotAvailableDialog() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setTitle(R.string.dlg_na_tit);
-        ab.setMessage(R.string.dlg_na_msg);
-        ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
-
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(this);
+        mb.title(R.string.dlg_na_tit);
+        mb.content(R.string.dlg_na_msg);
+        mb.positiveText(android.R.string.ok);
+        mb.cancelable(false);
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface arg0, int arg1) {
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
                 finish();
             }
         });
-        ab.setCancelable(false);
-        ab.show();
+        mb.show();
     }
 
     @Override
@@ -252,13 +249,11 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         if (!hasRemote) setTitle(R.string.app_name);
 
 
-
         menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open && Constants.ENABLE_ACCOUNTS);
         menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
         return true;
     }
-
 
 
     @Override
@@ -296,17 +291,17 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
     }
 
     private void debugDialog() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setTitle("Debug");
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(this);
+        mb.title("Debug");
         CharSequence[] titles = new CharSequence[]{
 
                 "Upload",
 
         };
-        ab.setItems(titles, new OnClickListener() {
-
+        mb.items(titles);
+        mb.itemsCallback(new MaterialDialog.ListCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
                 switch (which) {
                     case 0:
                         UploadActivity.startFor(getRemoteName(), MainActivity.this);
@@ -314,7 +309,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
                 }
             }
         });
-        ab.show();
+        mb.show();
     }
 
     public void onRemotesChanged() {

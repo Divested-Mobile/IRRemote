@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.apache.http.HttpEntity;
 import org.twinone.irremote.util.SimpleCache;
 
 import java.io.BufferedInputStream;

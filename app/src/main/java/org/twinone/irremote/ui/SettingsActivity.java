@@ -3,7 +3,6 @@ package org.twinone.irremote.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.ToolbarActivity;

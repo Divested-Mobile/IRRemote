@@ -1,11 +1,9 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +14,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.compat.Compat;
 
 public class EditTextSizeDialog extends DialogFragment implements
         DialogInterface.OnClickListener {
@@ -98,21 +98,20 @@ public class EditTextSizeDialog extends DialogFragment implements
             }
         });
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setView(v);
-        ab.setNegativeButton(android.R.string.cancel, null);
-        ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
-
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(v, true);
+        mb.negativeText(android.R.string.cancel);
+        mb.positiveText(android.R.string.ok);
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (mListener != null) {
-                    mListener.onTextSizeChanged(getProgress());
-                }
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+                if (mListener != null) mListener.onTextSizeChanged(getProgress());
+
             }
         });
-
-        ab.setTitle(R.string.color_dlgtit);
-        return AnimHelper.addAnimations(ab.create());
+        mb.title(R.string.color_dlgtit);
+        return mb.build();
     }
 
     @Override

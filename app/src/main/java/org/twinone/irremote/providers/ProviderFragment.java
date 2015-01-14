@@ -1,9 +1,7 @@
 package org.twinone.irremote.providers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
@@ -12,7 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 
 public abstract class ProviderFragment extends Fragment {
 
@@ -86,29 +87,32 @@ public abstract class ProviderFragment extends Fragment {
 
     }
 
-    private AlertDialog mLoadingDialog;
+    private MaterialDialog mLoadingDialog;
+
     protected void showLoadingDialog() {
         hideLoadingDialog();
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setCancelable(false);
-        ab.setTitle(R.string.loading);
-        ab.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.cancelable(false);
+        mb.title(R.string.loading);
+        mb.negativeText(android.R.string.cancel);
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onNegative(MaterialDialog dialog) {
+                super.onNegative(dialog);
                 onCancelLoading();
                 getActivity().onNavigateUp();
             }
         });
-        mLoadingDialog = ab.create();
-        mLoadingDialog.show();
+        mLoadingDialog = mb.show();
     }
+
     protected void hideLoadingDialog() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.cancel();
         }
         mLoadingDialog = null;
     }
+
     protected void onCancelLoading() {
 
     }

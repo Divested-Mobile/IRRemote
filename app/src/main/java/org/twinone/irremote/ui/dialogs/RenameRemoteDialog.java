@@ -1,7 +1,6 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -10,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 
@@ -62,16 +64,16 @@ public class RenameRemoteDialog extends DialogFragment implements
                 .findViewById(R.id.dialog_edittext_input);
         mNewRemoteName.setText(mOriginalRemoteName);
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setView(view);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(view, false);
 
-        ab.setTitle(R.string.rename_remote_title);
-        ab.setMessage(getString(R.string.rename_remote_message,
+        mb.title(R.string.rename_remote_title);
+
+        mb.content(getString(R.string.rename_remote_message,
                 mOriginalRemoteName));
-        ab.setPositiveButton(R.string.rename_remote_save, this);
-        ab.setNegativeButton(android.R.string.cancel, null);
-
-        return ab.create();
+        mb.positiveText(R.string.rename_remote_save);
+        mb.negativeText(android.R.string.cancel);
+        return mb.show();
     }
 
     @Override

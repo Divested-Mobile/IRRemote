@@ -1,7 +1,5 @@
 package org.twinone.irremote.providers.learn;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.Remote;
@@ -19,7 +20,7 @@ import org.twinone.irremote.ir.SignalFactory;
 import de.passsy.holocircularprogressbar.HoloCircularProgressBar;
 
 public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
-        implements View.OnClickListener, DialogInterface.OnClickListener {
+        implements View.OnClickListener {
 
     private static final String SAVE_DEVICE_TYPE = "save_device_type";
     private static final String SAVE_NAME = "save_name";
@@ -46,7 +47,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     private Signal mSignal;
     private int mCurrentButtonIndex = 0;
-    private AlertDialog mSelectDialog;
+    private MaterialDialog mSelectDialog;
 
     public static LearnRemoteProviderFragment getInstance(int remoteType) {
         LearnRemoteProviderFragment f = new LearnRemoteProviderFragment();
@@ -323,11 +324,11 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     @Override
     protected void onLearnTimeout() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.learn_help_tit);
-        ab.setMessage(R.string.learn_help_msg);
-        ab.setPositiveButton(android.R.string.ok, null);
-        ab.show();
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.learn_help_tit);
+        mb.content(R.string.learn_help_msg);
+        mb.positiveText(android.R.string.ok);
+        mb.show();
     }
 
     private void saveCurrentButton() {
@@ -389,16 +390,6 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_NEGATIVE) {
-            getProvider().popAllFragments();
-        } else {
-            createRemoteAndSetType(which);
-            dialog.dismiss();
-        }
-    }
-
-    @Override
     public void onPause() {
         dismissDialog();
         super.onPause();
@@ -407,17 +398,30 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
     private void dismissDialog() {
         if (mSelectDialog != null && mSelectDialog.isShowing())
             mSelectDialog.dismiss();
-
     }
 
     private void showSelectDialog() {
         dismissDialog();
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.learn_select_tit);
-        ab.setItems(R.array.learn_device_types, this);
-        ab.setNegativeButton(android.R.string.cancel, this);
-        ab.setCancelable(false);
-        mSelectDialog = ab.show();
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.learn_select_tit);
+        mb.items(R.array.learn_device_types);
+        mb.negativeText(android.R.string.cancel);
+        mb.cancelable(false);
+        mb.itemsCallback(new MaterialDialog.ListCallback() {
+            @Override
+            public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                createRemoteAndSetType(which);
+                materialDialog.dismiss();
+            }
+        });
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onNegative(MaterialDialog dialog) {
+                super.onNegative(dialog);
+                getProvider().popAllFragments();
+            }
+        });
+        mSelectDialog = mb.show();
     }
 
 }

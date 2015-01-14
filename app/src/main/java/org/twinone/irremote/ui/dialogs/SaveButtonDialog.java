@@ -1,10 +1,8 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,16 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.ui.ButtonView;
-import org.twinone.irremote.components.TransmitOnTouchListener;
 
-public class SaveButtonDialog extends DialogFragment implements
-        DialogInterface.OnClickListener, TextWatcher {
+public class SaveButtonDialog extends DialogFragment implements TextWatcher {
 
     private static final String ARG_BUTTON = "org.twinone.irremote.arg.button";
     private Button mButton;
@@ -86,25 +85,25 @@ public class SaveButtonDialog extends DialogFragment implements
             mButtonView.setOnTouchListener(new TransmitOnTouchListener(
                     transmitter));
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setView(view);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.customView(view, true);
 
-        ab.setTitle(R.string.save_button_dlgtit);
-        ab.setMessage(R.string.save_button_dlgmsg);
-        ab.setPositiveButton(R.string.save_button_save, this);
-        ab.setNegativeButton(android.R.string.cancel, null);
-        return AnimHelper.addAnimations(ab.create());
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        switch (which) {
-            case DialogInterface.BUTTON_POSITIVE:
+        mb.title(R.string.save_button_dlgtit);
+        mb.content(R.string.save_button_dlgmsg);
+        mb.positiveText(R.string.save_button_save);
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
                 mButton.text = mButtonText.getText().toString();
-                if (mListener != null)
-                    mListener.onSaveButton(mButton);
-        }
+                if (mListener != null) mListener.onSaveButton(mButton);
+
+            }
+        });
+        mb.negativeText(android.R.string.cancel);
+        return mb.build();
     }
+
 
     public void setListener(OnSaveButton listener) {
         mListener = listener;

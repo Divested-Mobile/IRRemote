@@ -1,16 +1,17 @@
 package org.twinone.irremote.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.AnimHelper;
 
 public class EditSizeDialog extends DialogFragment {
@@ -70,24 +71,24 @@ public class EditSizeDialog extends DialogFragment {
         nph.setMinValue(1);
         nph.setValue(mHeight);
 
-        final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.edit_button_title);
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+       mb.title(R.string.edit_button_title);
 
-        ab.setView(sizeView);
+       mb.customView(sizeView, true);
 
-        ab.setNegativeButton(android.R.string.cancel, null);
-        ab.setPositiveButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
+        mb.negativeText(android.R.string.cancel);
+        mb.positiveText(android.R.string.ok);
+        mb.callback(new MaterialDialog.ButtonCallback() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mListener != null) {
-                            mListener.onSizeChanged(npw.getValue(), nph.getValue());
-                        }
+            @Override
+            public void onPositive(MaterialDialog materialDialog) {
+                if (mListener != null) {
+                    mListener.onSizeChanged(npw.getValue(), nph.getValue());
+                }
 
-                    }
-                });
-        return ab.create();
+            }
+        });
+        return mb.build();
     }
 
     public void setListener(OnSizeChangedListener listener) {

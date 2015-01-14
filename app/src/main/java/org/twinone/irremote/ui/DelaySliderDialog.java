@@ -1,6 +1,5 @@
 package org.twinone.irremote.ui;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,8 +15,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
-import org.twinone.irremote.components.AnimHelper;
+import org.twinone.irremote.compat.Compat;
 
 class DelaySliderDialog extends DialogPreference implements
         DialogInterface.OnClickListener {
@@ -90,12 +91,11 @@ class DelaySliderDialog extends DialogPreference implements
 
     @Override
     public Dialog getDialog() {
-
-        AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
-        ab.setTitle(R.string.color_dlgtit);
-        ab.setNegativeButton(android.R.string.cancel, null);
-        ab.setPositiveButton(android.R.string.ok, null);
-        return AnimHelper.addAnimations(ab.create());
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getContext());
+        mb.title(R.string.color_dlgtit);
+        mb.negativeText(android.R.string.cancel);
+        mb.positiveText(android.R.string.ok);
+        return mb.build();
     }
 
     @Override

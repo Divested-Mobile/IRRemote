@@ -1,8 +1,5 @@
 package org.twinone.irremote.providers.lirc;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +14,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ListableAdapter;
 import org.twinone.irremote.providers.ProviderFragment;
@@ -33,7 +33,7 @@ public class LircProviderFragment extends ProviderFragment implements
     private DBConnector mConnector;
 
     private boolean mCreated;
-    private AlertDialog mDialog;
+    private MaterialDialog mDialog;
 
     private LircProviderData mUriData;
     private Object[] mData;
@@ -110,19 +110,20 @@ public class LircProviderFragment extends ProviderFragment implements
 
     private void showDialog() {
         cancelDialog();
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setCancelable(false);
-        ab.setTitle("Loading...");
-        ab.setNegativeButton("Cancel", new OnClickListener() {
-
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.cancelable(false);
+        mb.title("Loading...");
+        mb.negativeText("Cancel");
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onNegative(MaterialDialog dialog) {
+                super.onNegative(dialog);
                 mConnector.cancelQuery();
                 getActivity().onNavigateUp();
+
             }
         });
-        mDialog = ab.create();
-        mDialog.show();
+        mDialog = mb.show();
     }
 
     @Override

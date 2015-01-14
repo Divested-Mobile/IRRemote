@@ -1,10 +1,7 @@
 package org.twinone.irremote.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -22,7 +19,10 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.twinone.irremote.R;
+import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.util.FileUtils;
 
 import java.io.File;
@@ -95,18 +95,19 @@ public class SettingsFragment extends PreferenceFragment implements
     }
 
     private void showConfirmFixButtonsDialog() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-        ab.setTitle(R.string.pref_dlg_tit_fix);
-        ab.setMessage(R.string.pref_dlg_msg_fix);
-        ab.setNegativeButton(android.R.string.cancel, null);
-        ab.setPositiveButton(android.R.string.ok, new OnClickListener() {
-
+        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
+        mb.title(R.string.pref_dlg_tit_fix);
+        mb.content(R.string.pref_dlg_msg_fix);
+        mb.negativeText(android.R.string.cancel);
+        mb.positiveText(android.R.string.ok);
+        mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
                 saveFixButtons();
             }
         });
-        ab.show();
+        mb.show();
     }
 
     private void saveFixButtons() {
