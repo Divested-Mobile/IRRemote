@@ -253,7 +253,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
 
 
-        menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open);
+        menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open && Constants.ENABLE_ACCOUNTS);
         menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
         return true;

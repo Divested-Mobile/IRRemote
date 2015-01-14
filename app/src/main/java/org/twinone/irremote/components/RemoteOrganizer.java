@@ -218,7 +218,6 @@ public class RemoteOrganizer {
             addRow(Button.ID_PREV, Button.ID_PAUSE, Button.ID_NEXT,
                     Button.ID_STOP);
         }
-
         addUncommonRows();
     }
 
@@ -366,16 +365,30 @@ public class RemoteOrganizer {
 
     private void addUncommonRows() {
         int[] ids = getRemainingIds();
+        Log.d("Organizer", "Adding uncommon rows");
+
         for (int i = 0; i < ids.length; i += mCols) {
             int[] row = new int[mCols];
             for (int j = 0; j < mCols; j++) {
                 if (i + j < ids.length)
                     row[j] = ids[i + j];
             }
-            addRow(row);
+            addUncommonRow(row);
         }
     }
-
+    /**
+     * Adds a row of 4 uncommon buttons
+     */
+    private void addUncommonRow(int... ids) {
+        for (int i = 0; i < Math.min(ids.length, mCols); i++) {
+            final Button b = findId(ids[i]);
+            if (b != null) {
+                setButtonPosition(b, i, mCurrentRowCount);
+                moveToOrganizedList(b);
+            }
+        }
+        mCurrentRowCount++;
+    }
     /**
      * Adds a row of 4 buttons
      */
@@ -391,6 +404,7 @@ public class RemoteOrganizer {
         }
         mCurrentRowCount++;
     }
+
 
     public void setupNewButton(Button b) {
         b.w = getButtonWidthPixels();

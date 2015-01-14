@@ -16,5 +16,7 @@ public abstract class Constants {
     public static final String URL_UPLOAD = "https://www.twinone.org/apps/irremote/api/upload.php";
     public static final String URL_DOWNLOAD = "https://www.twinone.org/apps/irremote/api/download.php";
 
+    public static final boolean ENABLE_ACCOUNTS = false;
+
 
 }

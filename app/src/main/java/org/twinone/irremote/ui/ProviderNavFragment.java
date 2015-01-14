@@ -56,7 +56,7 @@ public class ProviderNavFragment extends NavigationFragment implements
         ids.add(ProviderActivity.PROVIDER_COMMON);
 
         list.add(getString(R.string.provider_twinone));
-        ids.add(ProviderActivity.PROVIDER_TWINONE);
+        ids.add(ProviderActivity.PROVIDER_GLOBALCACHE); // TODO switch to Twinone database when ready
 
         list.add(getString(R.string.provider_local));
         ids.add(ProviderActivity.PROVIDER_LOCAL);
@@ -74,7 +74,7 @@ public class ProviderNavFragment extends NavigationFragment implements
         mIds = ids.toArray(new Integer[ids.size()]);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.provider_list_item,
+                R.layout.provider_nav_item,
                 mStrings);
         mListView.setAdapter(adapter);
     }

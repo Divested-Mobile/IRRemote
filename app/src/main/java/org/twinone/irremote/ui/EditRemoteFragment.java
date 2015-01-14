@@ -680,6 +680,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View v = super.onCreateView(inflater, container, savedInstanceState);
         v.setOnDragListener(this);
         return v;

@@ -4,5 +4,6 @@
     android:layout_height="48dp"
     android:gravity="center_vertical"
     android:minHeight="48dp"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
     android:paddingLeft="16dp"
     android:paddingRight="16dp" />

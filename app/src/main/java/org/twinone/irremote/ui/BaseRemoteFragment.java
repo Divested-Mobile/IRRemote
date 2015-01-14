@@ -83,10 +83,6 @@ public abstract class BaseRemoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("BaseRemoteFragment", "OnCreateView");
-
-//        setHasOptionsMenu(true);
-
         if (mRemote == null) {
             return new View(getActivity());
         }
