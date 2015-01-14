@@ -34,14 +34,6 @@ public class EditTextDialog extends DialogFragment {
         return f;
     }
 
-    @Override
-    public void onStart() {
-        if (getDialog() != null) {
-            AnimHelper.addAnimations(getDialog());
-        }
-        super.onStart();
-    }
-
     public void show(Activity a) {
         show(a.getFragmentManager(), "edit_text_dialog");
     }
