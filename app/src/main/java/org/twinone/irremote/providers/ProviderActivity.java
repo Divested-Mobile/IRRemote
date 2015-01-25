@@ -15,6 +15,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
+import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.common.CommonProviderFragment;
@@ -24,10 +25,14 @@ import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
 import org.twinone.irremote.providers.local.LocalProviderFragment;
 import org.twinone.irremote.providers.twinone.TwinoneProviderFragment;
 import org.twinone.irremote.ui.ProviderNavFragment;
+import org.twinone.irremote.ui.dialogs.RemotePreviewDialog;
 import org.twinone.irremote.ui.dialogs.SaveButtonDialog;
-import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
-import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
+
+import java.util.Iterator;
+
+//import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
+//import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
 
 public class ProviderActivity extends ActionBarActivity implements
         NavigationListener {
@@ -91,20 +96,53 @@ public class ProviderActivity extends ActionBarActivity implements
     private String mTitle;
     private String mSavedTitle;
 
-    private static void saveRemote(final Activity activity, Remote remote) {
-        SaveRemoteDialog dialog = SaveRemoteDialog.newInstance(remote);
-        dialog.setListener(new OnRemoteSavedListener() {
+    private SaveRemoteDialog mSaveRemoteDialog;
+    private RemotePreviewDialog mPreviewRemoteDialog;
 
-            @Override
-            public void onRemoteSaved(String name) {
-                // Finish the activity, we've saved the menu_main
-                Remote.setLastUsedRemoteName(activity, name);
-                Toast.makeText(activity, R.string.remote_saved_toast,
-                        Toast.LENGTH_SHORT).show();
-                activity.finish();
-            }
-        });
-        dialog.show(activity);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hideSaveRemoteDialog();
+        hideRemotePreviewDialog();
+    }
+
+
+    private void showSaveRemoteDialog(final Activity activity, final Remote remote) {
+        mSaveRemoteDialog = SaveRemoteDialog.newInstance(remote);
+//        mSaveRemoteDialog.setListener(new OnRemoteSavedListener() {
+//
+//            @Override
+//            public void onRemoteSaved(String name) {
+        // Finish the activity, we've saved the menu_main
+//                Remote.setLastUsedRemoteName(activity, name);
+//                Toast.makeText(activity, R.string.remote_saved_toast,
+//                        Toast.LENGTH_SHORT).show();
+//                activity.finish();
+//            }
+//
+//            @Override
+//            public void onRequestPreview(Remote r) {
+//                requestPreviewRemote(r);
+//            }
+//        });
+        mSaveRemoteDialog.show(activity);
+    }
+
+    private void hideSaveRemoteDialog() {
+        if (mSaveRemoteDialog != null && mSaveRemoteDialog.isAdded()) {
+            mSaveRemoteDialog.dismiss();
+        }
+    }
+
+    public void requestPreviewRemote(Remote remote) {
+//        if (getFragmentManager().findFragmentByTag(RemotePreviewDialog.DIALOG_TAG) == null) {
+        RemotePreviewDialog d = RemotePreviewDialog.newInstance(remote);
+        mPreviewRemoteDialog = d.show(this);
+//        }
+    }
+
+    private void hideRemotePreviewDialog() {
+        if (mPreviewRemoteDialog != null) mPreviewRemoteDialog.dismiss();
     }
 
     public String getAction() {
@@ -124,7 +162,8 @@ public class ProviderActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getIntent().getAction() == null) {
+        if (!ACTION_SAVE_REMOTE.equals(getIntent().getAction())
+                && !ACTION_GET_BUTTON.equals(getIntent().getAction())) {
             throw new IllegalStateException(
                     "ProviderActivity should be called with one of ACTION_SAVE_REMOTE of ACTION_GET_BUTTON specified");
         }
@@ -133,9 +172,8 @@ public class ProviderActivity extends ActionBarActivity implements
 
         setContentView(R.layout.activity_provider);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.androidlib_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.menu_db);
 
         setupNavigation();
 
@@ -166,31 +204,51 @@ public class ProviderActivity extends ActionBarActivity implements
 
     }
 
-    /**
-     * Use this method to send the selected button back to the calling activity
-     */
 
-    public void saveButton(final Button button) {
-        SaveButtonDialog d = SaveButtonDialog.newInstance(button);
-        d.setListener(new OnSaveButton() {
-
-            @Override
-            public void onSaveButton(Button result) {
-                Intent i = new Intent();
-                i.putExtra(EXTRA_RESULT_BUTTON, result);
-                setResult(Activity.RESULT_OK, i);
-                finish();
-            }
-        });
-        d.show(this);
+    public void requestSaveButton(final Button button) {
+        SaveButtonDialog.newInstance(button).show(this);
     }
+
+    public void performSaveButton(final Button button) {
+        Intent i = new Intent();
+        i.putExtra(EXTRA_RESULT_BUTTON, button);
+        setResult(Activity.RESULT_OK, i);
+        finish();
+    }
+
 
     /**
      * Use this method to prompt the user to save this menu_main
      */
-    public void saveRemote(Remote remote) {
-        saveRemote(this, remote);
+    public void requestSaveRemote(Remote remote) {
+        if (ACTION_GET_BUTTON.equals(getIntent().getAction())) {
+            requestPreviewRemote(remote);
+        } else {
+            showSaveRemoteDialog(this, remote);
+        }
     }
+
+    public void performSaveRemote(Remote remote) {
+        Iterator<Button> it = remote.buttons.iterator();
+        while (it.hasNext()) {
+            final Button b = it.next();
+            if (b.code == null || b.code.isEmpty()) {
+                it.remove();
+            }
+        }
+
+        RemoteOrganizer ro = new RemoteOrganizer(this);
+        ro.updateWithoutSaving(remote);
+        RemoteOrganizer.addIcons(remote, false);
+
+        remote.save(this);
+
+        Remote.setLastUsedRemoteName(this, remote.name);
+        Toast.makeText(this, R.string.remote_saved_toast,
+                Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
 
     @Override
     public void onBackPressed() {

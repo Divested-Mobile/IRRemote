@@ -10,8 +10,8 @@ import android.support.v4.view.ViewPager;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.ui.SettingsActivity;
 

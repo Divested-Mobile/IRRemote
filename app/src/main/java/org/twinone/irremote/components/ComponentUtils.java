@@ -392,7 +392,7 @@ public class ComponentUtils {
             case Remote.TYPE_AIR_CON:
                 return BUTTONS_AIR_CONDITIONING;
             default:
-                return null;
+                throw new NullPointerException("Invalid remote type selected: " + type);
         }
     }
 

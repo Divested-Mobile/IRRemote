@@ -12,7 +12,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
-import org.twinone.irremote.components.AnimHelper;
 
 public class EditSizeDialog extends DialogFragment {
 

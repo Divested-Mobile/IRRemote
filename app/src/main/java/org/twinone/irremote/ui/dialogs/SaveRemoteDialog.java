@@ -14,11 +14,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
-import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.components.RemoteOrganizer;
+import org.twinone.irremote.providers.ProviderActivity;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class SaveRemoteDialog extends DialogFragment {
@@ -26,7 +24,7 @@ public class SaveRemoteDialog extends DialogFragment {
     private static final String ARG_REMOTE = "org.twinone.irremote.arg.menu_main";
     private Remote mRemote;
     private EditText mRemoteName;
-    private OnRemoteSavedListener mListener;
+//    private OnRemoteSavedListener mListener;
 
     public static void showFor(Activity a, Remote remote) {
         SaveRemoteDialog.newInstance(remote).show(a.getFragmentManager(),
@@ -55,6 +53,20 @@ public class SaveRemoteDialog extends DialogFragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(getActivity() instanceof ProviderActivity)) {
+            throw new ClassCastException(
+                    "SaveButtonDialog must be added to an instance of ProviderActivity");
+        }
+    }
+
+    private ProviderActivity getProvider() {
+        return (ProviderActivity) getActivity();
+    }
+
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_edit_text, null, false);
@@ -70,40 +82,55 @@ public class SaveRemoteDialog extends DialogFragment {
         mb.title(R.string.save_remote_title);
         mb.content(R.string.save_remote_text);
         mb.positiveText(R.string.save_remote_save);
+        mb.neutralText(R.string.save_remote_preview);
         mb.negativeText(android.R.string.cancel);
         mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
                 onPositiveButton();
+            }
+
+            @Override
+            public void onNeutral(MaterialDialog dialog) {
+                if (!updateRemoteNameWithEditTextValue())
+                    return;
+//                if (mListener != null) mListener.onRequestPreview(mRemote);
+                getProvider().requestPreviewRemote(mRemote);
             }
         });
         return mb.build();
     }
 
-    private void onPositiveButton() {
+    private boolean updateRemoteNameWithEditTextValue() {
         final String name = mRemoteName.getText().toString();
+        mRemote.name = name;
         if (name == null || name.isEmpty()) {
             Toast.makeText(getActivity(), R.string.save_remote_empty,
                     Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
-        mRemote.name = name;
-        Iterator<Button> it = mRemote.buttons.iterator();
-        while (it.hasNext()) {
-            final Button b = it.next();
-            Log.d("SaveRemoteDialog", "Saving button: " + b.text);
-            if (b.code == null || b.code.isEmpty()) {
-                it.remove();
-            }
-        }
-        RemoteOrganizer ro = new RemoteOrganizer(getActivity());
-        ro.updateWithoutSaving(mRemote);
-        RemoteOrganizer.addIcons(mRemote, false);
+        return true;
+    }
 
-        mRemote.save(getActivity());
-        if (mListener != null)
-            mListener.onRemoteSaved(mRemote.name);
+    private void onPositiveButton() {
+        if (!updateRemoteNameWithEditTextValue())
+            return;
+
+//        Iterator<Button> it = mRemote.buttons.iterator();
+//        while (it.hasNext()) {
+//            final Button b = it.next();
+//            if (b.code == null || b.code.isEmpty()) {
+//                it.remove();
+//            }
+//        }
+//
+//        RemoteOrganizer ro = new RemoteOrganizer(getActivity());
+//        ro.updateWithoutSaving(mRemote);
+//        RemoteOrganizer.addIcons(mRemote, false);
+//
+//        mRemote.save(getActivity());
+//        if (mListener != null)
+//            mListener.onRemoteSaved(mRemote.name);
     }
 
     /**
@@ -138,11 +165,13 @@ public class SaveRemoteDialog extends DialogFragment {
     }
 
 
-    public void setListener(OnRemoteSavedListener listener) {
-        mListener = listener;
-    }
+//    public void setListener(OnRemoteSavedListener listener) {
+//        mListener = listener;
+//    }
 
-    public interface OnRemoteSavedListener {
-        public void onRemoteSaved(String name);
-    }
+//    public interface OnRemoteSavedListener {
+//        public void onRemoteSaved(String name);
+//
+//        public void onRequestPreview(Remote remote);
+//    }
 }

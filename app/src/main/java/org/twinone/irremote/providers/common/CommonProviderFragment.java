@@ -158,16 +158,17 @@ public class CommonProviderFragment extends ProviderFragment implements
             addCommonProviderFragment(clone);
         } else if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_NAME) {
             mTarget.deviceName = item.toString();
-            if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
+//            if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
                 mRemote = buildRemote();
                 saveRemote();
-            } else {
-                mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
-                addCommonProviderFragment(mTarget.clone());
-            }
+            // TODO
+//            } else {
+//                mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
+//                addCommonProviderFragment(mTarget.clone());
+//            }
         } else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
             Button b = mRemote.getButton(item.id);
-            getProvider().saveButton(b);
+            getProvider().requestSaveButton(b);
         }
     }
 
@@ -190,7 +191,7 @@ public class CommonProviderFragment extends ProviderFragment implements
     }
 
     private void saveRemote() {
-        getProvider().saveRemote(mRemote);
+        getProvider().requestSaveRemote(mRemote);
     }
 
     public boolean onItemLongClick(AdapterView<?> parent, View view,

@@ -45,7 +45,7 @@ public class OrganizeDialog extends DialogFragment {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
-                if (mListener != null) mListener.onOrganize(getFlags());
+                if (mListener != null) mListener.onOrganizeRequested(getFlags());
             }
         });
 
@@ -72,7 +72,7 @@ public class OrganizeDialog extends DialogFragment {
     }
 
     public interface OrganizeListener {
-        public void onOrganize(int flags);
+        public void onOrganizeRequested(int flags);
     }
 
 }

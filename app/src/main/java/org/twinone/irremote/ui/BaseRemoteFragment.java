@@ -2,9 +2,11 @@ package org.twinone.irremote.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,32 +26,45 @@ import java.util.List;
  */
 public abstract class BaseRemoteFragment extends Fragment {
 
+    public static final String FRAGMENT_TAG = "BaseRemoteFragment";
     private static final String TAG = "RemoteFragment";
     private static final String SAVE_REMOTE = "save_remote";
-    private static final String ARG_REMOTE_NAME = "arg_remote_name";
-    final Handler mHandler = new Handler();
-    Remote mRemote;
-    List<ButtonView> mButtons = new ArrayList<>();
+    private static final String ARG_REMOTE = "arg_remote";
+    protected final Handler mHandler = new Handler();
+    protected Remote mRemote;
+    protected List<ButtonView> mButtons = new ArrayList<>();
     // protected ComponentUtils mComponentUtils;
 
     RemoteView mRemoteView;
     ScrollView mScroll;
     private Transmitter mTransmitter;
 
-    public final void showFor(Activity a, String remoteName) {
-        showFor(a, remoteName, null);
+    public BaseRemoteFragment() {
     }
 
+    public void prepareForRemote(Remote remote) {
+        Bundle b = new Bundle();
+        b.putSerializable(ARG_REMOTE, remote);
+        setArguments(b);
+    }
     /**
      * Use this method just after calling the constructor
      */
-    public final void showFor(Activity a, String remoteName, String tag) {
+    public final BaseRemoteFragment showFor(Activity a, String remoteName) {
+        return showFor(a, Remote.load(a, remoteName));
+    }
 
-        Bundle b = new Bundle();
-        b.putSerializable(ARG_REMOTE_NAME, remoteName);
-        setArguments(b);
+    public final BaseRemoteFragment showFor(FragmentManager fm, Remote remote) {
+        prepareForRemote(remote);
+        fm.beginTransaction().add(this, FRAGMENT_TAG).commit();
+        return this;
+    }
+
+    public final BaseRemoteFragment showFor(Activity a, Remote remote) {
+        prepareForRemote(remote);
         a.getFragmentManager().beginTransaction()
-                .replace(R.id.container, this, tag).commit();
+                .replace(R.id.container, this, FRAGMENT_TAG).commit();
+        return this;
     }
 
     @Override
@@ -59,7 +74,7 @@ public abstract class BaseRemoteFragment extends Fragment {
         setHasOptionsMenu(false);
         Log.i("BaseRemoteFragment", "OnCreate");
         if (getArguments() == null
-                || !getArguments().containsKey(ARG_REMOTE_NAME)) {
+                || !getArguments().containsKey(ARG_REMOTE)) {
             throw new RuntimeException(
                     "You should create this fragment with the showFor method");
         }
@@ -68,8 +83,7 @@ public abstract class BaseRemoteFragment extends Fragment {
             Log.d(TAG, "Retrieving menu_main from savedInstanceState");
             mRemote = (Remote) savedInstanceState.getSerializable(SAVE_REMOTE);
         } else {
-            mRemote = Remote.load(getActivity(), (String) getArguments()
-                    .getSerializable(ARG_REMOTE_NAME));
+            mRemote = (Remote) getArguments().getSerializable(ARG_REMOTE);
         }
         mTransmitter = Transmitter.getInstance(getActivity());
 
@@ -103,7 +117,7 @@ public abstract class BaseRemoteFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    void setupButtons() {
+    protected void setupButtons() {
         mRemoteView.removeAllViews();
         mButtons = new ArrayList<>(mRemote.buttons.size());
         for (org.twinone.irremote.components.Button b : mRemote.buttons) {
@@ -118,6 +132,7 @@ public abstract class BaseRemoteFragment extends Fragment {
             bv.getLayoutParams().height = (int) b.h;
             bv.requestLayout();
         }
+        mRemoteView.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     Transmitter getTransmitter() {

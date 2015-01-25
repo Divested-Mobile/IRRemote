@@ -83,7 +83,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
         remote.name = mTypeString;
         remote.addFlags(Remote.FLAG_LEARNED);
         Log.d("", "Name: " + mTypeString);
-        getProvider().saveRemote(remote);
+        getProvider().requestSaveRemote(remote);
     }
 
     @Override

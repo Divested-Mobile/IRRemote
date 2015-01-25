@@ -57,6 +57,7 @@
                 android:visibility="gone" />
 
             <AutoCompleteTextView
+                style="@style/Widget.AppCompat.EditText"
                 android:id="@+id/upl_manufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -131,7 +131,7 @@ public class TwinoneProviderFragment extends ProviderFragment implements ListVie
             case R.id.menu_db_save:
                 // TODO
                 // Remote r = new Remote();
-                // getProvider().saveRemote(r);
+                // getProvider().requestSaveRemote(r);
                 return true;
         }
         return false;

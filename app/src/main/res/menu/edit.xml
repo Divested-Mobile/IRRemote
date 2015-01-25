@@ -3,27 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_edit_add_button"
+        android:title="@string/menu_edit_add_button" />
+
+    <item
         android:id="@+id/menu_action_rename"
         android:title="@string/menu_action_rename"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_action_delete"
         android:title="@string/menu_action_delete_remote"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_edit_add_button"
-        android:title="@string/menu_edit_add_button" />
-    <item
         android:id="@+id/menu_edit_organize"
         android:title="@string/menu_edit_organize"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_edit_save"
         android:icon="@drawable/ic_action_save"
         android:title="@string/menu_edit_help"
         android:visible="false"
         app:showAsAction="always" />
+
     <item
         android:id="@+id/menu_edit_help"
         android:icon="@drawable/ic_action_help"

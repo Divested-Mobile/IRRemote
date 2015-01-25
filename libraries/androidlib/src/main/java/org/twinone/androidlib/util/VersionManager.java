@@ -1,4 +1,4 @@
-package org.twinone.androidlib.versionmanager;
+package org.twinone.androidlib.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -83,8 +83,6 @@ public class VersionManager {
      * Gets the versionCode from AndroidManifest.xml<br>
      * This is the current version installed on the device.
      *
-     * @param mContext
-     * @return
      */
     int getManifestVersion() {
         return getManifestVersion(mContext);

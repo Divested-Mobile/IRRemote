@@ -378,8 +378,10 @@
     <string name="upload_err">Error %d uploading remote</string>
     <string name="acc_header">You are curerntly logged in as</string>
 
+    <string name="save_remote_preview">Preview</string>
 
-
+    <string name="preview_remote_dlgtit_remote">Preview remote</string>
+    <string name="preview_remote_dlgtit_button">Select a button</string>
 
 
 </resources>

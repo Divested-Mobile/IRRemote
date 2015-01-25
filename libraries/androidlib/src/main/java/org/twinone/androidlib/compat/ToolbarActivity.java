@@ -1,11 +1,11 @@
-package org.twinone.irremote.compat;
+package org.twinone.androidlib.compat;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
-import org.twinone.irremote.R;
+import org.twinone.androidlib.R;
 
 public abstract class ToolbarActivity extends ActionBarActivity {
 
@@ -30,17 +30,31 @@ public abstract class ToolbarActivity extends ActionBarActivity {
     }
 
     protected void setupToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.androidlib_toolbar);
         setSupportActionBar(mToolbar);
+        setPendingTitle();
     }
 
     public Toolbar getToolbar() {
         return mToolbar;
     }
 
+    private CharSequence mPendingTitle;
+
+    private void setPendingTitle() {
+        if (mPendingTitle != null) {
+            mToolbar.setTitle(mPendingTitle);
+            mPendingTitle = null;
+        }
+    }
+
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        getToolbar().setTitle(title);
+        if (getToolbar() != null) {
+            getToolbar().setTitle(title);
+        } else {
+            mPendingTitle = title;
+        }
     }
 }

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.ToolbarActivity;
 
 public class UploadActivity extends ToolbarActivity {
 

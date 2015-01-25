@@ -20,16 +20,14 @@ import com.melnykov.fab.FloatingActionButton;
 
 import org.twinone.androidlib.AdMobBannerBuilder;
 import org.twinone.androidlib.RateManager;
-import org.twinone.androidlib.versionmanager.VersionManager;
-import org.twinone.androidlib.versionmanager.VersionManager.OnUpdateListener;
-import org.twinone.androidlib.versionmanager.VersionManager.UpdateInfo;
+import org.twinone.androidlib.compat.ToolbarActivity;
+import org.twinone.androidlib.util.VersionManager;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.account.AccountActivity;
 import org.twinone.irremote.account.LoginRegisterActivity;
 import org.twinone.irremote.account.UserInfo;
 import org.twinone.irremote.compat.Compat;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
@@ -39,7 +37,7 @@ import org.twinone.irremote.providers.ProviderActivity;
 import org.twinone.irremote.providers.twinone.UploadActivity;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
-public class MainActivity extends ToolbarActivity implements OnRemoteRenamedListener, OnUpdateListener,
+public class MainActivity extends ToolbarActivity implements OnRemoteRenamedListener, VersionManager.OnUpdateListener,
         android.view.View.OnClickListener {
 
     private static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
@@ -335,7 +333,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
     }
 
     @Override
-    public void onUpdate(UpdateInfo ui) {
+    public void onUpdate(VersionManager.UpdateInfo ui) {
         if (ui.isUpdated()) {
         }
     }

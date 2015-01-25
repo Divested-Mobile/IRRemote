@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.androidlib.net.HttpJson;
 import org.twinone.androidlib.net.HttpJson.ExceptionListener;
 import org.twinone.androidlib.net.HttpJson.ResponseListener;
@@ -22,7 +23,6 @@ import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
 import org.twinone.irremote.account.LoginFragment.LoginReq;
 import org.twinone.irremote.account.LoginFragment.LoginResp;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.util.BaseTextWatcher;
 

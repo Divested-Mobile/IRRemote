@@ -77,6 +77,7 @@ public class RateManager {
         });
         mb.neutralText(R.string.rate_later);
         mb.positiveText(android.R.string.ok);
+        if (hasNeverButton) mb.negativeText(R.string.rate_never);
         return mb;
     }
 

@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 
 public class AccountActivity extends ToolbarActivity {

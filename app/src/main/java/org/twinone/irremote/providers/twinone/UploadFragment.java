@@ -95,6 +95,7 @@ public class UploadFragment extends Fragment implements
 
     @Override
     public void onManufacturersReceived(String[] manufacturers) {
+        if (manufacturers == null) return;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, manufacturers);
         mManufacturer.setAdapter(adapter);

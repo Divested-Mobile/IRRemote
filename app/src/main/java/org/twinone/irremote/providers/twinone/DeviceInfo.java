@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.provider.Settings.Secure;
 
-import org.twinone.androidlib.versionmanager.VersionManager;
+import org.twinone.androidlib.util.VersionManager;
 
 import java.util.Locale;
 
