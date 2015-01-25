@@ -20,14 +20,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
@@ -224,7 +223,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     private void showEditDialog() {
-        if (mTargetInts.size() == 0)
+        if (mTargetInts.isEmpty())
             return;
         MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
         mb.title(R.string.edit_button_title);
@@ -425,6 +424,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         ro.setupNewButton(b);
         getRemote().addButton(b);
         refreshButtonsLayout();
+        adjustRemoteLayoutHeightToButtons();
     }
 
     private void editRemove() {
@@ -472,7 +472,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                 if (view == null)
                     break;
 
-                centerButtonAt(view, event.getX(), event.getY());
+                centerButtonAt(view, event.getX() - mRemoteView.getLeft(), event.getY());
                 setEdited(true);
 
                 break;
@@ -507,7 +507,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         od.setListener(new OrganizeListener() {
 
             @Override
-            public void onOrganize(int flags) {
+            public void onOrganizeRequested(int flags) {
                 organizeButtons(flags);
             }
         });
@@ -561,10 +561,12 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         // + bottomView.getTranslationY() + ", bottom: "
         // + bottomView.getBottom());
         int h = max + mMarginTop;
-        int w = mRemoteView.getWidth();
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
-        mRemoteView.setLayoutParams(lp);
         getRemote().details.h = h;
+
+        mRemoteView.requestLayout();
+//        int w = mRemoteView.getWidth();
+//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h);
+//        mRemoteView.setLayoutParams(lp);
     }
 
     @Override
@@ -573,12 +575,12 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
         setupMargins();
 
-        mGridSizeX = getResources().getDimensionPixelSize(R.dimen.grid_size_x);
-        mGridSizeY = getResources().getDimensionPixelSize(R.dimen.grid_size_y);
+        mGridSizeX = getResources().getDimensionPixelSize(R.dimen.block_size_x);
+        mGridSizeY = getResources().getDimensionPixelSize(R.dimen.block_size_y);
         mGridMarginX = getResources().getDimensionPixelSize(
-                R.dimen.grid_spacing_x);
+                R.dimen.button_spacing_x);
         mGridMarginY = getResources().getDimensionPixelSize(
-                R.dimen.grid_spacing_y);
+                R.dimen.button_spacing_y);
 
         int SCROLL_DP = 3;
         mScrollPixels = (int) dpToPx(SCROLL_DP);
@@ -695,7 +697,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     @Override
-    void setupButtons() {
+    protected void setupButtons() {
         super.setupButtons();
         for (ButtonView bv : mButtons) {
             bv.setOnLongClickListener(this);
@@ -726,7 +728,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private void enterActionMode() {
         if (mActionMode == null) {
             mTargetInts.clear();
-            getActivity().startActionMode(this);
+//            getActivity().startActionMode(this);
+            getToolbar().startActionMode(this);
         }
     }
 

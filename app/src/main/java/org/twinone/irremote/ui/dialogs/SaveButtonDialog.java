@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Button;
+import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
@@ -26,7 +27,7 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
     private Button mButton;
     private ButtonView mButtonView;
     private EditText mButtonText;
-    private OnSaveButton mListener;
+//    private OnSaveButton mListener;
 
     public static void showFor(Activity a, Button button) {
         SaveButtonDialog.newInstance(button).show(a);
@@ -49,7 +50,17 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mButton = (Button) getArguments().getSerializable(ARG_BUTTON);
+        Button b = (Button) getArguments().getSerializable(ARG_BUTTON);
+        mButton = new Button(b.text);
+        mButton.code = b.code;
+        mButton.ic = b.ic;
+
+        mButton.x = mButton.y = 0;
+        mButton.bg = Button.BG_TEAL;
+        mButton.w = mButton.h = dpToPx(150);
+    }
+    private float dpToPx(float dp) {
+        return dp * getResources().getDisplayMetrics().density;
     }
 
     @Override
@@ -70,7 +81,6 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
         View view = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_save_button, null, false);
 
-        mButton.bg = Button.BG_AMBER;
         mButton.setCornerRadius(Float.MAX_VALUE);
         mButtonText = (EditText) view
                 .findViewById(R.id.dialog_save_button_text);
@@ -96,7 +106,8 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
                 mButton.text = mButtonText.getText().toString();
-                if (mListener != null) mListener.onSaveButton(mButton);
+                getProvider().performSaveButton(mButton);
+//                if (mListener != null) mListener.onSaveButton(mButton);
 
             }
         });
@@ -105,9 +116,9 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
     }
 
 
-    public void setListener(OnSaveButton listener) {
-        mListener = listener;
-    }
+//    public void setListener(OnSaveButton listener) {
+//        mListener = listener;
+//    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count,
@@ -117,6 +128,7 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        mButtonView.setIcon(0);
         mButtonView.setText(s.toString(), true);
     }
 
@@ -124,7 +136,7 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
     public void afterTextChanged(Editable s) {
     }
 
-    public interface OnSaveButton {
-        public void onSaveButton(Button button);
-    }
+//    public interface OnSaveButton {
+//        public void onSaveButton(Button button);
+//    }
 }

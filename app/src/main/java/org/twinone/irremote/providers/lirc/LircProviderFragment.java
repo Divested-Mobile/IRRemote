@@ -162,7 +162,7 @@ public class LircProviderFragment extends ProviderFragment implements
                     String name = mUriData.manufacturer + " " + mUriData.codeset;
                     Remote remote = IrCode.toRemote(name,
                             (IrCode[]) mData);
-                    getProvider().saveRemote(remote);
+                    getProvider().requestSaveRemote(remote);
                 }
                 return true;
         }

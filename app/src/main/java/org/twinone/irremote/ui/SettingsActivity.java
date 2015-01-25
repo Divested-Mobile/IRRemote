@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 
 public class SettingsActivity extends ToolbarActivity {

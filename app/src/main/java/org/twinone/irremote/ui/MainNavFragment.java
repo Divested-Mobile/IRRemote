@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.twinone.androidlib.MultiListenerDrawerLayout;
 import org.twinone.androidlib.NavigationFragment;
+import org.twinone.androidlib.compat.MultiListenerDrawerLayout;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 

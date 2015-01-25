@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.twinone.irremote.util.SimpleCache;
+import org.twinone.androidlib.util.SimpleCache;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -94,6 +94,7 @@ public class HttpJson<Req, Resp> extends AsyncTask<Void, Void, Void> {
         }
         if (mResponseListener == null) {
             Log.w(TAG, "You have not specified a ResponseListener!");
+            Log.w(TAG, "Url requested was " + mUrl);
         }
         if (responseListener != null)
             setResponseListener(responseListener);

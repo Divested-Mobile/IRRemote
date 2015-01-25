@@ -131,17 +131,21 @@ public class GCProviderFragment extends ProviderFragment implements
                 return true;
             case R.id.menu_db_save:
                 if (mData != null) {
-                    String name = mGCData.manufacturer.Manufacturer + " "
-                            + mGCData.deviceType.DeviceType;
-                    Remote remote = IrCode.toRemote(getActivity(), name,
-                            (IrCode[]) mData);
-                    remote.details.manufacturer = mGCData.manufacturer.Manufacturer;
-                    remote.addFlags(Remote.FLAG_GC);
-                    getProvider().saveRemote(remote);
+                    Remote remote = buildRemote();
+                    getProvider().requestSaveRemote(remote);
                 }
                 return true;
         }
         return false;
+    }
+    private Remote buildRemote() {
+        String name = mGCData.manufacturer.Manufacturer + " "
+            + mGCData.deviceType.DeviceType;
+        Remote remote = IrCode.toRemote(getActivity(), name,
+                (IrCode[]) mData);
+        remote.details.manufacturer = mGCData.manufacturer.Manufacturer;
+        remote.addFlags(Remote.FLAG_GC);
+        return remote;
     }
 
     @Override
@@ -157,9 +161,12 @@ public class GCProviderFragment extends ProviderFragment implements
             mListView.setAdapter(null);
             return;
         }
-
-        mAdapter = new ListableAdapter(getActivity(), data);
-        mListView.setAdapter(mAdapter);
+        if (mData instanceof IrCode[]) {
+            getProvider().requestSaveRemote(buildRemote());
+        } else {
+            mAdapter = new ListableAdapter(getActivity(), data);
+            mListView.setAdapter(mAdapter);
+        }
     }
 
     @Override
@@ -173,12 +180,13 @@ public class GCProviderFragment extends ProviderFragment implements
                             long id) {
         GCBaseListable item = (GCBaseListable) mListView.getAdapter().getItem(
                 position);
+
         if (item.getType() == GlobalCacheProviderData.TYPE_IR_CODE) {
             if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
                 getProvider().transmit(((IrCode) item).getSignal());
             } else {
                 Button b = IrCode.toButton(getActivity(), (IrCode) item);
-                getProvider().saveButton(b);
+                getProvider().requestSaveButton(b);
             }
         } else {
             GlobalCacheProviderData clone = mGCData.clone();

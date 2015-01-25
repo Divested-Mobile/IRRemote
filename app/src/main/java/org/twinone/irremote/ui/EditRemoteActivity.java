@@ -5,9 +5,9 @@ import android.content.Intent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.components.AnimHelper;
 
 public class EditRemoteActivity extends ToolbarActivity {
@@ -33,18 +33,11 @@ public class EditRemoteActivity extends ToolbarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            mEditFragment = new EditRemoteFragment();
-            mEditFragment.showFor(this, mRemoteName, "edit_remote");
+            mEditFragment = (EditRemoteFragment) new EditRemoteFragment().showFor(this, mRemoteName);
         } else {
             mEditFragment = (EditRemoteFragment) getFragmentManager()
-                    .findFragmentByTag("edit_remote");
+                    .findFragmentByTag(BaseRemoteFragment.FRAGMENT_TAG);
         }
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-        getSupportActionBar().setTitle(title);
     }
 
     @Override

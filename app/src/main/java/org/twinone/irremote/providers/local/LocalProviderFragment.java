@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
@@ -28,8 +27,7 @@ public class LocalProviderFragment extends ProviderFragment implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(), "Selected " + mListView.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
         String selectedName = (String) mListView.getAdapter().getItem(position);
-        getProvider().saveRemote(Remote.load(getActivity(), selectedName));
+        getProvider().requestSaveRemote(Remote.load(getActivity(), selectedName));
     }
 }

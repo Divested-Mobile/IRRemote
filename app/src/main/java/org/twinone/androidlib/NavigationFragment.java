@@ -330,18 +330,18 @@ public abstract class NavigationFragment extends Fragment {
             throw new IllegalStateException(
                     "You should call setUp() before setEdgeSizeDp()");
         }
-        try {
-            String field = left ? "mLeftDragger" : "mRightDragger";
-            Field dragger = mDrawerLayout.getClass().asSubclass(DrawerLayout.class).getField(field);
-            dragger.setAccessible(true);
-            ViewDragHelper helper = (ViewDragHelper) dragger.get(mDrawerLayout);
-            Field mEdgeSize = helper.getClass().getDeclaredField("mEdgeSize");
-            mEdgeSize.setAccessible(true);
-            mEdgeSize.setInt(helper, px);
-        } catch (Exception e) {
-            e.printStackTrace();
-//            throw new RuntimeException("Error setting edge size", e);
-        }
+//        try {
+//            String field = left ? "mLeftDragger" : "mRightDragger";
+//            Field dragger = mDrawerLayout.getClass().asSubclass(DrawerLayout.class).getField(field);
+//            dragger.setAccessible(true);
+//            ViewDragHelper helper = (ViewDragHelper) dragger.get(mDrawerLayout);
+//            Field mEdgeSize = helper.getClass().getDeclaredField("mEdgeSize");
+//            mEdgeSize.setAccessible(true);
+//            mEdgeSize.setInt(helper, px);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+////            throw new RuntimeException("Error setting edge size", e);
+//        }
     }
 
     public void setRightEdgeSizeDp(int dp) {

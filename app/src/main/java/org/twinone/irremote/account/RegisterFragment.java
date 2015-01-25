@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.androidlib.net.HttpJson;
 import org.twinone.androidlib.net.HttpJson.ExceptionListener;
 import org.twinone.androidlib.net.HttpJson.ResponseListener;
@@ -25,7 +26,6 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.account.RegisterFragment.RegisterReq;
 import org.twinone.irremote.account.RegisterFragment.RegisterResp;
 import org.twinone.irremote.compat.Compat;
-import org.twinone.irremote.compat.ToolbarActivity;
 import org.twinone.irremote.util.BaseTextWatcher;
 
 public class RegisterFragment extends BaseLoginRegisterFragment implements OnClickListener,

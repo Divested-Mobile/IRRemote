@@ -22,15 +22,18 @@ public class RemoteOrganizer {
     private static final int FLAG_TEXT_SIZE = 1 << 4;
     private static final int DEFAULT_CORNER_RADIUS = 16; // dp
     private final Context mContext;
-    private final int mMarginTop; // px
-    private final int mGridSpacingX;
-    private final int mGridSpacingY;
+    private int mVerticalMargin; // px
+    private int mButtonSpacingX;
+    private int mButtonSpacingY;
     // We can use width because we'll fill the whole screen's available width
-    private final int mDeviceWidth;
-    private final int mGridSizeX;
-    private final int mGridSizeY;
-    private final int mBlocksPerButtonX;
-    private final int mBlocksPerButtonY;
+//    private int mAvailableWidth;
+    private int mBlockSizePxX; // pixels a block takes
+    private int mBlockSizePxY;
+
+    private int mButtonSizeInBlocksX;
+    private int mButtonSizeInBlocksY;
+
+
     /**
      * List of buttons that are already organized
      */
@@ -41,51 +44,59 @@ public class RemoteOrganizer {
     private int mTrackHeight;
     private int mCurrentRowCount;
     // all in px
-    private int mMarginLeft; // px
-    private int mAvailableBlocksX;
+    private int mHorizontalMargin; // px
+    //    private int mAvailableBlocksX;
     private int mCols;
     private Remote mRemote;
 
     public RemoteOrganizer(Context c) {
         mContext = c;
+        mHorizontalMargin = c.getResources().getDimensionPixelSize(
+                R.dimen.grid_min_margin_x);
+        mVerticalMargin = c.getResources().getDimensionPixelSize(
+                R.dimen.grid_min_margin_y);
 
+        mBlockSizePxX = c.getResources()
+                .getDimensionPixelSize(R.dimen.block_size_x);
+        mBlockSizePxY = c.getResources()
+                .getDimensionPixelSize(R.dimen.block_size_y);
+        mButtonSpacingX = c.getResources().getDimensionPixelSize(
+                R.dimen.button_spacing_x);
+        mButtonSpacingY = c.getResources().getDimensionPixelSize(
+                R.dimen.button_spacing_y);
+
+        mButtonSizeInBlocksX = c.getResources().getInteger(R.integer.blocks_per_button_x);
+        mButtonSizeInBlocksY = c.getResources().getInteger(R.integer.blocks_per_button_y);
+    }
+
+    private int getScreenWidth() {
         WindowManager wm = (WindowManager) mContext
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metrics);
-        // Point p = new Point();
-        // wm.getDefaultDisplay().getSize(p);
-        // mDeviceWidth = p.x;
-        mDeviceWidth = metrics.widthPixels;
-
-        mMarginLeft = c.getResources().getDimensionPixelSize(
-                R.dimen.grid_min_margin_x);
-        mMarginTop = c.getResources().getDimensionPixelSize(
-                R.dimen.grid_min_margin_y);
-
-        mGridSizeX = c.getResources()
-                .getDimensionPixelSize(R.dimen.grid_size_x);
-        mGridSizeY = c.getResources()
-                .getDimensionPixelSize(R.dimen.grid_size_y);
-        mGridSpacingX = c.getResources().getDimensionPixelSize(
-                R.dimen.grid_spacing_x);
-        mGridSpacingY = c.getResources().getDimensionPixelSize(
-                R.dimen.grid_spacing_y);
-
-        mBlocksPerButtonX = c.getResources().getInteger(
-                R.integer.blocks_per_button_x);
-        mBlocksPerButtonY = c.getResources().getInteger(
-                R.integer.blocks_per_button_y);
-
-        int mAvailableScreenWidth = mDeviceWidth - mMarginLeft * 2
-                + mGridSpacingX;
-        Log.d("RemoteOrganizer", "mAvailableScreenWidth: "
-                + pxToDp(mAvailableScreenWidth));
-
-        mAvailableBlocksX = mAvailableScreenWidth / mGridSizeX;
-        Log.d("RemoteOrganizer", "Av blockx: " + mAvailableBlocksX);
-
+        return metrics.widthPixels;
     }
+
+    public void setHorizontalMarginDp(int marginDp) {
+        mHorizontalMargin = (int) dpToPx(marginDp);
+    }
+
+    public void setVerticalMarginDp(int marginDp) {
+        mVerticalMargin = (int) dpToPx(marginDp);
+    }
+
+
+    /**
+     * You should probably use device size-based resources to call this method with.
+     */
+    public void setButtonSizeDp(int buttonSizeDp) {
+        mBlockSizePxX = mBlockSizePxY = (int) dpToPx(buttonSizeDp);
+    }
+
+    public void setButtonSpacingDp(int buttonSizeDp) {
+        mButtonSpacingX = mButtonSpacingY = (int) dpToPx(buttonSizeDp);
+    }
+
 
     /**
      * Add default icons to this menu_main's buttons based on their ID's
@@ -117,36 +128,12 @@ public class RemoteOrganizer {
         }
     }
 
-    /**
-     * Set the margins according to how much block we're going to use
-     */
-    private void useCols(int cols) {
-        mMarginLeft = (mDeviceWidth - (mGridSizeX * cols * mBlocksPerButtonX - mGridSpacingX)) / 2;
-        mAvailableBlocksX = cols * mBlocksPerButtonX;
-        mCols = cols;
-    }
+//    private void useCols(int cols) {
+//        mHorizontalMargin = (mAvailableWidth - (mBlockSizePxX * cols  /* *mBlocksPerButtonX*/ - mButtonSpacingX)) / 2;
+////        mAvailableBlocksX = cols * mBlocksPerButtonX;
+//        mCols = cols;
+//    }
 
-    /**
-     * Set the offset of the button plus an additional offset in button's size
-     *
-     * @param b       The button
-     * @param buttonX Offset in button sizes from left
-     * @param buttonY Offset in button sizes from right
-     */
-    private void setButtonPosition(Button b, int buttonX,
-                                   int buttonY) {
-        if (b != null) {
-            b.x = mMarginLeft + (buttonX * mGridSizeX * mBlocksPerButtonX);
-            b.y = mMarginTop + (buttonY * mGridSizeY * mBlocksPerButtonY);
-        }
-    }
-
-    private void setButtonSize(Button b, int w, int h) {
-        if (b != null) {
-            b.w = w * mGridSizeX - mGridSpacingX;
-            b.h = h * mGridSizeY - mGridSpacingY;
-        }
-    }
 
     private void setButtonCornerDp(Button b, int dp) {
         if (b != null) {
@@ -154,11 +141,6 @@ public class RemoteOrganizer {
         }
     }
 
-//    public void updateAndSaveAll() {
-//        for (String name : Remote.getNames(mContext)) {
-//            updateAndSave(name);
-//        }
-//    }
 
     private float dpToPx(float dp) {
         return dp * mContext.getResources().getDisplayMetrics().density;
@@ -179,7 +161,7 @@ public class RemoteOrganizer {
 
     private void organize() {
 
-        mTrackHeight = mMarginTop;
+        mTrackHeight = mVerticalMargin;
         setupSizes();
         if ((mFlags & FLAG_COLOR) != 0)
             setupColor();
@@ -231,25 +213,29 @@ public class RemoteOrganizer {
     }
 
     private void setupSizes() {
-        int def = mContext.getResources().getDimensionPixelSize(
-                R.dimen.default_text_size);
-        def = (int) pxToDp(def);
+        int def = (int) pxToDp(mContext.getResources().getDimensionPixelSize(
+                R.dimen.default_text_size));
         for (Button b : mRemote.buttons) {
-            setButtonSize(b, mBlocksPerButtonX, mBlocksPerButtonY);
+            setButtonSize(b, mButtonSizeInBlocksX, mButtonSizeInBlocksY /*mBlocksPerButtonX, mBlocksPerButtonY*/);
             b.setTextSize(def);
         }
     }
 
     private void setupPosition() {
-        useCols(4);
+//        useCols(4);
+        mCols = 4;
         setupLayout4ColsNew();
 
         mRemote.buttons.addAll(mOrganizedButtons);
 
-        mRemote.details.w = mDeviceWidth;
+        mRemote.details.w = calculateWidthPx();
         mRemote.details.h = calculateHeightPx();
-        mRemote.details.marginLeft = mMarginLeft;
-        mRemote.details.marginTop = mMarginTop;
+        mRemote.details.marginLeft = mHorizontalMargin;
+        mRemote.details.marginTop = mVerticalMargin;
+        Log.d("RemoteOrganizer", "Width : " + mRemote.details.w);
+        Log.d("RemoteOrganizer", "Height: " + mRemote.details.h);
+        Log.d("RemoteOrganizer", "Marg H: " + mRemote.details.marginLeft);
+        Log.d("RemoteOrganizer", "Marg V: " + mRemote.details.marginTop);
     }
 
     private void setupIcon() {
@@ -346,13 +332,19 @@ public class RemoteOrganizer {
         return mRemote.getButtonById(id);
     }
 
+    private int calculateWidthPx() {
+        Log.d("RemoteOrganizer", "CalcWidthPx: marginH * 2 + 4*blockSizePx - spacing");
+        Log.d("RemoteOrganizer", "CalcWidthPx: "+ mHorizontalMargin + " * 2 + 4 * " + mBlockSizePxX + " - " + mButtonSpacingX);
+        return 2 * mHorizontalMargin + mCols * mBlockSizePxX - mButtonSpacingX;
+    }
+
     private int calculateHeightPx() {
         int max = 0;
         for (Button b : mRemote.buttons) {
             if (b != null)
                 max = Math.max(max, (int) (b.y + b.h));
         }
-        return max + mMarginTop;
+        return max + mVerticalMargin;
     }
 
     private int[] getRemainingIds() {
@@ -376,6 +368,7 @@ public class RemoteOrganizer {
             addUncommonRow(row);
         }
     }
+
     /**
      * Adds a row of 4 uncommon buttons
      */
@@ -389,6 +382,7 @@ public class RemoteOrganizer {
         }
         mCurrentRowCount++;
     }
+
     /**
      * Adds a row of 4 buttons
      */
@@ -414,25 +408,47 @@ public class RemoteOrganizer {
     }
 
     int getButtonWidthPixels() {
-        return getButtonWidthPixels(mBlocksPerButtonX);
+        return getButtonWidthPixels(mButtonSizeInBlocksX);
     }
 
     int getButtonHeightPixels() {
-        return getButtonHeightPixels(mBlocksPerButtonY);
+        return getButtonHeightPixels(mButtonSizeInBlocksY);
+    }
+
+    private void setButtonSize(Button b, int w, int h) {
+        if (b != null) {
+            b.w = getButtonWidthPixels(w);
+            b.h = getButtonHeightPixels(h);
+        }
+    }
+
+    /**
+     * Set the offset of the button plus an additional offset in button's size
+     *
+     * @param b The button
+     * @param x The x in the button coordinate system
+     * @param y The y in the button coordinate system
+     */
+    private void setButtonPosition(Button b, int x, int y) {
+        if (b != null) {
+            b.x = mHorizontalMargin + (x * mBlockSizePxX);
+            b.y = mVerticalMargin + (y * mBlockSizePxY);
+            Log.d("RemoteOrganizer", "Setting position ("+b.text + "): (" + b.x + "," + b.y + ")");
+        }
     }
 
     /**
      * Get the width for the specified amount of blocks
      */
     private int getButtonWidthPixels(int blocks) {
-        return blocks * mGridSizeX - mGridSpacingX;
+        return blocks * mBlockSizePxX - mButtonSpacingX;
     }
 
     /**
      * Get the height for the specified amount of blocks
      */
     private int getButtonHeightPixels(int blocks) {
-        return blocks * mGridSizeY - mGridSpacingY;
+        return blocks * mBlockSizePxY - mButtonSpacingY;
     }
 
 }
