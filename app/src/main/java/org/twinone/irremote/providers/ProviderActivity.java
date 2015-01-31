@@ -155,6 +155,7 @@ public class ProviderActivity extends ActionBarActivity implements
 
         mAction = getIntent().getAction();
 
+
         setContentView(R.layout.activity_provider);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.androidlib_toolbar);
@@ -281,9 +282,22 @@ public class ProviderActivity extends ActionBarActivity implements
     }
 
     public void addFragment(ProviderFragment fragment) {
+        String name = "provider_fragment_id_" + getFragmentCount();
+        Log.d("FragTest", "Adding: " + name);
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment).addToBackStack("default")
+                .replace(R.id.container, fragment).addToBackStack(name)
                 .commit();
+    }
+
+
+    private int getFragmentCount () {
+        return getFragmentManager().getBackStackEntryCount();
+    }
+
+    public ProviderFragment getCurrentFragment() {
+        FragmentManager.BackStackEntry entry = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 1);
+        Log.d("FragTest", "GetCurrentFragment: " + entry.getName());
+        return (ProviderFragment) getFragmentManager().findFragmentByTag(entry.getName());
     }
 
     public Transmitter getTransmitter() {
@@ -367,5 +381,7 @@ public class ProviderActivity extends ActionBarActivity implements
             mPendingSwitch = -1;
         }
     }
+
+
 
 }

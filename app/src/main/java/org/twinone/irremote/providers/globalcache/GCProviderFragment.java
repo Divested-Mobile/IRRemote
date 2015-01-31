@@ -52,7 +52,7 @@ public class GCProviderFragment extends ProviderFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         setCurrentState(mGCData.targetType);
         setExitState(GlobalCacheProviderData.TYPE_MANUFACTURER);
@@ -87,7 +87,7 @@ public class GCProviderFragment extends ProviderFragment implements
     }
 
     private void queryServer(GlobalCacheProviderData data, boolean showDialog) {
-        mListView.setAdapter(null);
+//        mListView.setAdapter(null);
 
         if (showDialog)
             showLoadingDialog();
@@ -184,7 +184,7 @@ public class GCProviderFragment extends ProviderFragment implements
         GCBaseListable item = (GCBaseListable) mListView.getAdapter().getItem(
                 position);
 
-        if (item.getType() == GlobalCacheProviderData.TYPE_IR_CODE) {
+        if (item.getType() == GlobalCacheProviderData.TYPE_CODESET) {
             select(mGCData, item);
             queryServer(mGCData, true);
             return;
