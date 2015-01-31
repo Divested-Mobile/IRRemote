@@ -51,10 +51,6 @@ public class KitKatTransmitter extends Transmitter {
         if (mWaitingForTransmission)
             stopTransmitting(false);
 
-        // Could happen that startTransmitting is called twice with the same
-        // signal
-        mHasTransmittedOnce = false;
-
         mWaitingForTransmission = true;
         // Log.d(TAG, "Setting hasTransmitted to false");
         // mRunnable = new TransmitterRunnable();
@@ -96,9 +92,11 @@ public class KitKatTransmitter extends Transmitter {
                 }
             });
         } else {
-            Log.d(TAG, "mTransmitting = false");
+            Log.d(TAG, "Not transmitting signal");
             mWaitingForTransmission = false;
         }
+        mHasTransmittedOnce = false;
+
     }
 
     @Override

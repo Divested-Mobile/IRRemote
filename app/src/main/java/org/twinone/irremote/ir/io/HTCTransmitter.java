@@ -14,9 +14,15 @@ import org.twinone.irremote.ir.SignalCorrector;
 public class HTCTransmitter extends Transmitter {
 
     private CIRControl mCirControl;
+    private static final String TAG = "HTCTransmitter";
 
     private Context mContext;
     private Handler mHandler = new Handler();
+
+    private boolean mWaitingForTransmission;
+    private boolean mHasTransmittedOnce = false;
+    private TransmitRunnable mTransmitRunnable = new TransmitRunnable();
+
 
     HTCTransmitter(Context context) {
         super(context);
@@ -50,6 +56,10 @@ public class HTCTransmitter extends Transmitter {
         if (mHtcIrData == null)
             throw new NullPointerException("You must call setSignal before transmit()");
         Log.d("", "Transmitting!!!");
+        transmitImpl();
+    }
+
+    private synchronized void transmitImpl() {
         mCirControl.transmitIRCmd(mHtcIrData, false);
     }
 
@@ -63,18 +73,60 @@ public class HTCTransmitter extends Transmitter {
 
     @Override
     public void startTransmitting() {
-        transmit();
+        Log.d("", "startTransmitting()");
+        if (mWaitingForTransmission)
+            stopTransmitting(false);
 
+        // Could happen that startTransmitting is called twice with the same
+        // signal
+//        Log.d("", "Setting mHasTransmittedOnce to false!!!");
+//        mHasTransmittedOnce = false;
+
+        mWaitingForTransmission = true;
+        // Log.d(TAG, "Setting hasTransmitted to false");
+        // mRunnable = new TransmitterRunnable();
+        mHandler.post(mTransmitRunnable);
+    }
+
+    private class TransmitRunnable implements Runnable {
+        @Override
+        public void run() {
+            transmitImpl();
+            if (!mHasTransmittedOnce)
+                mHasTransmittedOnce = true;
+
+            if (mWaitingForTransmission) {
+                Log.d(TAG, "Posting new runnable");
+                mHandler.postDelayed(this, getPeriodMillis());
+            }
+        }
     }
 
     @Override
     public void stopTransmitting(boolean atLeastOnce) {
+        if (mHandler == null)
+            Log.d(TAG, "Null handler");
+        if (mTransmitRunnable == null)
+            Log.d(TAG, "Null Runnable");
 
+        mHandler.removeCallbacks(mTransmitRunnable);
+        if (atLeastOnce && !mHasTransmittedOnce) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    transmitImpl();
+                }
+            });
+        } else {
+            Log.d(TAG, "Not transmitting: atLeastOnce=" + atLeastOnce + ", mHasTransmittedOnce=" + mHasTransmittedOnce);
+            mWaitingForTransmission = false;
+        }
+        mHasTransmittedOnce = false;
     }
 
     @Override
     public boolean hasTransmittedOnce() {
-        return false;
+        return mHasTransmittedOnce;
     }
 
     @Override
