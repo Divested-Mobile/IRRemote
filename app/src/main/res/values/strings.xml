@@ -25,7 +25,7 @@
     <string name="save_remote_text">Choose a name for your remote.\nYour new remote will appear in the My Remotes section</string>
     <string name="save_remote_hint">Remote name</string>
     <string name="save_remote_save">Save</string>
-    <string name="err_name_empty">Remote name cannot be empty!</string>
+    <string name="err_name_empty">Remote name cannot be empty</string>
     <!-- Rename -->
     <string name="rename_remote_title">Rename remote</string>
     <string name="rename_remote_message">Enter a new name for %s</string>
@@ -136,7 +136,7 @@
 
     <!-- Learning -->
     <string name="learn_tit_learning">Learning…</string>
-    <string name="learn_desc_learning">Keep holding \"%s\"…</string>
+    <string name="learn_desc_learning">Keep holding %s…</string>
 
     <!-- Learned -->
     <string name="learn_tit_learned">Learned!</string>
@@ -161,13 +161,6 @@
     <string name="learn_select_msg">Select the type of device that you\'re learning from</string>
     <!-- %s is the device type (tv, cable, blu ray, air conditioning... -->
     <string name="learn_activity_title">Learn new %s remote</string>
-    <!--  -->
-    <string name="device_type_tv">TV</string>
-    <string name="device_type_cable">Cable</string>
-    <string name="device_type_bluray">Bluray</string>
-    <string name="device_type_audio_amplifier">Audio amplifier</string>
-    <string name="device_type_air_con">Air conditioning</string>
-
     <!--  -->
     <string name="ori_system">System setting</string>
     <string name="ori_auto">Auto-rotate</string>
@@ -264,26 +257,19 @@
     <string name="edit_corners_tr">Top Right</string>
     <string name="edit_corners_bl">Bottom Left</string>
     <string name="edit_corners_br">Bottom Right</string>
-    <string name="edit_corners_advanced">Advanced</string>
     <string name="edit_corners_dlgtit">Corner Radius</string>
     <string name="pref_tit_vibrate">Vibrate on press</string>
     <string name="pref_desc_vibrate">Vibrate when a button is pressed</string>
-    <string name="pref_tit_light">Visual Indicator</string>
-    <string name="pref_desc_light">Show a red visual indicator when transmitting a signal</string>
     <string name="pref_tit_delay">Signal repeat delay</string>
-    <string name="pref_desc_delay">Time in milliseconds that the app will wait before repeating a singal when you long-press a button</string>
+    <string name="pref_desc_delay">Time in milliseconds to wait between signals when long pressing</string>
     <string name="ms">%d ms</string>
     <string name="delay_reset_default">Default</string>
     <string name="edit_option_text_size">Text size</string>
     <string name="learn_tit_saved">%s Saved</string>
-    <string name="learn_desc_saved">Good job! You already learned this button. To check if it works, tap the button. If it doesn\'t \"Try again\" at the bottom to learn it again.</string>
+    <string name="learn_desc_saved">You already learned this button. To check if it works, tap the button. If it doesn\'t \"Try again\" at the bottom to learn it again.</string>
     <string name="learn_button_forget">Forget</string>
     <string name="learn_button_next">Next</string>
     <string name="no_remotes">You have no remotes\n\nTouch the + button to add your first remote</string>
-    <string name="download_dlgtit">Download remote</string>
-    <string name="download_dlgmsg">Enter the id of the remote you want to download</string>
-    <string name="download_ok">Download</string>
-    <string name="reg_header">This message will be displayed to the user</string>
     <string name="reg_email_hint">Email address</string>
     <string name="reg_pwd_hint">Password</string>
     <string name="reg_pwd_confirm_hint">Confirm password</string>
@@ -297,23 +283,21 @@
     <string name="err_all_fields">Please fill in all fields</string>
     <string name="loading">Loading</string>
     <string name="reg_err_user_taken">The username %s has already been taken</string>
-    <string name="reg_err_invalid_email">Invalid email address</string>
-    <string name="reg_err_email_taken">This email address is already registered</string>
+    <string name="reg_err_email_taken">Email already registered</string>
     <string name="reg_dlgtit_ok">Registered</string>
     <string name="reg_dlgmsg_ok">You are now registered!\n\nAn email has been sent to you. Please click on the link in it to confirm your account.\n\nPlease check your spam folder too, as it may end up there.</string>
     <string name="reg_msg_srv_err">An error happened while registering:</string>
     <!--  -->
-    <string name="reg_err_already_registered_novfy">You\'ve already registered an account (%s), please click the link sent to you by email to verify it</string>
+    <string name="reg_err_already_registered_novfy">You\'ve already registered an account (%s), please check your mail to verify it</string>
     <string name="reg_err_already_registered">You\'re already logged in as %s - no need to register again</string>
-    <string name="reg_err_pass_short">Password too short</string>
     <string name="reg_err_email_invalid">Invalid email address</string>
     <string name="reg_err_user_long">Username too long</string>
     <string name="reg_err_user_invalid">Invalid username</string>
     <string name="reg_err_unknown">Unknown error</string>
-    <string name="network_error">There was an error connecting to the internet. Please try again later.</string>
+    <string name="network_error">Error connecting to the internet. Please try again later.</string>
     <string name="title_account_verified">Verified</string>
     <string name="vfy_ok">Your account has been verified. You are now logged in and ready to upload and download remotes from the Twinone IR Remote database</string>
-    <string name="vfy_err_noreg">There is no account to verify on this device. Please register first.</string>
+    <string name="vfy_err_noreg">Please register first.</string>
     <string name="vfy_failed">Verification failed</string>
     <string name="vfy_try_again">Try again</string>
     <string name="vfy_already_done">Your account (%s) is already verified</string>
@@ -382,6 +366,7 @@
 
     <string name="preview_remote_dlgtit_remote">Preview remote</string>
     <string name="preview_remote_dlgtit_button">Select a button</string>
+    <string name="reg_header"> </string>
 
 
 </resources>

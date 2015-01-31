@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import org.twinone.androidlib.NavigationFragment;
 import org.twinone.irremote.R;
+import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.io.Receiver;
 import org.twinone.irremote.providers.ProviderActivity;
 
@@ -58,16 +59,19 @@ public class ProviderNavFragment extends NavigationFragment implements
         list.add(getString(R.string.provider_twinone));
         ids.add(ProviderActivity.PROVIDER_GLOBALCACHE); // TODO switch to Twinone database when ready
 
-        list.add(getString(R.string.provider_local));
-        ids.add(ProviderActivity.PROVIDER_LOCAL);
+        if (!Remote.getNames(getActivity()).isEmpty()) {
+            list.add(getString(R.string.provider_local));
+            ids.add(ProviderActivity.PROVIDER_LOCAL);
+        }
 
         if (Receiver.isAvailable(getActivity())) {
             if (getProvider().getAction().equals(ProviderActivity.ACTION_SAVE_REMOTE)) {
                 list.add(getString(R.string.provider_learn_remote));
+                ids.add(ProviderActivity.PROVIDER_LEARN);
             } else {
-                list.add(getString(R.string.provider_learn_button));
+//                list.add(getString(R.string.provider_learn_button));
+//                ids.add(ProviderActivity.PROVIDER_LEARN);
             }
-            ids.add(ProviderActivity.PROVIDER_LEARN);
         }
 
         String[] mStrings = list.toArray(new String[list.size()]);

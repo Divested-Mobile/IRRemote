@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class Remote implements Serializable {
@@ -266,6 +267,18 @@ public class Remote implements Serializable {
         buttons.add(b);
     }
 
+    /**
+     * Strips buttons from this remote that have a null or empty code
+     */
+    public void stripInvalidButtons() {
+        Iterator<Button> it = buttons.iterator();
+        while (it.hasNext()) {
+            final Button b = it.next();
+            if (b.code == null || b.code.isEmpty()) {
+                it.remove();
+            }
+        }
+    }
     /**
      * Replace a button by another one
      */

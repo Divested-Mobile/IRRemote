@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
+import android.util.Log;
 
 import org.twinone.irremote.R;
 
@@ -17,6 +18,8 @@ public class ComponentUtils {
             Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT,
             Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
             Button.ID_FAN_UP, Button.ID_TEMP_DOWN, Button.ID_TEMP_UP};
+
+
     private static final int[] BUTTONS_TV = {Button.ID_POWER, Button.ID_MUTE,
             Button.ID_VOL_UP, Button.ID_VOL_DOWN, Button.ID_CH_UP,
             Button.ID_CH_DOWN, Button.ID_DIGIT_0, Button.ID_DIGIT_1,
@@ -392,7 +395,8 @@ public class ComponentUtils {
             case Remote.TYPE_AIR_CON:
                 return BUTTONS_AIR_CONDITIONING;
             default:
-                throw new NullPointerException("Invalid remote type selected: " + type);
+                Log.w("", "Invalid remote type requested!: " + type);
+                return BUTTONS_TV;
         }
     }
 

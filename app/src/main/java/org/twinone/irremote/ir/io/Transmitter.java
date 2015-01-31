@@ -40,23 +40,17 @@ public abstract class Transmitter {
         Transmitter res = null;
         try {
             res =  new HTCTransmitter(c);
-        } catch (ComponentNotAvailableException e) {
-            Log.w("Transmitter", "Could not instantiate HTCTransmitter");
-        }
-        if (res != null) {
             Log.d("Transmitter", "Using HTCTransmitter");
-            return res;
+            return res;        } catch (ComponentNotAvailableException e) {
+            Log.w("Transmitter", "Could not instantiate HTCTransmitter");
         }
         try {
             res = new KitKatTransmitter(c);
+            Log.d("Transmitter", "Using KitKatTransmitter");
+            return res;
         } catch (ComponentNotAvailableException ignored) {
             Log.w("Transmitter", "Could not instantiate KitKatTransmitter");
         }
-        if (res != null) {
-            Log.d("Transmitter", "Using KitKatTransmitter");
-            return res;
-        }
-
         if (Constants.USE_DEBUG_TRANSMITTER) {
             return new DebugTransmitter(c);
         }

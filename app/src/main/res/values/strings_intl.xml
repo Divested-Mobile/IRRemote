@@ -14,8 +14,8 @@
     <!-- Defaults -->
     <item name="pref_def_fix" type="bool">false</item>
     <item name="pref_def_fullscreen" type="bool">false</item>
-    <item name="pref_def_orientation" type="string">@string/pref_val_ori_system</item>
-    <item name="pref_def_theme" type="string">@string/pref_val_theme_sl</item>
+    <item name="pref_def_orientation" type="string" translatable="false">@string/pref_val_ori_system</item>
+    <item name="pref_def_theme" type="string" translatable="false">@string/pref_val_theme_sl</item>
     <item name="pref_def_vibrate" type="bool">true</item>
     <item name="pref_def_light" type="bool">false</item>
     <item name="pref_def_delay" type="integer">200</item>

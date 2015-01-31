@@ -25,7 +25,6 @@ public class SaveRemoteDialog extends DialogFragment {
     public static final String DIALOG_TAG = "save_remote_dialog";
     private Remote mRemote;
     private EditText mRemoteName;
-//    private OnRemoteSavedListener mListener;
 
     public static void showFor(Activity a, Remote remote) {
         SaveRemoteDialog.newInstance(remote).show(a.getFragmentManager(),
@@ -74,7 +73,7 @@ public class SaveRemoteDialog extends DialogFragment {
         mRemoteName = (EditText) view.findViewById(R.id.dialog_edittext_input);
         mRemoteName.setSelectAllOnFocus(true);
         if (mRemote != null) {
-            mRemote.name = getSingularName(mRemote.name);
+            mRemote.name = getUniqueName(mRemote.name);
             mRemoteName.setText(mRemote.name);
         }
         MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
@@ -114,13 +113,7 @@ public class SaveRemoteDialog extends DialogFragment {
         return true;
     }
 
-    /**
-     * Return a add-safe remote name so that when saving a remote under this name it won't overwrite an existing remote
-     *
-     * @param name The original name the user has selected
-     * @return A write-safe name
-     */
-    private String getSingularName(String name) {
+    private String getUniqueName(String name) {
         List<String> names = Remote.getNames(getActivity());
         while (names.contains(name)) {
             Log.d("", "Names contains: " + name);

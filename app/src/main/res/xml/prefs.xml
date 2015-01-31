@@ -31,11 +31,13 @@
         android:key="@string/pref_key_vibrate"
         android:summary="@string/pref_desc_vibrate"
         android:title="@string/pref_tit_vibrate" />
+    <!--
     <CheckBoxPreference
         android:defaultValue="@bool/pref_def_light"
         android:key="@string/pref_key_light"
         android:summary="@string/pref_desc_light"
         android:title="@string/pref_tit_light" />
+        -->
 
     <org.twinone.irremote.ui.DelaySliderDialog
         android:defaultValue="@integer/pref_def_delay"

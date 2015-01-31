@@ -207,6 +207,7 @@ public class ProviderActivity extends ActionBarActivity implements
      * Use this method to prompt the user to save this menu_main
      */
     public void requestSaveRemote(Remote remote) {
+        remote.stripInvalidButtons();
         if (ACTION_GET_BUTTON.equals(getIntent().getAction())) {
             requestPreviewRemote(remote);
         } else {
@@ -215,14 +216,6 @@ public class ProviderActivity extends ActionBarActivity implements
     }
 
     public void performSaveRemote(Remote remote) {
-        Iterator<Button> it = remote.buttons.iterator();
-        while (it.hasNext()) {
-            final Button b = it.next();
-            if (b.code == null || b.code.isEmpty()) {
-                it.remove();
-            }
-        }
-
         RemoteOrganizer ro = new RemoteOrganizer(this);
         ro.updateWithoutSaving(remote);
         RemoteOrganizer.addIcons(remote, false);
@@ -333,7 +326,6 @@ public class ProviderActivity extends ActionBarActivity implements
     }
 
     private void switchToImpl(int provider) {
-        Log.d("", "SwitchToImpl");
         popAllFragments();
         switch (provider) {
             case PROVIDER_GLOBALCACHE:

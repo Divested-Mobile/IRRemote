@@ -50,14 +50,6 @@ import org.twinone.irremote.ui.dialogs.RenameRemoteDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: Multi-edit
- * <p/>
- * TODO: SelectIconDialogFragment
- * <p/>
- * TODO: In ProviderActivity for {@link ProviderActivity#ACTION_GET_BUTTON},
- * allow direct reading (???)
- */
 public class EditRemoteFragment extends BaseRemoteFragment implements
         OnDragListener, OnLongClickListener, OnClickListener, Callback, RenameRemoteDialog.OnRemoteRenamedListener {
 

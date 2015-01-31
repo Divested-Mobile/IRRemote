@@ -25,9 +25,6 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
     private static final String SAVE_DEVICE_TYPE = "save_device_type";
     private static final String SAVE_NAME = "save_name";
 
-    private static final String ACTION_SAVE_REMOTE = "org.twinone.irremote.intent.action.save_remote";
-    private static final String ACTION_GET_BUTTON = "org.twinone.irremote.intent.action.get_button";
-
     private static final String ARG_REMOTE_TYPE = "arg_remote_type";
     private static final String SAVE_BUTTON_NUMBER = "button_number";
     private static final String SAVE_REMOTE = "save_remote";
@@ -74,7 +71,7 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     private void setType(int type) {
         mType = type;
-        mTypeString = getResources().getStringArray(R.array.learn_device_types)[mType];
+        mTypeString = getResources().getStringArray(R.array.device_types)[mType];
         getActivity().setTitle(getString(R.string.learn_activity_title, mTypeString));
         setupStateForCurrentButton();
     }
@@ -391,20 +388,20 @@ public class LearnRemoteProviderFragment extends BaseLearnProviderFragment
 
     @Override
     public void onPause() {
-        dismissDialog();
+        dismissSelectDialog();
         super.onPause();
     }
 
-    private void dismissDialog() {
+    private void dismissSelectDialog() {
         if (mSelectDialog != null && mSelectDialog.isShowing())
             mSelectDialog.dismiss();
     }
 
     private void showSelectDialog() {
-        dismissDialog();
+        dismissSelectDialog();
         MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
         mb.title(R.string.learn_select_tit);
-        mb.items(R.array.learn_device_types);
+        mb.items(R.array.device_types);
         mb.negativeText(android.R.string.cancel);
         mb.cancelable(false);
         mb.itemsCallback(new MaterialDialog.ListCallback() {

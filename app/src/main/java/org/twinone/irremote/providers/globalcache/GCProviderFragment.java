@@ -166,6 +166,7 @@ public class GCProviderFragment extends ProviderFragment implements
         }
         if (mData instanceof IrCode[]) {
             getProvider().requestSaveRemote(buildRemote());
+            mGCData.targetType = GlobalCacheProviderData.TYPE_CODESET;
         } else {
             mAdapter = new ListableAdapter(getActivity(), data);
             mListView.setAdapter(mAdapter);
@@ -188,14 +189,8 @@ public class GCProviderFragment extends ProviderFragment implements
             select(mGCData, item);
             queryServer(mGCData, true);
             return;
-        } else if (item.getType() == GlobalCacheProviderData.TYPE_IR_CODE) {
-            if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
-                getProvider().transmit(((IrCode) item).getSignal());
-            } else {
-                Button b = IrCode.toButton(getActivity(), (IrCode) item);
-                getProvider().requestSaveButton(b);
-            }
-        } else {
+        }
+        else {
             GlobalCacheProviderData clone = mGCData.clone();
             select(clone, item);
             addGCProviderFragment(clone);

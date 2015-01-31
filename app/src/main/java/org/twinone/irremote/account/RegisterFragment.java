@@ -220,7 +220,7 @@ public class RegisterFragment extends BaseLoginRegisterFragment implements OnCli
                 addError(getString(R.string.reg_err_user_taken, req.username),
                         mUsername);
             if ((STATUS_PASS_SHORT & resp.status) != 0)
-                addError(R.string.reg_err_pass_short, mPwd);
+                addError(R.string.reg_err_pwd_short, mPwd);
             if ((STATUS_EMAIL_INVALID & resp.status) != 0)
                 addError(R.string.reg_err_email_invalid, mEmail);
             if ((STATUS_EMAIL_TAKEN & resp.status) != 0)
