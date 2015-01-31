@@ -21,11 +21,12 @@ public abstract class Transmitter {
     private int mPeriodMillis = 200;
     private OnTransmitListener mListener;
     private boolean mTransmitting;
+    LooperThread mThread;
 
     protected Transmitter(Context context) {
         mContext = context;
 
-        LooperThread mThread = new LooperThread();
+        mThread = new LooperThread();
         mThread.start();
         setPeriodMillisFromPrefs();
     }
@@ -36,11 +37,25 @@ public abstract class Transmitter {
      * @return
      */
     public static Transmitter getInstance(Context c) {
+        Transmitter res = null;
         try {
-            return new KitKatTransmitter(c);
-        } catch (ComponentNotAvailableException ignored) {
+            res =  new HTCTransmitter(c);
+        } catch (ComponentNotAvailableException e) {
+            Log.w("Transmitter", "Could not instantiate HTCTransmitter");
         }
-        Log.w("Receiver", "Could not instantiate KitKatTransmitter");
+        if (res != null) {
+            Log.d("Transmitter", "Using HTCTransmitter");
+            return res;
+        }
+        try {
+            res = new KitKatTransmitter(c);
+        } catch (ComponentNotAvailableException ignored) {
+            Log.w("Transmitter", "Could not instantiate KitKatTransmitter");
+        }
+        if (res != null) {
+            Log.d("Transmitter", "Using KitKatTransmitter");
+            return res;
+        }
 
         if (Constants.USE_DEBUG_TRANSMITTER) {
             return new DebugTransmitter(c);

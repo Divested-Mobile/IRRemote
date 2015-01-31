@@ -102,35 +102,20 @@ public class ProviderActivity extends ActionBarActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        hideSaveRemoteDialog();
-        hideRemotePreviewDialog();
+//        hideSaveRemoteDialog();
+//        hideRemotePreviewDialog();
     }
 
 
     private void showSaveRemoteDialog(final Activity activity, final Remote remote) {
-        mSaveRemoteDialog = SaveRemoteDialog.newInstance(remote);
-//        mSaveRemoteDialog.setListener(new OnRemoteSavedListener() {
-//
-//            @Override
-//            public void onRemoteSaved(String name) {
-        // Finish the activity, we've saved the menu_main
-//                Remote.setLastUsedRemoteName(activity, name);
-//                Toast.makeText(activity, R.string.remote_saved_toast,
-//                        Toast.LENGTH_SHORT).show();
-//                activity.finish();
-//            }
-//
-//            @Override
-//            public void onRequestPreview(Remote r) {
-//                requestPreviewRemote(r);
-//            }
-//        });
-        mSaveRemoteDialog.show(activity);
+        if (getFragmentManager().findFragmentByTag(SaveRemoteDialog.DIALOG_TAG) != null) return;
+        SaveRemoteDialog.newInstance(remote).show(activity);
     }
 
     private void hideSaveRemoteDialog() {
-        if (mSaveRemoteDialog != null && mSaveRemoteDialog.isAdded()) {
-            mSaveRemoteDialog.dismiss();
+        SaveRemoteDialog d = (SaveRemoteDialog) getFragmentManager().findFragmentByTag(SaveRemoteDialog.DIALOG_TAG);
+        if (d != null && d.getDialog().isShowing()) {
+            d.dismiss();
         }
     }
 

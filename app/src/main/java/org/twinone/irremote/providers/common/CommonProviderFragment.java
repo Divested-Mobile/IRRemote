@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CommonProviderFragment extends ProviderFragment implements
-        OnItemClickListener, OnItemLongClickListener {
+        OnItemClickListener {
 
     public static final String ARG_DATA = "arg.data";
     private static final String COMMON_TV_NAME = "TV";
@@ -69,7 +69,7 @@ public class CommonProviderFragment extends ProviderFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
         // For navigation
         setCurrentState(mTarget.targetType);
@@ -79,7 +79,7 @@ public class CommonProviderFragment extends ProviderFragment implements
 
         mListView = (ListView) rootView.findViewById(R.id.lvElements);
         mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
+//        mListView.setOnItemLongClickListener(this);
 
         mAdapter = new ListableAdapter(getActivity(), getItems());
         mListView.setAdapter(mAdapter);
@@ -106,26 +106,26 @@ public class CommonProviderFragment extends ProviderFragment implements
         if (mTarget.deviceType == null)
             return null;
         path.append(mTarget.deviceType);
-        if (mTarget.deviceName == null)
-            return path.toString();
-        path.append(separator).append(mTarget.deviceName);
+//        if (mTarget.deviceName == null)
+//            return path.toString();
+//        path.append(separator).append(mTarget.deviceName);
         return path.toString();
     }
 
     private MyListable[] getItems() {
         ArrayList<MyListable> items = new ArrayList<>();
-        if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
-            mRemote = buildRemote();
-            for (Button b : mRemote.buttons) {
-                MyListable l = new MyListable(b.text);
-                l.id = b.uid;
-                items.add(l);
-            }
-        } else {
-            for (String s : listAssets(getDBPath())) {
-                items.add(new MyListable(s));
-            }
+//        if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
+//            mRemote = buildRemote();
+//            for (Button b : mRemote.buttons) {
+//                MyListable l = new MyListable(b.text);
+//                l.id = b.uid;
+//                items.add(l);
+//            }
+//        } else {
+        for (String s : listAssets(getDBPath())) {
+            items.add(new MyListable(s));
         }
+//        }
         return items.toArray(new MyListable[items.size()]);
     }
 
@@ -137,15 +137,15 @@ public class CommonProviderFragment extends ProviderFragment implements
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_save:
-                saveRemote();
-                break;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.menu_save:
+//                getProvider().requestSaveRemote(mRemote);
+//                break;
+//        }
+//        return false;
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -159,24 +159,25 @@ public class CommonProviderFragment extends ProviderFragment implements
         } else if (mTarget.targetType == CommonProviderData.TARGET_DEVICE_NAME) {
             mTarget.deviceName = item.toString();
 //            if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
-                mRemote = buildRemote();
-                saveRemote();
+            mRemote = buildRemote();
+            getProvider().requestSaveRemote(mRemote);
+
             // TODO
 //            } else {
 //                mTarget.targetType = CommonProviderData.TARGET_IR_CODE;
 //                addCommonProviderFragment(mTarget.clone());
 //            }
-        } else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
-            Button b = mRemote.getButton(item.id);
-            getProvider().requestSaveButton(b);
+//        } else if (mTarget.targetType == CommonProviderData.TARGET_IR_CODE) {
+//            Button b = mRemote.getButton(item.id);
+//            getProvider().requestSaveButton(b);
         }
     }
 
     private Remote buildRemote() {
         Remote r = new Remote();
         r.name = mTarget.deviceName + " " + mTarget.deviceType;
-        final String remotedir = getDBPath();
-        for (String name : listAssets(getDBPath())) {
+        final String remotedir = getDBPath() + File.separator + mTarget.deviceName;
+        for (String name : listAssets(remotedir)) {
             int id = Integer.parseInt(name.substring(2).split("\\.")[0]);
             Button b = new Button(id);
             b.code = FileUtils.read(getActivity().getAssets(), remotedir
@@ -184,33 +185,29 @@ public class CommonProviderFragment extends ProviderFragment implements
             b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
                     getActivity());
             r.addButton(b);
-            Log.d("TEST", "Adding button " + b.text + " to menu_main");
         }
         r.details.type = getDeviceTypeInt(mTarget.deviceType);
         return r;
     }
 
-    private void saveRemote() {
-        getProvider().requestSaveRemote(mRemote);
-    }
 
-    public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                   int position, long id) {
-        mListView.setItemChecked(position, true);
-        return true;
-    }
+//    public boolean onItemLongClick(AdapterView<?> parent, View view,
+//                                   int position, long id) {
+//        mListView.setItemChecked(position, true);
+//        return true;
+//    }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_common, menu);
-        setupSearchView(menu);
-
-        MenuItem save = menu.findItem(R.id.menu_save);
-        boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
-        boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
-        save.setVisible(ircode && remote);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_common, menu);
+//        setupSearchView(menu);
+//
+//        MenuItem save = menu.findItem(R.id.menu_save);
+//        boolean ircode = mTarget.targetType == CommonProviderData.TARGET_IR_CODE;
+//        boolean remote = getProvider().getAction().equals(ACTION_SAVE_REMOTE);
+//        save.setVisible(ircode && remote);
+//    }
 
     public static class CommonProviderData implements Serializable {
 

@@ -22,13 +22,14 @@ import java.util.List;
 public class SaveRemoteDialog extends DialogFragment {
 
     private static final String ARG_REMOTE = "org.twinone.irremote.arg.menu_main";
+    public static final String DIALOG_TAG = "save_remote_dialog";
     private Remote mRemote;
     private EditText mRemoteName;
 //    private OnRemoteSavedListener mListener;
 
     public static void showFor(Activity a, Remote remote) {
         SaveRemoteDialog.newInstance(remote).show(a.getFragmentManager(),
-                "save_remote_dialog");
+                DIALOG_TAG);
     }
 
     public static SaveRemoteDialog newInstance(Remote remote) {
@@ -43,7 +44,7 @@ public class SaveRemoteDialog extends DialogFragment {
     }
 
     public void show(Activity a) {
-        show(a.getFragmentManager(), "save_remote_dialog");
+        show(a.getFragmentManager(), DIALOG_TAG);
     }
 
     @Override
@@ -87,50 +88,30 @@ public class SaveRemoteDialog extends DialogFragment {
         mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
-                onPositiveButton();
+                if (!checkAndUpdateRemoteName())
+                    return;
+                getProvider().performSaveRemote(mRemote);
             }
 
             @Override
             public void onNeutral(MaterialDialog dialog) {
-                if (!updateRemoteNameWithEditTextValue())
+                if (!checkAndUpdateRemoteName())
                     return;
-//                if (mListener != null) mListener.onRequestPreview(mRemote);
                 getProvider().requestPreviewRemote(mRemote);
             }
         });
         return mb.build();
     }
 
-    private boolean updateRemoteNameWithEditTextValue() {
+    private boolean checkAndUpdateRemoteName() {
         final String name = mRemoteName.getText().toString();
-        mRemote.name = name;
         if (name == null || name.isEmpty()) {
-            Toast.makeText(getActivity(), R.string.save_remote_empty,
+            Toast.makeText(getActivity(), R.string.err_name_empty,
                     Toast.LENGTH_SHORT).show();
             return false;
         }
+        mRemote.name = name;
         return true;
-    }
-
-    private void onPositiveButton() {
-        if (!updateRemoteNameWithEditTextValue())
-            return;
-
-//        Iterator<Button> it = mRemote.buttons.iterator();
-//        while (it.hasNext()) {
-//            final Button b = it.next();
-//            if (b.code == null || b.code.isEmpty()) {
-//                it.remove();
-//            }
-//        }
-//
-//        RemoteOrganizer ro = new RemoteOrganizer(getActivity());
-//        ro.updateWithoutSaving(mRemote);
-//        RemoteOrganizer.addIcons(mRemote, false);
-//
-//        mRemote.save(getActivity());
-//        if (mListener != null)
-//            mListener.onRemoteSaved(mRemote.name);
     }
 
     /**

@@ -1,6 +1,7 @@
 package org.twinone.irremote.providers.globalcache;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +21,7 @@ import org.twinone.irremote.providers.ListableAdapter;
 import org.twinone.irremote.providers.ProviderFragment;
 
 public class GCProviderFragment extends ProviderFragment implements
-        DBConnector.OnDataReceivedListener, OnItemClickListener,
-        OnItemLongClickListener {
+        DBConnector.OnDataReceivedListener, OnItemClickListener {
 
     public static final String ARG_URI_DATA = "com.twinone.irremote.arg.uri_data";
 
@@ -52,7 +52,7 @@ public class GCProviderFragment extends ProviderFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
         setCurrentState(mGCData.targetType);
         setExitState(GlobalCacheProviderData.TYPE_MANUFACTURER);
@@ -61,17 +61,19 @@ public class GCProviderFragment extends ProviderFragment implements
                 false);
         mListView = (ListView) rootView.findViewById(R.id.lvElements);
         mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
+//        mListView.setOnItemLongClickListener(this);
 
         mConnector = new DBConnector(getActivity(), this);
 
         if (mCreated) {
             mListView.setAdapter(mAdapter);
             mAdapter.restoreOriginalDataSet();
-        } else if (mGCData.isAvailableInCache(getActivity())) {
-            queryServer(false);
-        } else {
-            queryServer(true);
+        } else if (mGCData.targetType != GlobalCacheProviderData.TYPE_IR_CODE) {
+            if (mGCData.isAvailableInCache(getActivity())) {
+                queryServer(mGCData, false);
+            } else {
+                queryServer(mGCData, true);
+            }
         }
 
         String title = mGCData.getFullyQualifiedName(" > ");
@@ -84,7 +86,7 @@ public class GCProviderFragment extends ProviderFragment implements
         return rootView;
     }
 
-    private void queryServer(boolean showDialog) {
+    private void queryServer(GlobalCacheProviderData data, boolean showDialog) {
         mListView.setAdapter(null);
 
         if (showDialog)
@@ -95,7 +97,7 @@ public class GCProviderFragment extends ProviderFragment implements
 
         mConnector = new DBConnector(getActivity(), this);
         mConnector.setOnDataReceivedListener(this);
-        mConnector.query(mGCData.clone());
+        mConnector.query(data.clone());
     }
 
 
@@ -106,9 +108,9 @@ public class GCProviderFragment extends ProviderFragment implements
         setupSearchView(menu);
         mSearchView.setQueryHint(getSearchHint(mGCData));
 
-        boolean show = mGCData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
-                && ACTION_SAVE_REMOTE.equals(getProvider().getAction());
-        menu.findItem(R.id.menu_db_save).setVisible(show);
+//        boolean show = mGCData.targetType == GlobalCacheProviderData.TYPE_IR_CODE
+//                && ACTION_SAVE_REMOTE.equals(getProvider().getAction());
+//        menu.findItem(R.id.menu_db_save).setVisible(show);
     }
 
     private String getSearchHint(GlobalCacheProviderData data) {
@@ -127,7 +129,7 @@ public class GCProviderFragment extends ProviderFragment implements
         switch (item.getItemId()) {
             case R.id.menu_db_refresh:
                 mGCData.removeFromCache(getActivity());
-                queryServer(true);
+                queryServer(mGCData, true);
                 return true;
             case R.id.menu_db_save:
                 if (mData != null) {
@@ -138,9 +140,10 @@ public class GCProviderFragment extends ProviderFragment implements
         }
         return false;
     }
+
     private Remote buildRemote() {
         String name = mGCData.manufacturer.Manufacturer + " "
-            + mGCData.deviceType.DeviceType;
+                + mGCData.deviceType.DeviceType;
         Remote remote = IrCode.toRemote(getActivity(), name,
                 (IrCode[]) mData);
         remote.details.manufacturer = mGCData.manufacturer.Manufacturer;
@@ -182,6 +185,10 @@ public class GCProviderFragment extends ProviderFragment implements
                 position);
 
         if (item.getType() == GlobalCacheProviderData.TYPE_IR_CODE) {
+            select(mGCData, item);
+            queryServer(mGCData, true);
+            return;
+        } else if (item.getType() == GlobalCacheProviderData.TYPE_IR_CODE) {
             if (ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
                 getProvider().transmit(((IrCode) item).getSignal());
             } else {
@@ -195,18 +202,18 @@ public class GCProviderFragment extends ProviderFragment implements
         }
     }
 
-    public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                   int position, long id) {
-
-        // mListView.setItemChecked(position, true);
-        // if (mGCData.targetType == UriData.TYPE_IR_CODE) {
-        // // When the user long presses the button he can save it
-        // Button b = IrCode.toButton((IrCode) mData[position]);
-        // SaveButtonDialogFragment.showFor(getActivity(), b);
-        // }
-        // return true;
-        return false;
-    }
+//    public boolean onItemLongClick(AdapterView<?> parent, View view,
+//                                   int position, long id) {
+//
+//        // mListView.setItemChecked(position, true);
+//        // if (mGCData.targetType == UriData.TYPE_IR_CODE) {
+//        // // When the user long presses the button he can save it
+//        // Button b = IrCode.toButton((IrCode) mData[position]);
+//        // SaveButtonDialogFragment.showFor(getActivity(), b);
+//        // }
+//        // return true;
+//        return false;
+//    }
 
     private void select(GlobalCacheProviderData data, GCBaseListable listable) {
         data.targetType = GlobalCacheProviderData.TYPE_MANUFACTURER;

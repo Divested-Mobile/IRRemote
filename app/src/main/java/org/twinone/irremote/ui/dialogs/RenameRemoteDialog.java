@@ -3,11 +3,11 @@ package org.twinone.irremote.ui.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -15,8 +15,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 
-public class RenameRemoteDialog extends DialogFragment implements
-        DialogInterface.OnClickListener {
+public class RenameRemoteDialog extends DialogFragment {
 
     private static final String ARG_REMOTE = "org.twinone.irremote.arg.menu_main";
 
@@ -64,21 +63,29 @@ public class RenameRemoteDialog extends DialogFragment implements
                 mOriginalRemoteName));
         mb.positiveText(R.string.rename_remote_save);
         mb.negativeText(android.R.string.cancel);
+        mb.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                renameRemote();
+            }
+        });
         return mb.show();
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        switch (which) {
-            case DialogInterface.BUTTON_POSITIVE:
-                final String newName = mNewRemoteName.getText().toString();
 
-                Remote.rename(getActivity(), mOriginalRemoteName, newName);
-
-                if (mListener != null)
-                    mListener.onRemoteRenamed(newName);
-                break;
+    private void renameRemote() {
+        final String newName = mNewRemoteName.getText().toString();
+        if (newName.isEmpty()) {
+            Toast.makeText(getActivity(), R.string.err_name_empty,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        Remote.rename(getActivity(), mOriginalRemoteName, newName);
+        Remote.setLastUsedRemoteName(getActivity(), newName);
+
+        if (mListener != null)
+            mListener.onRemoteRenamed(newName);
     }
 
     public void setOnRemoteRenamedListener(OnRemoteRenamedListener listener) {
