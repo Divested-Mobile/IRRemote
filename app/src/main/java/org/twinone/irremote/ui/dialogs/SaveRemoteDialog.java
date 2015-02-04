@@ -113,7 +113,18 @@ public class SaveRemoteDialog extends DialogFragment {
         return true;
     }
 
+    private static final String SPECIAL_CHARS = "\\/%<>=";
+
+    private String stripSpecialChars(String name) {
+        for (int i = 0; i < SPECIAL_CHARS.length(); i++) {
+            Log.d("", "Special chars 1:" + SPECIAL_CHARS.charAt(0));
+            name = name.replace(SPECIAL_CHARS.charAt(i), '-');
+        }
+        return name;
+    }
+
     private String getUniqueName(String name) {
+        name = stripSpecialChars(name);
         List<String> names = Remote.getNames(getActivity());
         while (names.contains(name)) {
             Log.d("", "Names contains: " + name);

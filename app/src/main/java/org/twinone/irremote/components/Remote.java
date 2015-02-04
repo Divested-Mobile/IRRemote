@@ -36,10 +36,10 @@ public class Remote implements Serializable {
     public static final int FLAG_GC = 1 << 1;
 
     private static final String REMOTES_VERSION = "_v2";
-    private static final String EXTENSION = ".menu_main";
+    private static final String EXTENSION = ".remote";
     private static final String BUTTON_EXTENSION = ".button";
     private static final String BUTTON_PREFIX = "b_";
-    private static final String OPTIONS_FILE = "menu_main.options";
+    private static final String OPTIONS_FILE = "remote.options";
     public final List<Button> buttons;
     public String name;
     public Details details;

@@ -28,9 +28,9 @@ public class HTCTransmitter extends Transmitter {
         super(context);
         try {
             mContext = context;
+            checkAvailable();
             mCirControl = new CIRControl(context, mHandler);
             mCirControl.start();
-            checkAvailable();
         } catch (NoClassDefFoundError e) {
             throw new ComponentNotAvailableException();
         }

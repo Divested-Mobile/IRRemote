@@ -30,6 +30,7 @@ import org.twinone.irremote.account.UserInfo;
 import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
+import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Transmitter;
@@ -334,7 +335,15 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
     @Override
     public void onUpdate(VersionManager.UpdateInfo ui) {
+
         if (ui.isUpdated()) {
+            if (ui.getLastVersion() <= 1520) {
+                MaterialDialog.Builder mb = new MaterialDialog.Builder(this);
+                mb.title("Message");
+                mb.content("We've made some improvements to how remotes are displayed. Since some users might prefer to keep their old layouts, updating to the new system is not done automatically. Please go to Edit Remote and organize them manually");
+                mb.positiveText(android.R.string.ok);
+                mb.show();
+            }
         }
     }
 }
