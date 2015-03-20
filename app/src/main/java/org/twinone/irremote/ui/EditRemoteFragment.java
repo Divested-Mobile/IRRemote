@@ -309,7 +309,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                     v.requestLayout();
                 }
                 refreshButtonsLayout();
-                adjustRemoteLayoutHeightToButtons();
+                adjustViewDimensionsToButtons();
                 onEditFinished();
             }
         });
@@ -416,7 +416,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         ro.setupNewButton(b);
         getRemote().addButton(b);
         refreshButtonsLayout();
-        adjustRemoteLayoutHeightToButtons();
+        adjustViewDimensionsToButtons();
     }
 
     private void editRemove() {
@@ -432,7 +432,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         }
 
         refreshButtonsLayout();
-        adjustRemoteLayoutHeightToButtons();
+        adjustViewDimensionsToButtons();
         onEditFinished();
     }
 
@@ -476,7 +476,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                 }
                 stopScrolling();
 
-                adjustRemoteLayoutHeightToButtons();
+                adjustViewDimensionsToButtons();
 
                 break;
         }
@@ -513,7 +513,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
         setupMargins();
         refreshButtonsLayout();
-        adjustRemoteLayoutHeightToButtons();
+        adjustViewDimensionsToButtons();
     }
 
     private void setupMargins() {
@@ -538,22 +538,22 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         }
     }
 
-    private void adjustRemoteLayoutHeightToButtons() {
-        int max = 0;
+    private void adjustViewDimensionsToButtons() {
+        int wMax = 0;
+        int hMax = 0;
         // ButtonView bottomView = null;
         for (ButtonView bv : mButtons) {
             float bottom = bv.getButton().y + bv.getButton().h;
-            max = Math.max(max, (int) bottom);
-
+            float right = bv.getButton().x + bv.getButton().w;
+            hMax = Math.max(hMax, (int) bottom);
+            wMax = Math.max(wMax, (int) right);
         }
 
-        // Log.d(TAG,
-        // "BottomView (" + bottomView.getButton().text + " y: "
-        // + bottomView.getY() + " translationY: "
-        // + bottomView.getTranslationY() + ", bottom: "
-        // + bottomView.getBottom());
-        int h = max + mMarginTop;
+        int h = hMax + mMarginTop;
+        int w = wMax + mMarginLeft;
+
         getRemote().details.h = h;
+        getRemote().details.w = w;
 
         mRemoteView.requestLayout();
 //        int w = mRemoteView.getWidth();
