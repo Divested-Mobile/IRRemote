@@ -24,8 +24,6 @@
 #-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
 #-keepclassmembers class * implements java.io.Serializable { public *; }
 #
-#-keep class com.google.android.gms.** { *; }
-#-dontwarn com.google.android.gms.**
 #
 #
 #-keepclassmembers class android.support.v4.widget.DrawerLayout { 

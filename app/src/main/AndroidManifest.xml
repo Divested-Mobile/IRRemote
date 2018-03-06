@@ -25,23 +25,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
 
-        <!-- For goole play services -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
         <activity android:name="org.twinone.irremote.ui.SettingsActivity" />
-        <activity
-            android:name=".account.LoginRegisterActivity"
-            android:parentActivityName=".ui.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity android:name="org.twinone.irremote.providers.twinone.UploadActivity" />
-        <activity
-            android:name="org.twinone.irremote.account.AccountActivity"
-            android:label="@string/title_account" />
         <activity android:name="org.twinone.irremote.ui.EditRemoteActivity" />
         <activity android:name="org.twinone.irremote.providers.ProviderActivity" />
         <activity
@@ -81,10 +65,6 @@
            
         </receiver>
         -->
-        <!-- Admob -->
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
     </application>
 
 </manifest>

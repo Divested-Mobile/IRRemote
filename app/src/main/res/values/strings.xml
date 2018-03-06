@@ -118,9 +118,6 @@
     <string name="delete_remote_message">Are you sure you want to delete %s?</string>
     <string name="edit_remote_title">Edit remote</string>
     <string name="edit_remote_message"></string>
-    <string name="nav_b_share">Share</string>
-    <string name="nav_b_rate">Rate</string>
-    <string name="share_promo">Check out Twinone IR Remote! Free Infrared remote that works for any TV! (Android app) https://play.google.com/store/apps/details?id=org.twinone.irremote</string>
     <string name="my_remotes">My remotes</string>
 
     <!-- Preferences and all that awesome stuff -->
@@ -270,46 +267,11 @@
     <string name="learn_button_forget">Forget</string>
     <string name="learn_button_next">Next</string>
     <string name="no_remotes">You have no remotes\n\nTouch the + button to add your first remote</string>
-    <string name="reg_email_hint">Email address</string>
-    <string name="reg_pwd_hint">Password</string>
-    <string name="reg_pwd_confirm_hint">Confirm password</string>
-    <string name="reg_user_hint">Username</string>
-    <string name="reg_submit">Register</string>
-    <string name="title_create_account">Register</string>
-    <string name="title_verify_account">Verify Account</string>
-    <string name="reg_err_pwd_match">Password don\'t match</string>
-    <string name="reg_err_user_short">Username too short</string>
-    <string name="reg_err_pwd_short">Password too short. Choose a password of at least 8 characters</string>
     <string name="err_all_fields">Please fill in all fields</string>
     <string name="loading">Loading</string>
-    <string name="reg_err_user_taken">The username %s has already been taken</string>
-    <string name="reg_err_email_taken">Email already registered</string>
-    <string name="reg_dlgtit_ok">Registered</string>
-    <string name="reg_dlgmsg_ok">You are now registered!\n\nAn email has been sent to you. Please click on the link in it to confirm your account.\n\nPlease check your spam folder too, as it may end up there.</string>
-    <string name="reg_msg_srv_err">An error happened while registering:</string>
     <!--  -->
-    <string name="reg_err_already_registered_novfy">You\'ve already registered an account (%s), please check your mail to verify it</string>
-    <string name="reg_err_already_registered">You\'re already logged in as %s - no need to register again</string>
-    <string name="reg_err_email_invalid">Invalid email address</string>
-    <string name="reg_err_user_long">Username too long</string>
-    <string name="reg_err_user_invalid">Invalid username</string>
-    <string name="reg_err_unknown">Unknown error</string>
-    <string name="network_error">Error connecting to the internet. Please try again later.</string>
-    <string name="title_account_verified">Verified</string>
-    <string name="vfy_ok">Your account has been verified. You are now logged in and ready to upload and download remotes from the Twinone IR Remote database</string>
-    <string name="vfy_err_noreg">Please register first.</string>
-    <string name="vfy_failed">Verification failed</string>
-    <string name="vfy_try_again">Try again</string>
-    <string name="vfy_already_done">Your account (%s) is already verified</string>
     <string name="pref_dlg_tit_fix">Warning</string>
     <string name="pref_dlg_msg_fix">If you have ANY remote button working, don\'t touch this setting.\nOnly change it if NOTHING works for you.\n\nAfter changing this setting, reboot your device.\n\nAre you sure you want to change this setting?</string>
-    <string name="title_upload">Upload %s</string>
-    <string name="upl_hint_name">Remote name</string>
-    <string name="upl_hint_device_type">Device type</string>
-    <string name="upl_hint_manufacturer">Manufactuter</string>
-    <string name="upl_hint_model">Model</string>
-    <string name="upl_submit">Upload Remote</string>
-    <string name="upl_header">Please enter the details of the remote as accurately as you can</string>
     <!-- -->
     <string name="dev_type_tv">TV</string>
     <string name="dev_type_cable">Set-top</string>
@@ -328,21 +290,15 @@
     <string name="organize_dlgtit">Organize Buttons</string>
     <!--  -->
     <string name="provider_common">Common Remotes</string>
-    <string name="provider_twinone">Online Database</string>
     <string name="provider_local">My Remotes</string>
     <string name="provider_learn_remote">Learn Remote</string>
     <string name="provider_learn_button">Learn Button</string>
     <string name="title_provider_add_button">Add button</string>
     <string name="title_provider_add_remote">Add remote</string>
 
-    <string name="rate_dlgtit">Rate our app</string>
-    <string name="rate_dlgmsg">Please help us improve and add new features by leaving a positive review on Google Play</string>
-    <string name="rate_later">Later</string>
-    <string name="rate_never">No, thanks</string>
     <string name="corners_square">Square</string>
     <string name="corners_rounded_square">Rounded square</string>
     <string name="corners_circle">Circle</string>
-    <string name="err_gc_invalid_data">Oops! The third party database contains an error</string>
 
     <plurals name="list_remote_button_size">
         <item quantity="zero">%d buttons</item>
@@ -350,17 +306,6 @@
         <item quantity="other">%d buttons</item>
     </plurals>
 
-    <string name="title_login">Login</string>
-    <string name="login_logout">Logout</string>
-    <string name="login_submit">Login</string>
-    <string name="login_done">Logged in</string>
-    <string name="login_err_invalid">Invalid credentials</string>
-
-    <string name="menu_action_account">My account</string>
-    <string name="title_account">My account</string>
-    <string name="remote_uploaded">Remote uploaded</string>
-    <string name="upload_err">Error %d uploading remote</string>
-    <string name="acc_header">You are curerntly logged in as</string>
 
     <string name="save_remote_preview">Preview</string>
 
