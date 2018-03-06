@@ -11,31 +11,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
-import org.twinone.androidlib.AdMobBannerBuilder;
-import org.twinone.androidlib.RateManager;
 import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.androidlib.util.VersionManager;
 import org.twinone.irremote.Constants;
 import org.twinone.irremote.R;
-import org.twinone.irremote.account.AccountActivity;
-import org.twinone.irremote.account.LoginRegisterActivity;
-import org.twinone.irremote.account.UserInfo;
 import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.ir.SignalCorrector;
-import org.twinone.irremote.ir.io.HTCReceiver;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
-import org.twinone.irremote.providers.twinone.UploadActivity;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
 public class MainActivity extends ToolbarActivity implements OnRemoteRenamedListener, VersionManager.OnUpdateListener,
@@ -97,7 +88,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         new VersionManager(this, this).callFromEntryPoint();
 
         SignalCorrector.setAffectedOnce(this);
-        HTCReceiver.setReceiverAvailableOnce(this);
 
         final SharedPreferences sp = SettingsActivity.getPreferences(this);
         if (sp.getBoolean(getString(R.string.pref_key_fullscreen), false)) {
@@ -114,12 +104,10 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         mAddRemoteButton.setOnClickListener(this);
 
         setupNavigation();
-        setupShowAds();
 
         ImageView mBackground = (ImageView) findViewById(R.id.background);
         new BackgroundManager(this, mBackground).setBackgroundFromPreference();
 
-        RateManager.show(this);
     }
 
     private void setupNavigation() {
@@ -130,21 +118,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         mNavFragment.setEdgeSizeDp(30);
     }
 
-
-    private void setupShowAds() {
-        ViewGroup mAdViewContainer = (ViewGroup) findViewById(R.id.ad_container);
-        if (Constants.SHOW_ADS) {
-            AdMobBannerBuilder builder = new AdMobBannerBuilder();
-            builder.setParent(mAdViewContainer);
-            builder.addTestDevice("285ACA7E7666862031AA5111058518DB");
-            builder.setAdUnitId("ca-app-pub-5756278739960648/2006850014");
-            builder.show();
-        } else {
-            Log.w(TAG, "Not showing ads in debug mode!");
-            // Don't waste my precious space :D
-            mAdViewContainer.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -248,7 +221,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         if (!hasRemote) setTitle(R.string.app_name);
 
 
-        menu.findItem(R.id.menu_action_account).setVisible(hasRemote && open && Constants.ENABLE_ACCOUNTS);
         menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
         return true;
@@ -275,16 +247,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
             case R.id.menu_debug:
                 debugDialog();
                 break;
-            case R.id.menu_action_account:
-                if (UserInfo.load(MainActivity.this).isLoggedIn()) {
-                    Intent acc = new Intent(MainActivity.this, AccountActivity.class);
-                    AnimHelper.startActivity(this, acc);
-                } else {
-                    Intent reg = new Intent(MainActivity.this,
-                            LoginRegisterActivity.class);
-                    AnimHelper.startActivity(this, reg);
-                }
-                break;
         }
         return false;
     }
@@ -298,16 +260,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
         };
         mb.items(titles);
-        mb.itemsCallback(new MaterialDialog.ListCallback() {
-            @Override
-            public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
-                switch (which) {
-                    case 0:
-                        UploadActivity.startFor(getRemoteName(), MainActivity.this);
-                        break;
-                }
-            }
-        });
         mb.show();
     }
 

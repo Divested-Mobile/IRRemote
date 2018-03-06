@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,11 +19,9 @@ import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.common.CommonProviderFragment;
-import org.twinone.irremote.providers.globalcache.GCProviderFragment;
 import org.twinone.irremote.providers.learn.LearnButtonProviderFragment;
 import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
 import org.twinone.irremote.providers.local.LocalProviderFragment;
-import org.twinone.irremote.providers.twinone.TwinoneProviderFragment;
 import org.twinone.irremote.ui.ProviderNavFragment;
 import org.twinone.irremote.ui.dialogs.RemotePreviewDialog;
 import org.twinone.irremote.ui.dialogs.SaveButtonDialog;
@@ -34,7 +32,7 @@ import java.util.Iterator;
 //import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
 //import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
 
-public class ProviderActivity extends ActionBarActivity implements
+public class ProviderActivity extends AppCompatActivity implements
         NavigationListener {
 
     /**
@@ -68,10 +66,6 @@ public class ProviderActivity extends ActionBarActivity implements
      * GlobalCaché online database
      */
     public static final int PROVIDER_GLOBALCACHE = 3;
-    /**
-     * Twinone online database
-     */
-    public static final int PROVIDER_TWINONE = 4;
     /**
      * On HTC Devices, learn a menu_main (or button)
      */
@@ -328,17 +322,11 @@ public class ProviderActivity extends ActionBarActivity implements
     private void switchToImpl(int provider) {
         popAllFragments();
         switch (provider) {
-            case PROVIDER_GLOBALCACHE:
-                addFragment(new GCProviderFragment());
-                break;
             case PROVIDER_LEARN:
                 if (mAction.equals(ACTION_SAVE_REMOTE))
                     addFragment(new LearnRemoteProviderFragment());
                 else
                     addFragment(new LearnButtonProviderFragment());
-                break;
-            case PROVIDER_TWINONE:
-                addFragment(new TwinoneProviderFragment());
                 break;
             case PROVIDER_LOCAL:
                 addFragment(new LocalProviderFragment());

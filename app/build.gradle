@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "org.twinone.irremote"
@@ -23,14 +22,14 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.afollestad:material-dialogs:0.6.0'
+    compile 'com.android.support:appcompat-v7:27.0.1'
+    compile 'com.android.support:support-v4:27.0.1'
+    compile 'com.afollestad.material-dialogs:core:0.9.6.0'
 
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'com.jpardogo.materialtabstrip:library:1.0.6'
+    compile 'com.jpardogo.materialtabstrip:library:1.0.9'
     compile project(':libraries:androidlib')
 
-    compile files('libs/HTCIR.jar')
     compile files('libs/jsoup-1.7.3.jar')
 }

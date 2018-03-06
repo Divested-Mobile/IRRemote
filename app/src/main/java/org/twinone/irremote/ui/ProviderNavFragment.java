@@ -56,9 +56,6 @@ public class ProviderNavFragment extends NavigationFragment implements
         list.add(getString(R.string.provider_common));
         ids.add(ProviderActivity.PROVIDER_COMMON);
 
-        list.add(getString(R.string.provider_twinone));
-        ids.add(ProviderActivity.PROVIDER_GLOBALCACHE); // TODO switch to Twinone database when ready
-
         if (!Remote.getNames(getActivity()).isEmpty()) {
             list.add(getString(R.string.provider_local));
             ids.add(ProviderActivity.PROVIDER_LOCAL);

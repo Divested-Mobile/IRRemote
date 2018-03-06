@@ -1,13 +1,13 @@
 package org.twinone.androidlib.compat;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import org.twinone.androidlib.R;
 
-public abstract class ToolbarActivity extends ActionBarActivity {
+public abstract class ToolbarActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 

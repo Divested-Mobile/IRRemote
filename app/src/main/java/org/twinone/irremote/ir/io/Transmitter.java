@@ -39,12 +39,6 @@ public abstract class Transmitter {
     public static Transmitter getInstance(Context c) {
         Transmitter res = null;
         try {
-            res =  new HTCTransmitter(c);
-            Log.d("Transmitter", "Using HTCTransmitter");
-            return res;        } catch (ComponentNotAvailableException e) {
-            Log.w("Transmitter", "Could not instantiate HTCTransmitter");
-        }
-        try {
             res = new KitKatTransmitter(c);
             Log.d("Transmitter", "Using KitKatTransmitter");
             return res;

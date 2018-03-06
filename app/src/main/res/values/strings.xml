@@ -311,7 +311,5 @@
 
     <string name="preview_remote_dlgtit_remote">Preview remote</string>
     <string name="preview_remote_dlgtit_button">Select a button</string>
-    <string name="reg_header"> </string>
-
 
 </resources>

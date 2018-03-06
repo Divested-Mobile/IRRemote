@@ -21,12 +21,7 @@ public abstract class Receiver {
      *
      * @return
      */
-    public static Receiver getInstance(Context context) {
-        try {
-            return new HTCReceiver(context);
-        } catch (ComponentNotAvailableException ignored) {
-        }
-        Log.w("Receiver", "Could not instantiate HTCReceiver");
+    public static Receiver getInstance(Context context) {;
         if (Constants.USE_DEBUG_RECEIVER) {
             return new DebugReceiver(context);
         }

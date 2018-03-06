@@ -74,11 +74,4 @@
         <item>@string/dev_type_air_con</item>
         <item>@string/dev_type_other</item>
     </string-array>
-    <string-array name="reg_titles">
-        <item>@string/title_login</item>
-        <item>@string/title_create_account</item>
-    </string-array>
-
-
-
 </resources>

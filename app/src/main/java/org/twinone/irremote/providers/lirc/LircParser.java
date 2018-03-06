@@ -1,8 +1,8 @@
 package org.twinone.irremote.providers.lirc;
 
+import android.net.ParseException;
 import android.util.Log;
 
-import org.apache.http.ParseException;
 import org.twinone.irremote.ir.Signal;
 import org.twinone.irremote.ir.SignalFactory;
 
@@ -78,7 +78,7 @@ class LircParser {
                     readRawCodes();
                     break;
                 default:
-                    throw new ParseException(
+                    throw new IllegalStateException(
                             "Expected begin codes or begin raw_codes block");
             }
 

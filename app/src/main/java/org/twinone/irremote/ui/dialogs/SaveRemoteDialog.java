@@ -80,7 +80,7 @@ public class SaveRemoteDialog extends DialogFragment {
         mb.customView(view, true);
 
         mb.title(R.string.save_remote_title);
-        mb.content(R.string.save_remote_text);
+        //mb.content(R.string.save_remote_text);
         mb.positiveText(R.string.save_remote_save);
         mb.neutralText(R.string.save_remote_preview);
         mb.negativeText(android.R.string.cancel);

@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.twinone.irremote.account.LoginRegisterActivity;
-
 public class LaunchActivity extends Activity {
 
     private static final String PARAM_ACTION = "a";
@@ -29,8 +27,6 @@ public class LaunchActivity extends Activity {
             case ACTION_UPLOAD:
                 c = LaunchActivity.class;
                 break;
-            case ACTION_VERIFY:
-                c = LoginRegisterActivity.class;
         }
         Log.i("LaunchActivity", "Received " + " for intent " + uri.toString());
 
