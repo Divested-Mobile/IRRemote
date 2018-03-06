@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
-        applicationId "org.twinone.irremote"
+        applicationId "us.spotco.ir_remote"
         minSdkVersion 19
         targetSdkVersion 21
         compileOptions {

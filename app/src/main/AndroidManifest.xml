@@ -38,18 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.twinone.irremote.LaunchActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="launch"
-                    android:scheme="org.twinone.irremote" />
-            </intent-filter>
-        </activity>
 
         <!--
         <receiver android:name="WidgetProviderName" >

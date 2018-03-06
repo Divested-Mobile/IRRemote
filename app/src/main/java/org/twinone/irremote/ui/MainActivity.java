@@ -244,23 +244,8 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
                 Intent i = new Intent(this, SettingsActivity.class);
                 AnimHelper.startActivity(this, i);
                 break;
-            case R.id.menu_debug:
-                debugDialog();
-                break;
         }
         return false;
-    }
-
-    private void debugDialog() {
-        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(this);
-        mb.title("Debug");
-        CharSequence[] titles = new CharSequence[]{
-
-                "Upload",
-
-        };
-        mb.items(titles);
-        mb.show();
     }
 
     public void onRemotesChanged() {

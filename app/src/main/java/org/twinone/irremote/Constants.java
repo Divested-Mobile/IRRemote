@@ -1,5 +1,7 @@
 package org.twinone.irremote;
 
+import org.twinone.irremote.BuildConfig;
+
 public abstract class Constants {
 
     public static final boolean DEBUG = BuildConfig.DEBUG;
