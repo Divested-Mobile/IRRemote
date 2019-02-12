@@ -2,9 +2,9 @@ package org.twinone.irremote.providers;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnCloseListener;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView.OnCloseListener;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
