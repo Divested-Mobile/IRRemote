@@ -35,6 +35,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.jpardogo.materialtabstrip:library:1.0.9'
-    implementation project(':libraries:androidlib')
-    implementation files('libs/jsoup-1.7.3.jar')
-}
+    implementation 'org.jsoup:jsoup:1.7.3'
+    implementation project(':libraries:androidlib')}
