@@ -1,0 +1,2 @@
+This is a fork of 'Universal TV Remote' by Twinone from 2015 sources.
+It removes ads, tracking, accounts, uploading, and network access.
