@@ -1,2 +1,3 @@
 This is a fork of 'Universal TV Remote' by Twinone from 2015 sources.
-It removes ads, tracking, accounts, uploading, and network access.
+In addition to customizable TV remote, it removes ads, tracking, accounts, uploading, and network access.
+Also, it includes other languages such as Spanish.
