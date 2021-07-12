@@ -221,7 +221,7 @@
     <string name="color_transparent">Transparente</string>
     <string name="color_red">Rojo</string>
     <string name="color_pink">Rosa</string>
-    <string name="color_púrpura">Púrpura</string>
+    <string name="color_purple">Púrpura</string>
     <string name="color_deep_purple">Púrpura profundo</string>
     <string name="color_indigo">Índigo</string>
     <string name="color_blue">Azul</string>
@@ -233,9 +233,9 @@
     <string name="color_lime">Lima</string>
     <string name="color_yellow">Amarillo</string>
     <string name="color_amber">Ámbar</string>
-    <string name="color_naranja">Naranja</string>
+    <string name="color_orange">Naranja</string>
     <string name="color_deep_orange">Naranja intenso</string>
-    <string name="color_marrón">Marrón</string>
+    <string name="color_brown">Marrón</string>
     <string name="color_grey">Gris</string>
     <string name="color_blue_grey">Gris azul</string>
 
@@ -266,12 +266,12 @@
     <string name="learn_desc_saved">Ya ha aprendido este botón. Para comprobar si funciona, pulse el botón. Si no funciona, pulse "Reintentar" en la parte inferior para memorizar de nuevo.</string>
     <string name="learn_button_forget">Olvidar</string>
     <string name="learn_button_next">Siguiente</string>
-    <string name="no_remotes">No tiene ningún mando\n\nToque el botón + para añadir su primer mando</string>.
+    <string name="no_remotes">No tiene ningún mando\n\nToque el botón + para añadir su primer mando.</string>
     <string name="err_all_fields">Por favor, rellene todos los campos</string>
     <string name="loading">Cargando</string>
     <!-- -->
     <string name="pref_dlg_tit_fix">Advertencia</string>
-    <string name="pref_dlg_msg_fix">Si tiene algún botón remoto que funcione, no toque este ajuste.\nSólo cámbielo si no le funciona NADA.\n\nDespués de cambiar este ajuste, reinicie su dispositivo.\n\n¿Seguro que quiere cambiar este ajuste?
+    <string name="pref_dlg_msg_fix">Si tiene algún botón remoto que funcione, no toque este ajuste.\nSólo cámbielo si no le funciona NADA.\n\nDespués de cambiar este ajuste, reinicie su dispositivo.\n\n¿Seguro que quiere cambiar este ajuste?</string>
     <!-- -->
     <string name="dev_type_tv">TV</string>
     <string name="dev_type_cable">Set-top</string>
@@ -311,5 +311,6 @@
 
     <string name="preview_remote_dlgtit_remote">Previsualizar mando</string>
     <string name="preview_remote_dlgtit_button">Seleccione un botón</string>
+
 
 </resources>
