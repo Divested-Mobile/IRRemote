@@ -1,0 +1,4 @@
+* fastlane work
+* Update Gradle
+* Update dependencies
+* Replace binary jsoup library with Gradle managed version

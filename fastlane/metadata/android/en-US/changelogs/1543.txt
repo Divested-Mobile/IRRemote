@@ -1,0 +1,2 @@
+* Update dependencies
+* Optimize images

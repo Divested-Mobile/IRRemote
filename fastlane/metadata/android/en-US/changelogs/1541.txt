@@ -1,0 +1,7 @@
+* Initial libre release
+* Initial clobbering of many anti-features
+* Swap out gradle
+* Remove properitary HTC library and networking
+* Fix gradle and clobbering issues
+* More cleanup and change packagename to avoid conflicts
+* Aggressive shrinking

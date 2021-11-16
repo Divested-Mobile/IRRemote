@@ -1,0 +1,1 @@
+* Remove leftover ad container in main layout
