@@ -254,6 +254,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         if (getRemoteName() == null) {
             mNavFragment.lockOpen(true);
         } else {
+            showAddRemoteButton();
             mNavFragment.unlock();
         }
     }
