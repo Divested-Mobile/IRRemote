@@ -9,3 +9,6 @@ IRRemote is a free android app that allows you to use your phone's built in IR t
 # License
 
 This project is licensed under GPLv3. See the [LICENSE](https://github.com/twinone/IRRemote/blob/master/LICENSE) file.
+
+# Credits
+- @godbless96 for bugfixes and remote additions

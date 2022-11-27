@@ -1,0 +1,2 @@
+* Added Xiaomi TV remote, credit @godbless96
+* Fixed crash when renaming remote, credit @godbless96
