@@ -58,9 +58,6 @@ public class RenameRemoteDialog extends DialogFragment {
         mb.customView(view, false);
 
         mb.title(R.string.rename_remote_title);
-
-        mb.content(getString(R.string.rename_remote_message,
-                mOriginalRemoteName));
         mb.positiveText(R.string.rename_remote_save);
         mb.negativeText(android.R.string.cancel);
         mb.callback(new MaterialDialog.ButtonCallback() {
