@@ -1,0 +1,1 @@
+* Fixed add remote button disappearing, credit @godbless96
