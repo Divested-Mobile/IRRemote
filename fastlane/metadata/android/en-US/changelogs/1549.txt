@@ -1,0 +1,1 @@
+* Added Italian translations thanks to Michael Moroni
