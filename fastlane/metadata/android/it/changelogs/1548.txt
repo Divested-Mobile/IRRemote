@@ -1,0 +1,1 @@
+* Sistemato l'errore che faceva sparire il tasto di aggiunta di un telecomando, grazie a @godbless96

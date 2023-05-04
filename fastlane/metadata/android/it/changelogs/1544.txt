@@ -1,0 +1,4 @@
+* Lavoro su Fastlane
+* Aggiornamento di Gradle
+* Aggiornamento delle dipendenze
+* Sostituzione dei file binari della libreria jsoup con una versione gestita da Gradle

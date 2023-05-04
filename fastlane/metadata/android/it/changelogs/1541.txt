@@ -1,0 +1,7 @@
+* Prima pubblicazione dell'app in versione libera
+* Iniziale rimozione di molte anti-caratteristiche
+* Implementazione di gradle
+* Rimozione delle librerie e della rete HTC proprietarie
+* Sistemazione di gradle e rimozione di bug
+* Maggiore pulizia del codice e cambio nome dei pacchetti per evitare conflitti
+* Restringimento aggressivo del codice
