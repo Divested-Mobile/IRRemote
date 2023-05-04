@@ -1,0 +1,2 @@
+* Aggiornamento delle dipendenze
+* Ottimizazione delle immagini

@@ -1,0 +1,3 @@
+Questo è un fork dell'app "Telecomando TV universale" di Twinone dal codice sorgente del 2015.
+In aggiunta a telecomandi TV personalizzabili, è stato rimossa la pubblicità, tracciamenti, account, caricamenti e accesso a internet.
+Inoltre, l'app è tradotta in varie lingue come spagnolo e inglese.

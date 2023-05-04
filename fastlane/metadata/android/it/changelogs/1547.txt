@@ -1,0 +1,2 @@
+* Aggiunto telecomando per Xiaomi TV, grazie a @godbless96
+* Sistemato l'errore che chiudeva l'app quando si rinominava un telecomando, grazie a @godbless96

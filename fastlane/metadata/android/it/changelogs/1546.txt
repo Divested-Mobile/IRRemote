@@ -1,0 +1,1 @@
+* Rimozione dello spazio inutilizzato per la pubblicità nella pagina principale
