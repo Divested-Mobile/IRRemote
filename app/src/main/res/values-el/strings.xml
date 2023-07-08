@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IR Remote</string>
+
+  <string name="db_menu_search_tit">Αναζήτηση</string>
+<string name="db_menu_refresh">Ανανέωση</string>
+<string name="menu_save">Αποθήκευση Απομακρυσμένου</string>
+<string name="db_search_hint_manufacturers">Αναζήτηση κατασκευαστών</string>
+<string name="db_search_hint_custom">Αναζήτηση %s</string>
+<string name="db_search_hint_buttons">Αναζήτηση κουμπιών</string>
+<string name="db_select_manufacturer">Επιλογή κατασκευαστή</string>
+<string name="db_select_device_type">Επιλογή τύπου συσκευής</string>
+<!--  -->
+<string name="common_menu_todb">Περισσότερα</string>
+<!--  -->
+<string name="menu_action_delete_remote">Διαγραφή Απομακρυσμένου</string>
+<string name="menu_action_rename">Μετονομασία Απομακρυσμένου</string>
+<string name="menu_action_edit">Επεξεργασία</string>
+<string name="menu_action_learn">Μάθηση</string>
+<string name="menu_action_settings">Ρυθμίσεις</string>
+
+<!-- Save -->
+<string name="save_remote_title">Αποθήκευση απομακρυσμένου</string>
+<string name="save_remote_text">Επιλέξτε ένα όνομα για το απομακρυσμένο σας.\nΤο νέο σας απομακρυσμένο θα εμφανιστεί στο τμήμα Τα Απομακρυσμένα Μου</string>
+<string name="save_remote_hint">Όνομα Απομακρυσμένου</string>
+<string name="save_remote_save">Αποθήκευση</string>
+<string name="err_name_empty">Το όνομα του απομακρυσμένου δεν μπορεί να είναι κενό</string>
+<!-- Rename -->
+<string name="rename_remote_title">Μετονομασία απομακρυσμένου</string>
+<string name="rename_remote_message">Εισάγετε ένα νέο όνομα για %s</string>
+<string name="rename_remote_hint">Νέο όνομα</string>
+<string name="rename_remote_save">Μετονομασία</string>
+  
+    <!--  -->
+<string name="save_button_title">Αποθήκευση κουμπιού</string>
+<string name="select_remote">Επιλογή απομακρυσμένου</string>
+<string name="save_button_text_title">Όνομα κουμπιού</string>
+<string name="save_button_hint">Όνομα κουμπιού</string>
+<string name="save_button_save">Αποθήκευση</string>
+<string name="add_remote">Προσθήκη απομακρυσμένου</string>
+<string name="select_remote_first">Επιλέξτε πρώτα ένα απομακρυσμένο</string>
+<string name="remote_saved_toast">Το απομακρυσμένο αποθηκεύτηκε</string>
+
+    <!-- Button text. Translators: keep it short! (max 5 chars) -->
+    <string name="button_text_power">pwr</string>
+    <string name="button_text_power_on">on</string>
+    <string name="button_text_power_off">off</string>
+    <string name="button_text_vol_up">Vol+</string>
+    <string name="button_text_vol_down">Vol-</string>
+    <string name="button_text_ch_up">Ch+</string>
+    <string name="button_text_ch_down">Ch-</string>
+    <string name="button_text_nav_up">U</string>
+    <string name="button_text_nav_down">D</string>
+    <string name="button_text_nav_left">L</string>
+    <string name="button_text_nav_right">R</string>
+    <string name="button_text_nav_ok">OK</string>
+    <string name="button_text_back">back</string>
+    <string name="button_text_mute">mute</string>
+    <string name="button_text_menu">menu</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_9">9</string>
+
+    <!--  -->
+    <string name="button_text_input">src</string>
+    <string name="button_text_guide">epg</string>
+    <string name="button_text_smart">smrt</string>
+    <string name="button_text_last">last</string>
+    <string name="button_text_clear">clr</string>
+    <string name="button_text_exit">exit</string>
+    <string name="button_text_cc">cc</string>
+    <string name="button_text_info">info</string>
+    <string name="button_text_sleep">slp</string>
+
+    <!--  -->
+    <string name="button_text_play">play</string>
+    <string name="button_text_pause">pause</string>
+    <string name="button_text_stop">stop</string>
+    <string name="button_text_fast_forward">fwd</string>
+    <string name="button_text_rewind">rwd</string>
+    <string name="button_text_next">next</string>
+    <string name="button_text_prev">prev</string>
+    <string name="button_text_rec">rec</string>
+    <string name="button_text_disp">disp</string>
+    <!--  -->
+    <string name="button_text_src_cd">cd</string>
+    <string name="button_text_src_aux">aux</string>
+    <string name="button_text_src_tape">tape</string>
+    <string name="button_text_src_tuner">tuner</string>
+    <string name="button_text_red">red</string>
+    <string name="button_text_green">green</string>
+    <string name="button_text_blue">blue</string>
+    <string name="button_text_yellow">yellow</string>
+    <string name="button_text_input_1">src 1</string>
+    <string name="button_text_input_2">src 2</string>
+    <string name="button_text_input_3">src 3</string>
+    <string name="button_text_input_4">src 4</string>
+    <string name="button_text_input_5">src 5</string>
+    <string name="button_text_fan_up">fan +</string>
+    <string name="button_text_fan_down">fan -</string>
+    <string name="button_text_temp_up">tmp +</string>
+    <string name="button_text_temp_down">tmp -</string>
+
+    <!-- Digits allowed to save a menu_main name -->
+    <!-- Don't put spaces at the end or beginning -->
+    <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
+
+    <!--  -->
+    <string name="delete_remote_title">Delete remote</string>
+    <string name="delete_remote_message">Are you sure you want to delete %s?</string>
+    <string name="edit_remote_title">Edit remote</string>
+    <string name="edit_remote_message"></string>
+    <string name="my_remotes">My remotes</string>
+
+    <!-- Preferences and all that awesome stuff -->
+    <string name="pref_tit_fix">Fix buttons</string>
+    <string name="pref_desc_fix">On some devices Android doesn\'t send the codes correctly. Enable or disable this to fix it.</string>
+    <string name="dlg_na_tit">Oops!</string>
+    <string name="dlg_na_msg">It looks like your device does not have an IR Transmitter\nWe\'re sorry, but you will not be able to use this app on this device</string>
+
+    <!-- Ready -->
+    <string name="learn">Learn</string>
+    <string name="learn_tit_ready">Configure \"%s\"</string>
+    <string name="learn_desc_ready">Press and hold the \"%s\" button on your remote aiming at your device\'s IR Receiver at about 2inch(5cm)\nWhen you\'re ready, click Learn</string>
+
+<!-- Learning -->
+<string name="learn_tit_learning">Μαθαίνω...</string>
+<string name="learn_desc_learning">Κρατήστε το %s...</string>
+
+<!-- Learned -->
+<string name="learn_tit_learned">Μάθηση ολοκληρώθηκε!</string>
+<string name="learn_desc_learned">Εξαιρετικά. Τώρα δοκιμάστε το κουμπί.</string>
+<!--  -->
+<string name="learn_button_ready">Μάθηση</string>
+<string name="learn_button_cancel">Ακύρωση</string>
+<string name="learn_button_back">Πίσω</string>
+<string name="learn_button_skip">Παράκαμψη</string>
+<string name="learn_button_it_works">Λειτουργεί!</string>
+<string name="learn_button_try_again">Δοκιμάστε ξανά</string>
+<string name="learn_button_finish">Ολοκλήρωση</string>
+<!--  -->
+<string name="learn_learning">Μαθαίνω...</string>
+<string name="learn_learned">Μάθηση ολοκληρώθηκε!</string>
+<!--  -->
+<string name="learn_help_tit">Αντιμετωπίζετε προβλήματα;</string>
+<string name="learn_help_msg">Στρέψτε το τηλεχειριστήριο απευθείας προς τον IR δέκτη της συσκευής σας.\nΜπορείτε επίσης να δοκιμάσετε να το κρατήσετε λίγο πιο μακριά ή πιο κοντά.</string>
+<string name="learn_footer">Κουμπί %1$d από %2$d</string>
+<string name="learn_footer_did_it_work">Λειτούργησε;</string>
+<string name="learn_select_tit">Επιλέξτε τύπο συσκευής</string>
+<string name="learn_select_msg">Επιλέξτε τον τύπο της συσκευής από την οποία μαθαίνετε</string>
+<!-- %s is the device type (tv, cable, blu ray, air conditioning... -->
+<string name="learn_activity_title">Μάθηση νέου %s τηλεχειριστηρίου</string>
+<!--  -->
+<string name="ori_system">Ρύθμιση συστήματος</string>
+<string name="ori_auto">Αυτόματη περιστροφή</string>
+<string name="ori_port">Κατακόρυφη</string>
+<string name="ori_land">Οριζόντια</string>
+
+   <!-- BEGIN v1302 -->
+<string name="pref_tit_orientation">Προσανατολισμός</string>
+<string name="pref_tit_bg">Φόντο</string>
+<string name="pref_desc_bg">Προβολή εξατομικευμένου φόντου για τα τηλεχειριστήρια</string>
+<string name="pref_tit_fullscreen">Πλήρης οθόνη</string>
+<string name="pref_desc_fullscreen">Τα τηλεχειριστήρια θα εμφανίζονται σε λειτουργία πλήρους οθόνης - Δεν θα εμφανίζεται η γραμμή κατάστασης</string>
+<!-- bg -->
+<string name="bg_gallery">Γκαλερί</string>
+<string name="bg_remove">Αφαίρεση φόντου</string>
+<string name="bg_changed_ok">Το φόντο άλλαξε</string>
+<!-- BEGIN v1303 -->
+<string name="pref_tit_theme">Στυλ κουμπιού</string>
+<!--  -->
+<string name="theme_tr">Διαφανές</string>
+<string name="theme_sl">Συμπαγές</string>
+
+<!--  -->
+<string name="edit_confirmexitdlg_tit">Αποθήκευση αλλαγών;</string>
+<string name="edit_confirmexitdlg_save">Αποθήκευση</string>
+<string name="edit_confirmexitdlg_discard">Απόρριψη</string>
+<!-- %s will be replaced with the menu_main name -->
+<string name="edit_activity_title">Επεξεργασία - %s</string>
+<!--  -->
+<string name="menu_edit_organize">Οργάνωση</string>
+<string name="menu_edit_snap">Προσάρτηση στο πλέγμα</string>
+<string name="menu_edit_save">Αποθήκευση</string>
+<string name="menu_edit_help">Βοήθεια</string>
+<string name="menu_edit_add_button">Προσθήκη κουμπιού</string>
+<string name="edit_helpdlg_tit">Βοήθεια</string>
+<string name="edit_helpdlg_msg">Πατήστε παρατεταμένα σε ένα κουμπί για να το μεταφέρετε και να το αποθέσετε.\n\nΠατήστε τα κουμπιά για να τα επιλέξετε, στη συνέχεια κάντε κλικ στο κουμπί επεξεργασίας στην κορυφή.\n\nΌταν τελειώσετε, κάντε κλικ στο κουμπί αποθήκευσης στην κορυφή.\n\nΕάν δεν σας αρέσουν οι αλλαγές σας, απλά πατήστε πίσω για να τις απορρίψετε.</string>
+<string name="save_button_dlgtit">Αποθήκευση κουμπιού</string>
+<string name="save_button_dlgmsg">Δοκιμάστε το κουμπί σας και πατήστε OK αν λειτουργεί</string>
+<string name="edit_button_code_updated">Ο κώδικας άλλαξε</string>
+<!--  -->
+
+
+
+  <!-- %s is the name of the button -->
+<string name="edit_button_title">Επεξεργασία κουμπιού</string>
+<string name="edit_option_text">Κείμενο</string>
+<string name="edit_option_size">Μέγεθος κουμπιού</string>
+<string name="edit_option_remove">Αφαίρεση</string>
+<string name="edit_option_icon">Εικονίδιο</string>
+<string name="edit_option_color">Χρώμα</string>
+<string name="edit_option_corners">Γωνίες</string>
+<string name="edit_option_code">Κωδικός IR</string>
+<string name="sizepicker_width">Πλάτος</string>
+<string name="sizepicker_height">Ύψος</string>
+
+<!-- BEGIN 1420 -->
+<string name="color_dlgtit">Αλλαγή χρώματος</string>
+<string name="icon_dlgtit">Αλλαγή εικονιδίου</string>
+<string name="icon_remove">Αφαίρεση εικονιδίου</string>
+<!--  -->
+<string name="color_solid">Συμπαγές</string>
+<string name="color_transparent">Διαφανές</string>
+<string name="color_red">Κόκκινο</string>
+<string name="color_pink">Ροζ</string>
+<string name="color_purple">Μωβ</string>
+<string name="color_deep_purple">Βαθύ μωβ</string>
+<string name="color_indigo">Ινδικό</string>
+<string name="color_blue">Μπλε</string>
+<string name="color_light_blue">Ανοιχτό μπλε</string>
+<string name="color_cyan">Κυανό</string>
+<string name="color_teal">Σιελ</string>
+<string name="color_green">Πράσινο</string>
+<string name="color_light_green">Ανοιχτό πράσινο</string>
+<string name="color_lime">Λαχανί</string>
+<string name="color_yellow">Κίτρινο</string>
+<string name="color_amber">Κεχριμπαρί</string>
+<string name="color_orange">Πορτοκαλί</string>
+<string name="color_deep_orange">Βαθύ πορτοκαλί</string>
+<string name="color_brown">Καφέ</string>
+<string name="color_grey">Γκρι</string>
+<string name="color_blue_grey">Γκρι μπλε</string>
+
+    <!--  -->
+    <string name="menu_edit_multi">Multi Edit</string>
+    <string name="menu_edit_cab_edit">Edit</string>
+    <string name="menu_edit_cab_sel_all">ALL</string>
+    <string name="menu_edit_cab_sel_none">NONE</string>
+    <!--  -->
+    <plurals name="selected">
+        <item quantity="other">%d selected</item>
+    </plurals>
+
+    <string name="edit_corners_c">Radius</string>
+    <string name="edit_corners_tl">Top Left</string>
+    <string name="edit_corners_tr">Top Right</string>
+    <string name="edit_corners_bl">Bottom Left</string>
+    <string name="edit_corners_br">Bottom Right</string>
+   <string name="edit_corners_dlgtit">Ακτίνα γωνίας</string>
+<string name="pref_tit_vibrate">Δόνηση κατά την πίεση</string>
+<string name="pref_desc_vibrate">Δόνηση όταν πιέζεται ένα κουμπί</string>
+<string name="pref_tit_delay">Καθυστέρηση επανάληψης σήματος</string>
+<string name="pref_desc_delay">Χρόνος σε χιλιοστά του δευτερολέπτου για αναμονή μεταξύ σημάτων όταν πιέζεται παρατεταμένα</string>
+<string name="ms">%d ms</string>
+<string name="delay_reset_default">Προεπιλεγμένο</string>
+<string name="edit_option_text_size">Μέγεθος κειμένου</string>
+<string name="learn_tit_saved">%s Αποθηκεύτηκε</string>
+<string name="learn_desc_saved">Έχετε ήδη μάθει αυτό το κουμπί. Για να ελέγξετε αν λειτουργεί, πατήστε το κουμπί. Αν δεν λειτουργεί, πατήστε "Δοκιμάστε ξανά" στο κάτω μέρος για να το μάθετε ξανά.</string>
+<string name="learn_button_forget">Ξεχάστε</string>
+<string name="learn_button_next">Επόμενο</string>
+<string name="no_remotes">Δεν έχετε τηλεχειριστήρια\n\nΠατήστε το κουμπί + για να προσθέσετε το πρώτο σας τηλεχειριστήριο</string>
+<string name="err_all_fields">Παρακαλώ συμπληρώστε όλα τα πεδία</string>
+<string name="loading">Φόρτωση</string>
+<!--  -->
+<string name="pref_dlg_tit_fix">Προειδοποίηση</string>
+<string name="pref_dlg_msg_fix">Εάν έχετε οποιοδήποτε κουμπί τηλεχειριστηρίου που λειτουργεί, μην αλλάξετε αυτή τη ρύθμιση.\nΑλλάξτε το μόνο εάν ΤΙΠΟΤΑ δεν λειτουργεί για εσάς.\n\nΜετά την αλλαγή αυτής της ρύθμισης, επανεκκινήστε τη συσκευή σας.\n\nΕίστε σίγουροι ότι θέλετε να αλλάξετε αυτή τη ρύθμιση;</string>
+<!-- -->
+<string name="dev_type_tv">Τηλεόραση</string>
+<string name="dev_type_cable">Ψηφιακός δέκτης</string>
+<string name="dev_type_cd">CD</string>
+<string name="dev_type_dvd">DVD</string>
+<string name="dev_type_blu_ray">Blu-ray</string>
+<string name="dev_type_audio">Σύστημα ήχου</string>
+<string name="dev_type_camera">Κάμερα</string>
+<string name="dev_type_air_con">Κλιματισμός</string>
+<string name="dev_type_other">Άλλο</string>
+<!--  -->
+<string name="organize_icons">Εικονίδια</string>
+<string name="organize_colors">Χρώματα</string>
+<string name="organize_corners">Γωνίες</string>
+<string name="organize_positions">Θέσεις</string>
+<string name="organize_dlgtit">Οργάνωση κουμπιών</string>
+
+    <!--  -->
+<string name="provider_common">Κοινά Τηλεχειριστήρια</string>
+<string name="provider_local">Τα Τηλεχειριστήριά Μου</string>
+<string name="provider_learn_remote">Μάθετε Τηλεχειριστήριο</string>
+<string name="provider_learn_button">Μάθετε Κουμπί</string>
+<string name="title_provider_add_button">Προσθήκη κουμπιού</string>
+<string name="title_provider_add_remote">Προσθήκη τηλεχειριστηρίου</string>
+
+<string name="corners_square">Τετράγωνο</string>
+<string name="corners_rounded_square">Στρογγυλεμένο τετράγωνο</string>
+<string name="corners_circle">Κύκλος</string>
+
+<plurals name="list_remote_button_size">
+    <item quantity="zero">%d κουμπιά</item>
+    <item quantity="one">%d κουμπί</item>
+    <item quantity="other">%d κουμπιά</item>
+</plurals>
+
+<string name="save_remote_preview">Προεπισκόπηση</string>
+
+<string name="preview_remote_dlgtit_remote">Προεπισκόπηση τηλεχειριστηρίου</string>
+<string name="preview_remote_dlgtit_button">Επιλέξτε ένα κουμπί</string>
+
+
+</resources>
