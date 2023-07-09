@@ -12,3 +12,6 @@ This project is licensed under GPLv3. See the [LICENSE](https://github.com/twino
 
 # Credits
 - @godbless96 for bugfixes and remote additions
+- Diego Sanguinetti for the Spanish translations
+- Michael Moroni for the Italian translation
+- Dimitris Vagiakakos for the Greek translations
