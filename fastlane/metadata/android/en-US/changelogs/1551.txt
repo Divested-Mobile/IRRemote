@@ -1,0 +1,1 @@
+* Added Skymaster SM32001/VEON SRO322016 support, thanks to Roman Luitko
