@@ -193,6 +193,7 @@ public class RemoteOrganizer {
         addRow(Button.ID_CH_DOWN, Button.ID_DIGIT_7, Button.ID_DIGIT_8,
                 Button.ID_DIGIT_9);
         addRow(Button.ID_MENU, 0, Button.ID_DIGIT_0, 0);
+        addRow(Button.ID_RED, Button.ID_GREEN, Button.ID_BLUE, Button.ID_YELLOW);
 
         int type = mRemote.details.type;
         if (type == Remote.TYPE_CABLE || type == Remote.TYPE_BLU_RAY) {
@@ -326,6 +327,10 @@ public class RemoteOrganizer {
         setColor(Button.ID_PLAY, media);
         setColor(Button.ID_PAUSE, media);
 
+        setColor(Button.ID_RED, Button.BG_GREY);
+        setColor(Button.ID_GREEN, Button.BG_GREY);
+        setColor(Button.ID_BLUE, Button.BG_GREY);
+        setColor(Button.ID_YELLOW, Button.BG_GREY);
     }
 
     private Button findId(int id) {
