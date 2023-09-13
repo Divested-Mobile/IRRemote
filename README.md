@@ -16,3 +16,4 @@ This project is licensed under GPLv3. See the [LICENSE](https://github.com/twino
 - Michael Moroni for the Italian translation
 - Dimitris Vagiakakos for the Greek translations
 - Roman Luitko for additional remotes
+- Biswapriyo Nath for additional remotes and tweaks

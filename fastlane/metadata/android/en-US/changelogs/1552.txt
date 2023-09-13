@@ -1,0 +1,3 @@
+* An addition and improvement thanks to Biswapriyo Nath!
+* Replace labels of color buttons with actual color representations
+* Add Siti Digital Cable remote
