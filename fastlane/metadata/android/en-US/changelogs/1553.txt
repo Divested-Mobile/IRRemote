@@ -1,0 +1,3 @@
+* Two improvements thanks to Biswapriyo Nath!
+* Adds an icon for the INFO button
+* Adds a remote for Hathway STB
