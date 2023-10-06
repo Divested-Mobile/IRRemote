@@ -14,7 +14,8 @@ public class ComponentUtils {
             Button.ID_MUTE, Button.ID_VOL_DOWN, Button.ID_VOL_UP,
             Button.ID_MENU, Button.ID_GUIDE, Button.ID_NAV_DOWN,
             Button.ID_NAV_UP, Button.ID_NAV_LEFT, Button.ID_NAV_RIGHT,
-            Button.ID_SRC, Button.ID_BACK, Button.ID_PLAY, Button.ID_PAUSE,
+            Button.ID_BACK,
+            Button.ID_SRC, Button.ID_INFO, Button.ID_PLAY, Button.ID_PAUSE,
             Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT,
             Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
             Button.ID_FAN_UP, Button.ID_TEMP_DOWN, Button.ID_TEMP_UP,
@@ -67,6 +68,9 @@ public class ComponentUtils {
                 return R.drawable.b_nav_up;
             case Button.ID_NAV_DOWN:
                 return R.drawable.b_nav_down;
+
+            case Button.ID_INFO:
+                return R.drawable.b_info;
 
             case Button.ID_PLAY:
                 return R.drawable.b_play;
