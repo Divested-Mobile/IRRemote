@@ -112,6 +112,11 @@
     <!-- -->
     <string name="button_text_epg">epg</string>
     <string name="button_text_list">list</string>
+    <string name="button_text_fav">fav</string>
+    <string name="button_text_game">game</string>
+    <string name="button_text_help">help</string>
+    <string name="button_text_lang">lang</string>
+    <string name="button_text_msg">msg</string>
 
     <!-- Digits allowed to save a menu_main name -->
     <!-- Don't put spaces at the end or beginning -->

@@ -393,6 +393,16 @@ public class ComponentUtils {
                 return c.getString(R.string.button_text_epg);
             case Button.ID_LIST:
                 return c.getString(R.string.button_text_list);
+            case Button.ID_FAV:
+                return c.getString(R.string.button_text_fav);
+            case Button.ID_GAME:
+                return c.getString(R.string.button_text_game);
+            case Button.ID_HELP:
+                return c.getString(R.string.button_text_help);
+            case Button.ID_LANG:
+                return c.getString(R.string.button_text_lang);
+            case Button.ID_MSG:
+                return c.getString(R.string.button_text_msg);
 
             default:
                 return "?";
