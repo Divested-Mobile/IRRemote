@@ -86,6 +86,11 @@ public class Button implements Serializable {
     // Miscellaneous...
     public static final int ID_EPG = 61;
     public static final int ID_LIST = 62;
+    public static final int ID_FAV = 63;
+    public static final int ID_GAME = 64;
+    public static final int ID_HELP = 65;
+    public static final int ID_LANG = 66;
+    public static final int ID_MSG = 67;
 
     // backgrounds...
     public static final int BG_SOLID = 1;
