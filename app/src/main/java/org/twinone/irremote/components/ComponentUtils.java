@@ -389,8 +389,6 @@ public class ComponentUtils {
                 return c.getString(R.string.button_text_temp_up);
             case Button.ID_TEMP_DOWN:
                 return c.getString(R.string.button_text_temp_down);
-            case Button.ID_EPG:
-                return c.getString(R.string.button_text_epg);
             case Button.ID_LIST:
                 return c.getString(R.string.button_text_list);
             case Button.ID_FAV:
