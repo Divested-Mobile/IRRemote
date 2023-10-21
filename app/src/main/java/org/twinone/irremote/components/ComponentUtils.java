@@ -389,6 +389,8 @@ public class ComponentUtils {
                 return c.getString(R.string.button_text_temp_up);
             case Button.ID_TEMP_DOWN:
                 return c.getString(R.string.button_text_temp_down);
+            case Button.ID_HOME:
+                return c.getString(R.string.button_text_home);
             case Button.ID_LIST:
                 return c.getString(R.string.button_text_list);
             case Button.ID_FAV:
@@ -401,6 +403,8 @@ public class ComponentUtils {
                 return c.getString(R.string.button_text_lang);
             case Button.ID_MSG:
                 return c.getString(R.string.button_text_msg);
+            case Button.ID_SETTING:
+                return c.getString(R.string.button_text_setting);
 
             default:
                 return "?";
