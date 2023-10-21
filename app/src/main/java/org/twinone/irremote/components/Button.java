@@ -43,7 +43,7 @@ public class Button implements Serializable {
     public static final int ID_DIGIT_9 = 25;
     // Since Remote v2
     public static final int ID_SRC = 26;
-    public static final int ID_GUIDE = 27;
+    public static final int ID_GUIDE = 27; // EPG (Electronic Programme Guide)
     public static final int ID_SMART = 28;
     public static final int ID_LAST = 29;
     public static final int ID_CLEAR = 30;
@@ -84,7 +84,7 @@ public class Button implements Serializable {
     public static final int ID_TEMP_DOWN = 60;
 
     // Miscellaneous...
-    public static final int ID_EPG = 61;
+    // 61 Reserved
     public static final int ID_LIST = 62;
     public static final int ID_FAV = 63;
     public static final int ID_GAME = 64;
