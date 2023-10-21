@@ -1,0 +1,5 @@
+* Many improvements thanks to Biswapriyo Nath!
+* Additional cable TV buttons
+* Additional buttons for Hathway remote
+* Added support for LG Magic remote
+* Updated build dependencies
