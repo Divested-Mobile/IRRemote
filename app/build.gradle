@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdk 33
 
     defaultConfig {
         applicationId "us.spotco.ir_remote"
@@ -11,6 +11,7 @@ android {
             targetCompatibility JavaVersion.VERSION_1_8
         }
         resConfigs 'en', 'el', 'es', 'it'
+        targetSdk 33
     }
 
     buildTypes {
@@ -29,6 +30,7 @@ android {
     lint {
         abortOnError false
     }
+    buildToolsVersion '33.0.2'
 }
 
 dependencies {
