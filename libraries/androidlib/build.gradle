@@ -5,8 +5,6 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
@@ -14,6 +12,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'org.twinone.androidlib'
 }
 
 dependencies {
