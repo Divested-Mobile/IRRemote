@@ -1,12 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
+    compileSdk 33
 
     defaultConfig {
         minSdkVersion 15
-        versionCode 1
-        versionName "1.0"
+        targetSdk 33
     }
     buildTypes {
         release {
@@ -14,6 +13,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'org.twinone.androidlib'
+    buildToolsVersion '33.0.2'
 }
 
 dependencies {
