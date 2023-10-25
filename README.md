@@ -6,11 +6,15 @@ IRRemote is a free android app that allows you to use your phone's built in IR t
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/us.spotco.ir_remote/)
 
-# License
+## Contributing
 
-This project is licensed under GPLv3. See the [LICENSE](https://github.com/twinone/IRRemote/blob/master/LICENSE) file.
+Please read our [contribution guidelines](CONTRIBUTING.md) before making any contributions to the project. We welcome bug reports, feature requests, and pull requests from the community.
 
-# Credits
+## License
+
+This project is licensed under GPLv3. See the [LICENSE](LICENSE) file.
+
+## Credits
 - @godbless96 for bugfixes and remote additions
 - Diego Sanguinetti for the Spanish translations
 - Michael Moroni for the Italian translation
