@@ -34,6 +34,7 @@ public class SettingsFragment extends PreferenceFragment implements
 
     private static final int BG_REQUEST_CODE = 1337;
 
+    private ListPreference mOrientation;
     private ListPreference mBackground;
     private CheckBoxPreference mFixButtons;
     private boolean mNewFixButtonsVal;
@@ -68,12 +69,16 @@ public class SettingsFragment extends PreferenceFragment implements
         pm.setSharedPreferencesMode(Context.MODE_PRIVATE);
         addPreferencesFromResource(R.xml.prefs);
 
+        mOrientation = (ListPreference) findPreference(getString(R.string.pref_key_orientation));
+        mOrientation.setOnPreferenceClickListener(this);
+        mOrientation.setSummary(mOrientation.getEntry());
+
         mBackground = (ListPreference) findPreference(getString(R.string.pref_key_bg));
         mBackground.setOnPreferenceClickListener(this);
+        mBackground.setSummary(mBackground.getEntry());
 
         mFixButtons = (CheckBoxPreference) findPreference(getString(R.string.pref_key_fix));
         mFixButtons.setOnPreferenceChangeListener(this);
-
     }
 
     @Override
@@ -127,6 +132,13 @@ public class SettingsFragment extends PreferenceFragment implements
             } else {
                 sp.edit().remove(key).apply();
             }
+        }
+
+        Preference pref = findPreference(key);
+
+        if (pref instanceof ListPreference) {
+            ListPreference listPref = (ListPreference) pref;
+            pref.setSummary(listPref.getEntry());
         }
 
     }
