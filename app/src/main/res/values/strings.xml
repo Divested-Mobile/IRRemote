@@ -137,6 +137,10 @@
     <string name="dlg_na_tit">Oops!</string>
     <string name="dlg_na_msg">It looks like your device does not have an IR Transmitter\nWe\'re sorry, but you will not be able to use this app on this device</string>
 
+    <!-- Debug -->
+    <string name="dlg_debug_tit">Debug Info</string>
+    <string name="dlg_debug_freq">Frequencies</string>
+
     <!-- Ready -->
     <string name="learn">Learn</string>
     <string name="learn_tit_ready">Configure \"%s\"</string>

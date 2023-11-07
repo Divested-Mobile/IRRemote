@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +29,7 @@ import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.ui.dialogs.DebugDialog;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
 public class MainActivity extends ToolbarActivity implements OnRemoteRenamedListener, VersionManager.OnUpdateListener,
@@ -140,6 +143,16 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         return available;
     }
 
+    private void showDebugDialog() {
+        CharSequence[] titles = new CharSequence[]{
+            getString(R.string.dlg_debug_freq)
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dlg_debug_tit);
+        builder.setItems(titles, new DebugDialog(this));
+        builder.show();
+    }
+
     private void showNotAvailableDialog() {
         MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(this);
         mb.title(R.string.dlg_na_tit);
@@ -243,6 +256,9 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
             case R.id.menu_action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 AnimHelper.startActivity(this, i);
+                break;
+            case R.id.menu_debug:
+                showDebugDialog();
                 break;
         }
         return false;
