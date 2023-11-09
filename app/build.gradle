@@ -34,12 +34,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.0-alpha03'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.jakewharton:disklrucache:2.0.2'
-    implementation 'com.jpardogo.materialtabstrip:library:1.0.9'
-    implementation 'org.jsoup:jsoup:1.7.3'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.jsoup:jsoup:1.16.2'
     implementation project(':libraries:androidlib')
 }
