@@ -110,7 +110,7 @@ public class EditTextSizeDialog extends DialogFragment implements
 
             }
         });
-        mb.title(R.string.color_dlgtit);
+        mb.title(R.string.edit_option_text_size);
         return mb.build();
     }
 
