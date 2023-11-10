@@ -92,7 +92,7 @@ class DelaySliderDialog extends DialogPreference implements
     @Override
     public Dialog getDialog() {
         MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getContext());
-        mb.title(R.string.color_dlgtit);
+        mb.title(R.string.pref_tit_delay);
         mb.negativeText(android.R.string.cancel);
         mb.positiveText(android.R.string.ok);
         return mb.build();
