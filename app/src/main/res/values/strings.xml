@@ -327,4 +327,6 @@
     <string name="preview_remote_dlgtit_remote">Preview remote</string>
     <string name="preview_remote_dlgtit_button">Select a button</string>
 
+    <string name="version_preference_format">Version %1$s (%2$d)</string>
+
 </resources>

@@ -51,4 +51,6 @@
         android:summary="@string/pref_desc_fix"
         android:title="@string/pref_tit_fix" />
 
+    <org.twinone.irremote.VersionPreference />
+
 </PreferenceScreen>
