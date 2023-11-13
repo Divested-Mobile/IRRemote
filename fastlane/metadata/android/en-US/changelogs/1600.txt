@@ -1,0 +1,7 @@
+* Many improvements thanks to Biswapriyo Nath!
+* Updated build dependencies
+* Added contributor guidelines
+* Added a monochrome icon
+* Settings menu shows more active/chosen options
+* Debug menu showing supported carrier frequencies
+* Settings menu shows the app version and version code
