@@ -19,7 +19,9 @@ public class ComponentUtils {
             Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT,
             Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
             Button.ID_FAN_UP, Button.ID_TEMP_DOWN, Button.ID_TEMP_UP,
-            Button.ID_RED, Button.ID_GREEN, Button.ID_BLUE, Button.ID_YELLOW};
+            Button.ID_RED, Button.ID_GREEN, Button.ID_BLUE, Button.ID_YELLOW,
+            Button.ID_HOME, Button.ID_FAV, Button.ID_GAME, Button.ID_HELP,
+            Button.ID_LANG, Button.ID_MSG, Button.ID_SETTING};
 
 
     private static final int[] BUTTONS_TV = {Button.ID_POWER, Button.ID_MUTE,
@@ -125,6 +127,21 @@ public class ComponentUtils {
                 return R.drawable.b_blue;
             case Button.ID_YELLOW:
                 return R.drawable.b_yellow;
+
+            case Button.ID_HOME:
+                return R.drawable.b_home;
+            case Button.ID_FAV:
+                return R.drawable.b_fav;
+            case Button.ID_GAME:
+                return R.drawable.b_game;
+            case Button.ID_HELP:
+                return R.drawable.b_help;
+            case Button.ID_LANG:
+                return R.drawable.b_lang;
+            case Button.ID_MSG:
+                return R.drawable.b_msg;
+            case Button.ID_SETTING:
+                return R.drawable.b_setting;
 
             case 0:
                 return 0;
