@@ -50,10 +50,12 @@ public class EditIconDialog extends DialogFragment implements
         mIconIds = ComponentUtils.ICON_IDS;
 
         GridView view = new GridView(getActivity());
-        int size = (int) dpToPx(30);
+        int size = (int) dpToPx(48);
         view.setColumnWidth(size);
-        view.setNumColumns(5);
-        view.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+
+        // Display as many columns as possible to fill the available space.
+        view.setNumColumns(-1);
+        view.setStretchMode(GridView.STRETCH_SPACING);
 
         mAdapter = new MyAdapter();
         view.setAdapter(mAdapter);
