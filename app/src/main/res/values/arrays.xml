@@ -62,6 +62,8 @@
         <item>@string/color_brown</item>
         <item>@string/color_grey</item>
         <item>@string/color_blue_grey</item>
+        <item>@string/color_white</item>
+        <item>@string/color_black</item>
     </string-array>
     <string-array name="device_types">
         <item>@string/dev_type_tv</item>

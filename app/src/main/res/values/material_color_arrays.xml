@@ -190,5 +190,24 @@
         <item>@color/material_blue_grey_700</item>
         <item>@color/material_blue_grey_900</item>
     </array>
-
+    <!-- gradient_white -->
+    <array name="gradient_white">
+        <item>@android:color/white</item>
+        <item>@android:color/white</item>
+    </array>
+    <!-- gradient_white_pressed -->
+    <array name="gradient_white_pressed">
+        <item>@android:color/white</item>
+        <item>@android:color/white</item>
+    </array>
+    <!-- gradient_black -->
+    <array name="gradient_black">
+        <item>@android:color/black</item>
+        <item>@android:color/black</item>
+    </array>
+    <!-- gradient_black_pressed -->
+    <array name="gradient_black_pressed">
+        <item>@android:color/black</item>
+        <item>@android:color/black</item>
+    </array>
 </resources>

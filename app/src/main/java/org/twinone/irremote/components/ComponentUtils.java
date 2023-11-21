@@ -216,6 +216,10 @@ public class ComponentUtils {
                 return R.array.gradient_grey_pressed;
             case Button.BG_BLUE_GREY:
                 return R.array.gradient_blue_grey_pressed;
+            case Button.BG_WHITE:
+                return R.array.gradient_white_pressed;
+            case Button.BG_BLACK:
+                return R.array.gradient_black_pressed;
             default:
                 return R.array.gradient_solid_pressed;
         }
@@ -263,6 +267,10 @@ public class ComponentUtils {
                 return R.array.gradient_grey;
             case Button.BG_BLUE_GREY:
                 return R.array.gradient_blue_grey;
+            case Button.BG_WHITE:
+                return R.array.gradient_white;
+            case Button.BG_BLACK:
+                return R.array.gradient_black;
             default:
                 return R.array.gradient_solid;
         }
