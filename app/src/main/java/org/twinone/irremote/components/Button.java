@@ -115,7 +115,8 @@ public class Button implements Serializable {
     public static final int BG_BROWN = 19;
     public static final int BG_GREY = 20;
     public static final int BG_BLUE_GREY = 21;
-
+    public static final int BG_WHITE = 22;
+    public static final int BG_BLACK = 23;
 
     /**
      *
