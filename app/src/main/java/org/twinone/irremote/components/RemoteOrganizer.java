@@ -247,7 +247,7 @@ public class RemoteOrganizer {
 
     private void setupText() {
         for (Button b : mRemote.buttons) {
-            b.text = ComponentUtils.getCommonButtonDisplyaName(b.id, mContext);
+            b.text = ComponentUtils.getCommonButtonDisplayName(b.id, mContext);
         }
     }
 

@@ -292,7 +292,7 @@ public class ComponentUtils {
         return d;
     }
 
-    public static String getCommonButtonDisplyaName(int id, Context c) {
+    public static String getCommonButtonDisplayName(int id, Context c) {
         switch (id) {
             case Button.ID_POWER:
                 return c.getString(R.string.button_text_power);
@@ -462,7 +462,7 @@ public class ComponentUtils {
 
         int[] bb = getButtonsForType(type);
         for (int btn : bb) {
-            String name = ComponentUtils.getCommonButtonDisplyaName(btn, c);
+            String name = ComponentUtils.getCommonButtonDisplayName(btn, c);
             r.addButton(new Button(btn, name));
         }
 
