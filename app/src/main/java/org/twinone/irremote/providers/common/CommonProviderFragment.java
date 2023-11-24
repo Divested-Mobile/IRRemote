@@ -182,7 +182,7 @@ public class CommonProviderFragment extends ProviderFragment implements
             Button b = new Button(id);
             b.code = FileUtils.read(getActivity().getAssets(), remotedir
                     + File.separator + name);
-            b.text = ComponentUtils.getCommonButtonDisplyaName(b.id,
+            b.text = ComponentUtils.getCommonButtonDisplayName(b.id,
                     getActivity());
             r.addButton(b);
         }
