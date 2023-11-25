@@ -279,9 +279,8 @@ public class RemoteOrganizer {
     }
 
     private void setupColor() {
-        int def = Button.BG_TRANSPARENT;
         for (Button b : mRemote.buttons) {
-            b.bg = def;
+            b.bg = Button.BG_BLUE;
         }
 
         int vols = Button.BG_ORANGE;
