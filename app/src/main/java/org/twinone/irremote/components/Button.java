@@ -139,6 +139,8 @@ public class Button implements Serializable {
     public String code;
 
     public int bg;
+    public int fg;
+
     // x, y, width, height in px
     public float x;
     public float y;

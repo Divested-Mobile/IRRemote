@@ -37,6 +37,8 @@ import org.twinone.irremote.ui.dialogs.EditCornersDialog;
 import org.twinone.irremote.ui.dialogs.EditCornersDialog.OnCornersEditedListener;
 import org.twinone.irremote.ui.dialogs.EditIconDialog;
 import org.twinone.irremote.ui.dialogs.EditIconDialog.OnIconSelectedListener;
+import org.twinone.irremote.ui.dialogs.EditIconColorDialog;
+import org.twinone.irremote.ui.dialogs.EditIconColorDialog.OnIconColorSelectedListener;
 import org.twinone.irremote.ui.dialogs.EditSizeDialog;
 import org.twinone.irremote.ui.dialogs.EditSizeDialog.OnSizeChangedListener;
 import org.twinone.irremote.ui.dialogs.EditTextDialog;
@@ -63,10 +65,11 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private static final int OPTION_TEXT_SIZE = 0;
     // private static final int OPTION_SIZE = 2;
     private static final int OPTION_ICON = 1;
-    private static final int OPTION_COLOR = 2;
-    private static final int OPTION_CORNERS = 3;
-    private static final int OPTION_CODE = 4;
-    private static final int OPTION_REMOVE = 5;
+    private static final int OPTION_ICON_COLOR = 2;
+    private static final int OPTION_COLOR = 3;
+    private static final int OPTION_CORNERS = 4;
+    private static final int OPTION_CODE = 5;
+    private static final int OPTION_REMOVE = 6;
     private static final int SCROLL_DELAY = 15;
     private boolean mIsEdited;
     private int mScrollPixels;
@@ -328,6 +331,24 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                 for (ButtonView v : getTargets()) {
                     v.setIcon(iconId);
                     // v.setText(null, true);
+                }
+                refreshButtonsLayout();
+                onEditFinished();
+            }
+        });
+        d.show(getActivity());
+
+    }
+
+    private void editIconColor() {
+        EditIconColorDialog d = EditIconColorDialog.newInstance(0);
+
+        d.setListener(new OnIconColorSelectedListener() {
+
+            @Override
+            public void onIconColorSelected(int color) {
+                for (ButtonView v : getTargets()) {
+                    v.setForegroundColor(color);
                 }
                 refreshButtonsLayout();
                 onEditFinished();
@@ -802,6 +823,9 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                 break;
             case OPTION_ICON:
                 editIcon();
+                break;
+            case OPTION_ICON_COLOR:
+                editIconColor();
                 break;
             case OPTION_COLOR:
                 editColor();

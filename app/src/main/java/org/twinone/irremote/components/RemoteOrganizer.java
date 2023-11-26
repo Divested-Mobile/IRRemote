@@ -280,6 +280,7 @@ public class RemoteOrganizer {
 
     private void setupColor() {
         for (Button b : mRemote.buttons) {
+            b.fg = Button.BG_WHITE;
             b.bg = Button.BG_BLUE;
         }
 
