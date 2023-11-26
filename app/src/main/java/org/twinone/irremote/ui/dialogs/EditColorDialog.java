@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -54,9 +55,9 @@ public class EditColorDialog extends DialogFragment implements
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mStrings = getResources().getStringArray(R.array.colors);
 
-        ListView view = new ListView(getActivity());
+        View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_color_listview, null);
+        ListView view = inflate.findViewById(R.id.edit_color_listview);
         BaseAdapter mAdapter = new MyAdapter();
-        view.setDivider(null);
         view.setAdapter(mAdapter);
         view.setOnItemClickListener(new OnItemClickListener() {
 
@@ -71,7 +72,7 @@ public class EditColorDialog extends DialogFragment implements
         });
 
         MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
-        mb.customView(view, false);
+        mb.customView(inflate, false);
         mb.negativeText(android.R.string.cancel);
 
         mb.title(R.string.color_dlgtit);
