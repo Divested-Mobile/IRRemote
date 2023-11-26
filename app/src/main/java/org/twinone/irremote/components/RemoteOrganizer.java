@@ -207,10 +207,17 @@ public class RemoteOrganizer {
     /**
      * Set color by ID (NOT UID)
      */
-    private void setColor(int buttonId, int color) {
+    private void setColor(int buttonId, int background, int foreground) {
         Button b = findId(buttonId);
         if (b != null)
-            b.bg = color;
+        {
+            b.bg = background;
+            b.fg = foreground;
+        }
+    }
+
+    private void setColor(int buttonId, int background) {
+        setColor(buttonId, background, Button.BG_WHITE);
     }
 
     private void setupSizes() {
@@ -327,10 +334,10 @@ public class RemoteOrganizer {
         setColor(Button.ID_PLAY, media);
         setColor(Button.ID_PAUSE, media);
 
-        setColor(Button.ID_RED, Button.BG_GREY);
-        setColor(Button.ID_GREEN, Button.BG_GREY);
-        setColor(Button.ID_BLUE, Button.BG_GREY);
-        setColor(Button.ID_YELLOW, Button.BG_GREY);
+        setColor(Button.ID_RED, Button.BG_GREY, Button.BG_RED);
+        setColor(Button.ID_GREEN, Button.BG_GREY, Button.BG_GREEN);
+        setColor(Button.ID_BLUE, Button.BG_GREY, Button.BG_BLUE);
+        setColor(Button.ID_YELLOW, Button.BG_GREY, Button.BG_YELLOW);
     }
 
     private Button findId(int id) {
