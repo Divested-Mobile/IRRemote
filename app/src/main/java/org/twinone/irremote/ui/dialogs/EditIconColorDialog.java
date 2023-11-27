@@ -55,8 +55,6 @@ public class EditIconColorDialog extends DialogFragment implements DialogInterfa
 
         View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_color_gridview, null);
         GridView view = inflate.findViewById(R.id.edit_color_gridview);
-        view.setNumColumns(GridView.AUTO_FIT);
-        view.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
         view.setColumnWidth((int) dpToPx(48));
         int size = (int) dpToPx(16);
         view.setPadding(size, size, size, size);
