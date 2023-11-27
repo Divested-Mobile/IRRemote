@@ -210,4 +210,29 @@
         <item>@android:color/black</item>
         <item>@android:color/black</item>
     </array>
+    <!-- material_colors -->
+    <array name="material_colors">
+        <item>#11000000</item>
+        <item>@color/material_red_500</item>
+        <item>@color/material_pink_500</item>
+        <item>@color/material_purple_500</item>
+        <item>@color/material_deep_purple_500</item>
+        <item>@color/material_indigo_500</item>
+        <item>@color/material_blue_500</item>
+        <item>@color/material_light_blue_500</item>
+        <item>@color/material_cyan_500</item>
+        <item>@color/material_teal_500</item>
+        <item>@color/material_green_500</item>
+        <item>@color/material_light_green_500</item>
+        <item>@color/material_lime_500</item>
+        <item>@color/material_yellow_500</item>
+        <item>@color/material_amber_500</item>
+        <item>@color/material_orange_500</item>
+        <item>@color/material_deep_orange_500</item>
+        <item>@color/material_brown_500</item>
+        <item>@color/material_grey_500</item>
+        <item>@color/material_blue_grey_500</item>
+        <item>@android:color/white</item>
+        <item>@android:color/black</item>
+    </array>
 </resources>

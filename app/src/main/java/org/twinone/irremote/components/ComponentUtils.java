@@ -162,6 +162,82 @@ public class ComponentUtils {
         return Button.ID_UNKNOWN;
     }
 
+    public static int getForegroundColor(Context c, int color) {
+        int resId = -1;
+        switch (color) {
+            case Button.BG_TRANSPARENT:
+                resId = android.R.color.transparent;
+                break;
+            case Button.BG_RED:
+                resId = R.color.material_red_500;
+                break;
+            case Button.BG_PINK:
+                resId = R.color.material_pink_500;
+                break;
+            case Button.BG_PURPLE:
+                resId = R.color.material_purple_500;
+                break;
+            case Button.BG_DEEP_PURPLE:
+                resId = R.color.material_deep_purple_500;
+                break;
+            case Button.BG_INDIGO:
+                resId = R.color.material_indigo_500;
+                break;
+            case Button.BG_BLUE:
+                resId = R.color.material_blue_500;
+                break;
+            case Button.BG_LIGHT_BLUE:
+                resId = R.color.material_light_blue_500;
+                break;
+            case Button.BG_CYAN:
+                resId = R.color.material_cyan_500;
+                break;
+            case Button.BG_TEAL:
+                resId = R.color.material_teal_500;
+                break;
+            case Button.BG_GREEN:
+                resId = R.color.material_green_500;
+                break;
+            case Button.BG_LIGHT_GREEN:
+                resId = R.color.material_light_green_500;
+                break;
+            case Button.BG_LIME:
+                resId = R.color.material_lime_500;
+                break;
+            case Button.BG_YELLOW:
+                resId = R.color.material_yellow_500;
+                break;
+            case Button.BG_AMBER:
+                resId = R.color.material_amber_500;
+                break;
+            case Button.BG_ORANGE:
+                resId = R.color.material_orange_500;
+                break;
+            case Button.BG_DEEP_ORANGE:
+                resId = R.color.material_deep_orange_500;
+                break;
+            case Button.BG_BROWN:
+                resId = R.color.material_brown_500;
+                break;
+            case Button.BG_GREY:
+                resId = R.color.material_grey_500;
+                break;
+            case Button.BG_BLUE_GREY:
+                resId = R.color.material_blue_grey_500;
+                break;
+            case Button.BG_WHITE:
+                resId = android.R.color.white;
+                break;
+            case Button.BG_BLACK:
+                resId = android.R.color.black;
+                break;
+        }
+        if (resId != -1) {
+            return c.getResources().getColor(resId);
+        }
+        return -1;
+    }
+
     /**
      * Returns the array resource id for the specified Button.BG* color
      *

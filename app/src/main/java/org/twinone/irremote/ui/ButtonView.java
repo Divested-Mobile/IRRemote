@@ -10,13 +10,15 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.ViewCompat;
 
 import org.twinone.androidlib.view.CenterImageButton;
 import org.twinone.irremote.R;
@@ -60,7 +62,7 @@ public class ButtonView extends CenterImageButton {
             return;
         }
         try {
-            Drawable d = getResources().getDrawable(iconResId);
+            Drawable d = DrawableCompat.wrap(getResources().getDrawable(iconResId));
             int size = (int) Math.min(mButton.w, mButton.h);
             size *= 0.6;
             d.setBounds(new Rect(0, 0, size, size));
@@ -72,6 +74,7 @@ public class ButtonView extends CenterImageButton {
             // setCompoundDrawables(null, d, null, null);
             // } else {
             setCompoundDrawableCenter(d);
+            DrawableCompat.setTint(d, ComponentUtils.getForegroundColor(getContext(), mButton.fg));
             // }
 
         } catch (Exception e) {
@@ -82,6 +85,12 @@ public class ButtonView extends CenterImageButton {
     public void setBackground(int bg) {
         mButton.bg = bg;
         updateBackground();
+    }
+
+    public void setForegroundColor(int color) {
+        mButton.fg = color;
+        updateIcon();
+        setTextColor(ComponentUtils.getForegroundColor(getContext(), color));
     }
 
     @SuppressLint("NewApi")
@@ -134,8 +143,10 @@ public class ButtonView extends CenterImageButton {
     public void setButton(org.twinone.irremote.components.Button button) {
         setHapticFeedbackEnabled(true);
         mButton = button;
-        if (mButton.ic == 0)
+        if (mButton.ic == 0) {
             setText(mButton.text);
+            setTextColor(ComponentUtils.getForegroundColor(getContext(), mButton.fg));
+        }
         setPadding(0, 0, 0, 0);
         updateIcon();
         setId(mButton.uid);

@@ -35,6 +35,7 @@
     <string-array name="edit_button_options">
         <item>@string/edit_option_text_size</item>
         <item>@string/edit_option_icon</item>
+        <item>@string/edit_option_icon_color</item>
         <item>@string/edit_option_color</item>
         <item>@string/edit_option_corners</item>
         <item>@string/edit_option_code</item>

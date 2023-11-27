@@ -221,14 +221,16 @@
     <string name="edit_option_size">Button Size</string>
     <string name="edit_option_remove">Remove</string>
     <string name="edit_option_icon">Icon</string>
-    <string name="edit_option_color">Color</string>
+    <string name="edit_option_icon_color">Icon Color</string>
+    <string name="edit_option_color">Button Color</string>
     <string name="edit_option_corners">Corners</string>
     <string name="edit_option_code">IR Code</string>
     <string name="sizepicker_width">Width</string>
     <string name="sizepicker_height">Height</string>
 
     <!-- BEGIN 1420 -->
-    <string name="color_dlgtit">Change color</string>
+    <string name="color_dlgtit">Change Button color</string>
+    <string name="icon_color_dlgtit">Change Icon color</string>
     <string name="icon_dlgtit">Change icon</string>
     <string name="icon_remove">Remove icon</string>
     <!--  -->
