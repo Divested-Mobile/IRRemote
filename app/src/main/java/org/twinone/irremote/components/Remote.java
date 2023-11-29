@@ -303,7 +303,7 @@ public class Remote implements Serializable {
         return serialize();
     }
 
-    String serialize() {
+    public String serialize() {
         return serialize(this);
     }
 

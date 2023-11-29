@@ -7,6 +7,10 @@
         android:title="@string/menu_action_edit"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_action_export"
+        android:title="@string/menu_action_export"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_action_settings"
         android:title="@string/menu_action_settings"
         app:showAsAction="never" />
