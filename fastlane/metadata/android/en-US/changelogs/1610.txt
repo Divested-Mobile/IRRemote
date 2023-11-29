@@ -1,0 +1,8 @@
+* Many improvements thanks to Biswapriyo Nath!
+* More button icons
+* Added a remote for Kerala Vision set-top box
+* More columns are now shown in edit dialog
+* Added a generic remote for Android TV
+* Added more button colors: black and white
+* Ability to export remotes, for debugging
+* Various other changes/fixes
