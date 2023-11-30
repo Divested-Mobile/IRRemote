@@ -120,13 +120,10 @@ public class ComponentUtils {
                 return R.drawable.b_guide;
 
             case Button.ID_RED:
-                return R.drawable.b_red;
             case Button.ID_GREEN:
-                return R.drawable.b_green;
             case Button.ID_BLUE:
-                return R.drawable.b_blue;
             case Button.ID_YELLOW:
-                return R.drawable.b_yellow;
+                return R.drawable.b_circle;
 
             case Button.ID_HOME:
                 return R.drawable.b_home;
