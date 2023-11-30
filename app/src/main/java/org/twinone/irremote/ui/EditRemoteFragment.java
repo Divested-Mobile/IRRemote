@@ -609,7 +609,8 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     private void setupTitle() {
-        getActivity().setTitle(getString(R.string.edit_activity_title, mRemote.name));
+        getActivity().setTitle(mRemote.name);
+        ((ToolbarActivity) getActivity()).setSubtitle(R.string.edit_activity_subtitle);
     }
 
     private void autoHelpDialogIfNeeded() {
