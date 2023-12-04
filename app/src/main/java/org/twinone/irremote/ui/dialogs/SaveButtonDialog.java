@@ -99,7 +99,7 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
         mb.customView(view, true);
 
         mb.title(R.string.save_button_dlgtit);
-        mb.content(R.string.save_button_dlgmsg);
+        //mb.content(R.string.save_button_dlgmsg);
         mb.positiveText(R.string.save_button_save);
         mb.callback(new MaterialDialog.ButtonCallback() {
             @Override
