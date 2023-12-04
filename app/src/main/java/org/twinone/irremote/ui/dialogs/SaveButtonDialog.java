@@ -9,13 +9,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Button;
-import org.twinone.irremote.components.ComponentUtils;
 import org.twinone.irremote.components.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
 import org.twinone.irremote.providers.ProviderActivity;
@@ -95,24 +94,18 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
             mButtonView.setOnTouchListener(new TransmitOnTouchListener(
                     transmitter));
 
-        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
-        mb.customView(view, true);
-
-        mb.title(R.string.save_button_dlgtit);
-        //mb.content(R.string.save_button_dlgmsg);
-        mb.positiveText(R.string.save_button_save);
-        mb.callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-                mButton.text = mButtonText.getText().toString();
-                getProvider().performSaveButton(mButton);
-//                if (mListener != null) mListener.onSaveButton(mButton);
-
-            }
-        });
-        mb.negativeText(android.R.string.cancel);
-        return mb.build();
+        ScrollView scrollView = new ScrollView(getActivity());
+        scrollView.addView(view);
+        return new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.save_button_dlgmsg)
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> onCancel(dialog))
+                .setPositiveButton(R.string.save_button_save, (dialog, which) -> {
+                    mButton.text = mButtonText.getText().toString();
+                    getProvider().performSaveButton(mButton);
+                })
+                .setTitle(R.string.save_button_dlgtit)
+                .setView(scrollView)
+                .show();
     }
 
 
