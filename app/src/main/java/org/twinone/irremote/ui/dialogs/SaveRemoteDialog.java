@@ -8,12 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ProviderActivity;
 
@@ -76,30 +76,25 @@ public class SaveRemoteDialog extends DialogFragment {
             mRemote.name = getUniqueName(mRemote.name);
             mRemoteName.setText(mRemote.name);
         }
-        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
-        mb.customView(view, true);
 
-        mb.title(R.string.save_remote_title);
-        //mb.content(R.string.save_remote_text);
-        mb.positiveText(R.string.save_remote_save);
-        mb.neutralText(R.string.save_remote_preview);
-        mb.negativeText(android.R.string.cancel);
-        mb.callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onPositive(MaterialDialog dialog) {
-                if (!checkAndUpdateRemoteName())
-                    return;
-                getProvider().performSaveRemote(mRemote);
-            }
-
-            @Override
-            public void onNeutral(MaterialDialog dialog) {
-                if (!checkAndUpdateRemoteName())
-                    return;
-                getProvider().requestPreviewRemote(mRemote);
-            }
-        });
-        return mb.build();
+        ScrollView scrollView = new ScrollView(getActivity());
+        scrollView.addView(view);
+        return new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.save_remote_text)
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> onCancel(dialog))
+                .setNeutralButton(R.string.save_remote_preview, (dialog, which) -> {
+                    if (!checkAndUpdateRemoteName())
+                        return;
+                    getProvider().requestPreviewRemote(mRemote);
+                })
+                .setPositiveButton(R.string.save_remote_save, (dialog, which) -> {
+                    if (!checkAndUpdateRemoteName())
+                        return;
+                    getProvider().performSaveRemote(mRemote);
+                })
+                .setTitle(R.string.save_remote_title)
+                .setView(scrollView)
+                .show();
     }
 
     private boolean checkAndUpdateRemoteName() {

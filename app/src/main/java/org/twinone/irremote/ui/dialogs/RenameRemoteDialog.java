@@ -9,10 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 
 public class RenameRemoteDialog extends DialogFragment {
@@ -54,19 +53,13 @@ public class RenameRemoteDialog extends DialogFragment {
                 .findViewById(R.id.dialog_edittext_input);
         mNewRemoteName.setText(mOriginalRemoteName);
 
-        MaterialDialog.Builder mb = Compat.getMaterialDialogBuilder(getActivity());
-        mb.customView(view, false);
-
-        mb.title(R.string.rename_remote_title);
-        mb.positiveText(R.string.rename_remote_save);
-        mb.negativeText(android.R.string.cancel);
-        mb.callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onPositive(MaterialDialog dialog) {
-                renameRemote();
-            }
-        });
-        return mb.show();
+        return new AlertDialog.Builder(getActivity())
+                .setMessage(getString(R.string.rename_remote_message, mOriginalRemoteName))
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> onCancel(dialog))
+                .setPositiveButton(R.string.rename_remote_save, (dialog, which) -> renameRemote())
+                .setTitle(R.string.rename_remote_title)
+                .setView(view)
+                .show();
     }
 
 
