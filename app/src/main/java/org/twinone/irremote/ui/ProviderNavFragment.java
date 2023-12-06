@@ -59,6 +59,9 @@ public class ProviderNavFragment extends NavigationFragment implements
         if (!Remote.getNames(getActivity()).isEmpty()) {
             list.add(getString(R.string.provider_local));
             ids.add(ProviderActivity.PROVIDER_LOCAL);
+
+            list.add(getString(R.string.provider_manual));
+            ids.add(ProviderActivity.PROVIDER_MANUAL);
         }
 
         if (Receiver.isAvailable(getActivity())) {

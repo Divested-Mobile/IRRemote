@@ -73,9 +73,9 @@ public class ProviderActivity extends AppCompatActivity implements
      */
     public static final int PROVIDER_LOCAL = 6;
     /**
-     * Provides an empty menu_main (no buttons) or button (no code, color or text)
+     * Manual IR code
      */
-    public static final int PROVIDER_EMPTY = 7;
+    public static final int PROVIDER_MANUAL = 7;
 
     private static final String SAVE_TITLE = "save_title";
     private int mPendingSwitch = -1;
@@ -328,6 +328,9 @@ public class ProviderActivity extends AppCompatActivity implements
                 break;
             case PROVIDER_LOCAL:
                 addFragment(new LocalProviderFragment());
+                break;
+            case PROVIDER_MANUAL:
+                addFragment(new ManualProviderFragment());
                 break;
             default:
                 addFragment(new CommonProviderFragment());

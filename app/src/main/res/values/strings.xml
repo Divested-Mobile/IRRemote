@@ -314,6 +314,7 @@
     <string name="provider_local">My Remotes</string>
     <string name="provider_learn_remote">Learn Remote</string>
     <string name="provider_learn_button">Learn Button</string>
+    <string name="provider_manual">Manual IR Code</string>
     <string name="title_provider_add_button">Add button</string>
     <string name="title_provider_add_remote">Add remote</string>
 
@@ -335,4 +336,20 @@
 
     <string name="version_preference_format">Version %1$s (%2$d)</string>
 
+    <string name="provider_manual_freq_pattern">Frequency, pattern</string>
+    <string name="provider_manual_pronto">Pronto Format</string>
+    <string name="provider_manual_freq_info">"Frequency, Pattern
+
+Frequency: The IR carrier frequency in Hertz
+
+Pattern: The alternating on/off pattern in pulses (comma separated)
+
+Example: 38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792"</string>
+    <string name="provider_manual_pronto_info">"Pronto Format
+
+Example: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8"</string>
+    <string name="provider_manual_invalid">Invalid IR pattern</string>
+    <string name="provider_manual_save">Save Code</string>
+    <string name="provider_manual_freq_sus">The carrier frequency may not work</string>
+    <string name="provider_manual_new_button">New Button</string>
 </resources>
