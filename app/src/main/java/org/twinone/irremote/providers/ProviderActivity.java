@@ -23,6 +23,7 @@ import org.twinone.irremote.providers.learn.LearnButtonProviderFragment;
 import org.twinone.irremote.providers.learn.LearnRemoteProviderFragment;
 import org.twinone.irremote.providers.local.LocalProviderFragment;
 import org.twinone.irremote.ui.ProviderNavFragment;
+import org.twinone.irremote.ui.dialogs.EmptyRemoteDialog;
 import org.twinone.irremote.ui.dialogs.RemotePreviewDialog;
 import org.twinone.irremote.ui.dialogs.SaveButtonDialog;
 import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
@@ -248,7 +249,7 @@ public class ProviderActivity extends AppCompatActivity implements
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        if (mNavFragment.isOpen()) {
+        if (mNavFragment.isOpen() && title != null) {
             mSavedTitle = title.toString();
         } else {
             getSupportActionBar().setTitle(title);
@@ -330,7 +331,10 @@ public class ProviderActivity extends AppCompatActivity implements
                 addFragment(new LocalProviderFragment());
                 break;
             case PROVIDER_MANUAL:
-                addFragment(new ManualProviderFragment());
+                if (mAction.equals(ACTION_SAVE_REMOTE))
+                    new EmptyRemoteDialog().show(this);
+                else
+                    addFragment(new ManualProviderFragment());
                 break;
             default:
                 addFragment(new CommonProviderFragment());
@@ -344,7 +348,8 @@ public class ProviderActivity extends AppCompatActivity implements
     @Override
     public void onNavigationOpened() {
         Log.i("", "OnNavigationOpened");
-        mSavedTitle = getTitle().toString();
+        if (getTitle() != null)
+            mSavedTitle = getTitle().toString();
         if (ACTION_GET_BUTTON.equals(mAction)) {
             getSupportActionBar().setTitle(R.string.title_provider_add_button);
         } else {

@@ -352,4 +352,8 @@ Example: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8"</string>
     <string name="provider_manual_save">Save Code</string>
     <string name="provider_manual_freq_sus">The carrier frequency may not work</string>
     <string name="provider_manual_new_button">New Button</string>
+
+    <string name="empty_remote_tit">Empty Remote</string>
+    <string name="empty_remote_msg">"An empty remote will be created. Click Menu - Edit to go to the edit screen.
+From there you can add individual buttons clicking Menu - Add Button"</string>
 </resources>
