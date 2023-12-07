@@ -56,11 +56,18 @@ public class ProviderNavFragment extends NavigationFragment implements
         list.add(getString(R.string.provider_common));
         ids.add(ProviderActivity.PROVIDER_COMMON);
 
-        if (!Remote.getNames(getActivity()).isEmpty()) {
+        if (Remote.getNames(getActivity()).isEmpty()) {
+            list.add(getString(R.string.empty_remote_tit));
+            ids.add(ProviderActivity.PROVIDER_MANUAL);
+        } else {
             list.add(getString(R.string.provider_local));
             ids.add(ProviderActivity.PROVIDER_LOCAL);
 
-            list.add(getString(R.string.provider_manual));
+            if (getProvider().getAction().equals(ProviderActivity.ACTION_SAVE_REMOTE)) {
+                list.add(getString(R.string.empty_remote_tit));
+            } else {
+                list.add(getString(R.string.provider_manual));
+            }
             ids.add(ProviderActivity.PROVIDER_MANUAL);
         }
 
