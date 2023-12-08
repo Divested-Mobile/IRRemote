@@ -248,12 +248,12 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add_remote:
-                Intent i = new Intent(this, ProviderActivity.class);
-                i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
-                AnimHelper.startActivity(this, i);
-                break;
+        final int id = v.getId();
+
+        if (id == R.id.add_remote) {
+            Intent i = new Intent(this, ProviderActivity.class);
+            i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
+            AnimHelper.startActivity(this, i);
         }
     }
 
@@ -282,20 +282,17 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_action_edit:
-                EditRemoteActivity.show(this, getRemoteName());
-                break;
-            case R.id.menu_action_export:
-                showExportDialog();
-                break;
-            case R.id.menu_action_settings:
-                Intent i = new Intent(this, SettingsActivity.class);
-                AnimHelper.startActivity(this, i);
-                break;
-            case R.id.menu_debug:
-                showDebugDialog();
-                break;
+        final int itemId = item.getItemId();
+
+        if (itemId == R.id.menu_action_edit) {
+            EditRemoteActivity.show(this, getRemoteName());
+        } else if (itemId == R.id.menu_action_export) {
+            showExportDialog();
+        } else if (itemId == R.id.menu_action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            AnimHelper.startActivity(this, i);
+        } else if (itemId == R.id.menu_debug) {
+            showDebugDialog();
         }
         return false;
     }

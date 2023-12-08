@@ -152,19 +152,20 @@ public class LircProviderFragment extends ProviderFragment implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_db_refresh:
-                mUriData.removeFromCache(getActivity());
-                queryServer(true);
-                return true;
-            case R.id.menu_db_save:
-                if (mData != null) {
-                    String name = mUriData.manufacturer + " " + mUriData.codeset;
-                    Remote remote = IrCode.toRemote(name,
-                            (IrCode[]) mData);
-                    getProvider().requestSaveRemote(remote);
-                }
-                return true;
+        final int itemId = item.getItemId();
+
+        if (itemId == R.id.menu_db_refresh) {
+            mUriData.removeFromCache(getActivity());
+            queryServer(true);
+            return true;
+        } else if (itemId == R.id.menu_db_save) {
+            if (mData != null) {
+                String name = mUriData.manufacturer + " " + mUriData.codeset;
+                Remote remote = IrCode.toRemote(name,
+                        (IrCode[]) mData);
+                getProvider().requestSaveRemote(remote);
+            }
+            return true;
         }
         return false;
     }

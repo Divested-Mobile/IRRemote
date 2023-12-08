@@ -641,28 +641,23 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
 
-        switch (item.getItemId()) {
-            case R.id.menu_action_delete:
-                showDeleteRemoteDialog();
-                return true;
-            case R.id.menu_action_rename:
-                showRenameRemoteDialog();
-                break;
-            case R.id.menu_edit_add_button:
-                requestNewButton();
-                break;
-            case R.id.menu_edit_organize:
-                showOrganizeDialog();
-                break;
-            case R.id.menu_edit_save:
-                saveRemote();
-                break;
-            case R.id.menu_edit_help:
-                showHelpDialog();
-                break;
-            default:
-                return false;
+        if (itemId == R.id.menu_action_delete) {
+            showDeleteRemoteDialog();
+            return true;
+        } else if (itemId == R.id.menu_action_rename) {
+            showRenameRemoteDialog();
+        } else if (itemId == R.id.menu_edit_add_button) {
+            requestNewButton();
+        } else if (itemId == R.id.menu_edit_organize) {
+            showOrganizeDialog();
+        } else if (itemId == R.id.menu_edit_save) {
+            saveRemote();
+        } else if (itemId == R.id.menu_edit_help) {
+            showHelpDialog();
+        } else {
+            return false;
         }
         return true;
     }
@@ -754,19 +749,19 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_edit_cab_edit:
-                showEditDialog();
-                return true;
-            case R.id.menu_edit_cab_sel_all:
-                setAllSelected(true);
-                return true;
-            case R.id.menu_edit_cab_sel_none:
-                setAllSelected(false);
-                return true;
-            default:
-                return false;
+        final int itemId = item.getItemId();
+
+        if (itemId == R.id.menu_edit_cab_edit) {
+            showEditDialog();
+            return true;
+        } else if (itemId == R.id.menu_edit_cab_sel_all) {
+            setAllSelected(true);
+            return true;
+        } else if (itemId == R.id.menu_edit_cab_sel_none) {
+            setAllSelected(false);
+            return true;
         }
+        return false;
     }
 
     private void setAllSelected(boolean select) {
