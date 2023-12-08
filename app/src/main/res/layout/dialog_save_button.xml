@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@null"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:selectAllOnFocus="true" />
 
