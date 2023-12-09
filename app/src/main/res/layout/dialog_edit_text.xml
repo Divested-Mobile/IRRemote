@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:digits="@string/allowed_digits"
         android:hint="@null"
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:selectAllOnFocus="true" />
 
 </LinearLayout>

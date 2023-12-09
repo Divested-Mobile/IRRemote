@@ -73,18 +73,16 @@ public class LearnButtonProviderFragment extends BaseLearnProviderFragment imple
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.learn_start:
-                learnStart();
-                break;
-            case R.id.learn_cancel:
-                learnStop();
-                break;
-            case R.id.learn_test:
-                if (mLearnedSignal != null) {
-                    getTransmitter().transmit(mLearnedSignal);
-                }
-                break;
+        final int id = v.getId();
+
+        if (id == R.id.learn_start) {
+            learnStart();
+        } else if (id == R.id.learn_cancel) {
+            learnStop();
+        } else if (id == R.id.learn_test) {
+            if (mLearnedSignal != null) {
+                getTransmitter().transmit(mLearnedSignal);
+            }
         }
     }
 
