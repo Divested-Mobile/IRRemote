@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
 import org.twinone.androidlib.NavigationFragment.NavigationListener;
+import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Button;
@@ -31,7 +32,7 @@ import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
 //import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
 //import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
 
-public class ProviderActivity extends AppCompatActivity implements
+public class ProviderActivity extends ToolbarActivity implements
         NavigationListener {
 
     /**
@@ -79,6 +80,7 @@ public class ProviderActivity extends AppCompatActivity implements
     public static final int PROVIDER_MANUAL = 7;
 
     private static final String SAVE_TITLE = "save_title";
+    private static final String SAVE_SUBTITLE = "save_subtitle";
     private int mPendingSwitch = -1;
     private String mAction;
     private Transmitter mTransmitter;
@@ -86,8 +88,8 @@ public class ProviderActivity extends AppCompatActivity implements
     private int mInnerFragmentExitState;
     private ProviderNavFragment mNavFragment;
     private int mCurrentProvider;
-    private String mTitle;
-    private String mSavedTitle;
+    private CharSequence mTitle;
+    private CharSequence mSubTitle;
 
     private SaveRemoteDialog mSaveRemoteDialog;
     private RemotePreviewDialog mPreviewRemoteDialog;
@@ -151,15 +153,11 @@ public class ProviderActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_provider);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.androidlib_toolbar);
-        setSupportActionBar(mToolbar);
-
         setupNavigation();
 
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(SAVE_TITLE)) {
-                setTitle(savedInstanceState.getString(SAVE_TITLE));
-            }
+            setTitle(savedInstanceState.getString(SAVE_TITLE));
+            getToolbar().setSubtitle(savedInstanceState.getString(SAVE_SUBTITLE));
         } else {
             int provider = getIntent().getIntExtra(EXTRA_PROVIDER, -1);
             if (provider != -1) {
@@ -249,18 +247,14 @@ public class ProviderActivity extends AppCompatActivity implements
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        if (mNavFragment.isOpen() && title != null) {
-            mSavedTitle = title.toString();
-        } else {
-            getSupportActionBar().setTitle(title);
-            mTitle = (String) title;
-        }
+        mTitle = title;
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(SAVE_TITLE, mTitle);
+        outState.putString(SAVE_TITLE, (String) mTitle);
+        outState.putString(SAVE_SUBTITLE, (String) mSubTitle);
     }
 
     public void transmit(Signal signal) {
@@ -307,7 +301,16 @@ public class ProviderActivity extends AppCompatActivity implements
         mCurrentProvider = 0;
     }
 
+    private void setProviderTitle() {
+        if (ACTION_GET_BUTTON.equals(getAction())) {
+            setTitle(R.string.title_provider_add_button);
+        } else {
+            setTitle(R.string.title_provider_add_remote);
+        }
+    }
+
     public void switchTo(int provider) {
+        setProviderTitle();
         if (provider == mCurrentProvider)
             return;
         if (mNavFragment.isOpen()) {
@@ -348,26 +351,25 @@ public class ProviderActivity extends AppCompatActivity implements
     @Override
     public void onNavigationOpened() {
         Log.i("", "OnNavigationOpened");
-        if (getTitle() != null)
-            mSavedTitle = getTitle().toString();
+        mTitle = getTitle();
+        mSubTitle = getToolbar().getSubtitle();
         if (ACTION_GET_BUTTON.equals(mAction)) {
             getSupportActionBar().setTitle(R.string.title_provider_add_button);
         } else {
             getSupportActionBar().setTitle(R.string.title_provider_add_remote);
         }
+        getToolbar().setSubtitle(null);
     }
 
     @Override
     public void onNavigationClosed() {
         Log.i("", "OnNavigationCLosed");
-        getSupportActionBar().setTitle(mSavedTitle);
+        setTitle(mTitle);
 
         if (mPendingSwitch != -1) {
             switchToImpl(mPendingSwitch);
             mPendingSwitch = -1;
         }
+        getToolbar().setSubtitle(mSubTitle);
     }
-
-
-
 }

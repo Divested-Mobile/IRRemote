@@ -75,6 +75,7 @@ public class ManualProviderFragment extends ProviderFragment
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
+        getProvider().setSubtitle(R.string.provider_manual);
         View inflate = layoutInflater.inflate(R.layout.fragment_provider_manual, null);
         mRadioGroup = inflate.findViewById(R.id.provider_manual_radio_group);
         mInfoTextView = inflate.findViewById(R.id.provider_manual_info);
