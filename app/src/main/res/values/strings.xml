@@ -220,6 +220,7 @@
     <!-- %s is the name of the button -->
     <string name="edit_button_title">Edit Button</string>
     <string name="edit_option_text">Text</string>
+    <string name="edit_option_text_size">Text size</string>
     <string name="edit_option_size">Button Size</string>
     <string name="edit_option_remove">Remove</string>
     <string name="edit_option_icon">Icon</string>
@@ -282,7 +283,6 @@
     <string name="pref_desc_delay">Time in milliseconds to wait between signals when long pressing</string>
     <string name="ms">%d ms</string>
     <string name="delay_reset_default">Default</string>
-    <string name="edit_option_text_size">Text size</string>
     <string name="learn_tit_saved">%s Saved</string>
     <string name="learn_desc_saved">You already learned this button. To check if it works, tap the button. If it doesn\'t \"Try again\" at the bottom to learn it again.</string>
     <string name="learn_button_forget">Forget</string>
