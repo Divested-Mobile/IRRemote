@@ -19,7 +19,7 @@ public class ComponentUtils {
             Button.ID_RWD, Button.ID_FFWD, Button.ID_PREV, Button.ID_NEXT,
             Button.ID_REC, Button.ID_STOP, Button.ID_FAN_DOWN,
             Button.ID_FAN_UP, Button.ID_TEMP_DOWN, Button.ID_TEMP_UP,
-            Button.ID_RED, Button.ID_GREEN, Button.ID_BLUE, Button.ID_YELLOW,
+            Button.ID_RED,
             Button.ID_HOME, Button.ID_FAV, Button.ID_GAME, Button.ID_HELP,
             Button.ID_LANG, Button.ID_MSG, Button.ID_SETTING};
 
@@ -120,9 +120,6 @@ public class ComponentUtils {
                 return R.drawable.b_guide;
 
             case Button.ID_RED:
-            case Button.ID_GREEN:
-            case Button.ID_BLUE:
-            case Button.ID_YELLOW:
                 return R.drawable.b_circle;
 
             case Button.ID_HOME:
@@ -152,6 +149,8 @@ public class ComponentUtils {
             return Button.ID_NAV_UP;
         else if (id == Button.ID_CH_DOWN)
             return Button.ID_NAV_DOWN;
+        else if (id == Button.ID_GREEN || id == Button.ID_BLUE || id == Button.ID_YELLOW)
+            return Button.ID_RED;
 
         for (int i : ICON_IDS)
             if (id == i)

@@ -14,6 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.twinone.irremote.R;
@@ -114,10 +116,11 @@ public class EditIconDialog extends DialogFragment implements
 
         @Override
         public Object getItem(int position) {
-            Drawable d = ComponentUtils.getIconDrawable(getActivity(),
-                    mIconIds[position]);
+            Drawable d = DrawableCompat.wrap(ComponentUtils.getIconDrawable(getActivity(),
+                    mIconIds[position]));
             int size = (int) dpToPx(48);
             d.setBounds(0, 0, size, size);
+            DrawableCompat.setTint(d, getResources().getColor(android.R.color.white));
             return d;
         }
 
