@@ -1,0 +1,10 @@
+* Many improvements thanks to Biswapriyo Nath!
+* Fixed a crash when editing buttons
+* Use a subtitle to show the current mode
+* Replace colored button icons with a single asset
+* Add some dialog messages
+* Ability to create an empty/custom remote
+* Fix loading background images on Android 11 and higer
+* Fix empty string after rotating
+* Ensure all icon dialog colors are correct
+* Internal cleanups
