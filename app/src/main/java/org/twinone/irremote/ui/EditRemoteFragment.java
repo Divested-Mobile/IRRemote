@@ -61,15 +61,15 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     private static final int REQ_GET_NEW_BUTTON = 0;
     private static final int REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON = 1;
 
-    // private static final int OPTION_TEXT = 0;
-    private static final int OPTION_TEXT_SIZE = 0;
-    // private static final int OPTION_SIZE = 2;
-    private static final int OPTION_ICON = 1;
-    private static final int OPTION_ICON_COLOR = 2;
-    private static final int OPTION_COLOR = 3;
-    private static final int OPTION_CORNERS = 4;
-    private static final int OPTION_CODE = 5;
-    private static final int OPTION_REMOVE = 6;
+    private static final int OPTION_TEXT = 0;
+    private static final int OPTION_TEXT_SIZE = 1;
+    private static final int OPTION_SIZE = 2;
+    private static final int OPTION_ICON = 3;
+    private static final int OPTION_ICON_COLOR = 4;
+    private static final int OPTION_COLOR = 5;
+    private static final int OPTION_CORNERS = 6;
+    private static final int OPTION_CODE = 7;
+    private static final int OPTION_REMOVE = 8;
     private static final int SCROLL_DELAY = 15;
     private boolean mIsEdited;
     private int mScrollPixels;
@@ -814,8 +814,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
 
     private void showSelectedEditDialog(int which) {
         switch (which) {
+            case OPTION_TEXT:
+                editText();
+                break;
             case OPTION_TEXT_SIZE:
                 editTextSize();
+                break;
+            case OPTION_SIZE:
+                editSize();
                 break;
             case OPTION_ICON:
                 editIcon();
