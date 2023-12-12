@@ -40,21 +40,25 @@
                 android:name="org.twinone.irremote.ui.MainNavFragment"
                 android:layout_width="@dimen/navigation_drawer_width"
                 android:layout_height="match_parent"
-                android:layout_gravity="start" />
-        </org.twinone.androidlib.compat.MultiListenerDrawerLayout>
-    </LinearLayout>
+                android:layout_gravity="start">
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/add_remote"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent_dark"
-        fab:fab_colorRipple="@color/ripple_material_dark" />
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/add_remote"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_add_white_24dp"
+                    fab:fab_colorNormal="@color/accent"
+                    fab:fab_colorPressed="@color/accent_dark"
+                    fab:fab_colorRipple="@color/ripple_material_dark" />
+
+            </fragment>
+
+        </org.twinone.androidlib.compat.MultiListenerDrawerLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
