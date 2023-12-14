@@ -1,67 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/toolbar" />
+
+    <org.twinone.androidlib.compat.MultiListenerDrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar" />
-
-        <org.twinone.androidlib.compat.MultiListenerDrawerLayout
-            android:id="@+id/drawer_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/background"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/background"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:contentDescription="@null"
-                    android:scaleType="centerCrop" />
-
-                <!-- The rest of content view -->
-
-                <FrameLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
-
-            <fragment
-                android:id="@+id/navigation_drawer"
-                android:name="org.twinone.irremote.ui.MainNavFragment"
-                android:layout_width="@dimen/navigation_drawer_width"
                 android:layout_height="match_parent"
-                android:layout_gravity="start">
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_remote"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="16dp"
-                    android:contentDescription="@string/add_remote"
-                    android:src="@drawable/ic_add_white_24dp"
-                    fab:backgroundTint="@color/accent"
-                    fab:fabSize="normal"
-                    fab:fab_colorNormal="@color/accent"
-                    fab:fab_colorPressed="@color/accent_dark"
-                    fab:fab_colorRipple="@color/ripple_material_dark" />
+            <!-- The rest of content view -->
 
-            </fragment>
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
-        </org.twinone.androidlib.compat.MultiListenerDrawerLayout>
+        <fragment
+            android:id="@+id/navigation_drawer"
+            android:name="org.twinone.irremote.ui.MainNavFragment"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start">
 
-    </LinearLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_remote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/add_remote"
+                android:src="@drawable/ic_add_white_24dp"
+                app:backgroundTint="@color/accent"
+                app:fabSize="normal"
+                app:fab_colorNormal="@color/accent"
+                app:fab_colorPressed="@color/accent_dark"
+                app:fab_colorRipple="@color/ripple_material_dark" />
 
-</RelativeLayout>
+        </fragment>
+
+    </org.twinone.androidlib.compat.MultiListenerDrawerLayout>
+
+</LinearLayout>
