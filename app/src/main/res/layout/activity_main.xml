@@ -42,15 +42,18 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start">
 
-                <com.melnykov.fab.FloatingActionButton
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/add_remote"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="16dp"
+                    android:contentDescription="@string/add_remote"
                     android:src="@drawable/ic_add_white_24dp"
+                    fab:backgroundTint="@color/accent"
+                    fab:fabSize="normal"
                     fab:fab_colorNormal="@color/accent"
                     fab:fab_colorPressed="@color/accent_dark"
                     fab:fab_colorRipple="@color/ripple_material_dark" />

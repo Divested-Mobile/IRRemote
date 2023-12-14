@@ -19,7 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.melnykov.fab.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -109,7 +109,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         setContentView(R.layout.activity_main);
 
         mAddRemoteButton = (FloatingActionButton) findViewById(R.id.add_remote);
-        mAddRemoteButton.hide(false);
         mAddRemoteButton.setOnClickListener(this);
 
         setupNavigation();
