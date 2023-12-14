@@ -93,21 +93,6 @@ public class MainNavFragment extends NavigationFragment {
     int mDrawerOffset;
 
     @Override
-    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
-        super.setUp(fragmentId, drawerLayout);
-        if (isOpen()) {
-            getMainActivity().showAddRemoteButton();
-        }
-        mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                getMainActivity().getAddRemoteButton().setOffset(slideOffset);
-            }
-        });
-        update();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RelativeLayout root = (RelativeLayout) inflater.inflate(
