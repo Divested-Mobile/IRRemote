@@ -49,6 +49,8 @@
                 android:contentDescription="@string/add_remote"
                 android:src="@drawable/ic_add_white_24dp"
                 app:backgroundTint="@color/accent"
+                app:borderWidth="0dp"
+                app:elevation="@dimen/fab_shadow_size"
                 app:fabSize="normal"
                 app:fab_colorNormal="@color/accent"
                 app:fab_colorPressed="@color/accent_dark"
