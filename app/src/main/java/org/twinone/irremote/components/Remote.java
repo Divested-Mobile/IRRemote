@@ -2,6 +2,8 @@ package org.twinone.irremote.components;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -48,94 +50,94 @@ public class Remote implements Serializable {
         details = new Details();
     }
 
-    private Remote(Context c, String remoteName) {
+    private Remote(Context context, String remoteName) {
         this();
         if (remoteName == null)
             throw new IllegalArgumentException("Name cannot be null");
         this.name = remoteName;
         final Gson gson = new Gson();
-        File optfile = new File(getRemoteDir(c), OPTIONS_FILE);
+        File optfile = new File(getRemoteDir(context), OPTIONS_FILE);
         details = gson.fromJson(FileUtils.read(optfile), Details.class);
-        for (final File f : getRemoteDir(c, remoteName).listFiles()) {
-            if (f.getName().endsWith(BUTTON_EXTENSION)) {
-                Button b = gson.fromJson(FileUtils.read(f), Button.class);
-                addButton(b);
+        for (final File file : getRemoteDir(context, remoteName).listFiles()) {
+            if (file.getName().endsWith(BUTTON_EXTENSION)) {
+                Button button = gson.fromJson(FileUtils.read(file), Button.class);
+                addButton(button);
             }
         }
     }
 
     // OK
-    private static File getRemotesDir(Context c) {
-        final File dir = new File(c.getFilesDir(), "remotes" + REMOTES_VERSION);
+    private static File getRemotesDir(Context context) {
+        final File dir = new File(context.getFilesDir(), "remotes" + REMOTES_VERSION);
         if (!dir.exists()) {
             dir.mkdirs();
         }
         return dir;
     }
 
-    private static File getRemoteDir(Context c, String name) {
-        File dir = new File(getRemotesDir(c), name + EXTENSION);
+    private static File getRemoteDir(Context context, String remoteName) {
+        File dir = new File(getRemotesDir(context), remoteName + EXTENSION);
         if (!dir.exists()) {
             dir.mkdirs();
         }
         return dir;
     }
 
-    public static boolean exists(Context c, String name) {
-        return FileUtils.exists(getRemoteDir(c, name));
+    public static boolean exists(Context context, String remoteName) {
+        return FileUtils.exists(getRemoteDir(context, remoteName));
     }
 
     /**
      * Load this menu_main from the file system
      */
-    public static Remote load(Context c, String name) {
-        if (name == null)
+    public static Remote load(Context context, String remoteName) {
+        if (remoteName == null)
             return null;
-        return new Remote(c, name);
+        return new Remote(context, remoteName);
     }
 
-    public static void remove(Context c, String name) {
-        FileUtils.remove(getRemoteDir(c, name));
+    public static void remove(Context context, String remoteName) {
+        FileUtils.remove(getRemoteDir(context, remoteName));
     }
 
-    public static void rename(Context c, String oldName, String newName) {
+    public static void rename(Context context, String oldName, String newName) {
         if (oldName.equals(newName) || newName.trim().isEmpty()) {
             return;
         }
-        FileUtils.rename(getRemoteDir(c, oldName), getRemoteDir(c, newName));
+        FileUtils.rename(getRemoteDir(context, oldName), getRemoteDir(context, newName));
     }
 
-    public static List<String> getNames(Context c) {
+    public static List<String> getNames(Context context) {
         List<String> result = new ArrayList<>();
-        File dir = getRemotesDir(c);
-        for (String s : dir.list()) {
-            if (s.endsWith(EXTENSION)) {
-                result.add(s.substring(0, s.length() - EXTENSION.length()));
+        File dir = getRemotesDir(context);
+        for (String str : dir.list()) {
+            if (str.endsWith(EXTENSION)) {
+                result.add(str.substring(0, str.length() - EXTENSION.length()));
             }
         }
         return result;
     }
 
     /** Load details from disk */
-    public static Remote.Details loadDetails(Context c, String remoteName) {
-        File dir = getRemoteDir(c, remoteName);
-        File f = new File(dir, OPTIONS_FILE);
-        return new Gson().fromJson(FileUtils.read(f), Details.class);
+    public static Remote.Details loadDetails(Context context, String remoteName) {
+        File dir = getRemoteDir(context, remoteName);
+        File file = new File(dir, OPTIONS_FILE);
+        return new Gson().fromJson(FileUtils.read(file), Details.class);
     }
 
     /**
      * @return the persisted selected menu_main or null if it was not set
      */
-    public static String getPersistedRemoteName(Context c) {
-        return c.getSharedPreferences("remote", Context.MODE_PRIVATE)
+    public static String getPersistedRemoteName(Context context) {
+        return context.getSharedPreferences("remote", Context.MODE_PRIVATE)
                 .getString(MainNavFragment.PREF_KEY_LAST_REMOTE, null);
     }
 
     /**
      * Set the menu_main selected by the user
      */
-    public static void setLastUsedRemoteName(Context c, String remoteName) {
-        c.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
+    public static void setLastUsedRemoteName(Context context, String remoteName) {
+        context.getSharedPreferences("remote", Context.MODE_PRIVATE).edit()
                 .putString(MainNavFragment.PREF_KEY_LAST_REMOTE, remoteName)
                 .apply();
     }
@@ -147,18 +149,18 @@ public class Remote implements Serializable {
      * Please note that this is highly inefficient for adding multiple buttons.
      * Load the menu_main, and add the buttons manually instead of using this.
      */
-    public static void addButton(Context c, String remote, Button b) {
-        Remote r = Remote.load(c, remote);
-        r.addButton(b);
-        r.save(c);
+    public static void addButton(Context context, String remoteName, Button button) {
+        Remote remote = Remote.load(context, remoteName);
+        remote.addButton(button);
+        remote.save(context);
     }
 
     private static String serialize(Remote remote) {
         return new Gson().toJson(remote);
     }
 
-    public static Remote deserialize(String remote) {
-        return new Gson().fromJson(remote, Remote.class);
+    public static Remote deserialize(String remoteName) {
+        return new Gson().fromJson(remoteName, Remote.class);
     }
 
     /**
@@ -182,8 +184,8 @@ public class Remote implements Serializable {
     /**
      * Calls {@link #getRemoteDir(Context, String)} for this menu_main
      */
-    private File getRemoteDir(Context c) {
-        return getRemoteDir(c, name);
+    private File getRemoteDir(Context context) {
+        return getRemoteDir(context, this.name);
     }
 
     public void sortButtonsById() {
@@ -200,19 +202,19 @@ public class Remote implements Serializable {
     /**
      * Save this menu_main to the file system
      */
-    public void save(Context c) {
+    public void save(Context context) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        File dir = getRemoteDir(c);
+        File dir = getRemoteDir(context);
         FileUtils.clear(dir);
-        for (Button b : buttons) {
-            if (b != null) {
-                File f = new File(dir, BUTTON_PREFIX + b.uid + BUTTON_EXTENSION);
-                FileUtils.write(f, gson.toJson(b));
+        for (Button button : buttons) {
+            if (button != null) {
+                File file = new File(dir, BUTTON_PREFIX + button.uid + BUTTON_EXTENSION);
+                FileUtils.write(file, gson.toJson(button));
             }
         }
 
-        File f = new File(dir, OPTIONS_FILE);
-        FileUtils.write(f, gson.toJson(details));
+        File file = new File(dir, OPTIONS_FILE);
+        FileUtils.write(file, gson.toJson(details));
     }
 
     /**
@@ -259,11 +261,11 @@ public class Remote implements Serializable {
     /**
      * Add a button and automatically generate it's uid
      *
-     * @param b
+     * @param button
      */
-    public void addButton(Button b) {
-        b.uid = getNextId();
-        buttons.add(b);
+    public void addButton(Button button) {
+        button.uid = getNextId();
+        buttons.add(button);
     }
 
     /**
@@ -272,8 +274,8 @@ public class Remote implements Serializable {
     public void stripInvalidButtons() {
         Iterator<Button> it = buttons.iterator();
         while (it.hasNext()) {
-            final Button b = it.next();
-            if (b.code == null || b.code.isEmpty()) {
+            final Button button = it.next();
+            if (button.code == null || button.code.isEmpty()) {
                 it.remove();
             }
         }
@@ -281,12 +283,12 @@ public class Remote implements Serializable {
     /**
      * Replace a button by another one
      */
-    public void replaceButton(Button b) {
-        buttons.add(b);
+    public void replaceButton(Button button) {
+        buttons.add(button);
     }
 
-    public void removeButton(Button b) {
-        buttons.remove(b);
+    public void removeButton(Button button) {
+        buttons.remove(button);
     }
 
     private int getNextId() {
@@ -297,6 +299,7 @@ public class Remote implements Serializable {
         return id;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return serialize();
