@@ -156,11 +156,12 @@ public class Remote implements Serializable {
     }
 
     private static String serialize(Remote remote) {
-        return new Gson().toJson(remote);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(remote);
     }
 
-    public static Remote deserialize(String remoteName) {
-        return new Gson().fromJson(remoteName, Remote.class);
+    public static Remote deserialize(String remoteData) {
+        return new Gson().fromJson(remoteData, Remote.class);
     }
 
     /**
