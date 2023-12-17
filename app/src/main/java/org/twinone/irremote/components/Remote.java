@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
 
 import org.twinone.irremote.ui.MainNavFragment;
 import org.twinone.irremote.util.FileUtils;
@@ -310,23 +309,10 @@ public class Remote implements Serializable {
     public static class Details implements Serializable {
         private static final long serialVersionUID = -6674520681482052007L;
         public int type;
-        /**
-         * Used if the user indicates the menu_main is for some strange device type
-         */
-        @SerializedName("type_string")
-        public String typeString;
-        public String manufacturer;
-        public String model;
         public int h; // px
         public int w;
         public int flags;
         public int marginTop;
         public int marginLeft;
-        long id;
-        /**
-         * If this menu_main was forked from another, this is the parent's id
-         */
-        @SerializedName("parent_id")
-        long parentId;
     }
 }
