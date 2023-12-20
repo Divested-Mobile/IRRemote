@@ -17,7 +17,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
-import org.twinone.irremote.providers.DefaultProviderActivity;
+import org.twinone.irremote.providers.ProviderInterface;
 import org.twinone.irremote.ui.ButtonView;
 
 public class SaveButtonDialog extends DialogFragment implements TextWatcher {
@@ -65,14 +65,14 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(getActivity() instanceof DefaultProviderActivity)) {
+        if (!(getActivity() instanceof ProviderInterface)) {
             throw new ClassCastException(
-                    "SaveButtonDialog must be added to an instance of DefaultProviderActivity");
+                    "SaveButtonDialog must be added to an instance of ProviderInterface");
         }
     }
 
-    private DefaultProviderActivity getProvider() {
-        return (DefaultProviderActivity) getActivity();
+    private ProviderInterface getProvider() {
+        return (ProviderInterface) getActivity();
     }
 
     @Override
