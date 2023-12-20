@@ -14,6 +14,7 @@ import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.ProviderInterface;
 import org.twinone.irremote.ui.ButtonView;
 import org.twinone.irremote.ui.RemoteView;
 
@@ -62,15 +63,15 @@ public class RemotePreviewDialog extends DialogFragment {
     }
 
 
-    private ProviderActivity getProvider() {
-        return (ProviderActivity) getActivity();
+    private ProviderInterface getProvider() {
+        return (ProviderInterface) getActivity();
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(activity instanceof ProviderActivity)) {
-            throw new IllegalStateException("RemotePreviewDialog should be attached to a ProviderActivity");
+        if (!(activity instanceof ProviderInterface)) {
+            throw new IllegalStateException("RemotePreviewDialog should be attached to a ProviderInterface");
         }
 
         if (getArguments() == null || !getArguments().containsKey(ARG_REMOTE)) {

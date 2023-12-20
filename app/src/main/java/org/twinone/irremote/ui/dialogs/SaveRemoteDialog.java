@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.ProviderInterface;
 
 import java.util.List;
 
@@ -55,14 +55,14 @@ public class SaveRemoteDialog extends DialogFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(getActivity() instanceof ProviderActivity)) {
+        if (!(getActivity() instanceof ProviderInterface)) {
             throw new ClassCastException(
-                    "SaveButtonDialog must be added to an instance of ProviderActivity");
+                    "SaveButtonDialog must be added to an instance of ProviderInterface");
         }
     }
 
-    private ProviderActivity getProvider() {
-        return (ProviderActivity) getActivity();
+    private ProviderInterface getProvider() {
+        return (ProviderInterface) getActivity();
     }
 
 

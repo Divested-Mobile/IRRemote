@@ -17,9 +17,9 @@ import org.twinone.irremote.compat.Compat;
 
 public abstract class ProviderFragment extends Fragment {
 
-    protected static final String ACTION_SAVE_REMOTE = ProviderActivity.ACTION_SAVE_REMOTE;
-    protected static final String ACTION_GET_BUTTON = ProviderActivity.ACTION_GET_BUTTON;
-    protected static final String EXTRA_RESULT_BUTTON = ProviderActivity.EXTRA_RESULT_BUTTON;
+    protected static final String ACTION_SAVE_REMOTE = DefaultProviderActivity.ACTION_SAVE_REMOTE;
+    protected static final String ACTION_GET_BUTTON = DefaultProviderActivity.ACTION_GET_BUTTON;
+    protected static final String EXTRA_RESULT_BUTTON = DefaultProviderActivity.EXTRA_RESULT_BUTTON;
     protected ListView mListView;
     protected ListableAdapter mAdapter;
     protected SearchView mSearchView;
@@ -29,9 +29,9 @@ public abstract class ProviderFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(activity instanceof ProviderActivity)) {
+        if (!(activity instanceof DefaultProviderActivity)) {
             throw new ClassCastException(
-                    "ProviderFragment should be attached to a ProviderActivity");
+                    "ProviderFragment should be attached to a DefaultProviderActivity");
         }
     }
 
@@ -43,8 +43,8 @@ public abstract class ProviderFragment extends Fragment {
         getProvider().setExitState(state);
     }
 
-    protected ProviderActivity getProvider() {
-        return (ProviderActivity) getActivity();
+    protected DefaultProviderActivity getProvider() {
+        return (DefaultProviderActivity) getActivity();
     }
 
     protected void setupSearchView(Menu menu) {
