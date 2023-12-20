@@ -22,6 +22,8 @@
     <string name="menu_action_settings">Settings</string>
 
     <string name="export_remote_message">Export %s</string>
+    <string name="import_invalid">Invalid remote file</string>
+    <string name="import_notexist">Remote file not found</string>
 
     <!-- Save -->
     <string name="save_remote_title">Save remote</string>
