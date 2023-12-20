@@ -13,7 +13,7 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
-import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.DefaultProviderActivity;
 import org.twinone.irremote.ui.ButtonView;
 import org.twinone.irremote.ui.RemoteView;
 
@@ -31,7 +31,7 @@ public class RemotePreviewDialog extends DialogFragment {
         MaterialDialog.Builder b = Compat.getMaterialDialogBuilder(getActivity());
         b.negativeText(android.R.string.cancel);
 
-        if (ProviderActivity.ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
+        if (DefaultProviderActivity.ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
             b.title(R.string.preview_remote_dlgtit_remote);
             b.positiveText(R.string.save_remote_save);
             b.callback(new MaterialDialog.ButtonCallback() {
@@ -51,7 +51,7 @@ public class RemotePreviewDialog extends DialogFragment {
         ro.setVerticalMarginDp(16);
         ro.updateWithoutSaving(mRemote);
 
-        if (ProviderActivity.ACTION_GET_BUTTON.equals(getProvider().getAction())) {
+        if (DefaultProviderActivity.ACTION_GET_BUTTON.equals(getProvider().getAction())) {
             SelectButtonRemoteView root = new SelectButtonRemoteView(getActivity(), mRemote);
             b.customView(root, true);
         } else {
@@ -62,15 +62,15 @@ public class RemotePreviewDialog extends DialogFragment {
     }
 
 
-    private ProviderActivity getProvider() {
-        return (ProviderActivity) getActivity();
+    private DefaultProviderActivity getProvider() {
+        return (DefaultProviderActivity) getActivity();
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(activity instanceof ProviderActivity)) {
-            throw new IllegalStateException("RemotePreviewDialog should be attached to a ProviderActivity");
+        if (!(activity instanceof DefaultProviderActivity)) {
+            throw new IllegalStateException("RemotePreviewDialog should be attached to a DefaultProviderActivity");
         }
 
         if (getArguments() == null || !getArguments().containsKey(ARG_REMOTE)) {

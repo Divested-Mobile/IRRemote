@@ -15,7 +15,7 @@ import org.twinone.androidlib.NavigationFragment;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.io.Receiver;
-import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.DefaultProviderActivity;
 
 import java.util.ArrayList;
 
@@ -31,9 +31,9 @@ public class ProviderNavFragment extends NavigationFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(getActivity() instanceof ProviderActivity)) {
+        if (!(getActivity() instanceof DefaultProviderActivity)) {
             throw new ClassCastException(
-                    "ProviderNavFragment can only be attached to instances of ProviderActivity");
+                    "ProviderNavFragment can only be attached to instances of DefaultProviderActivity");
         }
     }
 
@@ -54,30 +54,30 @@ public class ProviderNavFragment extends NavigationFragment implements
         ArrayList<Integer> ids = new ArrayList<>();
 
         list.add(getString(R.string.provider_common));
-        ids.add(ProviderActivity.PROVIDER_COMMON);
+        ids.add(DefaultProviderActivity.PROVIDER_COMMON);
 
         if (Remote.getNames(getActivity()).isEmpty()) {
             list.add(getString(R.string.empty_remote_tit));
-            ids.add(ProviderActivity.PROVIDER_MANUAL);
+            ids.add(DefaultProviderActivity.PROVIDER_MANUAL);
         } else {
             list.add(getString(R.string.provider_local));
-            ids.add(ProviderActivity.PROVIDER_LOCAL);
+            ids.add(DefaultProviderActivity.PROVIDER_LOCAL);
 
-            if (getProvider().getAction().equals(ProviderActivity.ACTION_SAVE_REMOTE)) {
+            if (getProvider().getAction().equals(DefaultProviderActivity.ACTION_SAVE_REMOTE)) {
                 list.add(getString(R.string.empty_remote_tit));
             } else {
                 list.add(getString(R.string.provider_manual));
             }
-            ids.add(ProviderActivity.PROVIDER_MANUAL);
+            ids.add(DefaultProviderActivity.PROVIDER_MANUAL);
         }
 
         if (Receiver.isAvailable(getActivity())) {
-            if (getProvider().getAction().equals(ProviderActivity.ACTION_SAVE_REMOTE)) {
+            if (getProvider().getAction().equals(DefaultProviderActivity.ACTION_SAVE_REMOTE)) {
                 list.add(getString(R.string.provider_learn_remote));
-                ids.add(ProviderActivity.PROVIDER_LEARN);
+                ids.add(DefaultProviderActivity.PROVIDER_LEARN);
             } else {
 //                list.add(getString(R.string.provider_learn_button));
-//                ids.add(ProviderActivity.PROVIDER_LEARN);
+//                ids.add(DefaultProviderActivity.PROVIDER_LEARN);
             }
         }
 
@@ -90,8 +90,8 @@ public class ProviderNavFragment extends NavigationFragment implements
         mListView.setAdapter(adapter);
     }
 
-    private ProviderActivity getProvider() {
-        return (ProviderActivity) getActivity();
+    private DefaultProviderActivity getProvider() {
+        return (DefaultProviderActivity) getActivity();
     }
 
     @Override

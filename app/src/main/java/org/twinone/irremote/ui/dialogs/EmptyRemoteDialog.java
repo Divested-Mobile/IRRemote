@@ -10,14 +10,14 @@ import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.DefaultProviderActivity;
 
 public class EmptyRemoteDialog extends DialogFragment {
 
     public static final String DIALOG_TAG = "empty_remote_dialog";
 
-    private ProviderActivity getProvider() {
-        return (ProviderActivity) getActivity();
+    private DefaultProviderActivity getProvider() {
+        return (DefaultProviderActivity) getActivity();
     }
 
     public void show(Activity activity) {

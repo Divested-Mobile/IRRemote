@@ -33,7 +33,7 @@ import org.twinone.irremote.components.AnimHelper;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.ir.SignalCorrector;
 import org.twinone.irremote.ir.io.Transmitter;
-import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.DefaultProviderActivity;
 import org.twinone.irremote.ui.dialogs.DebugDialog;
 import org.twinone.irremote.ui.dialogs.RenameRemoteDialog.OnRemoteRenamedListener;
 
@@ -250,8 +250,8 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         final int id = v.getId();
 
         if (id == R.id.add_remote) {
-            Intent i = new Intent(this, ProviderActivity.class);
-            i.setAction(ProviderActivity.ACTION_SAVE_REMOTE);
+            Intent i = new Intent(this, DefaultProviderActivity.class);
+            i.setAction(DefaultProviderActivity.ACTION_SAVE_REMOTE);
             AnimHelper.startActivity(this, i);
         }
     }

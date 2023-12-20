@@ -32,7 +32,7 @@ import org.twinone.irremote.ui.dialogs.SaveRemoteDialog;
 //import org.twinone.irremote.ui.dialogs.SaveButtonDialog.OnSaveButton;
 //import org.twinone.irremote.ui.dialogs.SaveRemoteDialog.OnRemoteSavedListener;
 
-public class ProviderActivity extends ToolbarActivity implements
+public class DefaultProviderActivity extends ToolbarActivity implements
         NavigationListener {
 
     /**
@@ -50,7 +50,7 @@ public class ProviderActivity extends ToolbarActivity implements
      */
     public static final String EXTRA_RESULT_BUTTON = "org.twinone.irremote.intent.extra.result_buttons";
     /**
-     * If specified, {@link ProviderActivity} will open this provider instead of
+     * If specified, {@link DefaultProviderActivity} will open this provider instead of
      * the default
      */
     public static final String EXTRA_PROVIDER = "org.twinone.irremote.intent.extra.provider_name";
@@ -145,7 +145,7 @@ public class ProviderActivity extends ToolbarActivity implements
         if (!ACTION_SAVE_REMOTE.equals(getIntent().getAction())
                 && !ACTION_GET_BUTTON.equals(getIntent().getAction())) {
             throw new IllegalStateException(
-                    "ProviderActivity should be called with one of ACTION_SAVE_REMOTE of ACTION_GET_BUTTON specified");
+                    "DefaultProviderActivity should be called with one of ACTION_SAVE_REMOTE of ACTION_GET_BUTTON specified");
         }
 
         mAction = getIntent().getAction();

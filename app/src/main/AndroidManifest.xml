@@ -32,7 +32,7 @@
 
         <activity android:name="org.twinone.irremote.ui.SettingsActivity" />
         <activity android:name="org.twinone.irremote.ui.EditRemoteActivity" />
-        <activity android:name="org.twinone.irremote.providers.ProviderActivity" />
+        <activity android:name="org.twinone.irremote.providers.DefaultProviderActivity" />
         <activity
             android:name="org.twinone.irremote.ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

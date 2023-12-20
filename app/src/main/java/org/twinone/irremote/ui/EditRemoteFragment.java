@@ -30,7 +30,7 @@ import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
-import org.twinone.irremote.providers.ProviderActivity;
+import org.twinone.irremote.providers.DefaultProviderActivity;
 import org.twinone.irremote.ui.dialogs.EditColorDialog;
 import org.twinone.irremote.ui.dialogs.EditColorDialog.OnColorSelectedListener;
 import org.twinone.irremote.ui.dialogs.EditCornersDialog;
@@ -393,14 +393,14 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
     }
 
     private void editCode() {
-        Intent i = new Intent(getActivity(), ProviderActivity.class);
-        i.setAction(ProviderActivity.ACTION_GET_BUTTON);
+        Intent i = new Intent(getActivity(), DefaultProviderActivity.class);
+        i.setAction(DefaultProviderActivity.ACTION_GET_BUTTON);
         startActivityForResult(i, REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON);
     }
 
     private void requestNewButton() {
-        Intent i = new Intent(getActivity(), ProviderActivity.class);
-        i.setAction(ProviderActivity.ACTION_GET_BUTTON);
+        Intent i = new Intent(getActivity(), DefaultProviderActivity.class);
+        i.setAction(DefaultProviderActivity.ACTION_GET_BUTTON);
         startActivityForResult(i, REQ_GET_NEW_BUTTON);
     }
 
@@ -414,7 +414,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
         if (requestCode == REQ_GET_BUTTON_CODE_FOR_EXISTING_BUTTON) {
 
             Button result = (Button) data
-                    .getSerializableExtra(ProviderActivity.EXTRA_RESULT_BUTTON);
+                    .getSerializableExtra(DefaultProviderActivity.EXTRA_RESULT_BUTTON);
             for (ButtonView v : getTargets()) {
                 v.getButton().code = result.code;
                 v.getButton().text = result.text;
@@ -424,7 +424,7 @@ public class EditRemoteFragment extends BaseRemoteFragment implements
                     Toast.LENGTH_SHORT).show();
         } else if (requestCode == REQ_GET_NEW_BUTTON) {
             Button result = (Button) data
-                    .getSerializableExtra(ProviderActivity.EXTRA_RESULT_BUTTON);
+                    .getSerializableExtra(DefaultProviderActivity.EXTRA_RESULT_BUTTON);
             addNewButton(result);
         }
     }
