@@ -41,12 +41,14 @@ public class RemotePreviewDialog extends DialogFragment {
             builder.setTitle(R.string.preview_remote_dlgtit_button);
         }
 
-        RemoteOrganizer ro = new RemoteOrganizer(getActivity());
-        ro.setButtonSizeDp(56);
-        ro.setHorizontalMarginDp(0);
-        ro.setButtonSpacingDp(8);
-        ro.setVerticalMarginDp(16);
-        ro.updateWithoutSaving(mRemote);
+        if (getProvider().getOrganize()) {
+            RemoteOrganizer ro = new RemoteOrganizer(getActivity());
+            ro.setButtonSizeDp(56);
+            ro.setHorizontalMarginDp(0);
+            ro.setButtonSpacingDp(8);
+            ro.setVerticalMarginDp(16);
+            ro.updateWithoutSaving(mRemote);
+        }
 
         ScrollView scrollView = new ScrollView(getActivity());
 
