@@ -1,8 +1,5 @@
 package org.twinone.irremote.ui.dialogs;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,20 +14,15 @@ import org.twinone.irremote.R;
 import org.twinone.irremote.components.Button;
 import org.twinone.irremote.components.TransmitOnTouchListener;
 import org.twinone.irremote.ir.io.Transmitter;
-import org.twinone.irremote.providers.ProviderInterface;
 import org.twinone.irremote.ui.ButtonView;
 
-public class SaveButtonDialog extends DialogFragment implements TextWatcher {
+public class SaveButtonDialog extends DefaultDialogFragment implements TextWatcher {
 
     private static final String ARG_BUTTON = "org.twinone.irremote.arg.button";
     private Button mButton;
     private ButtonView mButtonView;
     private EditText mButtonText;
 //    private OnSaveButton mListener;
-
-    public static void showFor(Activity a, Button button) {
-        SaveButtonDialog.newInstance(button).show(a);
-    }
 
     public static SaveButtonDialog newInstance(Button button) {
         if (button == null)
@@ -40,10 +32,6 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
         b.putSerializable(ARG_BUTTON, button);
         f.setArguments(b);
         return f;
-    }
-
-    public void show(Activity a) {
-        show(a.getFragmentManager(), "save_button_dialog");
     }
 
     @Override
@@ -63,20 +51,7 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(getActivity() instanceof ProviderInterface)) {
-            throw new ClassCastException(
-                    "SaveButtonDialog must be added to an instance of ProviderInterface");
-        }
-    }
-
-    private ProviderInterface getProvider() {
-        return (ProviderInterface) getActivity();
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog.Builder getDefaultDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_save_button, null, false);
 
@@ -104,8 +79,7 @@ public class SaveButtonDialog extends DialogFragment implements TextWatcher {
                     getProvider().performSaveButton(mButton);
                 })
                 .setTitle(R.string.save_button_dlgtit)
-                .setView(scrollView)
-                .show();
+                .setView(scrollView);
     }
 
 

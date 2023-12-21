@@ -1,8 +1,5 @@
 package org.twinone.irremote.ui.dialogs;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,21 +12,14 @@ import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
-import org.twinone.irremote.providers.ProviderInterface;
 
 import java.util.List;
 
-public class SaveRemoteDialog extends DialogFragment {
+public class SaveRemoteDialog extends DefaultDialogFragment {
 
     private static final String ARG_REMOTE = "org.twinone.irremote.arg.menu_main";
-    public static final String DIALOG_TAG = "save_remote_dialog";
     private Remote mRemote;
     private EditText mRemoteName;
-
-    public static void showFor(Activity a, Remote remote) {
-        SaveRemoteDialog.newInstance(remote).show(a.getFragmentManager(),
-                DIALOG_TAG);
-    }
 
     public static SaveRemoteDialog newInstance(Remote remote) {
         if (remote == null)
@@ -42,10 +32,6 @@ public class SaveRemoteDialog extends DialogFragment {
         return f;
     }
 
-    public void show(Activity a) {
-        show(a.getFragmentManager(), DIALOG_TAG);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,21 +39,7 @@ public class SaveRemoteDialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(getActivity() instanceof ProviderInterface)) {
-            throw new ClassCastException(
-                    "SaveButtonDialog must be added to an instance of ProviderInterface");
-        }
-    }
-
-    private ProviderInterface getProvider() {
-        return (ProviderInterface) getActivity();
-    }
-
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog.Builder getDefaultDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_edit_text, null, false);
         mRemoteName = (EditText) view.findViewById(R.id.dialog_edittext_input);
@@ -93,8 +65,7 @@ public class SaveRemoteDialog extends DialogFragment {
                     getProvider().performSaveRemote(mRemote);
                 })
                 .setTitle(R.string.save_remote_title)
-                .setView(scrollView)
-                .show();
+                .setView(scrollView);
     }
 
     private boolean checkAndUpdateRemoteName() {
