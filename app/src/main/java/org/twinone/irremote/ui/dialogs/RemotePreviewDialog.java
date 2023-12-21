@@ -6,11 +6,11 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import org.twinone.irremote.R;
-import org.twinone.irremote.compat.Compat;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.components.RemoteOrganizer;
 import org.twinone.irremote.providers.ProviderActivity;
@@ -29,20 +29,16 @@ public class RemotePreviewDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialDialog.Builder b = Compat.getMaterialDialogBuilder(getActivity());
-        b.negativeText(android.R.string.cancel);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setNegativeButton(android.R.string.cancel,
+                (dialog, which) -> onCancel(dialog));
 
         if (ProviderActivity.ACTION_SAVE_REMOTE.equals(getProvider().getAction())) {
-            b.title(R.string.preview_remote_dlgtit_remote);
-            b.positiveText(R.string.save_remote_save);
-            b.callback(new MaterialDialog.ButtonCallback() {
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    getProvider().performSaveRemote(mRemote);
-                }
-            });
+            builder.setTitle(R.string.preview_remote_dlgtit_remote);
+            builder.setPositiveButton(R.string.save_remote_save,
+                    (dialog, which) -> getProvider().performSaveRemote(mRemote));
         } else {
-            b.title(R.string.preview_remote_dlgtit_button);
+            builder.setTitle(R.string.preview_remote_dlgtit_button);
         }
 
         RemoteOrganizer ro = new RemoteOrganizer(getActivity());
@@ -52,14 +48,18 @@ public class RemotePreviewDialog extends DialogFragment {
         ro.setVerticalMarginDp(16);
         ro.updateWithoutSaving(mRemote);
 
+        ScrollView scrollView = new ScrollView(getActivity());
+
         if (ProviderActivity.ACTION_GET_BUTTON.equals(getProvider().getAction())) {
             SelectButtonRemoteView root = new SelectButtonRemoteView(getActivity(), mRemote);
-            b.customView(root, true);
+            scrollView.addView(root);
+
         } else {
             TransmitRemoteView root = new TransmitRemoteView(getActivity(), mRemote);
-            b.customView(root, true);
+            scrollView.addView(root);
         }
-        return b.build();
+        builder.setView(scrollView);
+        return builder.create();
     }
 
 
