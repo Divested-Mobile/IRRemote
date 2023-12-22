@@ -8,7 +8,9 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -38,6 +40,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
     private static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
     private static final String TAG = "MainActivity";
+    private static final int EXPORT_REMOTE_REQUEST_CODE = 0xCDE1;
     private MainNavFragment mNavFragment;
 
     private FloatingActionButton mAddRemoteButton;
@@ -151,6 +154,14 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         builder.setTitle(R.string.dlg_debug_tit);
         builder.setItems(titles, new DebugDialog(this));
         builder.show();
+    }
+
+    private void startExportRemote() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.putExtra(Intent.EXTRA_TITLE, getRemoteName());
+        intent.setType("text/plain");
+        startActivityForResult(intent, EXPORT_REMOTE_REQUEST_CODE);
     }
 
     private void startShareRemote() {
@@ -269,7 +280,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         if (itemId == R.id.menu_action_edit) {
             EditRemoteActivity.show(this, getRemoteName());
         } else if (itemId == R.id.menu_action_export) {
-            // startExportRemote();
+            startExportRemote();
         } else if (itemId == R.id.menu_action_share) {
             startShareRemote();
         } else if (itemId == R.id.menu_action_settings) {
@@ -279,6 +290,18 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
             showDebugDialog();
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            switch (requestCode) {
+                case EXPORT_REMOTE_REQUEST_CODE:
+                    Remote.writeFileToExport(this, getRemoteName(), data);
+            }
+        }
     }
 
     public void onRemotesChanged() {

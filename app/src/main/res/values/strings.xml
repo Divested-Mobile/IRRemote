@@ -24,6 +24,7 @@
 
     <string name="share_remote_message">Share %s</string>
     <string name="share_remote_failed">Remote share failed</string>
+    <string name="export_remote_failed">Remote export failed</string>
     <string name="import_invalid">Invalid remote file</string>
     <string name="import_notexist">Remote file not found</string>
 

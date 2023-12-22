@@ -1,6 +1,7 @@
 package org.twinone.irremote.components;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import org.twinone.irremote.util.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -224,6 +226,19 @@ public class Remote implements Serializable {
 
         File file = new File(dir, OPTIONS_FILE);
         FileUtils.write(file, gson.toJson(details));
+    }
+
+    public static void writeFileToExport(Context context, String remoteName, @Nullable Intent intent) {
+        String remoteData = load(context, remoteName).serialize();
+        try {
+            OutputStream ostream = context.getContentResolver().openOutputStream(intent.getData());
+            ostream.write(remoteData.getBytes(), 0, remoteData.length());
+            ostream.flush();
+            ostream.close();
+        } catch (Exception e) {
+            Toast.makeText(context,
+                    R.string.export_remote_failed, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Nullable
