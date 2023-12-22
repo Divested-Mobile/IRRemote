@@ -11,6 +11,10 @@
         android:title="@string/menu_action_export"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_action_share"
+        android:title="@string/menu_action_share"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_action_settings"
         android:title="@string/menu_action_settings"
         app:showAsAction="never" />
