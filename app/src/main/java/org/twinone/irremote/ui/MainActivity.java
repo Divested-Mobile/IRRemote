@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -20,9 +19,6 @@ import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 import org.twinone.androidlib.compat.ToolbarActivity;
 import org.twinone.androidlib.util.VersionManager;
@@ -41,7 +37,6 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         android.view.View.OnClickListener {
 
     private static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
-    private static final String FILE_PROVIDER_AUTHORITY = "org.twinone.irremote.fileprovider";
     private static final String TAG = "MainActivity";
     private MainNavFragment mNavFragment;
 
@@ -158,28 +153,15 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         builder.show();
     }
 
-    private Uri getRemoteFileUri() {
-        String remoteFileName = getRemoteName().replace(" ", "_") + ".txt";
-        String remoteData = Remote.load(this, getRemoteName()).serialize();
-        File file = new File(getFilesDir(), remoteFileName);
-        try {
-            FileOutputStream ostream = openFileOutput(remoteFileName, Context.MODE_PRIVATE);
-            ostream.write(remoteData.getBytes(), 0, remoteData.length());
-            ostream.flush();
-            ostream.close();
-            return FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, file);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private void showExportDialog() {
-        Uri fileUri = getRemoteFileUri();
+    private void startShareRemote() {
+        Uri fileUri = Remote.writeFileToShare(this, getRemoteName());
+        if (fileUri == null)
+            return;
         Intent sender = new Intent(Intent.ACTION_SEND);
         sender.putExtra(Intent.EXTRA_STREAM, fileUri);
         sender.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         sender.setType("text/plain");
-        String title = getString(R.string.export_remote_message, getRemoteName());
+        String title = getString(R.string.share_remote_message, getRemoteName());
         Intent target = Intent.createChooser(sender, title);
         startActivityForResult(target, 0);
     }
@@ -267,6 +249,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
 
         menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
         menu.findItem(R.id.menu_action_export).setVisible(hasRemote && !open);
+        menu.findItem(R.id.menu_action_share).setVisible(hasRemote && !open);
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
         return true;
     }
@@ -286,7 +269,9 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         if (itemId == R.id.menu_action_edit) {
             EditRemoteActivity.show(this, getRemoteName());
         } else if (itemId == R.id.menu_action_export) {
-            showExportDialog();
+            // startExportRemote();
+        } else if (itemId == R.id.menu_action_share) {
+            startShareRemote();
         } else if (itemId == R.id.menu_action_settings) {
             Intent i = new Intent(this, SettingsActivity.class);
             AnimHelper.startActivity(this, i);

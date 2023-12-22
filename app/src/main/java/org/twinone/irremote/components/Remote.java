@@ -1,16 +1,22 @@
 package org.twinone.irremote.components;
 
 import android.content.Context;
+import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.twinone.irremote.R;
 import org.twinone.irremote.ui.MainNavFragment;
 import org.twinone.irremote.util.FileUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +47,8 @@ public class Remote implements Serializable {
     private static final String BUTTON_EXTENSION = ".button";
     private static final String BUTTON_PREFIX = "b_";
     private static final String OPTIONS_FILE = "remote.options";
+    private static final String FILE_PROVIDER_AUTHORITY = "org.twinone.irremote.fileprovider";
+
     public final List<Button> buttons;
     public String name;
     public Details details;
@@ -216,6 +224,24 @@ public class Remote implements Serializable {
 
         File file = new File(dir, OPTIONS_FILE);
         FileUtils.write(file, gson.toJson(details));
+    }
+
+    @Nullable
+    public static Uri writeFileToShare(Context context, @NonNull String remoteName) {
+        String remoteFileName = remoteName.replace(" ", "_") + ".txt";
+        String remoteData = load(context, remoteName).serialize();
+        File file = new File(context.getFilesDir(), remoteFileName);
+        try {
+            FileOutputStream ostream = context.openFileOutput(remoteFileName, Context.MODE_PRIVATE);
+            ostream.write(remoteData.getBytes(), 0, remoteData.length());
+            ostream.flush();
+            ostream.close();
+            return FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, file);
+        } catch (Exception e) {
+            Toast.makeText(context,
+                    R.string.share_remote_failed, Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     /**

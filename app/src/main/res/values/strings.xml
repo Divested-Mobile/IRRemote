@@ -18,10 +18,12 @@
     <string name="menu_action_rename">Rename Remote</string>
     <string name="menu_action_edit">Edit Remote</string>
     <string name="menu_action_export">Export Remote</string>
+    <string name="menu_action_share">Share Remote</string>
     <string name="menu_action_learn">Learn</string>
     <string name="menu_action_settings">Settings</string>
 
-    <string name="export_remote_message">Export %s</string>
+    <string name="share_remote_message">Share %s</string>
+    <string name="share_remote_failed">Remote share failed</string>
     <string name="import_invalid">Invalid remote file</string>
     <string name="import_notexist">Remote file not found</string>
 
