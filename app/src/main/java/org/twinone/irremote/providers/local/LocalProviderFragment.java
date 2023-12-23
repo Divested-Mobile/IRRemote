@@ -17,6 +17,7 @@ public class LocalProviderFragment extends ProviderFragment implements AdapterVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getProvider().setOrganize(false);
         mListView = new ListView(getActivity());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.provider_list_item, Remote.getNames(getActivity()));
