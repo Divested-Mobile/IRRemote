@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.JsonSyntaxException;
 
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 import org.twinone.irremote.providers.ProviderActivity;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -29,9 +30,15 @@ public class ImportActivity extends ProviderActivity {
         Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
     }
 
+    @Nullable
     private Remote importRemote() {
+        if (getIntent() == null || getIntent().getData() == null) {
+            showImportStatus(R.string.empty_remote_tit);
+            return null;
+        }
+
         try {
-            FileInputStream istream = (FileInputStream) getContentResolver().openInputStream(getIntent().getData());
+            InputStream istream = getContentResolver().openInputStream(getIntent().getData());
             return Remote.deserialize(readSingleLine(istream));
         } catch (JsonSyntaxException e) {
             showImportStatus(R.string.import_invalid);
