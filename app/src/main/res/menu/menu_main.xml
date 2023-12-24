@@ -22,6 +22,11 @@
     </group>
 
     <item
+        android:id="@+id/menu_action_import"
+        android:title="@string/menu_action_import"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_action_settings"
         android:title="@string/menu_action_settings"
         app:showAsAction="never" />

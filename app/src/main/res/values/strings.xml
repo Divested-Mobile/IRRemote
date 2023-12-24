@@ -18,6 +18,7 @@
     <string name="menu_action_rename">Rename Remote</string>
     <string name="menu_action_edit">Edit Remote</string>
     <string name="menu_action_export">Export Remote</string>
+    <string name="menu_action_import">Import Remote</string>
     <string name="menu_action_share">Share Remote</string>
     <string name="menu_action_learn">Learn</string>
     <string name="menu_action_settings">Settings</string>

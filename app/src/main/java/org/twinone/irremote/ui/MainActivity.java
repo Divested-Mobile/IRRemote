@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +42,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
     private static final String EXTRA_RECREATE = "org.twinone.irremote.intent.extra.from_prefs";
     private static final String TAG = "MainActivity";
     private static final int EXPORT_REMOTE_REQUEST_CODE = 0xCDE1;
+    private static final int IMPORT_REMOTE_REQUEST_CODE = 0xCDE2;
     private MainNavFragment mNavFragment;
 
     private FloatingActionButton mAddRemoteButton;
@@ -164,6 +166,13 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         startActivityForResult(intent, EXPORT_REMOTE_REQUEST_CODE);
     }
 
+    private void startImportRemote() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        startActivityForResult(intent, IMPORT_REMOTE_REQUEST_CODE);
+    }
+
     private void startShareRemote() {
         Uri fileUri = Remote.writeFileToShare(this, getRemoteName());
         if (fileUri == null)
@@ -280,6 +289,8 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
             startExportRemote();
         } else if (itemId == R.id.menu_action_share) {
             startShareRemote();
+        } else if (itemId == R.id.menu_action_import) {
+            startImportRemote();
         } else if (itemId == R.id.menu_action_settings) {
             Intent i = new Intent(this, SettingsActivity.class);
             AnimHelper.startActivity(this, i);
@@ -292,11 +303,23 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null || data.getData() == null) {
+            Toast.makeText(this, R.string.empty_remote_tit, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
             switch (requestCode) {
-                case EXPORT_REMOTE_REQUEST_CODE:
+                case EXPORT_REMOTE_REQUEST_CODE: {
                     Remote.writeFileToExport(this, getRemoteName(), data);
+                    break;
+                }
+                case IMPORT_REMOTE_REQUEST_CODE: {
+                    Intent intent = new Intent(this, ImportActivity.class);
+                    intent.setData(data.getData());
+                    AnimHelper.startActivity(this, intent);
+                    break;
+                }
             }
         }
     }
