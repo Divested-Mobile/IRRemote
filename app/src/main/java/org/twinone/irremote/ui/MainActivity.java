@@ -257,10 +257,7 @@ public class MainActivity extends ToolbarActivity implements OnRemoteRenamedList
         boolean hasRemote = getRemoteName() != null;
         if (!hasRemote) setTitle(R.string.app_name);
 
-
-        menu.findItem(R.id.menu_action_edit).setVisible(hasRemote && !open);
-        menu.findItem(R.id.menu_action_export).setVisible(hasRemote && !open);
-        menu.findItem(R.id.menu_action_share).setVisible(hasRemote && !open);
+        menu.setGroupVisible(R.id.menu_main_group, hasRemote && !open);
         menu.findItem(R.id.menu_debug).setVisible(Constants.DEBUG && !open);
         return true;
     }
