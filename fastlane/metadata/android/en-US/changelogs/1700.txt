@@ -1,0 +1,5 @@
+* Many improvements thanks to Biswapriyo Nath!
+* Ability to import and share remotes!
+* Add back Options to edit button size and text
+* Library updates
+* Internal cleanups
