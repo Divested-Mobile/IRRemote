@@ -31,7 +31,9 @@ If you want to contribute IR codes for new devices or improve existing codes, pl
 * Check the [existing IR codes](app/src/main/assets/db) directory to make sure the device you want to add codes for is not already included. If it is, consider improving the existing codes instead of adding duplicates.
 * If the device vendor name does not exist, create a new folder with the vendor name in the relevant directory under [db](app/src/main/assets/db).
 * This project uses the pronto hex code format. More information about the pronto hex format can be found in [RemoteCentral](https://www.remotecentral.com/features/irdisp2.htm). You can find those code using a IR remote control app or device, or by using a IR receiver and an Arduino or Raspberry Pi.
-* Create a separate `.button` file for each button and save them all in a relevant directory for that remote. The button file should be named as `b_<id>.button`. The `id` number should match with the IDs in [Button.java](app/src/main/java/org/twinone/irremote/components/Button.java) file.
+* Use either button files or `remote.json`:
+   * Create a separate `.button` file for each button and save them all in a relevant directory for that remote. The button file should be named as `b_<id>.button`. The `id` number should match with the IDs in [Button.java](app/src/main/java/org/twinone/irremote/components/Button.java) file.
+   * Create `remote.json` file. Check existing ones for file format examples or just export one of your remotes. 
 * Test the new IR codes with a compatible device and verify their functionality.
 * Commit and push your changes to your forked repository and follow the steps in above section.
 

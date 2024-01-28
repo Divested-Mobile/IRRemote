@@ -359,5 +359,8 @@ public class Remote implements Serializable {
         public int flags;
         public int marginTop;
         public int marginLeft;
+        // Specify if this remote should be reorganized
+        // Notably need to be set to false for special layout to be preserved when loading remotes from JSON files rather than just button definitions
+        public Boolean organize = true;
     }
 }

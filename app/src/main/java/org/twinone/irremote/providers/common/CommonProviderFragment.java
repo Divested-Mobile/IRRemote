@@ -23,8 +23,10 @@ import org.twinone.irremote.providers.ProviderFragment;
 import org.twinone.irremote.util.FileUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CommonProviderFragment extends ProviderFragment implements
         OnItemClickListener {
@@ -173,21 +175,35 @@ public class CommonProviderFragment extends ProviderFragment implements
         }
     }
 
+    /**
+     * Build a remote from our built-in database.
+     * Either from JSON definition or from button files.
+     */
     private Remote buildRemote() {
-        Remote r = new Remote();
-        r.name = mTarget.deviceName + " " + mTarget.deviceType;
         final String remotedir = getDBPath() + File.separator + mTarget.deviceName;
-        for (String name : listAssets(remotedir)) {
-            int id = Integer.parseInt(name.substring(2).split("\\.")[0]);
-            Button b = new Button(id);
-            b.code = FileUtils.read(getActivity().getAssets(), remotedir
-                    + File.separator + name);
-            b.text = ComponentUtils.getCommonButtonDisplayName(b.id,
-                    getActivity());
-            r.addButton(b);
+
+
+        String[] assets = listAssets(remotedir);
+        if (assets.length == 1 && Objects.equals(assets[0], "remote.json")) {
+            // Create a remote from JSON
+            String json = FileUtils.read(getActivity().getAssets(), remotedir + File.separator + assets[0]);
+            return Remote.deserialize(json);
+        } else {
+            // Create a remote from button files
+            Remote r = new Remote();
+            r.name = mTarget.deviceName + " " + mTarget.deviceType;
+            for (String name : listAssets(remotedir)) {
+                int id = Integer.parseInt(name.substring(2).split("\\.")[0]);
+                Button b = new Button(id);
+                b.code = FileUtils.read(getActivity().getAssets(), remotedir
+                        + File.separator + name);
+                b.text = ComponentUtils.getCommonButtonDisplayName(b.id,
+                        getActivity());
+                r.addButton(b);
+            }
+            r.details.type = getDeviceTypeInt(mTarget.deviceType);
+            return r;
         }
-        r.details.type = getDeviceTypeInt(mTarget.deviceType);
-        return r;
     }
 
 
