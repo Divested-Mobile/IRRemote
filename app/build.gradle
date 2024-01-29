@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.jsoup:jsoup:1.16.2'
     implementation project(':libraries:androidlib')
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
 }
