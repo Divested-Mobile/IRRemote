@@ -80,7 +80,7 @@ public abstract class ProviderActivity extends ToolbarActivity implements Provid
 
     @Override
     public void performSaveRemote(Remote remote) {
-        if (mOrganize) {
+        if (mOrganize && remote.details.organize) {
             organizeRemote(remote);
         }
         remote.save(this);
