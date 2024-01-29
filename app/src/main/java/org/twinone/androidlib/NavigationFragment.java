@@ -113,7 +113,7 @@ public abstract class NavigationFragment extends Fragment {
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
             open();

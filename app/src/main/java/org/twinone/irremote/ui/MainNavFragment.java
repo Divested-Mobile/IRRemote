@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.twinone.androidlib.NavigationFragment;
-import org.twinone.androidlib.compat.MultiListenerDrawerLayout;
 import org.twinone.irremote.R;
 import org.twinone.irremote.components.Remote;
 
@@ -24,10 +23,6 @@ public class MainNavFragment extends NavigationFragment {
     // Keep track of the user's last selected menu_main
     public static final String PREF_KEY_LAST_REMOTE = "org.twinone.irremote.pref.key.save_remote_name";
 
-
-    public MultiListenerDrawerLayout getMultiListenerDrawerLayout() {
-        return (MultiListenerDrawerLayout) mDrawerLayout;
-    }
 
     private SelectRemoteListView mRemotesListView;
     private View mFragmentContainerView;

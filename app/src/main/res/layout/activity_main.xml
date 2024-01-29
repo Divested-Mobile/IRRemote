@@ -6,7 +6,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <org.twinone.androidlib.compat.MultiListenerDrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -58,6 +58,6 @@
 
         </fragment>
 
-    </org.twinone.androidlib.compat.MultiListenerDrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>
