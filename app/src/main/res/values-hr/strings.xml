@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_menu_todb">Više</string>
+    <string name="menu_action_settings">Postavke</string>
+    <string name="menu_action_delete_remote">Izbriši daljinski</string>
+    <string name="menu_action_rename">Preimenuj daljinski</string>
+    <string name="menu_action_share">Podijeli daljinski</string>
+    <string name="rename_remote_hint">Novo ime</string>
+    <string name="save_button_text_title">Naziv gumba</string>
+    <string name="save_button_hint">Naziv gumba</string>
+    <string name="button_text_power">pwr</string>
+    <string name="remote_saved_toast">Daljinski spremljen</string>
+    <string name="db_menu_search_tit">Pretraži</string>
+    <string name="db_search_hint_custom">Pretraži %s</string>
+    <string name="db_select_manufacturer">Odaberite proizvođača</string>
+    <string name="db_select_device_type">Odaberite vrstu uređaja</string>
+    <string name="db_search_hint_buttons">Potraži gumbe</string>
+    <string name="menu_action_edit">Uredi daljinski</string>
+    <string name="menu_action_export">Izvezi daljinski</string>
+    <string name="menu_action_import">Uvezi daljinski</string>
+    <string name="menu_action_learn">Nauči</string>
+    <string name="share_remote_message">Podijeli %s</string>
+    <string name="share_remote_failed">Daljinsko dijeljenje nije uspjelo</string>
+    <string name="export_remote_failed">Izvoz daljinskog nije uspio</string>
+    <string name="save_remote_save">Spasi</string>
+    <string name="err_name_empty">Naziv daljinskog upravljača ne može biti prazan</string>
+    <string name="save_remote_hint">Naziv daljinskog upravljača</string>
+    <string name="save_button_save">Spasi</string>
+    <string name="add_remote">Dodaj daljinski</string>
+    <string name="rename_remote_message">Unesite novi naziv za %s</string>
+    <string name="rename_remote_save">Preimenuj</string>
+    <string name="select_remote">Odaberite daljinski</string>
+    <string name="rename_remote_title">Preimenuj daljinski</string>
+    <string name="select_remote_first">Prvo odaberite daljinski</string>
+    <string name="button_text_power_on">on</string>
+    <string name="button_text_power_off">off</string>
+    <string name="button_text_vol_up">Vol+</string>
+    <string name="button_text_vol_down">Vol-</string>
+    <string name="button_text_nav_down">D</string>
+    <string name="button_text_nav_left">L</string>
+    <string name="button_text_nav_right">R</string>
+    <string name="button_text_nav_ok">OK</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_back">back</string>
+    <string name="button_text_mute">mute</string>
+    <string name="button_text_menu">menu</string>
+    <string name="button_text_digit_9">9</string>
+    <string name="button_text_guide">epg</string>
+    <string name="button_text_smart">smrt</string>
+    <string name="button_text_last">last</string>
+    <string name="button_text_clear">clr</string>
+    <string name="button_text_exit">exit</string>
+    <string name="button_text_cc">cc</string>
+    <string name="button_text_info">info</string>
+    <string name="button_text_sleep">slp</string>
+    <string name="button_text_play">play</string>
+    <string name="button_text_pause">pause</string>
+    <string name="button_text_stop">stop</string>
+    <string name="button_text_fast_forward">fwd</string>
+    <string name="button_text_rewind">rwd</string>
+    <string name="button_text_rec">rec</string>
+    <string name="button_text_disp">disp</string>
+    <string name="button_text_fan_up">fan +</string>
+    <string name="button_text_temp_up">tmp +</string>
+    <string name="button_text_home">home</string>
+    <string name="delete_remote_title">Izbriši daljinski</string>
+    <string name="button_text_setting">sett</string>
+    <string name="button_text_msg">msg</string>
+    <string name="button_text_lang">lang</string>
+    <string name="dlg_na_tit">Ups!</string>
+    <string name="dlg_debug_tit">Informacije o otklanjanju pogrešaka</string>
+    <string name="learn">Nauči</string>
+    <string name="learn_tit_ready">Konfiguriraj \"%s\"</string>
+    <string name="learn_desc_ready">Pritisnite i držite gumb \"%s\" na daljinskom upravljaču usmjeravajući IC prijemnik vašeg uređaja na oko 2 inča (5 cm)
+\nKada budete spremni, kliknite Nauči</string>
+    <string name="learn_tit_learning">Učenje…</string>
+    <string name="learn_tit_learned">Naučeno!</string>
+    <string name="learn_desc_learned">Super. Sada isprobajte gumb.</string>
+    <string name="learn_button_ready">Nauči</string>
+    <string name="learn_button_cancel">Otkaži</string>
+    <string name="learn_button_back">Natrag</string>
+    <string name="learn_button_skip">Preskoči</string>
+    <string name="learn_footer">Gumb %1$d od %2$d</string>
+    <string name="learn_footer_did_it_work">Je li upalilo?</string>
+    <string name="learn_select_tit">Odaberite vrstu uređaja</string>
+    <string name="learn_activity_title">Naučite novi %s daljinski</string>
+    <string name="ori_system">Postavke sustava</string>
+    <string name="ori_port">Portret</string>
+    <string name="ori_land">Pejzaž</string>
+    <string name="pref_tit_orientation">Orijentacija</string>
+    <string name="pref_tit_bg">Pozadina</string>
+    <string name="pref_tit_fullscreen">Puni zaslon</string>
+    <string name="pref_desc_fullscreen">Daljinski upravljači prikazat će se u načinu rada preko cijelog zaslona - statusna traka neće biti prikazana</string>
+    <string name="bg_gallery">Galerija</string>
+    <string name="bg_remove">Ukloni pozadinu</string>
+    <string name="bg_changed_ok">Pozadina promijenjena</string>
+    <string name="edit_helpdlg_tit">Pomoć</string>
+    <string name="save_button_dlgmsg">Testirajte svoj gumb i dodirnite OK ako radi</string>
+    <string name="edit_button_code_updated">Kod je promijenjen</string>
+    <string name="edit_button_title">Gumb za uređivanje</string>
+    <string name="edit_option_size">Veličina gumba</string>
+    <string name="edit_option_remove">Ukloni</string>
+    <string name="edit_option_icon">Ikona</string>
+    <string name="edit_option_icon_color">Boja ikone</string>
+    <string name="edit_option_color">Boja gumba</string>
+    <string name="sizepicker_width">Širina</string>
+    <string name="sizepicker_height">Visina</string>
+    <string name="icon_color_dlgtit">Promjena boje ikone</string>
+    <string name="icon_dlgtit">Promjena ikone</string>
+    <string name="icon_remove">Ukloni ikonu</string>
+    <string name="color_solid">Jednobojna</string>
+    <string name="color_transparent">Transparentan</string>
+    <string name="color_red">Crvena</string>
+    <string name="color_pink">Ružičasta</string>
+    <string name="color_purple">Ljubičasta</string>
+    <string name="color_deep_purple">Duboka ljubičasta</string>
+    <string name="color_indigo">Indigo</string>
+    <plurals name="selected">
+        <item quantity="one">%d odabrano</item>
+        <item quantity="few">%d odabrano</item>
+        <item quantity="other">%d odabrano</item>
+    </plurals>
+    <string name="edit_corners_c">Radius</string>
+    <string name="edit_corners_tl">Gore lijevo</string>
+    <string name="edit_corners_tr">Gore desno</string>
+    <string name="edit_corners_bl">Dolje lijevo</string>
+    <string name="edit_corners_br">Dolje desno</string>
+    <string name="edit_corners_dlgtit">Polumjer kuta</string>
+    <string name="pref_tit_vibrate">Vibracija na pritisak</string>
+    <string name="pref_desc_vibrate">Vibrira kada se pritisne gumb</string>
+    <string name="pref_tit_delay">Kašnjenje ponavljanja signala</string>
+    <string name="pref_desc_delay">Vrijeme u milisekundama za čekanje između signala pri dugom pritisku</string>
+    <string name="ms">%d ms</string>
+    <string name="delay_reset_default">Zadano</string>
+    <string name="learn_tit_saved">%s spremljeno</string>
+    <string name="dev_type_tv">TV</string>
+    <string name="dev_type_other">Ostalo</string>
+    <string name="provider_manual">Ručni IC kod</string>
+    <string name="title_provider_add_button">Dodaj gumb</string>
+    <string name="title_provider_add_remote">Dodaj daljinski</string>
+    <string name="corners_square">Kvadrat</string>
+    <string name="corners_rounded_square">Zaobljeni kvadrat</string>
+    <string name="corners_circle">Krug</string>
+    <plurals name="list_remote_button_size">
+        <item quantity="one">%d gumb</item>
+        <item quantity="few">%d gumba</item>
+        <item quantity="other">%d gumbova</item>
+    </plurals>
+    <string name="save_remote_preview">Pregled</string>
+    <string name="preview_remote_dlgtit_remote">Pregled daljinskog upravljača</string>
+    <string name="preview_remote_dlgtit_button">Odaberite gumb</string>
+    <string name="version_preference_format">Verzija %1$s (%2$d)</string>
+    <string name="provider_manual_invalid">Nevažeći IC uzorak</string>
+    <string name="provider_manual_save">Spremi kod</string>
+    <string name="provider_manual_freq_sus">Frekvencija možda neće raditi</string>
+    <string name="provider_manual_new_button">Novi gumb</string>
+    <string name="empty_remote_tit">Prazan daljinski upravljač</string>
+    <string name="db_menu_refresh">Osvježi</string>
+    <string name="db_search_hint_manufacturers">Pretražite proizvođače</string>
+    <string name="app_name">IC daljinski upravljač</string>
+    <string name="menu_save">Spremi daljinski</string>
+    <string name="save_remote_title">Spremi daljinski</string>
+    <string name="save_remote_text">Odaberite naziv za svoj daljinski.
+\nVaš novi daljinski upravljač pojavit će se u odjeljku Moji daljinski upravljači</string>
+    <string name="button_text_ch_up">Ch+</string>
+    <string name="button_text_ch_down">Ch-</string>
+    <string name="button_text_nav_up">U</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="button_text_input">src</string>
+    <string name="button_text_next">next</string>
+    <string name="button_text_prev">prev</string>
+    <string name="button_text_src_cd">cd</string>
+    <string name="button_text_src_aux">aux</string>
+    <string name="button_text_src_tape">tape</string>
+    <string name="button_text_src_tuner">tuner</string>
+    <string name="button_text_red">red</string>
+    <string name="button_text_input_1">src 1</string>
+    <string name="button_text_green">green</string>
+    <string name="button_text_blue">blue</string>
+    <string name="button_text_yellow">yellow</string>
+    <string name="button_text_input_3">src 3</string>
+    <string name="button_text_input_2">src 2</string>
+    <string name="button_text_input_5">src 5</string>
+    <string name="button_text_input_4">src 4</string>
+    <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
+    <string name="button_text_fan_down">fan -</string>
+    <string name="button_text_fav">fav</string>
+    <string name="button_text_game">game</string>
+    <string name="edit_remote_title">Uredi daljinski</string>
+    <string name="dlg_debug_freq">Frekvencije</string>
+    <string name="button_text_temp_down">tmp -</string>
+    <string name="button_text_list">list</string>
+    <string name="button_text_help">help</string>
+    <string name="delete_remote_message">Jeste li sigurni da želite izbrisati %s?</string>
+    <string name="my_remotes">Moji daljinski</string>
+    <string name="pref_desc_fix">Na nekim uređajima Android ne šalje ispravno kodove. Omogućite ili onemogućite ovo da biste to popravili.</string>
+    <string name="dlg_na_msg">Čini se da vaš uređaj nema IC odašiljač
+\nŽao nam je, ali nećete moći koristiti ovu aplikaciju na ovom uređaju</string>
+    <string name="learn_desc_learning">Držite %s…</string>
+    <string name="learn_learning">Učim…</string>
+    <string name="learn_button_it_works">Radi!</string>
+    <string name="learn_learned">Naučeno!</string>
+    <string name="learn_help_tit">Imate problema?</string>
+    <string name="learn_help_msg">Usmjerite daljinski upravljač izravno prema IC prijemniku vašeg uređaja.
+\nTakođer ga možete pokušati držati malo dalje ili bliže.</string>
+    <string name="learn_button_try_again">Pokušajte ponovno</string>
+    <string name="learn_button_finish">Završi</string>
+    <string name="learn_select_msg">Odaberite vrstu uređaja s kojeg učite</string>
+    <string name="menu_edit_help">Pomoć</string>
+    <string name="ori_auto">Automatsko zakretanje</string>
+    <string name="pref_desc_bg">Prikaz prilagođene pozadine za daljinske upravljače</string>
+    <string name="pref_tit_theme">Stil gumba</string>
+    <string name="theme_tr">Transparentan</string>
+    <string name="theme_sl">Jednobojna</string>
+    <string name="edit_confirmexitdlg_tit">Spremi promjene?</string>
+    <string name="edit_confirmexitdlg_save">Spremi</string>
+    <string name="edit_confirmexitdlg_discard">Odbaci</string>
+    <string name="menu_edit_organize">Organiziraj</string>
+    <string name="menu_edit_snap">Poravnanje s rešetkom</string>
+    <string name="menu_edit_save">Spremi</string>
+    <string name="menu_edit_add_button">Dodaj gumb</string>
+    <string name="edit_helpdlg_msg">Dugo pritisnite gumb za povlačenje i ispuštanje.
+\n
+\nDodirnite gumbe kako biste ih odabrali, zatim kliknite gumb za uređivanje na vrhu.
+\n
+\nKada završite, kliknite gumb za spremanje na vrhu.
+\n
+\nAko vam se ne sviđaju vaše promjene, samo kliknite natrag da biste ih odbacili.</string>
+    <string name="edit_option_text">Tekst</string>
+    <string name="edit_option_text_size">Veličina teksta</string>
+    <string name="edit_option_corners">Kutovi</string>
+    <string name="edit_activity_subtitle">Način uređivanja</string>
+    <string name="edit_option_code">IC kod</string>
+    <string name="color_dlgtit">Promjena boje gumba</string>
+    <string name="color_blue">Plava</string>
+    <string name="color_green">Zelena</string>
+    <string name="color_light_green">Svijetlo zelena</string>
+    <string name="color_brown">Smeđa</string>
+    <string name="color_grey">Siva</string>
+    <string name="color_white">Bijela</string>
+    <string name="menu_edit_cab_edit">Uredi</string>
+    <string name="menu_edit_cab_sel_none">NIJEDAN</string>
+    <string name="color_light_blue">Svijetlo plava</string>
+    <string name="color_cyan">Cijan</string>
+    <string name="color_teal">Plavozelena</string>
+    <string name="color_yellow">Žuta</string>
+    <string name="color_orange">Narančasta</string>
+    <string name="color_deep_orange">Duboko narančasta</string>
+    <string name="color_blue_grey">Plavo siva</string>
+    <string name="color_black">Crna</string>
+    <string name="menu_edit_cab_sel_all">SVE</string>
+    <string name="err_all_fields">Molimo ispunite sva polja</string>
+    <string name="dev_type_dvd">DVD</string>
+    <string name="learn_button_forget">Zaboravi</string>
+    <string name="learn_desc_saved">Već ste naučili ovaj gumb. Da biste provjerili radi li, dodirnite gumb. Ako ne, onda pritisnite \"Pokušaj ponovno\" na dnu da biste ga ponovno naučili.</string>
+    <string name="loading">Učitavanje</string>
+    <string name="pref_dlg_tit_fix">Upozorenje</string>
+    <string name="dev_type_cd">CD</string>
+    <string name="dev_type_blu_ray">Blu-ray</string>
+    <string name="learn_button_next">Sljedeći</string>
+    <string name="no_remotes">Nemate daljinski
+\n
+\nDodirnite gumb + da dodate svoj prvi daljinski</string>
+    <string name="pref_dlg_msg_fix">Ako vam BILO KOJI gumb daljinskog upravljača radi, ne dirajte ovu postavku.
+\nPromijenite ga samo ako vam NIŠTA ne radi.
+\n
+\nNakon promjene ove postavke ponovno pokrenite uređaj.
+\n
+\nJeste li sigurni da želite promijeniti ovu postavku?</string>
+    <string name="dev_type_cable">Set-top</string>
+    <string name="dev_type_audio">Audio sustav</string>
+    <string name="dev_type_camera">Fotoaparat</string>
+    <string name="dev_type_air_con">Klima uređaj</string>
+    <string name="organize_icons">Ikone</string>
+    <string name="organize_colors">Boje</string>
+    <string name="organize_positions">Pozicije</string>
+    <string name="organize_corners">Kutovi</string>
+    <string name="provider_local">Moji daljinski upravljači</string>
+    <string name="provider_learn_remote">Naučite daljinski upravljač</string>
+    <string name="provider_learn_button">Gumb za učenje</string>
+    <string name="provider_common">Uobičajeni daljinski upravljači</string>
+    <string name="organize_dlgtit">Organizirajte gumbe</string>
+    <string name="provider_manual_freq_info">Frekvencija, uzorak
+\n
+\nFrekvencija: frekvencija IC nosača u hercima
+\n
+\nUzorak: izmjenični uzorak uključivanja/isključivanja u impulsima (razdvojen zarezom)
+\n
+\nPrimjer: 38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792</string>
+    <string name="empty_remote_msg">Stvorit će se prazan daljinski upravljač. Pritisnite Izbornik - Uredi za odlazak na ekran za uređivanje.
+\nOdatle možete dodati pojedinačne gumbe klikom na Izbornik - Dodaj gumb</string>
+    <string name="import_invalid">Nevažeća datoteka daljinskog upravljača</string>
+    <string name="import_notexist">Datoteka daljinskog upravljača nije pronađena</string>
+    <string name="save_button_title">Gumb spasi</string>
+    <string name="pref_tit_fix">Popravi gumbe</string>
+    <string name="save_button_dlgtit">Gumb spasi</string>
+    <string name="color_lime">Boja limete</string>
+    <string name="color_amber">Amber</string>
+    <string name="menu_edit_multi">Multi Edit</string>
+    <string name="provider_manual_freq_pattern">Frekvencija, uzorak</string>
+    <string name="provider_manual_pronto">Pronto Format</string>
+    <string name="provider_manual_pronto_info">Pronto Format
+\n
+\nPrimjer: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8</string>
+</resources>

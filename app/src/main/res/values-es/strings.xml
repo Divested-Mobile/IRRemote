@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Mando IR</string>
-
     <string name="db_menu_search_tit">Buscar</string>
     <string name="db_menu_refresh">Actualizar</string>
     <string name="menu_save">Save Remote</string>
@@ -19,7 +17,6 @@
     <string name="menu_action_edit">Editar</string>
     <string name="menu_action_learn">Memorizar</string>
     <string name="menu_action_settings">Ajustes</string>
-
     <!-- Save -->
     <string name="save_remote_title">Guardar mando</string>
     <string name="save_remote_text">Establezca un nombre para su mando.\nSu nuevo mando aparecerá en la sección Mis Mandos</string>
@@ -31,7 +28,6 @@
     <string name="rename_remote_message">Introduzca un nuevo nombre para %s</string>
     <string name="rename_remote_hint">Nuevo nombre</string>
     <string name="rename_remote_save">Renombrar</string>
-
     <!--  -->
     <string name="save_button_title">Guardar botón</string>
     <string name="select_remote">Seleccione un mando</string>
@@ -41,7 +37,6 @@
     <string name="add_remote">Añadir mando</string>
     <string name="select_remote_first">Seleccione un mando primero</string>
     <string name="remote_saved_toast">Mando guardado</string>
-
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">pwr</string>
     <string name="button_text_power_on">on</string>
@@ -68,7 +63,6 @@
     <string name="button_text_digit_7">7</string>
     <string name="button_text_digit_8">8</string>
     <string name="button_text_digit_9">9</string>
-
     <!--  -->
     <string name="button_text_input">src</string>
     <string name="button_text_guide">epg</string>
@@ -79,7 +73,6 @@
     <string name="button_text_cc">cc</string>
     <string name="button_text_info">info</string>
     <string name="button_text_sleep">slp</string>
-
     <!--  -->
     <string name="button_text_play">play</string>
     <string name="button_text_pause">pausa</string>
@@ -108,36 +101,28 @@
     <string name="button_text_fan_down">fan -</string>
     <string name="button_text_temp_up">tmp +</string>
     <string name="button_text_temp_down">tmp -</string>
-
     <!-- -->
     <string name="button_text_list">list</string>
-
     <!-- Digits allowed to save a menu_main name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
-
     <!--  -->
     <string name="delete_remote_title">Borrar mando</string>
     <string name="delete_remote_message">A¿Está seguro de borrar %s?</string>
     <string name="edit_remote_title">Editar mando</string>
-    <string name="edit_remote_message"></string>
     <string name="my_remotes">Mis mandos</string>
-
     <!-- Preferences and all that awesome stuff -->
     <string name="pref_tit_fix">Arreglar botones</string>
     <string name="pref_desc_fix">En algunos dispositivos Android no envía los códigos correctamente. Active o desactive esto para solucionarlo.</string>
     <string name="dlg_na_tit">¡Vaya!</string>
     <string name="dlg_na_msg">Parece que su dispositivo no tiene un transmisor de infrarrojos\nLo sentimos, pero no será capaz de utilizar esta aplicación en este dispositivo</string>
-
     <!-- Ready -->
     <string name="learn">Memorizar</string>
     <string name="learn_tit_ready">Ajuste \"%s\"</string>
     <string name="learn_desc_ready">Mantén pulsado el botón \"%s\" de su mando apuntando al IR, receptor de infrarrojos, de su dispositivo a unos 5cm (2 pulg)\nCuando esté listo, haga clic en Memorizar</string>
-
     <!-- Learning -->
     <string name="learn_tit_learning">Memorizando…</string>
     <string name="learn_desc_learning">Mantén presionando %s…</string>
-
     <!-- Learned -->
     <string name="learn_tit_learned">¡Memorizado!</string>
     <string name="learn_desc_learned">Genial. Ahora ve y pruebe el botón.</string>
@@ -166,7 +151,6 @@
     <string name="ori_auto">Auto-rotar</string>
     <string name="ori_port">Retrato</string>
     <string name="ori_land">Paisaje</string>
-
     <!-- BEGIN v1302 -->
     <string name="pref_tit_orientation">Orientación</string>
     <string name="pref_tit_bg">Fondo</string>
@@ -182,7 +166,6 @@
     <!--  -->
     <string name="theme_tr">Transparente</string>
     <string name="theme_sl">Opaco</string>
-
     <!--  -->
     <string name="edit_confirmexitdlg_tit">¿Guardar cambios?</string>
     <string name="edit_confirmexitdlg_save">Guardar</string>
@@ -214,7 +197,6 @@
     <string name="edit_option_code">Código IR</string>
     <string name="sizepicker_width">Ancho</string>
     <string name="sizepicker_height">Alto</string>
-
     <!-- BEGIN 1420 -->
     <string name="color_dlgtit">Cambiar color</string>
     <string name="icon_dlgtit">Cambiar icono</string>
@@ -241,7 +223,6 @@
     <string name="color_brown">Marrón</string>
     <string name="color_grey">Gris</string>
     <string name="color_blue_grey">Gris azul</string>
-
     <!--  -->
     <string name="menu_edit_multi">Edición múltiple</string>
     <string name="menu_edit_cab_edit">Editar</string>
@@ -249,9 +230,10 @@
     <string name="menu_edit_cab_sel_none">NADA</string>
     <!--  -->
     <plurals name="selected">
+        <item quantity="one">%d seleccionado</item>
+        <item quantity="many">%d seleccionados</item>
         <item quantity="other">%d seleccionados</item>
     </plurals>
-
     <string name="edit_corners_c">Radio</string>
     <string name="edit_corners_tl">Superior izquierda</string>
     <string name="edit_corners_tr">Superior derecha</string>
@@ -298,22 +280,58 @@
     <string name="provider_learn_button">Memorizar botón</string>
     <string name="title_provider_add_button">Añadir botón</string>
     <string name="title_provider_add_remote">Añadir mando</string>
-
     <string name="corners_square">Cuadrado</string>
     <string name="corners_rounded_square">Cuadrado redondeado</string>
     <string name="corners_circle">Círculo</string>
-
     <plurals name="list_remote_button_size">
-        <item quantity="zero">%d botones</item>
-        <item quantity="one">%d button</item>
-        <item quantity="other">%d botones</item>
+        <item quantity="one">Botón %d</item>
+        <item quantity="many">Botones %d</item>
+        <item quantity="other">Botones %d</item>
     </plurals>
-
-
     <string name="save_remote_preview">Vista previa</string>
-
     <string name="preview_remote_dlgtit_remote">Previsualizar mando</string>
     <string name="preview_remote_dlgtit_button">Seleccione un botón</string>
-
-
+    <string name="button_text_home">inicio</string>
+    <string name="button_text_fav">fav</string>
+    <string name="button_text_game">juego</string>
+    <string name="button_text_lang">idioma</string>
+    <string name="button_text_setting">Fijar</string>
+    <string name="dlg_debug_tit">Información de depuración</string>
+    <string name="color_white">Blanco</string>
+    <string name="color_black">Negro</string>
+    <string name="provider_manual">Código IR manual</string>
+    <string name="provider_manual_pronto">Formato listo</string>
+    <string name="provider_manual_invalid">Patrón IR no válido</string>
+    <string name="share_remote_failed">Error compartido remotamente</string>
+    <string name="export_remote_failed">Error en la exportación remota</string>
+    <string name="import_notexist">Archivo remoto no encontrado</string>
+    <string name="import_invalid">Archivo remoto no válido</string>
+    <string name="button_text_help">ayuda</string>
+    <string name="dlg_debug_freq">Frecuencias</string>
+    <string name="menu_action_export">Exportación remota</string>
+    <string name="share_remote_message">Compartir %s</string>
+    <string name="edit_activity_subtitle">Modo de edición</string>
+    <string name="edit_option_icon_color">Color del icono</string>
+    <string name="icon_color_dlgtit">Cambiar color del icono</string>
+    <string name="version_preference_format">Versión %1$s (%2$d)</string>
+    <string name="provider_manual_freq_pattern">Frecuencia, patrón</string>
+    <string name="provider_manual_freq_info">Frecuencia, patrón
+\n
+\nFrecuencia: La frecuencia portadora de IR en hercios.
+\n
+\nPatrón: El patrón alterno de encendido/apagado en pulsos (separados por comas)
+\n
+\nEjemplo: 38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792</string>
+    <string name="provider_manual_pronto_info">Formato listo
+\n
+\nEjemplo: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8</string>
+    <string name="provider_manual_save">Guardar código</string>
+    <string name="provider_manual_freq_sus">Es posible que la frecuencia portadora no funcione</string>
+    <string name="provider_manual_new_button">Nuevo botón</string>
+    <string name="empty_remote_tit">Control remoto vacío</string>
+    <string name="empty_remote_msg">Se creará un control remoto vacío. Haga clic en Menú - Editar para ir a la pantalla de edición.
+\nDesde allí se pueden añadir botones individuales haciendo clic en Menú - Añadir botón</string>
+    <string name="button_text_msg">msj</string>
+    <string name="menu_action_import">Importación remota</string>
+    <string name="menu_action_share">Compartir remotamente</string>
 </resources>

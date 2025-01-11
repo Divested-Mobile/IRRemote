@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="db_menu_search_tit">Suchen</string>
+    <string name="app_name">IR Remote</string>
+    <string name="db_menu_refresh">Erneuern</string>
+    <string name="menu_save">Remote speichern</string>
+    <string name="db_search_hint_manufacturers">Herstellersuche</string>
+    <string name="db_search_hint_custom">Suchen %s</string>
+    <string name="db_search_hint_buttons">Suche tasten</string>
+    <string name="db_select_manufacturer">Hersteller auswählen</string>
+    <string name="db_select_device_type">Gerätetyp auswählen</string>
+    <string name="common_menu_todb">Weitere</string>
+    <string name="menu_action_delete_remote">Remote entfernen</string>
+    <string name="menu_action_rename">Remote umbenennen</string>
+    <string name="menu_action_edit">Remote bearbeiten</string>
+    <string name="menu_action_export">Remote exportieren</string>
+    <string name="menu_action_share">Remote übermitteln</string>
+    <string name="share_remote_message">Übermitteln %s</string>
+    <string name="share_remote_failed">Remote übermittlung fehlgeschlagen</string>
+    <string name="export_remote_failed">Remote exportierung fehlgeschlagen</string>
+    <string name="import_invalid">Ungültige Remote-Datei</string>
+    <string name="save_remote_title">Remote speichern</string>
+    <string name="save_remote_hint">Remote Name</string>
+    <string name="save_remote_save">Speichern</string>
+    <string name="err_name_empty">Remote Name darf nicht leer sein</string>
+    <string name="rename_remote_title">Remote umbenennen</string>
+    <string name="rename_remote_message">Einen neuen Namen für %s vergeben</string>
+    <string name="save_button_title">Speichern Taste</string>
+    <string name="select_remote">Remote auswählen</string>
+    <string name="save_button_text_title">Tastenname</string>
+    <string name="save_button_hint">Tastenname</string>
+    <string name="save_button_save">Sichern</string>
+    <string name="add_remote">Remote hinzufügen</string>
+    <string name="select_remote_first">Zuerst eine Remote wählen</string>
+    <string name="remote_saved_toast">Remote gesichert</string>
+    <string name="button_text_power">ein/aus</string>
+    <string name="button_text_power_on">einsch.</string>
+    <string name="button_text_power_off">aussch.</string>
+    <string name="button_text_vol_down">Laut-</string>
+    <string name="button_text_vol_up">Laut+</string>
+    <string name="button_text_ch_up">Kan+</string>
+    <string name="button_text_ch_down">Kan-</string>
+    <string name="button_text_nav_up">U</string>
+    <string name="button_text_nav_down">D</string>
+    <string name="button_text_nav_ok">OK</string>
+    <string name="button_text_back">zurück</string>
+    <string name="button_text_menu">Menü</string>
+    <string name="button_text_mute">stumm</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_input">quelle</string>
+    <string name="button_text_guide">EPG</string>
+    <string name="button_text_smart">smart</string>
+    <string name="button_text_last">zuletzt</string>
+    <string name="button_text_clear">säub.</string>
+    <string name="button_text_exit">Verlassen</string>
+    <string name="button_text_cc">säubern.</string>
+    <string name="button_text_info">info</string>
+    <string name="button_text_play">Abspielen</string>
+    <string name="button_text_pause">pause</string>
+    <string name="button_text_stop">stop</string>
+    <string name="button_text_fast_forward">forwä.</string>
+    <string name="button_text_rewind">rückwä.</string>
+    <string name="button_text_next">nächste</string>
+    <string name="button_text_prev">vorherig</string>
+    <string name="button_text_rec">aufneh.</string>
+    <string name="menu_action_import">Remote importieren</string>
+    <string name="menu_action_learn">Lernen</string>
+    <string name="menu_action_settings">Einstellungen</string>
+    <string name="import_notexist">Remote-Datei nicht gefunden</string>
+    <string name="rename_remote_hint">Neuer Name</string>
+    <string name="rename_remote_save">Umbenennen</string>
+    <string name="button_text_nav_left">L</string>
+    <string name="button_text_nav_right">R</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_9">9</string>
+    <string name="save_remote_text">Namen für den Remote auswählen.
+\nDein neuer Remote wird bei \"Meine Remotes\" auftauchen</string>
+    <string name="button_text_src_cd">cd</string>
+    <string name="button_text_src_aux">aux</string>
+    <string name="button_text_red">rot</string>
+    <string name="button_text_green">grün</string>
+    <string name="button_text_blue">blau</string>
+    <string name="button_text_yellow">gelb</string>
+    <string name="button_text_game">spiel</string>
+    <string name="button_text_help">hilfe</string>
+    <string name="button_text_lang">sprache</string>
+    <string name="button_text_msg">nachr.</string>
+    <string name="delete_remote_message">%s Wirklich entfernen?</string>
+    <string name="dev_type_cd">CD</string>
+    <string name="dev_type_dvd">DVD</string>
+    <string name="dev_type_blu_ray">Blu-ray</string>
+    <string name="corners_square">Quadrat</string>
+    <string name="edit_corners_dlgtit">Ecken Umfang</string>
+    <string name="edit_corners_br">Unten Rechts</string>
+    <string name="button_text_src_tape">tape</string>
+    <string name="button_text_sleep">ruhem.</string>
+    <string name="button_text_src_tuner">tuner</string>
+    <string name="button_text_input_1">quelle1</string>
+    <string name="button_text_input_2">quelle2</string>
+    <string name="button_text_input_3">quelle3</string>
+    <string name="button_text_input_4">quelle4</string>
+    <string name="button_text_input_5">quelle5</string>
+    <string name="button_text_fan_up">lüft. +</string>
+    <string name="button_text_fan_down">lüft. -</string>
+    <string name="button_text_home">startseite</string>
+    <string name="button_text_list">liste</string>
+    <string name="button_text_fav">favo</string>
+    <string name="button_text_setting">einst.</string>
+    <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZÖÜÄabcdefghijklmnopqrstuvwxyzöüä0123456789- _</string>
+    <string name="edit_remote_title">Remote bearbeiten</string>
+    <string name="my_remotes">Meine Remotes</string>
+    <string name="pref_tit_fix">Tasten beheben</string>
+    <string name="pref_desc_fix">Manche Android geräte senden den Code fehlerhaft. Aktivieren oder Deaktiveren um dies zu beheben.</string>
+    <string name="delete_remote_title">Remote entfernen</string>
+    <string name="dlg_na_tit">Ups!</string>
+    <string name="dlg_na_msg">Es scheint als wenn dein Gerät kein IR Empfänger besitzt
+\nTut uns leid aber du wirst diese App auf diesem gerät nicht benutzen können</string>
+    <string name="dlg_debug_tit">Debug Info</string>
+    <string name="dlg_debug_freq">Frequenzen</string>
+    <string name="learn_tit_ready">\"%s\" konfigurieren</string>
+    <string name="learn_desc_ready">Drücke und halte die \"%s\" Taste während du mit einem abstand von ca. 5cm auf den IR Empfänger deines gerätes zielst.
+\nDannach drücke auf \"Erlernen\"</string>
+    <string name="learn_tit_learning">Erlerne…</string>
+    <string name="learn_desc_learning">Die Taste %s halten…</string>
+    <string name="learn_tit_learned">Erlernt!</string>
+    <string name="learn">Erlernen</string>
+    <string name="learn_desc_learned">Super. Du kannst die Tasten jetzt testen.</string>
+    <string name="learn_button_ready">Erlernen</string>
+    <string name="learn_button_cancel">Abbrechen</string>
+    <string name="learn_button_back">Zurü.</string>
+    <string name="learn_button_skip">Übersp.</string>
+    <string name="learn_button_it_works">Es Läuft!</string>
+    <string name="learn_button_try_again">Nochmal versuchen</string>
+    <string name="learn_button_finish">Fertig</string>
+    <string name="learn_learning">Erlerne…</string>
+    <string name="learn_learned">Erlernt!</string>
+    <string name="learn_help_tit">Problem aufgetaucht?</string>
+    <string name="learn_help_msg">Ziele deinen Remote direkt auf den IR Empfänger deines Geräts.
+\nVersuche es auch etwas näher oder weiter weg.</string>
+    <string name="learn_footer">Taste %1$d von %2$d</string>
+    <string name="learn_footer_did_it_work">Läuft es?</string>
+    <string name="learn_select_tit">Gerätetyp auswählen</string>
+    <string name="learn_select_msg">Wähle einen Gerätetypen von dem erlernt werden soll</string>
+    <string name="learn_activity_title">Erlerne neue %s Remote</string>
+    <string name="pref_desc_fullscreen">Remotes werden im Vollbildmodus angezeigt - Statusbar wird ausgeblendet</string>
+    <string name="ori_system">Systemeinstellungen</string>
+    <string name="ori_auto">Auto-Rotation</string>
+    <string name="ori_port">Portrait</string>
+    <string name="ori_land">Horizontal</string>
+    <string name="pref_tit_orientation">Orientation</string>
+    <string name="pref_tit_bg">Hintergrund</string>
+    <string name="pref_desc_bg">Eigenen Hintergrund für Remotes anzeigen</string>
+    <string name="bg_gallery">Gallerie</string>
+    <string name="bg_remove">Hintergrund entfernen</string>
+    <string name="bg_changed_ok">Hintergrund geändert</string>
+    <string name="pref_tit_theme">Tasten Style</string>
+    <string name="pref_tit_fullscreen">Vollbild</string>
+    <string name="theme_tr">Transparent</string>
+    <string name="theme_sl">Solide</string>
+    <string name="edit_confirmexitdlg_tit">Änderungen übernehmen?</string>
+    <string name="edit_confirmexitdlg_save">Speichern</string>
+    <string name="edit_confirmexitdlg_discard">Verwerfen</string>
+    <string name="edit_activity_subtitle">Bearb. Modus</string>
+    <string name="menu_edit_organize">Organizieren</string>
+    <string name="menu_edit_save">Sichern</string>
+    <string name="menu_edit_help">Hilfe</string>
+    <string name="menu_edit_add_button">Taste Hinzuf.</string>
+    <string name="edit_helpdlg_tit">Hilfe</string>
+    <string name="edit_helpdlg_msg">Eine Taste lange halten um diese zu verschieben.
+\n
+\nTaste antippen um diese auszuwählen und dannach die Bearb. taste ganz oben.
+\n
+\nWenn alles erledigt dann mittels der \"Sichern\" taste ganz oben alles übernehmen.
+\n
+\nEinfach \"zurück\" tippen um diese veränderungen dann doch nicht zu übernehmen.</string>
+    <string name="save_button_dlgtit">Sichern Taste</string>
+    <string name="save_button_dlgmsg">Prüfe deine Tasten und tippe auf OK wenn diese läuft</string>
+    <string name="edit_button_code_updated">Code geändert</string>
+    <string name="edit_button_title">Taste bearbeiten</string>
+    <string name="edit_option_text">Text</string>
+    <string name="edit_option_text_size">Schriftgröße</string>
+    <string name="menu_edit_snap">Am Raster ausrichten</string>
+    <string name="edit_option_size">Tastengröße</string>
+    <string name="edit_option_remove">Entfernen</string>
+    <string name="edit_option_icon">Icon</string>
+    <string name="edit_option_color">Tasten Farbe</string>
+    <string name="edit_option_corners">Ecken</string>
+    <string name="edit_option_code">IR Code</string>
+    <string name="sizepicker_width">Breite</string>
+    <string name="edit_option_icon_color">Icon Farbe</string>
+    <string name="sizepicker_height">Höhe</string>
+    <string name="color_dlgtit">Tasten Farbe ändern</string>
+    <string name="icon_color_dlgtit">Icon Farbe ändern</string>
+    <string name="icon_dlgtit">Icon ändern</string>
+    <string name="icon_remove">Icon entfernen</string>
+    <string name="color_solid">Solide</string>
+    <string name="color_transparent">Transparent</string>
+    <string name="color_red">Rot</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_purple">Lila</string>
+    <string name="color_indigo">Tiefblau</string>
+    <string name="color_deep_purple">Tieflila</string>
+    <string name="color_blue">Blau</string>
+    <string name="color_light_blue">Hell Blau</string>
+    <string name="color_cyan">Helles Türkis</string>
+    <string name="color_teal">Aquamarin</string>
+    <string name="color_green">Grün</string>
+    <string name="color_light_green">Hellgrün</string>
+    <string name="color_lime">Limone</string>
+    <string name="color_yellow">Gelb</string>
+    <string name="color_amber">AmberOrange</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_deep_orange">Tieforange</string>
+    <string name="color_brown">Braun</string>
+    <string name="color_grey">Grau</string>
+    <string name="color_blue_grey">Blaues Grau</string>
+    <string name="color_white">Weiß</string>
+    <string name="color_black">Schwarz</string>
+    <string name="menu_edit_multi">Multi Bearb.</string>
+    <string name="menu_edit_cab_edit">Bearb.</string>
+    <string name="menu_edit_cab_sel_all">ALLE</string>
+    <string name="menu_edit_cab_sel_none">KEINE</string>
+    <plurals name="selected">
+        <item quantity="one"/>
+        <item quantity="other">%d ausgewählt</item>
+    </plurals>
+    <string name="edit_corners_c">Umfang</string>
+    <string name="edit_corners_tl">Oben Links</string>
+    <string name="edit_corners_tr">Oben Rechts</string>
+    <string name="edit_corners_bl">Unten Links</string>
+    <string name="pref_tit_vibrate">Bei Berührung vibr.</string>
+    <string name="pref_desc_vibrate">Beim tippen vibrieren</string>
+    <string name="pref_tit_delay">Signalwiederholung verzö.</string>
+    <string name="pref_desc_delay">Bei langem drücken, die Anzahl in Millisekunden zwischen den Signalen</string>
+    <string name="ms">%d ms</string>
+    <string name="delay_reset_default">Standard</string>
+    <string name="learn_tit_saved">%s Gesichert</string>
+    <string name="learn_desc_saved">Diese Taste wurde bereits erlernt. Um dies zu testen, tippe diese an. Falls doch nicht \"versuche erneut\" ganz unten um erneut zu erlenen.</string>
+    <string name="learn_button_forget">Vergessen</string>
+    <string name="learn_button_next">Nächste</string>
+    <string name="no_remotes">Du hast keine Remote
+\n
+\nDie \"+\" Taste antippen um die erste Remote hinzuzufügen</string>
+    <string name="err_all_fields">Bitte alle Felder ausfüllen</string>
+    <string name="loading">Laden</string>
+    <string name="pref_dlg_tit_fix">Warnung</string>
+    <string name="pref_dlg_msg_fix">Diese einstellung NICHT benutzen falls eine Remote-Taste funktioniert.
+\nÄndere diese nur falls NICHTS überhaupt garnichts läuft.
+\n
+\nNach dem anwenden muss das Gerät neugestartert werden.
+\n
+\nDiese Einstellung wirklich ändern?</string>
+    <string name="dev_type_tv">TV</string>
+    <string name="dev_type_cable">Set-top</string>
+    <string name="dev_type_audio">Audio System</string>
+    <string name="dev_type_camera">Kamera</string>
+    <string name="dev_type_air_con">Klimaanlage</string>
+    <string name="organize_dlgtit">Tasten Organisieren</string>
+    <string name="dev_type_other">Andere</string>
+    <string name="organize_icons">Icons</string>
+    <string name="organize_colors">Farben</string>
+    <string name="organize_corners">Kanten</string>
+    <string name="provider_common">Gängige Remotes</string>
+    <string name="organize_positions">Positionen</string>
+    <string name="provider_local">Meine Remotes</string>
+    <string name="provider_learn_remote">Remote erlenen</string>
+    <string name="provider_learn_button">Taste erlernen</string>
+    <string name="provider_manual">Manueller IR Code</string>
+    <string name="title_provider_add_button">Taste hinzufügen</string>
+    <string name="title_provider_add_remote">Remote hinzufügen</string>
+    <string name="corners_circle">Kreis</string>
+    <plurals name="list_remote_button_size">
+        <item quantity="one">%d Taste</item>
+        <item quantity="other">%d Tasten</item>
+    </plurals>
+    <string name="save_remote_preview">Vorschau</string>
+    <string name="preview_remote_dlgtit_remote">Remote Vorschau</string>
+    <string name="preview_remote_dlgtit_button">Taste auswählen</string>
+    <string name="version_preference_format">Version %1$s (%2$d)</string>
+    <string name="provider_manual_freq_pattern">Frequenz, muster</string>
+    <string name="provider_manual_pronto">Schnelles Format</string>
+    <string name="provider_manual_pronto_info">Schnelles Format
+\n
+\nBeispiel: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8</string>
+    <string name="provider_manual_invalid">Ungültiges IR Muster</string>
+    <string name="provider_manual_save">Code Sichern</string>
+    <string name="corners_rounded_square">Abgerundetes Quadrat</string>
+    <string name="provider_manual_freq_sus">Die Übertragungsrate wird vielleicht nicht funktionieren</string>
+    <string name="provider_manual_freq_info">Frequenz, Muster
+\n
+\nFrequenz: Die IR Übertragungsrate in Hertz
+\n
+\nMuster: Das abwechselnde ein/aus muster in Impulsen (Komma getrennt)
+\n
+\nBeispiel: 38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792</string>
+    <string name="provider_manual_new_button">Neue Taste</string>
+    <string name="empty_remote_tit">Leere Remote</string>
+    <string name="empty_remote_msg">Ein leerer Remote wird erstellt. Tippe auf \"Menü\" - \"Bearbeiten\" um diesen zu bearbeiten.
+\nVon dort aus kann man individuelle Tasten via \"Menü\" - \"Taste Hinzufügen\", hinzufügen</string>
+    <string name="button_text_temp_up">temp +</string>
+    <string name="button_text_temp_down">temp -</string>
+    <string name="button_text_disp">disp</string>
+</resources>

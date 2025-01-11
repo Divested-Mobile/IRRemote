@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Telecomando</string>
-
+    <string name="app_name">Telecomando IR</string>
     <string name="db_menu_search_tit">Cerca</string>
     <string name="db_menu_refresh">Ricarica</string>
     <string name="menu_save">Salva telecomando</string>
@@ -19,7 +17,6 @@
     <string name="menu_action_edit">Modifica</string>
     <string name="menu_action_learn">Impara</string>
     <string name="menu_action_settings">Impostazioni</string>
-
     <!-- Save -->
     <string name="save_remote_title">Salva telecomando</string>
     <string name="save_remote_text">Scegli un nome per il tuo telecomando.\nIl tuo nuovo telecomando apparirà nella sezione I miei telecomandi</string>
@@ -31,7 +28,6 @@
     <string name="rename_remote_message">Inserisci un nuovo nome per %s</string>
     <string name="rename_remote_hint">Nuovo nome</string>
     <string name="rename_remote_save">Rinomina</string>
-
     <!--  -->
     <string name="save_button_title">Salva bottone</string>
     <string name="select_remote">Seleziona un telecomando</string>
@@ -41,13 +37,12 @@
     <string name="add_remote">Aggiungi telecomando</string>
     <string name="select_remote_first">Prima seleziona un telecomando</string>
     <string name="remote_saved_toast">Telecomando salvato</string>
-
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">acc</string>
     <string name="button_text_power_on">On</string>
     <string name="button_text_power_off">Off</string>
-    <string name="button_text_vol_up">Vol+</string>
-    <string name="button_text_vol_down">Vol-</string>
+    <string name="button_text_vol_up">Volume +</string>
+    <string name="button_text_vol_down">Volume -</string>
     <string name="button_text_ch_up">Can+</string>
     <string name="button_text_ch_down">Can-</string>
     <string name="button_text_nav_up">U</string>
@@ -68,7 +63,6 @@
     <string name="button_text_digit_7">7</string>
     <string name="button_text_digit_8">8</string>
     <string name="button_text_digit_9">9</string>
-
     <!--  -->
     <string name="button_text_input">fnt</string>
     <string name="button_text_guide">guida</string>
@@ -79,9 +73,8 @@
     <string name="button_text_cc">cc</string>
     <string name="button_text_info">info</string>
     <string name="button_text_sleep">dorm</string>
-
     <!--  -->
-    <string name="button_text_play">play</string>
+    <string name="button_text_play">riproduci</string>
     <string name="button_text_pause">pausa</string>
     <string name="button_text_stop">stop</string>
     <string name="button_text_fast_forward">ind</string>
@@ -104,40 +97,32 @@
     <string name="button_text_input_3">fnt 3</string>
     <string name="button_text_input_4">fnt 4</string>
     <string name="button_text_input_5">fnt 5</string>
-    <string name="button_text_fan_up">fan +</string>
-    <string name="button_text_fan_down">fan -</string>
-    <string name="button_text_temp_up">tmp +</string>
-    <string name="button_text_temp_down">tmp -</string>
-
+    <string name="button_text_fan_up">ventola +</string>
+    <string name="button_text_fan_down">ventola -</string>
+    <string name="button_text_temp_up">temperatura +</string>
+    <string name="button_text_temp_down">temperatura -</string>
     <!-- -->
     <string name="button_text_list">list</string>
-
     <!-- Digits allowed to save a menu_main name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
-
     <!--  -->
     <string name="delete_remote_title">Elimina telecomando</string>
     <string name="delete_remote_message">Sei sicuro di voler eliminare %s?</string>
     <string name="edit_remote_title">Modifica telecomando</string>
-    <string name="edit_remote_message"></string>
     <string name="my_remotes">I miei telecomandi</string>
-
     <!-- Preferences and all that awesome stuff -->
     <string name="pref_tit_fix">Sistema bottoni</string>
     <string name="pref_desc_fix">Alcuni dispositivi Android non inviano i codici correttamente. Attiva o disattiva questa opzione per sistemare questo problema.</string>
     <string name="dlg_na_tit">Oops!</string>
     <string name="dlg_na_msg">Sembra che il tuo dispositivo non può trasmettere infrarossi.\nCi dispiace ma non puoi usare quest\'app su questo dispositivo</string>
-
     <!-- Ready -->
     <string name="learn">Impara</string>
     <string name="learn_tit_ready">Configura \"%s\"</string>
     <string name="learn_desc_ready">Premi e tieni premuto il bottone \"%s\" sul telecomando puntandolo verso il trasmettitore di infrarossi del tuo dispositivo a circa 5 cm (2 inch).\nQuando sei pronto, premi Impara</string>
-
     <!-- Learning -->
     <string name="learn_tit_learning">Riconoscimento in corso…</string>
     <string name="learn_desc_learning">Continua a tenere %s…</string>
-
     <!-- Learned -->
     <string name="learn_tit_learned">Imparato!</string>
     <string name="learn_desc_learned">Fantastico. Ora continua a usare l\'app e prova il bottone.</string>
@@ -166,7 +151,6 @@
     <string name="ori_auto">Auto-rotazione</string>
     <string name="ori_port">Orizzontale</string>
     <string name="ori_land">Verticale</string>
-
     <!-- BEGIN v1302 -->
     <string name="pref_tit_orientation">Orientazione</string>
     <string name="pref_tit_bg">Sfondo</string>
@@ -182,7 +166,6 @@
     <!--  -->
     <string name="theme_tr">Trasparente</string>
     <string name="theme_sl">Solido</string>
-
     <!--  -->
     <string name="edit_confirmexitdlg_tit">Salva i cambiamenti?</string>
     <string name="edit_confirmexitdlg_save">Salva</string>
@@ -191,7 +174,7 @@
     <string name="edit_activity_title">Modifica - %s</string>
     <!--  -->
     <string name="menu_edit_organize">Organizza</string>
-    <string name="menu_edit_snap">Snap to grid</string>
+    <string name="menu_edit_snap">Aggancia alla griglia</string>
     <string name="menu_edit_save">Salva</string>
     <string name="menu_edit_help">Aiuto</string>
     <string name="menu_edit_add_button">Aggiungi bottone</string>
@@ -214,7 +197,6 @@
     <string name="edit_option_code">Codice IR</string>
     <string name="sizepicker_width">Larghezza</string>
     <string name="sizepicker_height">Altezza</string>
-
     <!-- BEGIN 1420 -->
     <string name="color_dlgtit">Cambia colore</string>
     <string name="icon_dlgtit">Cambia icona</string>
@@ -241,7 +223,6 @@
     <string name="color_brown">Marrone</string>
     <string name="color_grey">Grigio</string>
     <string name="color_blue_grey">Blu-grigio</string>
-
     <!--  -->
     <string name="menu_edit_multi">Modifica multipla</string>
     <string name="menu_edit_cab_edit">Modifica</string>
@@ -250,9 +231,9 @@
     <!--  -->
     <plurals name="selected">
         <item quantity="one">%d selezionato</item>
+        <item quantity="many">%d selezionati</item>
         <item quantity="other">%d selezionati</item>
     </plurals>
-
     <string name="edit_corners_c">Raggio</string>
     <string name="edit_corners_tl">Alto sinistra</string>
     <string name="edit_corners_tr">Alto destra</string>
@@ -281,9 +262,9 @@
     <string name="dev_type_cable">Set-top</string>
     <string name="dev_type_cd">CD</string>
     <string name="dev_type_dvd">DVD</string>
-    <string name="dev_type_blu_ray">Blu-ray</string>
+    <string name="dev_type_blu_ray">Blu-Ray</string>
     <string name="dev_type_audio">Sistema audio</string>
-    <string name="dev_type_camera">Camera</string>
+    <string name="dev_type_camera">Telecamera</string>
     <string name="dev_type_air_con">Condizionatore</string>
     <string name="dev_type_other">Altro</string>
     <!--  -->
@@ -299,21 +280,49 @@
     <string name="provider_learn_button">Impara bottone</string>
     <string name="title_provider_add_button">Aggiungi bottone</string>
     <string name="title_provider_add_remote">Aggiungi telecomando</string>
-
     <string name="corners_square">Quadrato</string>
     <string name="corners_rounded_square">Quadrato tondeggiante</string>
     <string name="corners_circle">Cerchio</string>
-
     <plurals name="list_remote_button_size">
-        <item quantity="zero">%d bottoni</item>
         <item quantity="one">%d bottone</item>
+        <item quantity="many">%d bottoni</item>
         <item quantity="other">%d bottoni</item>
     </plurals>
-
-
     <string name="save_remote_preview">Anteprima</string>
-
     <string name="preview_remote_dlgtit_remote">Anteprima del telecomando</string>
     <string name="preview_remote_dlgtit_button">Seleziona un bottone</string>
-
+    <string name="provider_manual">Codice IR Manuale</string>
+    <string name="version_preference_format">Versione %1$s (%2$d)</string>
+    <string name="provider_manual_freq_pattern">Frequenza, schema</string>
+    <string name="provider_manual_pronto">Formato Pronto</string>
+    <string name="provider_manual_pronto_info">Formato Pronto\n\nEsempio: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8</string>
+    <string name="provider_manual_invalid">Pattern IR invalido</string>
+    <string name="provider_manual_save">Salva Codice</string>
+    <string name="provider_manual_freq_sus">La frequenza portante potrebbe non funzionare</string>
+    <string name="provider_manual_new_button">Nuovo Bottone</string>
+    <string name="empty_remote_tit">Telecomando Vuoto</string>
+    <string name="empty_remote_msg">Verrà creato un telecomando vuoto. Clicca su Menu - Edit per accedere alla schermata di modifica.\nDa li\' potrai aggiungere bottoni individuali cliccando su Menu - Aggiungi Bottone</string>
+    <string name="menu_action_export">Esporta Telecomando</string>
+    <string name="menu_action_import">Importa Telecomando</string>
+    <string name="menu_action_share">Condividi Telecomando</string>
+    <string name="share_remote_message">Condividi %s</string>
+    <string name="share_remote_failed">Condivisione remota fallita</string>
+    <string name="import_invalid">File remoto invalido</string>
+    <string name="import_notexist">File remoto non trovato</string>
+    <string name="button_text_home">inizio</string>
+    <string name="button_text_fav">fav</string>
+    <string name="button_text_game">gioco</string>
+    <string name="button_text_help">aiuto</string>
+    <string name="button_text_lang">lingua</string>
+    <string name="button_text_msg">messaggio</string>
+    <string name="dlg_debug_tit">Informazioni di Debug</string>
+    <string name="dlg_debug_freq">Frequenze</string>
+    <string name="edit_option_icon_color">Colore dell\'icona</string>
+    <string name="icon_color_dlgtit">Cambia il colore dell\'icona</string>
+    <string name="color_white">Bianco</string>
+    <string name="color_black">Nero</string>
+    <string name="export_remote_failed">Export remoto fallito</string>
+    <string name="button_text_setting">impostazioni</string>
+    <string name="edit_activity_subtitle">Modalità modifica</string>
+    <string name="provider_manual_freq_info">Frequenza, Schema\n\nFrequenza: frequenza portante IR in Hertz\n\nSchema: l\'alternanza di on/off in pulsazioni (separati da virgole)\n\nEsempio: 38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792</string>
 </resources>

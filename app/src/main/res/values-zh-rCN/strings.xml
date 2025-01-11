@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IR Remote</string>
+    <string name="menu_save">保存遥控器</string>
+    <string name="menu_action_import">导入遥控器</string>
+    <string name="menu_action_settings">设置</string>
+    <string name="save_remote_save">保存</string>
+    <string name="button_text_power_on">开</string>
+    <string name="button_text_pause">暂停</string>
+    <string name="button_text_stop">停止</string>
+    <string name="bg_changed_ok">背景已更改</string>
+    <string name="add_remote">添加遥控器</string>
+    <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
+    <string name="menu_action_delete_remote">删除遥控器</string>
+    <string name="menu_action_rename">重命名遥控器</string>
+    <string name="menu_action_export">导出遥控器</string>
+    <string name="menu_action_edit">编辑遥控器</string>
+    <string name="menu_action_share">共享遥控器</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_vol_up">音量+</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_power_off">关</string>
+    <string name="button_text_vol_down">音量-</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_9">9</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="db_menu_search_tit">查找</string>
+    <string name="db_menu_refresh">刷新</string>
+    <string name="db_select_device_type">选择设备类型</string>
+    <string name="common_menu_todb">更多</string>
+    <string name="share_remote_message">分享%s</string>
+    <string name="menu_action_learn">学习</string>
+    <string name="save_remote_text">为您的遥控器选择一个名称。
+\n您的新遥控器将出现在\"我的遥控器\"区域。</string>
+    <string name="rename_remote_message">为%s输入一个新名称</string>
+    <string name="rename_remote_title">重命名遥控器</string>
+    <string name="save_remote_hint">遥控器名称</string>
+    <string name="rename_remote_save">重命名</string>
+    <string name="save_button_text_title">按钮名称</string>
+    <string name="save_button_hint">按钮名称</string>
+    <string name="select_remote_first">请先选择一个遥控器</string>
+    <string name="button_text_power">电源</string>
+    <string name="remote_saved_toast">遥控器已保存</string>
+    <string name="button_text_ch_up">频道+</string>
+    <string name="button_text_nav_up">上</string>
+    <string name="button_text_nav_down">下</string>
+    <string name="button_text_back">返回</string>
+    <string name="button_text_mute">静音</string>
+    <string name="button_text_menu">菜单</string>
+    <string name="button_text_nav_ok">确定</string>
+    <string name="button_text_exit">退出</string>
+    <string name="button_text_play">播放</string>
+    <string name="button_text_red">红</string>
+    <string name="button_text_green">绿</string>
+    <string name="button_text_blue">蓝</string>
+    <string name="button_text_fan_up">转速 +</string>
+    <string name="button_text_fan_down">转速 -</string>
+    <string name="button_text_yellow">黄</string>
+    <string name="button_text_help">帮助</string>
+    <string name="button_text_lang">语言</string>
+    <string name="button_text_setting">设置</string>
+    <string name="delete_remote_message">您确定要删除 %s 吗?</string>
+    <string name="delete_remote_title">删除遥控器</string>
+    <string name="edit_remote_title">编辑遥控器</string>
+    <string name="my_remotes">我的遥控器</string>
+    <string name="pref_desc_fix">某些设备上，Android 系统可能无法正确发送编码。启用或禁用此选项可尝试修复此问题。</string>
+    <string name="dlg_na_tit">哎呀！</string>
+    <string name="dlg_na_msg">您的设备似乎没有红外发射器
+\n很遗憾，您将无法在此设备上使用此应用</string>
+    <string name="learn">学习</string>
+    <string name="dlg_debug_freq">频率</string>
+    <string name="learn_tit_ready">配置 \"%s\"</string>
+    <string name="learn_desc_ready">按住遥控器上的“%s”按键，对准手机的红外接收器，距离约 2 英寸（5 厘米）
+\n准备就绪后，请点击“学习”。</string>
+    <string name="learn_tit_learned">学习成功！</string>
+    <string name="learn_desc_learning">继续按住 %s…</string>
+    <string name="learn_desc_learned">太棒了。现在就去试试这个按钮吧。</string>
+    <string name="learn_button_ready">学习</string>
+    <string name="learn_button_cancel">取消</string>
+    <string name="learn_button_back">返回</string>
+    <string name="learn_button_try_again">再试一次</string>
+    <string name="learn_button_it_works">有效！</string>
+    <string name="learn_button_finish">完成</string>
+    <string name="learn_learning">正在学习…</string>
+    <string name="learn_learned">学习成功！</string>
+    <string name="learn_help_tit">遇到问题了吗？</string>
+    <string name="learn_help_msg">将遥控器直接对准手机的红外接收器。
+\n您也可以尝试将遥控器稍微拿远一点或近一点。</string>
+    <string name="learn_footer">%2$d的按钮%1$d</string>
+    <string name="learn_footer_did_it_work">它有效吗？</string>
+    <string name="learn_select_tit">选择设备类型</string>
+    <string name="learn_select_msg">选择您要学习的设备类型</string>
+    <string name="ori_system">系统设置</string>
+    <string name="ori_auto">自动旋转</string>
+    <string name="ori_port">竖屏</string>
+    <string name="ori_land">横屏</string>
+    <string name="pref_tit_orientation">方向</string>
+    <string name="pref_tit_fullscreen">全屏</string>
+    <string name="pref_desc_fullscreen">遥控器将以全屏模式显示 - 不会显示状态栏</string>
+    <string name="pref_desc_bg">为遥控器显示自定义背景</string>
+    <string name="pref_tit_bg">背景</string>
+    <string name="bg_remove">移除背景</string>
+    <string name="pref_tit_theme">按钮风格</string>
+    <string name="edit_confirmexitdlg_tit">保存更改？</string>
+    <string name="edit_confirmexitdlg_save">保存</string>
+    <string name="edit_activity_subtitle">编辑模式</string>
+    <string name="menu_edit_snap">网格对齐</string>
+    <string name="theme_tr">透明度</string>
+    <string name="theme_sl">纯色</string>
+    <string name="menu_edit_organize">管理和调整</string>
+    <string name="menu_edit_save">保存</string>
+    <string name="menu_edit_help">帮助</string>
+    <string name="menu_edit_add_button">添加按钮</string>
+    <string name="save_button_dlgtit">保存按钮</string>
+    <string name="edit_button_title">编辑按钮</string>
+    <string name="edit_button_code_updated">编码已更改</string>
+    <string name="edit_option_size">按钮尺寸</string>
+    <string name="edit_option_color">按钮颜色</string>
+    <string name="edit_option_corners">圆角</string>
+    <string name="edit_option_icon_color">图标颜色</string>
+    <string name="edit_option_icon">图标</string>
+    <string name="color_dlgtit">更改按钮颜色</string>
+    <string name="sizepicker_width">宽度</string>
+    <string name="icon_color_dlgtit">更改图标颜色</string>
+    <string name="color_red">红</string>
+    <string name="color_pink">粉红</string>
+    <string name="color_purple">紫</string>
+    <string name="color_deep_purple">深紫</string>
+    <string name="color_indigo">靛蓝</string>
+    <string name="color_blue">蓝</string>
+    <string name="color_transparent">透明度</string>
+    <string name="icon_remove">移除图标</string>
+    <string name="color_solid">纯色</string>
+    <string name="color_light_blue">浅蓝</string>
+    <string name="color_cyan">青</string>
+    <string name="color_green">绿</string>
+    <string name="color_lime">黄绿</string>
+    <string name="color_yellow">黄</string>
+    <string name="color_deep_orange">深橙</string>
+    <string name="color_brown">棕</string>
+    <string name="color_grey">灰</string>
+    <string name="color_blue_grey">蓝灰</string>
+    <string name="color_white">白</string>
+    <string name="color_black">黑</string>
+    <string name="menu_edit_multi">批量编辑</string>
+    <string name="menu_edit_cab_edit">编辑</string>
+    <string name="menu_edit_cab_sel_all">全选</string>
+    <string name="menu_edit_cab_sel_none">取消全选</string>
+    <string name="pref_tit_vibrate">按下时振动</string>
+    <string name="pref_desc_vibrate">按下按钮时振动</string>
+    <string name="edit_corners_dlgtit">圆角半径</string>
+    <string name="edit_corners_c">半径</string>
+    <string name="edit_corners_tl">左上</string>
+    <string name="edit_corners_tr">右上</string>
+    <string name="edit_corners_bl">左下</string>
+    <string name="pref_tit_delay">信号重复延迟</string>
+    <string name="learn_desc_saved">您已学习过此按钮。要检查它是否有效，请点击此按钮。如果无效，请点击底部的“再试一次”重新学习。</string>
+    <string name="ms">%d 毫秒</string>
+    <string name="learn_tit_saved">%s 已保存</string>
+    <string name="no_remotes">您还没有遥控器
+\n
+\n点击 + 按钮添加您的第一个遥控器</string>
+    <string name="pref_desc_delay">长按时信号之间的等待时间（毫秒）</string>
+    <string name="learn_button_next">下一个</string>
+    <string name="learn_button_forget">遗忘</string>
+    <string name="delay_reset_default">默认</string>
+    <string name="dev_type_cd">CD</string>
+    <string name="dev_type_tv">电视</string>
+    <string name="err_all_fields">请填写所有字段</string>
+    <string name="dev_type_cable">机顶盒</string>
+    <string name="pref_dlg_tit_fix">警告</string>
+    <string name="loading">加载中</string>
+    <string name="dev_type_dvd">DVD</string>
+    <string name="dev_type_blu_ray">蓝光播放机</string>
+    <string name="dev_type_camera">相机</string>
+    <string name="dev_type_air_con">空调</string>
+    <string name="dev_type_other">其他</string>
+    <string name="dev_type_audio">音响系统</string>
+    <string name="provider_local">我的遥控器</string>
+    <string name="provider_learn_remote">学习遥控器</string>
+    <string name="organize_colors">颜色</string>
+    <string name="organize_icons">图标</string>
+    <string name="organize_corners">圆角</string>
+    <string name="provider_learn_button">学习按钮</string>
+    <string name="provider_manual">手动输入红外编码</string>
+    <string name="title_provider_add_button">添加按钮</string>
+    <string name="title_provider_add_remote">添加遥控器</string>
+    <string name="corners_rounded_square">圆角矩形</string>
+    <string name="corners_square">矩形</string>
+    <string name="save_remote_preview">预览</string>
+    <string name="preview_remote_dlgtit_remote">预览遥控器</string>
+    <string name="preview_remote_dlgtit_button">选择一个按钮</string>
+    <string name="version_preference_format">版本 %1$s (%2$d)</string>
+    <string name="provider_manual_freq_pattern">频率，信号模式</string>
+    <string name="provider_manual_freq_info">频率，信号模式
+\n
+\n频率：红外载波频率，单位为赫兹
+\n
+\n信号模式：红外信号的开关模式，用脉冲数表示（以逗号分隔）
+\n
+\n例如：38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792</string>
+    <string name="provider_manual_pronto">Pronto 格式</string>
+    <string name="provider_manual_invalid">无效的红外信号模式</string>
+    <string name="provider_manual_pronto_info">Pronto 格式
+\n
+\n示例：0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8</string>
+    <string name="provider_manual_save">保存编码</string>
+    <string name="empty_remote_msg">将创建一个空的遥控器。点击“菜单 - 编辑”进入编辑页面。
+\n然后您可以在编辑页面点击“菜单 - 添加按键”来添加单个按键。</string>
+    <string name="import_notexist">未发现遥控器文件</string>
+    <string name="share_remote_failed">遥控器分享失败</string>
+    <string name="import_invalid">无效的遥控器文件</string>
+    <string name="save_remote_title">保存遥控器</string>
+    <string name="err_name_empty">遥控器名称不能为空</string>
+    <string name="save_button_save">保存</string>
+    <string name="save_button_title">保存按钮</string>
+    <string name="button_text_temp_down">温度 -</string>
+    <string name="rename_remote_hint">新名称</string>
+    <string name="button_text_temp_up">温度 +</string>
+    <string name="color_light_green">浅绿</string>
+    <string name="export_remote_failed">遥控器导出失败</string>
+    <string name="select_remote">选择一个遥控器</string>
+    <string name="learn_tit_learning">正在学习…</string>
+    <string name="dlg_debug_tit">调试信息</string>
+    <string name="learn_button_skip">跳过</string>
+    <string name="learn_activity_title">学习新的 %s 遥控器</string>
+    <string name="edit_helpdlg_tit">帮助</string>
+    <string name="edit_helpdlg_msg">长按按钮可以拖放。
+\n
+\n点击按钮可以选中它们，然后点击顶部的编辑按钮。
+\n
+\n完成后，点击顶部的保存按钮。
+\n
+\n如果您不喜欢所做的更改，只需点击返回即可撤销。</string>
+    <string name="edit_option_code">红外编码</string>
+    <string name="edit_option_remove">移除</string>
+    <string name="color_amber">黄橙</string>
+    <string name="color_orange">橙</string>
+    <string name="sizepicker_height">高度</string>
+    <string name="save_button_dlgmsg">测试您的按钮，如果它能正常使用（有效），请按“确定”</string>
+    <string name="edit_option_text">文本</string>
+    <string name="edit_option_text_size">文本尺寸</string>
+    <string name="provider_manual_freq_sus">载波频率可能无效</string>
+    <string name="pref_dlg_msg_fix">如果有任何一个遥控器按钮可以正常工作，请不要更改此设置。
+\n只有在所有按钮都无法正常工作时，才需要更改。
+\n
+\n更改此设置后，请重启您的设备。
+\n
+\n您确定要更改此设置吗？</string>
+    <string name="button_text_ch_down">频道-</string>
+    <string name="provider_manual_new_button">新按钮</string>
+    <string name="empty_remote_tit">空的遥控器</string>
+    <string name="organize_positions">位置</string>
+    <string name="icon_dlgtit">更改图标</string>
+    <string name="edit_corners_br">右下</string>
+    <string name="corners_circle">圆形</string>
+    <string name="organize_dlgtit">管理和调整按钮</string>
+    <string name="provider_common">常见的遥控器</string>
+    <string name="button_text_nav_right">右</string>
+    <string name="button_text_nav_left">左</string>
+    <string name="color_teal">深青</string>
+    <string name="db_search_hint_manufacturers">搜寻设备制造商</string>
+    <string name="db_search_hint_custom">搜寻 %s</string>
+    <string name="db_search_hint_buttons">搜寻按钮</string>
+    <string name="db_select_manufacturer">选择设备制造商</string>
+    <string name="button_text_input">src</string>
+    <string name="button_text_guide">epg</string>
+    <string name="button_text_smart">smrt</string>
+    <string name="button_text_clear">清空</string>
+    <string name="button_text_cc">cc</string>
+    <string name="button_text_info">info</string>
+    <string name="button_text_sleep">slp</string>
+    <string name="button_text_last">last</string>
+    <string name="button_text_fast_forward">fwd</string>
+    <string name="button_text_rewind">rwd</string>
+    <string name="button_text_next">next</string>
+    <string name="button_text_prev">prev</string>
+    <string name="button_text_rec">rec</string>
+    <string name="button_text_disp">disp</string>
+    <string name="button_text_src_cd">cd</string>
+    <string name="button_text_src_aux">aux</string>
+    <string name="button_text_src_tape">tape</string>
+    <string name="button_text_src_tuner">tuner</string>
+    <string name="button_text_input_1">src 1</string>
+    <string name="button_text_input_3">src 3</string>
+    <string name="button_text_input_4">src 4</string>
+    <string name="button_text_list">list</string>
+    <string name="button_text_fav">fav</string>
+    <string name="button_text_game">game</string>
+    <string name="button_text_msg">msg</string>
+    <string name="pref_tit_fix">修复按钮</string>
+    <string name="bg_gallery">专辑</string>
+    <string name="edit_confirmexitdlg_discard">拒绝</string>
+    <plurals name="selected">
+        <item quantity="other">已选择 %d</item>
+    </plurals>
+    <plurals name="list_remote_button_size">
+        <item quantity="other">按钮 %d</item>
+    </plurals>
+    <string name="button_text_input_2">src 2</string>
+    <string name="button_text_input_5">src 5</string>
+    <string name="button_text_home">home</string>
+</resources>

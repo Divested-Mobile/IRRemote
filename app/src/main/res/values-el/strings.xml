@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">IR Remote</string>
-
     <string name="db_menu_search_tit">Αναζήτηση</string>
     <string name="db_menu_refresh">Ανανέωση</string>
     <string name="menu_save">Αποθήκευση Τηλεχειριστήριου</string>
@@ -19,7 +17,6 @@
     <string name="menu_action_edit">Επεξεργασία</string>
     <string name="menu_action_learn">Μάθηση</string>
     <string name="menu_action_settings">Ρυθμίσεις</string>
-    
     <!-- Save -->
     <string name="save_remote_title">Αποθήκευση Τηλεχειριστήριου</string>
     <string name="save_remote_text">Επιλέξτε ένα όνομα για αυτό το Τηλεχειριστήριο σας.\nΗ νέα σας συσκευή θα εμφανιστεί στην κατηγορία Τα Τηλεχειριστήρια μου.</string>
@@ -31,8 +28,7 @@
     <string name="rename_remote_message">Εισάγετε ένα νέο όνομα για %s</string>
     <string name="rename_remote_hint">Νέο όνομα</string>
     <string name="rename_remote_save">Μετονομασία</string>
-      
-        <!--  -->
+    <!--  -->
     <string name="save_button_title">Αποθήκευση κουμπιού</string>
     <string name="select_remote">Επιλογή απομακρυσμένου</string>
     <string name="save_button_text_title">Όνομα κουμπιού</string>
@@ -41,7 +37,6 @@
     <string name="add_remote">Προσθήκη Τηλεχειριστήριου</string>
     <string name="select_remote_first">Επιλέξτε πρώτα ένα Τηλεχειριστήριο</string>
     <string name="remote_saved_toast">Το Τηλεχειριστήριο αποθηκεύτηκε</string>
-
     <!-- Button text. Translators: keep it short! (max 5 chars) -->
     <string name="button_text_power">pwr</string>
     <string name="button_text_power_on">on</string>
@@ -68,7 +63,6 @@
     <string name="button_text_digit_7">7</string>
     <string name="button_text_digit_8">8</string>
     <string name="button_text_digit_9">9</string>
-
     <!--  -->
     <string name="button_text_input">src</string>
     <string name="button_text_guide">epg</string>
@@ -79,7 +73,6 @@
     <string name="button_text_cc">cc</string>
     <string name="button_text_info">info</string>
     <string name="button_text_sleep">slp</string>
-
     <!--  -->
     <string name="button_text_play">play</string>
     <string name="button_text_pause">pause</string>
@@ -108,37 +101,30 @@
     <string name="button_text_fan_down">fan -</string>
     <string name="button_text_temp_up">tmp +</string>
     <string name="button_text_temp_down">tmp -</string>
-
     <!-- -->
     <string name="button_text_list">list</string>
-
     <!-- Digits allowed to save a menu_main name -->
     <!-- Don't put spaces at the end or beginning -->
     <string name="allowed_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789- _</string>
-
     <!--  -->
     <string name="delete_remote_title">Διαγραφή Τηλεχειριστήριου</string>
     <string name="delete_remote_message">Είσαι σίγουρος ότι θέλεις να το διαγράψεις %s?</string>
     <string name="edit_remote_title">Επεξεργασία Τηλεχειριστήριου</string>
-    <string name="edit_remote_message"></string>
     <string name="my_remotes">Τα Τηλεχειριστήρια μου</string>
-
     <!-- Preferences and all that awesome stuff -->
     <string name="pref_tit_fix">Επιδιόρθωση κουμπιών</string>
     <string name="pref_desc_fix">Σε μερικές συσκευές Android, δεν στέλνονται όλες οι εντολές σωστά. Ενεργοποιείστε ή Απενεργοποιείστε για να το διορθώσετε αυτό.</string>
     <string name="dlg_na_tit">Ούπς!</string>
-   <string name="dlg_na_msg">Φαίνεται ότι η συσκευή σας δεν διαθέτει Πομπό Υπέρυθρων\nΛυπούμαστε, αλλά δεν θα μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή σε αυτή τη συσκευή.</string>
-
+    <string name="dlg_na_msg">Φαίνεται ότι η συσκευή σας δεν διαθέτει Πομπό Υπέρυθρων\nΛυπούμαστε, αλλά δεν θα μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή σε αυτή τη συσκευή.</string>
     <!-- Ready -->
     <string name="learn">Εκπαιδεύεστε</string>
     <string name="learn_tit_ready">Διαμόρφωση \"%s\"</string>
     <string name="learn_desc_ready">Πατήστε και κρατήστε το κουμπί \"%s\" στο τηλεχειριστήριό σας, στοχεύοντας στον Δέκτη Υπέρυθρων της συσκευής σας σε απόσταση περίπου 2 ίντσες (5 εκατοστά)\nΌταν είστε έτοιμοι, κάντε κλικ στο Εκπαιδεύεστε</string>
-    >
+    &gt;
     
     <!-- Learning -->
     <string name="learn_tit_learning">Μαθαίνω...</string>
     <string name="learn_desc_learning">Κρατήστε το %s...</string>
-    
     <!-- Learned -->
     <string name="learn_tit_learned">Η εκπαίδευση ολοκληρώθηκε!</string>
     <string name="learn_desc_learned">Εξαιρετικά. Τώρα δοκιμάστε το κουμπί.</string>
@@ -167,8 +153,7 @@
     <string name="ori_auto">Αυτόματη περιστροφή</string>
     <string name="ori_port">Κατακόρυφη</string>
     <string name="ori_land">Οριζόντια</string>
-    
-       <!-- BEGIN v1302 -->
+    <!-- BEGIN v1302 -->
     <string name="pref_tit_orientation">Προσανατολισμός</string>
     <string name="pref_tit_bg">Φόντο</string>
     <string name="pref_desc_bg">Προβολή εξατομικευμένου φόντου για τα τηλεχειριστήρια</string>
@@ -213,7 +198,6 @@
     <string name="edit_option_code">Κωδικός IR</string>
     <string name="sizepicker_width">Πλάτος</string>
     <string name="sizepicker_height">Ύψος</string>
-    
     <!-- BEGIN 1420 -->
     <string name="color_dlgtit">Αλλαγή χρώματος</string>
     <string name="icon_dlgtit">Αλλαγή εικονιδίου</string>
@@ -240,7 +224,6 @@
     <string name="color_brown">Καφέ</string>
     <string name="color_grey">Γκρι</string>
     <string name="color_blue_grey">Γκρι μπλε</string>
-
     <!--  -->
     <string name="menu_edit_multi">Πολλαπλή Τροποποίηση</string>
     <string name="menu_edit_cab_edit">Επεξεργασία</string>
@@ -250,13 +233,11 @@
     <plurals name="selected">
         <item quantity="other">%d επιλέχτηκαν</item>
     </plurals>
-    
     <string name="edit_corners_c">Ακτίνα</string>
     <string name="edit_corners_tl">Πάνω Αριστερά</string>
     <string name="edit_corners_tr">Πάνω Δεξιά</string>
     <string name="edit_corners_bl">Κάτω Αριστερά</string>
     <string name="edit_corners_br">Κάτω Δεξιά</string>
-
     <string name="edit_corners_dlgtit">Ακτίνα γωνίας</string>
     <string name="pref_tit_vibrate">Δόνηση κατά την πίεση</string>
     <string name="pref_desc_vibrate">Δόνηση όταν πιέζεται ένα κουμπί</string>
@@ -291,28 +272,22 @@
     <string name="organize_corners">Γωνίες</string>
     <string name="organize_positions">Θέσεις</string>
     <string name="organize_dlgtit">Οργάνωση κουμπιών</string>
-    
-        <!--  -->
+    <!--  -->
     <string name="provider_common">Κοινά Τηλεχειριστήρια</string>
     <string name="provider_local">Τα Τηλεχειριστήριά Μου</string>
     <string name="provider_learn_remote">Μάθετε ένα νέο Τηλεχειριστήριο</string>
     <string name="provider_learn_button">Μάθετε ένα νέο Κουμπί</string>
     <string name="title_provider_add_button">Προσθήκη κουμπιού</string>
     <string name="title_provider_add_remote">Προσθήκη τηλεχειριστηρίου</string>
-    
     <string name="corners_square">Τετράγωνο</string>
     <string name="corners_rounded_square">Στρογγυλεμένο τετράγωνο</string>
     <string name="corners_circle">Κύκλος</string>
-
-<plurals name="list_remote_button_size">
-    <item quantity="zero">%d κουμπιά</item>
-    <item quantity="one">%d κουμπί</item>
-    <item quantity="other">%d κουμπιά</item>
-</plurals>
-
-<string name="save_remote_preview">Προεπισκόπηση</string>
-
-<string name="preview_remote_dlgtit_remote">Προεπισκόπηση τηλεχειριστηρίου</string>
-<string name="preview_remote_dlgtit_button">Επιλέξτε ένα κουμπί</string>
-
+    <plurals name="list_remote_button_size">
+        <item quantity="zero">%d κουμπιά</item>
+        <item quantity="one">%d κουμπί</item>
+        <item quantity="other">%d κουμπιά</item>
+    </plurals>
+    <string name="save_remote_preview">Προεπισκόπηση</string>
+    <string name="preview_remote_dlgtit_remote">Προεπισκόπηση τηλεχειριστηρίου</string>
+    <string name="preview_remote_dlgtit_button">Επιλέξτε ένα κουμπί</string>
 </resources>

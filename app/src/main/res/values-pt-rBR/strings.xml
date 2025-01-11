@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="export_remote_failed">Exportação de controle falhou</string>
+    <string name="db_menu_search_tit">Pesquisar</string>
+    <string name="menu_save">Salvar Controle</string>
+    <string name="menu_action_import">Importar Controle</string>
+    <string name="err_name_empty">Nome do controle não pode ser vazio</string>
+    <string name="db_search_hint_custom">Pesquisar %s</string>
+    <string name="db_select_manufacturer">Selecionar fabricante</string>
+    <string name="db_select_device_type">Selecionar tipo do dispositivo</string>
+    <string name="menu_action_rename">Renomear Controle</string>
+    <string name="menu_action_edit">Editar Controle</string>
+    <string name="rename_remote_title">Renomear controle</string>
+    <string name="rename_remote_message">Digite um novo nome para %s</string>
+    <string name="dlg_na_msg">Parece que seu dispositivo não tem um transmissor infravermelho
+\nInfelizmente, não é possível usar este app no seu dispositivo</string>
+    <string name="dlg_debug_tit">Informações de Depuração</string>
+    <string name="learn">Aprender</string>
+    <string name="learn_tit_learning">Aprendendo…</string>
+    <string name="learn_desc_learning">Continue segurando %s…</string>
+    <string name="learn_button_ready">Aprender</string>
+    <string name="learn_button_skip">Pular</string>
+    <string name="learn_button_try_again">Tentar novamente</string>
+    <string name="learn_button_finish">Terminar</string>
+    <string name="learn_learned">Aprendido!</string>
+    <string name="learn_footer">Botão %1$d de %2$d</string>
+    <string name="learn_footer_did_it_work">Funcionou?</string>
+    <string name="learn_select_tit">Selecionar tipo do dispositivo</string>
+    <string name="learn_select_msg">Selecione o tipo de dispositivo do qual você está aprendendo</string>
+    <string name="ori_port">Retrato</string>
+    <string name="pref_tit_theme">Estilo do botão</string>
+    <string name="theme_tr">Transparente</string>
+    <string name="theme_sl">Sólido</string>
+    <string name="edit_confirmexitdlg_tit">Salvar alterações?</string>
+    <string name="edit_activity_subtitle">Modo de edição</string>
+    <string name="menu_edit_organize">Organizar</string>
+    <string name="menu_edit_snap">Ajustar à grade</string>
+    <string name="menu_edit_save">Salvar</string>
+    <string name="menu_edit_help">Ajuda</string>
+    <string name="menu_edit_add_button">Adicionar botão</string>
+    <string name="save_button_dlgtit">Botão de salvar</string>
+    <string name="edit_option_text_size">Tamanho do texto</string>
+    <string name="edit_option_size">Tamanho do Botão</string>
+    <string name="edit_option_corners">Cantos</string>
+    <string name="sizepicker_width">Largura</string>
+    <string name="icon_color_dlgtit">Alterar cor do ícone</string>
+    <string name="icon_remove">Remover ícone</string>
+    <string name="color_transparent">Transparente</string>
+    <string name="color_red">Vermelho</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_amber">Âmbar</string>
+    <string name="color_orange">Laranja</string>
+    <string name="color_deep_orange">Laranja Profundo</string>
+    <string name="color_brown">Marrom</string>
+    <string name="color_grey">Cinza</string>
+    <string name="color_blue_grey">Cinza Azulado</string>
+    <string name="color_white">Branco</string>
+    <string name="color_black">Preto</string>
+    <string name="menu_edit_cab_edit">Editar</string>
+    <string name="edit_corners_c">Raio</string>
+    <string name="edit_corners_tl">Esquerda Superior</string>
+    <string name="edit_corners_tr">Direita Superior</string>
+    <string name="edit_corners_bl">Esquerda Inferior</string>
+    <string name="edit_corners_br">Direita Inferior</string>
+    <string name="edit_corners_dlgtit">Raio de Canto</string>
+    <string name="pref_tit_vibrate">Vibrar ao pressionar</string>
+    <string name="pref_desc_vibrate">Vibrar quando um botão é pressionado</string>
+    <string name="pref_tit_delay">Atraso de repetimento de sinal</string>
+    <string name="ms">%d ms</string>
+    <string name="learn_button_forget">Esquecer</string>
+    <string name="learn_button_next">Próximo</string>
+    <string name="no_remotes">Você não tem controles
+\n
+\nToque no botão + para adicionar seu primeiro controle</string>
+    <string name="err_all_fields">Preencha todos os campos</string>
+    <string name="pref_dlg_tit_fix">Aviso</string>
+    <string name="dev_type_tv">TV</string>
+    <string name="dev_type_cable">Descodificador</string>
+    <string name="dev_type_cd">CD</string>
+    <string name="dev_type_audio">Sistema de Áudio</string>
+    <string name="dev_type_camera">Câmera</string>
+    <string name="dev_type_other">Outro</string>
+    <string name="organize_positions">Posições</string>
+    <string name="organize_dlgtit">Organizar Botões</string>
+    <string name="provider_common">Controles Comuns</string>
+    <string name="provider_local">Meus Controles</string>
+    <string name="provider_learn_remote">Aprender Controle</string>
+    <string name="provider_learn_button">Aprender Botão</string>
+    <string name="provider_manual">Código IV manual</string>
+    <string name="title_provider_add_button">Adicionar botão</string>
+    <string name="title_provider_add_remote">Adicionar controle</string>
+    <string name="corners_rounded_square">Quadrado arredondado</string>
+    <string name="corners_circle">Círculo</string>
+    <plurals name="list_remote_button_size">
+        <item quantity="one">%d botão</item>
+        <item quantity="many">%d botões</item>
+        <item quantity="other">%d botões</item>
+    </plurals>
+    <string name="preview_remote_dlgtit_remote">Pré-visualizar controle</string>
+    <string name="provider_manual_pronto">Formato \"Pronto\"</string>
+    <string name="provider_manual_invalid">Ritmo IV inválido</string>
+    <string name="provider_manual_new_button">Novo Botão</string>
+    <string name="empty_remote_tit">Controle Vazio</string>
+    <string name="app_name">Controle IV</string>
+    <string name="db_menu_refresh">Atualizar</string>
+    <string name="db_search_hint_buttons">Pesquisar botões</string>
+    <string name="db_search_hint_manufacturers">Pesquisar fabricantes</string>
+    <string name="common_menu_todb">Mais</string>
+    <string name="menu_action_export">Exportar Controle</string>
+    <string name="share_remote_failed">Compartilhamento de controle falhou</string>
+    <string name="menu_action_share">Compartilhar Controle</string>
+    <string name="menu_action_delete_remote">Excluir Controle</string>
+    <string name="import_invalid">Arquivo inválido de controle</string>
+    <string name="menu_action_learn">Aprender</string>
+    <string name="menu_action_settings">Configurações</string>
+    <string name="share_remote_message">Compartilhar %s</string>
+    <string name="import_notexist">Arquivo de controle não encontrado</string>
+    <string name="save_remote_title">Salvar controle</string>
+    <string name="save_remote_hint">Nome do controle</string>
+    <string name="rename_remote_save">Renomear</string>
+    <string name="save_remote_text">Escolha um nome para o seu controle.
+\nSeu novo controle aparecerá na seção \"Meus Controles\"</string>
+    <string name="save_remote_save">Salvar</string>
+    <string name="rename_remote_hint">Novo nome</string>
+    <string name="save_button_title">Salvar botão</string>
+    <string name="remote_saved_toast">Controle salvo</string>
+    <string name="save_button_hint">Nome do botão</string>
+    <string name="save_button_save">Salvar</string>
+    <string name="add_remote">Adicionar controle</string>
+    <string name="select_remote">Selecionar um controle</string>
+    <string name="select_remote_first">Selecione um controle primeiro</string>
+    <string name="save_button_text_title">Nome do botão</string>
+    <string name="delete_remote_title">Excluir controle</string>
+    <string name="delete_remote_message">Tem certeza que quer excluir %s?</string>
+    <string name="edit_remote_title">Editar controle</string>
+    <string name="pref_tit_fix">Consertar botões</string>
+    <string name="dlg_debug_freq">Frequências</string>
+    <string name="my_remotes">Meus controles</string>
+    <string name="pref_desc_fix">Em alguns dispositivos o Android não envia os códigos corretamente. Ative ou desative isso para resolver.</string>
+    <string name="learn_tit_ready">Configurar \"%s\"</string>
+    <string name="learn_button_it_works">Ele funciona!</string>
+    <string name="learn_desc_learned">Perfeito. Agora você pode testar o botão.</string>
+    <string name="learn_button_cancel">Cancelar</string>
+    <string name="learn_button_back">Voltar</string>
+    <string name="ori_system">Configuração do sistema</string>
+    <string name="learn_help_msg">Mire o seu controle diretamente ao receptor infravermelho do seu dispositivo.
+\nVocê pode também tentar mais perto, ou mais longe.</string>
+    <string name="learn_desc_ready">Pressione e segure o botão \"%s\" em seu controle, mirando para o receptor infravermelho do seu dispositivo em até 5 cm
+\nQuando estiver pronto, clique em \"Aprender\"</string>
+    <string name="ori_auto">Giro automático</string>
+    <string name="learn_activity_title">Aprender novo controle %s</string>
+    <string name="pref_tit_bg">Fundo</string>
+    <string name="learn_tit_learned">Aprendido!</string>
+    <string name="learn_learning">Aprendendo…</string>
+    <string name="learn_help_tit">Tendo problemas?</string>
+    <string name="pref_tit_orientation">Orientação</string>
+    <string name="ori_land">Paisagem</string>
+    <string name="pref_desc_bg">Mostrar um fundo customizado para os controles</string>
+    <string name="bg_changed_ok">Fundo foi atualizado</string>
+    <string name="pref_tit_fullscreen">Tela cheia</string>
+    <string name="pref_desc_fullscreen">Controles aparecerão em modo de tela cheia - A barra de status não ficará visível</string>
+    <string name="bg_gallery">Galeria</string>
+    <string name="bg_remove">Remover Fundo</string>
+    <string name="edit_confirmexitdlg_save">Salvar</string>
+    <string name="edit_option_text">Texto</string>
+    <string name="edit_option_remove">Remover</string>
+    <string name="edit_option_color">Cor do Botão</string>
+    <string name="edit_option_code">Código IV</string>
+    <string name="sizepicker_height">Altura</string>
+    <string name="color_dlgtit">Alterar cor do botão</string>
+    <string name="edit_confirmexitdlg_discard">Descartar</string>
+    <string name="edit_option_icon">Ícone</string>
+    <string name="edit_option_icon_color">Cor do Ícone</string>
+    <string name="color_purple">Roxo</string>
+    <string name="color_cyan">Ciano</string>
+    <string name="menu_edit_cab_sel_none">NENHUM</string>
+    <string name="icon_dlgtit">Alterar ícone</string>
+    <string name="color_blue">Azul</string>
+    <string name="edit_helpdlg_tit">Ajuda</string>
+    <string name="color_solid">Sólido</string>
+    <string name="color_light_blue">Azul Claro</string>
+    <string name="edit_helpdlg_msg">Pressione longamente em um botão para movê-lo.
+\n
+\nToque em botões para selecionar eles, e clique no botão de editar no topo.
+\n
+\nQuando estiver pronto, toque no botão de salvar no topo.
+\n
+\nSe você não gostou das mudanças, toque em voltar para descartá-las.</string>
+    <string name="save_button_dlgmsg">Teste seu botão e toque em OK se funcionou</string>
+    <string name="edit_button_code_updated">Código foi alterado</string>
+    <string name="color_deep_purple">Roxo Profundo</string>
+    <string name="edit_button_title">Botão de Editar</string>
+    <string name="color_indigo">Índigo</string>
+    <string name="color_lime">Limão</string>
+    <string name="color_teal">Azul-petróleo</string>
+    <string name="color_green">Verde</string>
+    <string name="color_light_green">Verde Claro</string>
+    <string name="color_yellow">Amarelo</string>
+    <string name="menu_edit_cab_sel_all">TODOS</string>
+    <string name="pref_desc_delay">O tempo em milisegundos à esperar entre sinais em um toque longo</string>
+    <plurals name="selected">
+        <item quantity="one">%d selecionado</item>
+        <item quantity="many">%d selecionados</item>
+        <item quantity="other">%d selecionados</item>
+    </plurals>
+    <string name="delay_reset_default">Padrão</string>
+    <string name="learn_tit_saved">%s Salvado</string>
+    <string name="learn_desc_saved">Você já aprendeu este botão. Para verificar se funciona, toque nele. Se não, clique em \"Tentar novamente\" abaixo para aprendê-lo denovo.</string>
+    <string name="loading">Carregando</string>
+    <string name="dev_type_dvd">DVD</string>
+    <string name="pref_dlg_msg_fix">Se você tiver QUALQUER botão remoto funcionando, não toque nesta configuração.
+\nSó mexa nisso se NADA funciona para você.
+\n
+\nApós alterar esta configuração, reinicie seu dispositivo.
+\n
+\nTem certeza que deseja alterar esta configuração?</string>
+    <string name="dev_type_blu_ray">Blu-ray</string>
+    <string name="dev_type_air_con">Ar condicionado</string>
+    <string name="organize_icons">Ícones</string>
+    <string name="organize_colors">Cores</string>
+    <string name="organize_corners">Cantos</string>
+    <string name="corners_square">Quadrado</string>
+    <string name="save_remote_preview">Pré-visualizar</string>
+    <string name="preview_remote_dlgtit_button">Selecione um botão</string>
+    <string name="version_preference_format">Versão %1$s (%2$d)</string>
+    <string name="provider_manual_freq_pattern">Frequência, ritmo</string>
+    <string name="provider_manual_freq_sus">A frequência de transportamento pode não funcionar</string>
+    <string name="provider_manual_pronto_info">Formato \"Pronto\"
+\n
+\nExemplo: 0000 006d 0022 0002 0156 00ab […] 0015 0056 0ed8</string>
+    <string name="provider_manual_save">Salvar código</string>
+    <string name="provider_manual_freq_info">Frequência, Ritmo
+\n
+\nFrequência: A frequência de transportamento IV em Hertz
+\n
+\nRitmo: O ritmo de ligamento/desligamento em pulsos (separado por vírgula)
+\n
+\nExemplo: 38000,1,1,162,162,31,65,31,65,31,65,[…],31,1792</string>
+    <string name="empty_remote_msg">Um controle vazio será criado. Toque em Menu - Editar para ir à tela de edição.
+\nDe lá, você pode adicionar botões individuais clicando em Menu - Adicionar Botão</string>
+    <string name="dlg_na_tit">Opa!</string>
+    <string name="menu_edit_multi">Edição Múltipla</string>
+    <string name="button_text_vol_up">Vol+</string>
+    <string name="button_text_vol_down">Vol-</string>
+    <string name="button_text_ch_down">Ch-</string>
+    <string name="button_text_power_off">off</string>
+    <string name="button_text_power">ligar</string>
+    <string name="button_text_power_on">on</string>
+    <string name="button_text_ch_up">Ch+</string>
+    <string name="button_text_nav_ok">OK</string>
+    <string name="button_text_digit_3">3</string>
+    <string name="button_text_digit_6">6</string>
+    <string name="button_text_stop">parar</string>
+    <string name="button_text_digit_0">0</string>
+    <string name="button_text_digit_1">1</string>
+    <string name="button_text_digit_4">4</string>
+    <string name="button_text_digit_2">2</string>
+    <string name="button_text_digit_5">5</string>
+    <string name="button_text_next">próx</string>
+    <string name="button_text_input_2">fnt 2</string>
+    <string name="button_text_exit">sair</string>
+    <string name="button_text_cc">cc</string>
+    <string name="button_text_info">info</string>
+    <string name="button_text_play">tocar</string>
+    <string name="button_text_pause">pausar</string>
+    <string name="button_text_fast_forward">frent</string>
+    <string name="button_text_input_3">fnt 3</string>
+    <string name="button_text_yellow">amarelo</string>
+    <string name="button_text_temp_up">tmp +</string>
+    <string name="button_text_fav">fav</string>
+    <string name="button_text_list">lista</string>
+    <string name="button_text_game">jogo</string>
+    <string name="button_text_help">ajuda</string>
+    <string name="allowed_digits">AÃÁBCDEÉFGHIÍJKLMNOÕÓPQRSTUÚVWXYZaãábcdeéfghiíjklmnoõópqrstuúvwxyz0123456789- _</string>
+    <string name="button_text_nav_up">U</string>
+    <string name="button_text_nav_down">D</string>
+    <string name="button_text_nav_left">L</string>
+    <string name="button_text_nav_right">R</string>
+    <string name="button_text_mute">mutar</string>
+    <string name="button_text_digit_7">7</string>
+    <string name="button_text_digit_8">8</string>
+    <string name="button_text_digit_9">9</string>
+    <string name="button_text_input">fnt</string>
+    <string name="button_text_guide">epg</string>
+    <string name="button_text_smart">smrt</string>
+    <string name="button_text_last">ultim</string>
+    <string name="button_text_sleep">zzz</string>
+    <string name="button_text_clear">limp</string>
+    <string name="button_text_rewind">tras</string>
+    <string name="button_text_prev">anter</string>
+    <string name="button_text_src_cd">cd</string>
+    <string name="button_text_src_aux">aux</string>
+    <string name="button_text_src_tuner">tuner</string>
+    <string name="button_text_red">verm</string>
+    <string name="button_text_green">verd</string>
+    <string name="button_text_blue">azul</string>
+    <string name="button_text_rec">gravar</string>
+    <string name="button_text_src_tape">fita</string>
+    <string name="button_text_disp">disp</string>
+    <string name="button_text_input_1">fnt 1</string>
+    <string name="button_text_temp_down">tmp -</string>
+    <string name="button_text_input_4">fnt 4</string>
+    <string name="button_text_input_5">fnt 5</string>
+    <string name="button_text_fan_up">vent +</string>
+    <string name="button_text_fan_down">vent -</string>
+    <string name="button_text_home">ínicio</string>
+    <string name="button_text_msg">msg</string>
+    <string name="button_text_setting">conf</string>
+    <string name="button_text_lang">língua</string>
+    <string name="button_text_menu">menu</string>
+    <string name="button_text_back">voltar</string>
+</resources>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IR kaugjuhtimispult</string>
+    <string name="db_menu_search_tit">Otsi</string>
+    <string name="db_menu_refresh">Värskenda andmeid</string>
+    <string name="menu_save">Salvesta kaugjuhtimispult</string>
+    <string name="db_search_hint_manufacturers">Otsi tootjaid</string>
+    <string name="db_search_hint_custom">Otsi %s</string>
+    <string name="db_search_hint_buttons">Otsingunupud</string>
+    <string name="db_select_manufacturer">Vali tootja</string>
+    <string name="rename_remote_title">Muuda kaugjuhtimispuldi nime</string>
+    <string name="no_remotes">Sa pole veel ühtegi kaugjuhtimispulti seadistanud
+\n
+\nEsimese puldi lisamiseks vajuta + nuppu</string>
+    <string name="pref_dlg_msg_fix">Kui MÕNIGI kaugjuhtimispuldi nupp toimib, siis ära puutu seda seadistust.
+\nTee seda vaid siis, kui MITTE MIDAGI ei toimi.
+\n
+\nPärast selle seadistuse muutmist taaskäivita oma seade.
+\n
+\nKas sa oled kindel, et soovid selle seadistuse muutmist?</string>
+    <string name="color_cyan">Rohekassinine</string>
+    <string name="color_lime">Laimiroheline</string>
+    <string name="color_yellow">Kollane</string>
+    <string name="color_light_blue">Helesinine</string>
+    <string name="color_teal">Sinakasroheline</string>
+    <string name="color_green">Roheline</string>
+    <string name="color_light_green">Heleroheline</string>
+    <string name="color_brown">Pruun</string>
+    <string name="color_amber">Merevaigukollane</string>
+    <string name="color_deep_orange">Sügavoranž</string>
+    <string name="color_blue_grey">Sinakashall</string>
+    <string name="color_white">Valge</string>
+    <string name="color_orange">Oranž</string>
+    <string name="color_grey">Hall</string>
+    <string name="color_black">Must</string>
+    <string name="db_select_device_type">Vali seadme tüüp</string>
+    <string name="common_menu_todb">Veel</string>
+    <string name="menu_action_delete_remote">Kustuta kaugjuhtimispult</string>
+    <string name="menu_action_rename">Muuda kaugjuhtimispuldi nime</string>
+    <string name="menu_action_edit">Muuda kaugjuhtimispulti</string>
+    <string name="menu_action_export">Ekspordi kaugjuhtimispult</string>
+    <string name="menu_action_import">Impordi kaugjuhtimispult</string>
+    <string name="menu_action_share">Jaga kaugjuhtimispulti</string>
+    <string name="share_remote_message">Jaga %s</string>
+    <string name="share_remote_failed">Kaugjuhtimispuldi jagamine ei õnnestunud</string>
+    <string name="export_remote_failed">Kaugjuhtimispuldi eksportimine ei õnnestunud</string>
+    <string name="import_invalid">Vigane kaugjuhtimispuldi fail</string>
+    <string name="import_notexist">Kaugjuhtimispuldi faili ei leidu</string>
+    <string name="save_remote_title">Salvesta kaugjuhtimispult</string>
+    <string name="save_remote_text">Vali nimi oma kaugjuhtimispuldi jaoks.
+\nUus sisestatud nimi saab olema leitav alajaotuses „Minu kaugjuhtimispuldid“</string>
+    <string name="save_remote_hint">Kaugjuhtimispuldi nimi</string>
+    <string name="save_remote_save">Salvesta</string>
+    <string name="err_name_empty">Kaugjuhtimispuldi nimi ei saa jääda tühjaks</string>
+    <string name="rename_remote_message">Sisesta uus nimi kaugjuhtimispuldile „%s“</string>
+    <string name="rename_remote_hint">Uus nimi</string>
+    <string name="rename_remote_save">Muuda nime</string>
+    <string name="menu_action_learn">Õpeta</string>
+    <string name="menu_action_settings">Seadistused</string>
+    <string name="select_remote">Vali kaugjuhtimispult</string>
+    <string name="add_remote">Lisa kaugjuhtimispult</string>
+    <string name="select_remote_first">Esmalt vali kaugjuhtimispult</string>
+    <string name="remote_saved_toast">Kaugjuhtimispult on salvestatud</string>
+    <string name="save_button_title">Salvesta nupp</string>
+    <string name="save_button_text_title">Nupu nimi</string>
+    <string name="save_button_hint">Nupu nimi</string>
+    <string name="save_button_save">Salvesta</string>
+    <string name="delete_remote_title">Kustuta kaugjuhtimispult</string>
+    <string name="delete_remote_message">Kas sa oled kindel, et soovid kustutada kaugjuhtimispuldi „%s“?</string>
+    <string name="edit_remote_title">Muuda kaugjuhtimispulti</string>
+    <string name="my_remotes">Minu kaugjuhtimispuldid</string>
+    <string name="learn_help_msg">Osuta oma kaugjuhtimispult otse seadme infrapunavastuvõtjale.
+\nVõid ka proovida vahemaa suurendamist või vähendamist.</string>
+    <string name="learn_desc_ready">Oma kaugjuhtimispuldil vajuta alla ja hoia all nuppu „%s“ ja samal ajal osuta oma seadme infrapunavastuvõtjale umbes 2 tolli (5 sentimeetri) kauguselt
+\nKui oled valmis, siis vajuta nuppu „Õpi“</string>
+    <string name="learn_activity_title">Õpeta uue seadme (%s) kaugjuhtimispulti</string>
+    <string name="pref_desc_bg">Kuva kaugjuhtimispuldil kohandatud tausta</string>
+    <string name="pref_desc_fullscreen">Kaugjuhtimispuldid kuvatakse täisekraanvaates ilma olekuribata</string>
+    <string name="edit_button_code_updated">Kood on muudetud</string>
+    <string name="edit_button_title">Muuda nuppu</string>
+    <string name="edit_option_text">Tekst</string>
+    <string name="edit_option_text_size">Teksti suurus</string>
+    <string name="edit_option_size">Nupu suurus</string>
+    <string name="edit_option_remove">Eemalda</string>
+    <string name="edit_option_icon">Ikoon</string>
+    <string name="edit_option_icon_color">Ikooni värv</string>
+    <string name="edit_option_color">Nupu värv</string>
+    <string name="edit_option_corners">Nurgad</string>
+    <string name="edit_option_code">Infrapuna kood</string>
+    <string name="sizepicker_width">Laius</string>
+    <string name="sizepicker_height">Kõrgus</string>
+    <string name="color_dlgtit">Muuda nupu värvi</string>
+    <string name="icon_color_dlgtit">Muuda ikooni värvi</string>
+    <string name="icon_dlgtit">Muuda ikooni</string>
+    <string name="icon_remove">Eemalda ikoon</string>
+    <string name="color_solid">Ühtlane</string>
+    <string name="color_transparent">Läbipaistev</string>
+    <string name="color_red">Punane</string>
+    <string name="color_pink">Roosa</string>
+    <string name="color_purple">Purpurpunane</string>
+    <string name="color_deep_purple">Sügav purpurpunane</string>
+    <string name="color_indigo">Indigosinine</string>
+    <string name="color_blue">Sinine</string>
+    <string name="menu_edit_multi">Muuda mitut korraga</string>
+    <string name="menu_edit_cab_edit">Muuda</string>
+    <string name="menu_edit_cab_sel_all">KÕIK</string>
+    <string name="menu_edit_cab_sel_none">MITTE ÜHTEGI</string>
+    <plurals name="selected">
+        <item quantity="one">%d valitud</item>
+        <item quantity="other">%d valitud</item>
+    </plurals>
+    <string name="edit_corners_c">Raadius</string>
+    <string name="provider_common">Tavalised kaugjuhtimispuldid</string>
+    <string name="provider_local">Minu kaugjuhtimispuldid</string>
+    <string name="provider_learn_remote">Õpeta kaugjuhtimispulti</string>
+    <string name="title_provider_add_remote">Lisa kaugjuhtimispult</string>
+    <plurals name="list_remote_button_size">
+        <item quantity="one">%d nupp</item>
+        <item quantity="other">%d nuppu</item>
+    </plurals>
+    <string name="save_remote_preview">Eelvaade</string>
+    <string name="preview_remote_dlgtit_remote">Kaugjuhtimispuldi eelvaade</string>
+    <string name="preview_remote_dlgtit_button">Vali nupp</string>
+    <string name="empty_remote_tit">Tühi kaugjuhtimispult</string>
+    <string name="empty_remote_msg">Loome tühja kaugjuhtimispuldi. Selle vaate muutmiseks vali „Menüü - Muuda“.
+\nSealt saad sa ükshaaval nuppe lisada klõpsides „Menüü - Lisa nupp“</string>
+</resources>
